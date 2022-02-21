@@ -103,11 +103,22 @@ sub _read {
     my ($self) = @_;
 
     $self->{header} = CAD::Format::DWG::AC1009::Header->new($self->{_io}, $self, $self->{_root});
+    if (!($self->_io()->is_eof())) {
+        $self->{todo} = ();
+        while (!$self->{_io}->is_eof()) {
+            push @{$self->{todo}}, $self->{_io}->read_bytes_full();
+        }
+    }
 }
 
 sub header {
     my ($self) = @_;
     return $self->{header};
+}
+
+sub todo {
+    my ($self) = @_;
+    return $self->{todo};
 }
 
 ########################################################################
