@@ -42,7 +42,7 @@ seq:
 #    repeat-expr: header.number_of_table_views
 #  - id: block_entities
 #    type: real_entities
-#    size: header.blocks_end - header.blocks_start
+#    size: header.blocks_size
   - id: todo
     size-eos: true
     repeat: eos
@@ -92,10 +92,8 @@ types:
         type: s4
       - id: blocks_start
         type: s4
-      - id: blocks_size
-        type: s2
-      - id: unknown4a
-        size: 2
+      - id: blocks_size_raw
+        type: u2
       - id: blocks_end
         type: s4
       - id: unknown4b
@@ -583,7 +581,10 @@ types:
         value: create_date_days + (create_date_ms / 86400000.0)
       update_date:
         value: update_date_days + (update_date_ms / 86400000.0)
-      ## TODO
+      blocks_size_unknown:
+         value: (blocks_size_raw & 0xff000000) >> 24
+      blocks_size:
+         value: (blocks_size_raw & 0x00ffffff)
   entity:
     seq:
       - id: entity_type
