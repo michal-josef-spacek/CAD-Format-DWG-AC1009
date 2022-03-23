@@ -17,32 +17,44 @@ meta:
 seq:
   - id: header
     type: header
-#  - id: entities
-#    type: real_entities
-#    size: header.entities_end - header.entities_start
-#  - id: blocks
-#    type: block
-#    repeat: expr
-#    repeat-expr: header.number_of_table_blocks
-#  - id: layers
-#    type: layer
-#    repeat: expr
-#    repeat-expr: header.number_of_table_layers
+  - id: entities
+    type: real_entities
+    size: header.entities_end - header.entities_start
+  - id: blocks
+    type: block
+    repeat: expr
+    repeat-expr: header.table_block.items
+  - id: layers
+    type: layer
+    repeat: expr
+    repeat-expr: header.table_layer.items
 #  - id: styles
 #    type: style
 #    repeat: expr
-#    repeat-expr: header.number_of_table_styles
+#    repeat-expr: header.table_style.items
 #  - id: linetypes
 #    type: linetype
 #    repeat: expr
-#    repeat-expr: header.number_of_table_linetypes
+#    repeat-expr: header.table_linetype.items
 #  - id: views
 #    type: view
 #    repeat: expr
-#    repeat-expr: header.number_of_table_views
+#    repeat-expr: header.table_view.items
 #  - id: block_entities
 #    type: real_entities
 #    size: header.blocks_size
+#  - id: ucss
+#    type: ucs
+#    repeat: expr
+#    repeat-expr: header.variables.table_ucs.items
+#  - id: vports
+#    type: vport
+#    repeat: expr
+#    repeat-expr: header.variables.table_vport.items
+#  - id: appids
+#    type: appid
+#    repeat: expr
+#    repeat-expr: header.variables.table_appid.items
   - id: todo
     size-eos: true
     repeat: eos
@@ -50,15 +62,15 @@ seq:
 types:
   block:
     seq:
-      - id: unknown1
-        type: s1
+      - id: flag
+        type: block_flag
+        doc: BLOCK/70
       - id: block_name
-        size: 31
+        size: 32
         type: str
         encoding: ASCII
-        terminator: 0x2e
-      - id: u1
-        type: s1
+        terminator: 0x00
+        doc: BLOCK/2
       - id: u2
         type: s1
       - id: u3
@@ -68,7 +80,25 @@ types:
       - id: u5
         type: s1
       - id: u6
-        type: s1
+        type: f8
+  block_flag:
+    seq:
+      - id: flag1
+        type: b1
+      - id: flag2
+        type: b1
+      - id: flag3
+        type: b1
+      - id: flag4
+        type: b1
+      - id: flag5
+        type: b1
+      - id: flag6
+        type: b1
+      - id: flag7
+        type: b1
+      - id: flag8
+        type: b1
   header:
     seq:
       - id: magic
@@ -78,11 +108,11 @@ types:
         size: 6
       - id: zero_one_or_three
         type: s1
-      - id: version_major
+      - id: unknown_3
         type: s2
-      - id: version_minor
+      - id: num_sections
         type: s2
-      - id: version_micro
+      - id: num_header_vars
         type: s2
       - id: dwg_version
         type: s1
@@ -93,92 +123,63 @@ types:
       - id: blocks_start
         type: s4
       - id: blocks_size_raw
-        type: u2
+        type: u4
       - id: blocks_end
         type: s4
       - id: unknown4b
         size: 2
       - id: unknown4c
         size: 2
-      - id: block_table_item_size
-        type: s2
-      - id: number_of_table_blocks
-        type: s4
-      - id: block_table_begin
+      - id: table_block
+        type: table
+      - id: table_layer
+        type: table
+      - id: table_style
+        type: table
+      - id: table_linetype
+        type: table
+      - id: table_view
+        type: table
+      - id: variables
+        type: header_variables
+    instances:
+      blocks_size_unknown:
+         value: (blocks_size_raw & 0xff000000) >> 24
+      blocks_size:
+         value: (blocks_size_raw & 0x00ffffff)
+  table:
+    seq:
+      - id: item_size
+        type: u2
+      - id: items
+        type: u2
+      - id: unknown
+        size: 2
+      - id: begin
         type: u4
-      - id: layer_table_item_size
-        type: s2
-      - id: number_of_table_layers
-        type: s4
-      - id: layer_table_begin
-        type: u4
-      - id: style_table_item_size
-        type: s2
-      - id: number_of_table_styles
-        type: s4
-      - id: style_table_begin
-        type: u4
-      - id: linetype_table_item_size
-        type: s2
-      - id: number_of_table_linetypes
-        type: s4
-      - id: linetype_table_begin
-        type: u4
-      - id: view_table_item_size
-        type: s2
-      - id: number_of_table_views
-        type: s4
-      - id: view_table_begin
-        type: u4
-      - id: insertion_base_x
-        type: f8
-        doc: 0x005e-0x0065, $INSBASE/10
-      - id: insertion_base_y
-        type: f8
-        doc: 0x0066-0x006d, $INSBASE/20
-      - id: insertion_base_z
-        type: f8
-        doc: 0x006e-0x0075
+  header_variables:
+    seq:
+      - id: insertion_base
+        type: point_3d
+        doc: 0x005e-0x0075, $INSBASE/10|20|30
       - id: plinegen
         type: s2
         doc: 0x0076-0x0077, $PLINEGEN/70
-      - id: drawing_first_x
-        type: f8
-        doc: $EXTMIN/10
-      - id: drawing_first_y
-        type: f8
-        doc: $EXTMIN/20
-      - id: drawing_first_z
-        type: f8
-      - id: drawing_second_x
-        type: f8
-        doc: $EXTMAX/10
-      - id: drawing_second_y
-        type: f8
-        doc: $EXTMAX/20
-      - id: drawing_second_z
-        type: f8
-      - id: limits_min_x
-        type: f8
-        doc: 0x00a8-0x00af, $LIMMIN/10
-      - id: limits_min_y
-        type: f8
-        doc: 0x00b0-0x00b7, $LIMMIN/20
-      - id: limits_max_x
-        type: f8
-        doc: 0x00b8-0x00bf
-      - id: limits_max_y
-        type: f8
-        doc: 0x00c0-0x00c7
-      - id: view_ctrl_x
-        type: f8
-        doc: 0x00c8-0x00cf, $VIEWCTRL/10
-      - id: view_ctrl_y
-        type: f8
-        doc: 0x00d0-0x00d7, $VIEWCTRL/20
-      - id: view_ctrl_z
-        type: f8
-        doc: 0x00d8-0x00da
+      - id: drawing_first
+        type: point_3d
+        doc: 0x0078-0x008f, $EXTMIN/10|20|30
+      - id: drawing_second
+        type: point_3d
+        doc: 0x0090-0x00a7, $EXTMAX/10|20|30
+      - id: limits_min
+        type: point_2d
+        doc: 0x00a8-0x00b7, $LIMMIN/10|20
+      - id: limits_max
+        type: point_2d
+        doc: 0x00b8-0x00c7, $LIMMAX/10|20
+      - id: view_ctrl
+        type: point_3d
+        doc: 0x00c8-0x00da, $VIEWCTRL/10|20|30
       - id: view_size
         type: f8
         doc: 0x00e0-0x00e7
@@ -435,7 +436,7 @@ types:
         size: 32
         type: str
         encoding: ASCII
-        terminator: 0x2e
+        terminator: 0x00
         doc: $DIMBLK
       - id: unknown30
         type: s1
@@ -554,11 +555,13 @@ types:
         size: 16
         type: str
         encoding: ASCII
+        terminator: 0x00
         doc: $DIMPOST, TODO And prefix?
       - id: dim_alternate_measurement_postfix
         size: 16
         type: str
         encoding: ASCII
+        terminator: 0x00
         doc: $DIMAPOST, TODO And prefix
       - id: dim_alternate_units_multiplier
         type: f8
@@ -566,25 +569,76 @@ types:
       - id: dim_linear_measurements_scale_factor
         type: f8
         doc: 0x03cd-0x03d4, $DIMLFAC
-      - id: unknown35
-        size: 8
+      - id: spline_segs
+        type: s2
+        doc: 0x03d5-0x03d6, $SPLINESEGS
+      - id: spline_frame
+        type: s2
+        doc: 0x03d7-0x03d8, $SPLFRAME
+      - id: unknown31b
+        type: s2
+      - id: unknown31c
+        type: s2
       - id: chamfera
         type: f8
         doc: $CHAMFERA/40
       - id: chamferb
         type: f8
         doc: $CHAMFERB/40
-      - id: unknown36
-        size: 293
+      - id: mirror_text
+        type: s2
+        doc: 0x03ed-0x03ee, $MIRRTEXT
+      - id: table_ucs
+        type: table
+      - id: unknown37
+        size: 2
+      - id: ucs_org
+        type: point_3d
+        doc: $UCSORG/10|20|30
+      - id: ucs_x_dir
+        type: point_3d
+        doc: $UCSXDIR/11|21|31
+      - id: ucs_y_dir
+        type: point_3d
+        doc: $UCSYDIR/12|22|32
+      - id: unknown38
+        type: f8
+      - id: unknown39
+        type: f8
+      - id: unknown40
+        type: f8
+      - id: unknown41
+        type: f8
+      - id: unknown42
+        size: 26
+      - id: unknown43
+        type: u1
+        doc: 0x047d, TODO libredwg DIMTOFL
+      - id: unknown44
+        size: 130
+      - id: table_vport
+        type: table
+      - id: unknown45
+        type: u2
+      - id: spline_type
+        type: u2
+        doc: 0x050c-0x050d, $SPLINETYPE
+      - id: unknown46
+        type: u2
+      - id: unknown47
+        type: u2
+      - id: table_appid
+        type: table
+        doc: 0x0512-0x051c
+      - id: unknown48
+        type: u2
+      - id: unknown49
+        size: 433
     instances:
       create_date:
         value: create_date_days + (create_date_ms / 86400000.0)
       update_date:
         value: update_date_days + (update_date_ms / 86400000.0)
-      blocks_size_unknown:
-         value: (blocks_size_raw & 0xff000000) >> 24
-      blocks_size:
-         value: (blocks_size_raw & 0x00ffffff)
   entity:
     seq:
       - id: entity_type
@@ -921,8 +975,44 @@ types:
         type: entity_mode
       - id: entity_size
         type: s2
+      - id: entity_layer_index
+        type: s1
+      - id: flag1
+        type: s1
+      - id: flag2_1
+        type: b1
+      - id: flag2_2
+        type: b1
+      - id: flag2_3
+        type: b1
+      - id: flag2_4
+        type: b1
+      - id: flag2_5
+        type: b1
+      - id: flag2_6
+        type: b1
+      - id: flag2_7
+        type: b1
+      - id: flag2_8
+        type: b1
+      - id: flag3_1
+        type: b1
+      - id: flag3_2
+        type: b1
+      - id: flag3_3
+        type: b1
+      - id: flag3_4
+        type: b1
+      - id: flag3_5
+        type: b1
+      - id: flag3_6
+        type: b1
+      - id: flag3_7
+        type: b1
+      - id: flag3_8
+        type: b1
       - id: xxx
-        size: entity_size - 4
+        size: entity_size - 8
   entity_point:
     seq:
       - id: entity_common
@@ -1089,29 +1179,45 @@ types:
         type: b1
   layer:
     seq:
-      - id: frozen
-        type: s1
+      - id: flag
+        type: layer_flag
         doc: LAYER/70
       - id: layer_name
-        size: 31
+        size: 32
         type: str
         encoding: ASCII
-        terminator: 0x2e
+        terminator: 0x00
         doc: LAYER/2
-      - id: unknown1
-        type: s1
       - id: color
-        type: s1
+        type: s2
         doc: LAYER/62
-      - id: unknown2
-        type: s1
       - id: linetype_index
-        type: s1
+        type: u2
         doc: LAYER/6
       - id: unknown3
         type: s1
       - id: unknown4
         type: s1
+      - id: unknown5
+        type: u2
+  layer_flag:
+    seq:
+      - id: flag1
+        type: b1
+      - id: flag2
+        type: b1
+      - id: flag3
+        type: b1
+      - id: flag4
+        type: b1
+      - id: flag5
+        type: b1
+      - id: flag6
+        type: b1
+      - id: flag7
+        type: b1
+      - id: frozen
+        type: b1
   linetype:
     seq:
       - id: flag
@@ -1276,6 +1382,185 @@ types:
       - id: view_dir_z
         type: f8
         doc: VIEW/31
+  ucs:
+    seq:
+      - id: flag
+        type: ucs_flag
+        doc: UCS/70
+      - id: ucs_name
+        size: 32
+        type: str
+        encoding: ASCII
+        terminator: 0x00
+        doc: UCS/2
+      - id: ucs_org
+        type: point_3d
+        doc: UCS/10|20|30
+      - id: ucs_x_dir
+        type: point_3d
+        doc: UCS/11|21|31
+      - id: ucs_y_dir
+        type: point_3d
+        doc: UCS/12|22|32
+  ucs_flag:
+    seq:
+      - id: flag1
+        type: b1
+      - id: flag2
+        type: b1
+      - id: flag3
+        type: b1
+      - id: flag4
+        type: b1
+      - id: flag5
+        type: b1
+      - id: flag6
+        type: b1
+      - id: flag7
+        type: b1
+      - id: flag8
+        type: b1
+  vport:
+    seq:
+      - id: flag
+        type: vport_flag
+        doc: VPORT/70
+      - id: vport_name
+        size: 32
+        type: str
+        encoding: ASCII
+        terminator: 0x00
+        doc: VPORT/2
+      - id: view_size_vport_10_20
+        type: point_2d
+        doc: VPORT/10|20, TODO
+      - id: view_ctrl_vport_11_21
+        type: point_2d
+        doc: VPORT/11|21
+      - id: view_taget_vport_17_27_37
+        type: point_3d
+        doc: VPORT/17|27|37
+      - id: vport_16_26_36
+        type: point_3d
+        doc: VPORT/16|26|36
+      - id: vport_51_in_radians
+        type: f8
+        doc: VPORT/51
+      - id: vport_40
+        type: f8
+        doc: VPORT/40
+      - id: vport_12_22
+        type: point_2d
+        doc: VPORT/12|22
+      - id: vport_41
+        type: f8
+        doc: VPORT/41
+      - id: vport_42
+        type: f8
+        doc: VPORT/42
+      - id: vport_43
+        type: f8
+        doc: VPORT/43
+      - id: vport_44
+        type: f8
+        doc: VPORT/44
+      - id: vport_71
+        type: u2
+        doc: VPORT/71
+      - id: vport_72
+        type: u2
+        doc: VPORT/72
+      - id: vport_73
+        type: u2
+        doc: VPORT/73
+      - id: vport_74
+        type: u2
+        doc: VPORT/74
+      - id: vport_75
+        type: u2
+        doc: VPORT/75
+      - id: vport_76
+        type: u2
+        doc: VPORT/76
+      - id: vport_77
+        type: u2
+        doc: VPORT/77
+      - id: vport_78
+        type: u2
+        doc: VPORT/78
+      - id: u14
+        type: f8
+      - id: u15
+        type: f8
+      - id: u16
+        type: f8
+      - id: vport_14_24
+        type: point_2d
+        doc: VPORT/14|24
+      - id: vport_15_25
+        type: point_2d
+        doc: VPORT/15|25
+  vport_flag:
+    seq:
+      - id: deleted
+        type: b1
+      - id: flag2
+        type: b1
+      - id: flag3
+        type: b1
+      - id: flag4
+        type: b1
+      - id: flag5
+        type: b1
+      - id: flag6
+        type: b1
+      - id: flag7
+        type: b1
+      - id: flag8
+        type: b1
+  appid:
+    seq:
+      - id: flag
+        type: appid_flag
+        doc: APPID/70
+      - id: appid_name
+        size: 32
+        type: str
+        encoding: ASCII
+        terminator: 0x00
+        doc: APPID/2
+  appid_flag:
+    seq:
+      - id: flag1
+        type: b1
+      - id: flag2
+        type: b1
+      - id: flag3
+        type: b1
+      - id: flag4
+        type: b1
+      - id: flag5
+        type: b1
+      - id: flag6
+        type: b1
+      - id: flag7
+        type: b1
+      - id: flag8
+        type: b1
+  point_2d:
+    seq:
+      - id: x
+        type: f8
+      - id: y
+        type: f8
+  point_3d:
+    seq:
+      - id: x
+        type: f8
+      - id: y
+        type: f8
+      - id: z
+        type: f8
 enums:
   entities:
     1: line

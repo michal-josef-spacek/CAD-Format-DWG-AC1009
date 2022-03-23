@@ -103,6 +103,19 @@ sub _read {
     my ($self) = @_;
 
     $self->{header} = CAD::Format::DWG::AC1009::Header->new($self->{_io}, $self, $self->{_root});
+    $self->{_raw_entities} = $self->{_io}->read_bytes(($self->header()->entities_end() - $self->header()->entities_start()));
+    my $io__raw_entities = IO::KaitaiStruct::Stream->new($self->{_raw_entities});
+    $self->{entities} = CAD::Format::DWG::AC1009::RealEntities->new($io__raw_entities, $self, $self->{_root});
+    $self->{blocks} = ();
+    my $n_blocks = $self->header()->table_block()->items();
+    for (my $i = 0; $i < $n_blocks; $i++) {
+        $self->{blocks}[$i] = CAD::Format::DWG::AC1009::Block->new($self->{_io}, $self, $self->{_root});
+    }
+    $self->{layers} = ();
+    my $n_layers = $self->header()->table_layer()->items();
+    for (my $i = 0; $i < $n_layers; $i++) {
+        $self->{layers}[$i] = CAD::Format::DWG::AC1009::Layer->new($self->{_io}, $self, $self->{_root});
+    }
     if (!($self->_io()->is_eof())) {
         $self->{todo} = ();
         while (!$self->{_io}->is_eof()) {
@@ -116,9 +129,29 @@ sub header {
     return $self->{header};
 }
 
+sub entities {
+    my ($self) = @_;
+    return $self->{entities};
+}
+
+sub blocks {
+    my ($self) = @_;
+    return $self->{blocks};
+}
+
+sub layers {
+    my ($self) = @_;
+    return $self->{layers};
+}
+
 sub todo {
     my ($self) = @_;
     return $self->{todo};
+}
+
+sub _raw_entities {
+    my ($self) = @_;
+    return $self->{_raw_entities};
 }
 
 ########################################################################
@@ -233,7 +266,26 @@ sub _read {
 
     $self->{entity_mode} = CAD::Format::DWG::AC1009::EntityMode->new($self->{_io}, $self, $self->{_root});
     $self->{entity_size} = $self->{_io}->read_s2le();
-    $self->{xxx} = $self->{_io}->read_bytes(($self->entity_size() - 4));
+    $self->{entity_layer_index} = $self->{_io}->read_s1();
+    $self->{flag1} = $self->{_io}->read_s1();
+    $self->{flag2_1} = $self->{_io}->read_bits_int_be(1);
+    $self->{flag2_2} = $self->{_io}->read_bits_int_be(1);
+    $self->{flag2_3} = $self->{_io}->read_bits_int_be(1);
+    $self->{flag2_4} = $self->{_io}->read_bits_int_be(1);
+    $self->{flag2_5} = $self->{_io}->read_bits_int_be(1);
+    $self->{flag2_6} = $self->{_io}->read_bits_int_be(1);
+    $self->{flag2_7} = $self->{_io}->read_bits_int_be(1);
+    $self->{flag2_8} = $self->{_io}->read_bits_int_be(1);
+    $self->{flag3_1} = $self->{_io}->read_bits_int_be(1);
+    $self->{flag3_2} = $self->{_io}->read_bits_int_be(1);
+    $self->{flag3_3} = $self->{_io}->read_bits_int_be(1);
+    $self->{flag3_4} = $self->{_io}->read_bits_int_be(1);
+    $self->{flag3_5} = $self->{_io}->read_bits_int_be(1);
+    $self->{flag3_6} = $self->{_io}->read_bits_int_be(1);
+    $self->{flag3_7} = $self->{_io}->read_bits_int_be(1);
+    $self->{flag3_8} = $self->{_io}->read_bits_int_be(1);
+    $self->{_io}->align_to_byte();
+    $self->{xxx} = $self->{_io}->read_bytes(($self->entity_size() - 8));
 }
 
 sub entity_mode {
@@ -246,9 +298,179 @@ sub entity_size {
     return $self->{entity_size};
 }
 
+sub entity_layer_index {
+    my ($self) = @_;
+    return $self->{entity_layer_index};
+}
+
+sub flag1 {
+    my ($self) = @_;
+    return $self->{flag1};
+}
+
+sub flag2_1 {
+    my ($self) = @_;
+    return $self->{flag2_1};
+}
+
+sub flag2_2 {
+    my ($self) = @_;
+    return $self->{flag2_2};
+}
+
+sub flag2_3 {
+    my ($self) = @_;
+    return $self->{flag2_3};
+}
+
+sub flag2_4 {
+    my ($self) = @_;
+    return $self->{flag2_4};
+}
+
+sub flag2_5 {
+    my ($self) = @_;
+    return $self->{flag2_5};
+}
+
+sub flag2_6 {
+    my ($self) = @_;
+    return $self->{flag2_6};
+}
+
+sub flag2_7 {
+    my ($self) = @_;
+    return $self->{flag2_7};
+}
+
+sub flag2_8 {
+    my ($self) = @_;
+    return $self->{flag2_8};
+}
+
+sub flag3_1 {
+    my ($self) = @_;
+    return $self->{flag3_1};
+}
+
+sub flag3_2 {
+    my ($self) = @_;
+    return $self->{flag3_2};
+}
+
+sub flag3_3 {
+    my ($self) = @_;
+    return $self->{flag3_3};
+}
+
+sub flag3_4 {
+    my ($self) = @_;
+    return $self->{flag3_4};
+}
+
+sub flag3_5 {
+    my ($self) = @_;
+    return $self->{flag3_5};
+}
+
+sub flag3_6 {
+    my ($self) = @_;
+    return $self->{flag3_6};
+}
+
+sub flag3_7 {
+    my ($self) = @_;
+    return $self->{flag3_7};
+}
+
+sub flag3_8 {
+    my ($self) = @_;
+    return $self->{flag3_8};
+}
+
 sub xxx {
     my ($self) = @_;
     return $self->{xxx};
+}
+
+########################################################################
+package CAD::Format::DWG::AC1009::BlockFlag;
+
+our @ISA = 'IO::KaitaiStruct::Struct';
+
+sub from_file {
+    my ($class, $filename) = @_;
+    my $fd;
+
+    open($fd, '<', $filename) or return undef;
+    binmode($fd);
+    return new($class, IO::KaitaiStruct::Stream->new($fd));
+}
+
+sub new {
+    my ($class, $_io, $_parent, $_root) = @_;
+    my $self = IO::KaitaiStruct::Struct->new($_io);
+
+    bless $self, $class;
+    $self->{_parent} = $_parent;
+    $self->{_root} = $_root || $self;;
+
+    $self->_read();
+
+    return $self;
+}
+
+sub _read {
+    my ($self) = @_;
+
+    $self->{flag1} = $self->{_io}->read_bits_int_be(1);
+    $self->{flag2} = $self->{_io}->read_bits_int_be(1);
+    $self->{flag3} = $self->{_io}->read_bits_int_be(1);
+    $self->{flag4} = $self->{_io}->read_bits_int_be(1);
+    $self->{flag5} = $self->{_io}->read_bits_int_be(1);
+    $self->{flag6} = $self->{_io}->read_bits_int_be(1);
+    $self->{flag7} = $self->{_io}->read_bits_int_be(1);
+    $self->{flag8} = $self->{_io}->read_bits_int_be(1);
+}
+
+sub flag1 {
+    my ($self) = @_;
+    return $self->{flag1};
+}
+
+sub flag2 {
+    my ($self) = @_;
+    return $self->{flag2};
+}
+
+sub flag3 {
+    my ($self) = @_;
+    return $self->{flag3};
+}
+
+sub flag4 {
+    my ($self) = @_;
+    return $self->{flag4};
+}
+
+sub flag5 {
+    my ($self) = @_;
+    return $self->{flag5};
+}
+
+sub flag6 {
+    my ($self) = @_;
+    return $self->{flag6};
+}
+
+sub flag7 {
+    my ($self) = @_;
+    return $self->{flag7};
+}
+
+sub flag8 {
+    my ($self) = @_;
+    return $self->{flag8};
 }
 
 ########################################################################
@@ -1017,6 +1239,56 @@ sub unknown {
 }
 
 ########################################################################
+package CAD::Format::DWG::AC1009::Point3d;
+
+our @ISA = 'IO::KaitaiStruct::Struct';
+
+sub from_file {
+    my ($class, $filename) = @_;
+    my $fd;
+
+    open($fd, '<', $filename) or return undef;
+    binmode($fd);
+    return new($class, IO::KaitaiStruct::Stream->new($fd));
+}
+
+sub new {
+    my ($class, $_io, $_parent, $_root) = @_;
+    my $self = IO::KaitaiStruct::Struct->new($_io);
+
+    bless $self, $class;
+    $self->{_parent} = $_parent;
+    $self->{_root} = $_root || $self;;
+
+    $self->_read();
+
+    return $self;
+}
+
+sub _read {
+    my ($self) = @_;
+
+    $self->{x} = $self->{_io}->read_f8le();
+    $self->{y} = $self->{_io}->read_f8le();
+    $self->{z} = $self->{_io}->read_f8le();
+}
+
+sub x {
+    my ($self) = @_;
+    return $self->{x};
+}
+
+sub y {
+    my ($self) = @_;
+    return $self->{y};
+}
+
+sub z {
+    my ($self) = @_;
+    return $self->{z};
+}
+
+########################################################################
 package CAD::Format::DWG::AC1009::EntityBlockEnd;
 
 our @ISA = 'IO::KaitaiStruct::Struct';
@@ -1052,6 +1324,50 @@ sub _read {
 sub entity_common {
     my ($self) = @_;
     return $self->{entity_common};
+}
+
+########################################################################
+package CAD::Format::DWG::AC1009::Point2d;
+
+our @ISA = 'IO::KaitaiStruct::Struct';
+
+sub from_file {
+    my ($class, $filename) = @_;
+    my $fd;
+
+    open($fd, '<', $filename) or return undef;
+    binmode($fd);
+    return new($class, IO::KaitaiStruct::Stream->new($fd));
+}
+
+sub new {
+    my ($class, $_io, $_parent, $_root) = @_;
+    my $self = IO::KaitaiStruct::Struct->new($_io);
+
+    bless $self, $class;
+    $self->{_parent} = $_parent;
+    $self->{_root} = $_root || $self;;
+
+    $self->_read();
+
+    return $self;
+}
+
+sub _read {
+    my ($self) = @_;
+
+    $self->{x} = $self->{_io}->read_f8le();
+    $self->{y} = $self->{_io}->read_f8le();
+}
+
+sub x {
+    my ($self) = @_;
+    return $self->{x};
+}
+
+sub y {
+    my ($self) = @_;
+    return $self->{y};
 }
 
 ########################################################################
@@ -1300,19 +1616,18 @@ sub new {
 sub _read {
     my ($self) = @_;
 
-    $self->{frozen} = $self->{_io}->read_s1();
-    $self->{layer_name} = Encode::decode("ASCII", IO::KaitaiStruct::Stream::bytes_terminate($self->{_io}->read_bytes(31), 46, 0));
-    $self->{unknown1} = $self->{_io}->read_s1();
-    $self->{color} = $self->{_io}->read_s1();
-    $self->{unknown2} = $self->{_io}->read_s1();
-    $self->{linetype_index} = $self->{_io}->read_s1();
+    $self->{flag} = CAD::Format::DWG::AC1009::LayerFlag->new($self->{_io}, $self, $self->{_root});
+    $self->{layer_name} = Encode::decode("ASCII", IO::KaitaiStruct::Stream::bytes_terminate($self->{_io}->read_bytes(32), 0, 0));
+    $self->{color} = $self->{_io}->read_s2le();
+    $self->{linetype_index} = $self->{_io}->read_u2le();
     $self->{unknown3} = $self->{_io}->read_s1();
     $self->{unknown4} = $self->{_io}->read_s1();
+    $self->{unknown5} = $self->{_io}->read_u2le();
 }
 
-sub frozen {
+sub flag {
     my ($self) = @_;
-    return $self->{frozen};
+    return $self->{flag};
 }
 
 sub layer_name {
@@ -1320,19 +1635,9 @@ sub layer_name {
     return $self->{layer_name};
 }
 
-sub unknown1 {
-    my ($self) = @_;
-    return $self->{unknown1};
-}
-
 sub color {
     my ($self) = @_;
     return $self->{color};
-}
-
-sub unknown2 {
-    my ($self) = @_;
-    return $self->{unknown2};
 }
 
 sub linetype_index {
@@ -1348,6 +1653,91 @@ sub unknown3 {
 sub unknown4 {
     my ($self) = @_;
     return $self->{unknown4};
+}
+
+sub unknown5 {
+    my ($self) = @_;
+    return $self->{unknown5};
+}
+
+########################################################################
+package CAD::Format::DWG::AC1009::UcsFlag;
+
+our @ISA = 'IO::KaitaiStruct::Struct';
+
+sub from_file {
+    my ($class, $filename) = @_;
+    my $fd;
+
+    open($fd, '<', $filename) or return undef;
+    binmode($fd);
+    return new($class, IO::KaitaiStruct::Stream->new($fd));
+}
+
+sub new {
+    my ($class, $_io, $_parent, $_root) = @_;
+    my $self = IO::KaitaiStruct::Struct->new($_io);
+
+    bless $self, $class;
+    $self->{_parent} = $_parent;
+    $self->{_root} = $_root || $self;;
+
+    $self->_read();
+
+    return $self;
+}
+
+sub _read {
+    my ($self) = @_;
+
+    $self->{flag1} = $self->{_io}->read_bits_int_be(1);
+    $self->{flag2} = $self->{_io}->read_bits_int_be(1);
+    $self->{flag3} = $self->{_io}->read_bits_int_be(1);
+    $self->{flag4} = $self->{_io}->read_bits_int_be(1);
+    $self->{flag5} = $self->{_io}->read_bits_int_be(1);
+    $self->{flag6} = $self->{_io}->read_bits_int_be(1);
+    $self->{flag7} = $self->{_io}->read_bits_int_be(1);
+    $self->{flag8} = $self->{_io}->read_bits_int_be(1);
+}
+
+sub flag1 {
+    my ($self) = @_;
+    return $self->{flag1};
+}
+
+sub flag2 {
+    my ($self) = @_;
+    return $self->{flag2};
+}
+
+sub flag3 {
+    my ($self) = @_;
+    return $self->{flag3};
+}
+
+sub flag4 {
+    my ($self) = @_;
+    return $self->{flag4};
+}
+
+sub flag5 {
+    my ($self) = @_;
+    return $self->{flag5};
+}
+
+sub flag6 {
+    my ($self) = @_;
+    return $self->{flag6};
+}
+
+sub flag7 {
+    my ($self) = @_;
+    return $self->{flag7};
+}
+
+sub flag8 {
+    my ($self) = @_;
+    return $self->{flag8};
 }
 
 ########################################################################
@@ -1460,29 +1850,23 @@ sub new {
 sub _read {
     my ($self) = @_;
 
-    $self->{unknown1} = $self->{_io}->read_s1();
-    $self->{block_name} = Encode::decode("ASCII", IO::KaitaiStruct::Stream::bytes_terminate($self->{_io}->read_bytes(31), 46, 0));
-    $self->{u1} = $self->{_io}->read_s1();
+    $self->{flag} = CAD::Format::DWG::AC1009::BlockFlag->new($self->{_io}, $self, $self->{_root});
+    $self->{block_name} = Encode::decode("ASCII", IO::KaitaiStruct::Stream::bytes_terminate($self->{_io}->read_bytes(32), 0, 0));
     $self->{u2} = $self->{_io}->read_s1();
     $self->{u3} = $self->{_io}->read_s1();
     $self->{u4} = $self->{_io}->read_s1();
     $self->{u5} = $self->{_io}->read_s1();
-    $self->{u6} = $self->{_io}->read_s1();
+    $self->{u6} = $self->{_io}->read_f8le();
 }
 
-sub unknown1 {
+sub flag {
     my ($self) = @_;
-    return $self->{unknown1};
+    return $self->{flag};
 }
 
 sub block_name {
     my ($self) = @_;
     return $self->{block_name};
-}
-
-sub u1 {
-    my ($self) = @_;
-    return $self->{u1};
 }
 
 sub u2 {
@@ -1584,6 +1968,50 @@ sub value {
 sub angle {
     my ($self) = @_;
     return $self->{angle};
+}
+
+########################################################################
+package CAD::Format::DWG::AC1009::Appid;
+
+our @ISA = 'IO::KaitaiStruct::Struct';
+
+sub from_file {
+    my ($class, $filename) = @_;
+    my $fd;
+
+    open($fd, '<', $filename) or return undef;
+    binmode($fd);
+    return new($class, IO::KaitaiStruct::Stream->new($fd));
+}
+
+sub new {
+    my ($class, $_io, $_parent, $_root) = @_;
+    my $self = IO::KaitaiStruct::Struct->new($_io);
+
+    bless $self, $class;
+    $self->{_parent} = $_parent;
+    $self->{_root} = $_root || $self;;
+
+    $self->_read();
+
+    return $self;
+}
+
+sub _read {
+    my ($self) = @_;
+
+    $self->{flag} = CAD::Format::DWG::AC1009::AppidFlag->new($self->{_io}, $self, $self->{_root});
+    $self->{appid_name} = Encode::decode("ASCII", IO::KaitaiStruct::Stream::bytes_terminate($self->{_io}->read_bytes(32), 0, 0));
+}
+
+sub flag {
+    my ($self) = @_;
+    return $self->{flag};
+}
+
+sub appid_name {
+    my ($self) = @_;
+    return $self->{appid_name};
 }
 
 ########################################################################
@@ -1947,7 +2375,7 @@ sub rotation_in_radians {
 }
 
 ########################################################################
-package CAD::Format::DWG::AC1009::EntityArc;
+package CAD::Format::DWG::AC1009::HeaderVariables;
 
 our @ISA = 'IO::KaitaiStruct::Struct';
 
@@ -1976,265 +2404,13 @@ sub new {
 sub _read {
     my ($self) = @_;
 
-    $self->{entity_common} = CAD::Format::DWG::AC1009::EntityCommon->new($self->{_io}, $self, $self->{_root});
-    $self->{x} = $self->{_io}->read_f8le();
-    $self->{y} = $self->{_io}->read_f8le();
-    $self->{radius} = $self->{_io}->read_f8le();
-    $self->{angle_from} = $self->{_io}->read_f8le();
-    $self->{angle_to} = $self->{_io}->read_f8le();
-}
-
-sub entity_common {
-    my ($self) = @_;
-    return $self->{entity_common};
-}
-
-sub x {
-    my ($self) = @_;
-    return $self->{x};
-}
-
-sub y {
-    my ($self) = @_;
-    return $self->{y};
-}
-
-sub radius {
-    my ($self) = @_;
-    return $self->{radius};
-}
-
-sub angle_from {
-    my ($self) = @_;
-    return $self->{angle_from};
-}
-
-sub angle_to {
-    my ($self) = @_;
-    return $self->{angle_to};
-}
-
-########################################################################
-package CAD::Format::DWG::AC1009::Entity;
-
-our @ISA = 'IO::KaitaiStruct::Struct';
-
-sub from_file {
-    my ($class, $filename) = @_;
-    my $fd;
-
-    open($fd, '<', $filename) or return undef;
-    binmode($fd);
-    return new($class, IO::KaitaiStruct::Stream->new($fd));
-}
-
-sub new {
-    my ($class, $_io, $_parent, $_root) = @_;
-    my $self = IO::KaitaiStruct::Struct->new($_io);
-
-    bless $self, $class;
-    $self->{_parent} = $_parent;
-    $self->{_root} = $_root || $self;;
-
-    $self->_read();
-
-    return $self;
-}
-
-sub _read {
-    my ($self) = @_;
-
-    $self->{entity_type} = $self->{_io}->read_s1();
-    my $_on = $self->entity_type();
-    if ($_on == $CAD::Format::DWG::AC1009::ENTITIES_SOLID) {
-        $self->{data} = CAD::Format::DWG::AC1009::EntitySolid->new($self->{_io}, $self, $self->{_root});
-    }
-    elsif ($_on == $CAD::Format::DWG::AC1009::ENTITIES_SHAPE) {
-        $self->{data} = CAD::Format::DWG::AC1009::EntityShape->new($self->{_io}, $self, $self->{_root});
-    }
-    elsif ($_on == $CAD::Format::DWG::AC1009::ENTITIES_SEQEND) {
-        $self->{data} = CAD::Format::DWG::AC1009::EntitySeqend->new($self->{_io}, $self, $self->{_root});
-    }
-    elsif ($_on == $CAD::Format::DWG::AC1009::ENTITIES_DIM) {
-        $self->{data} = CAD::Format::DWG::AC1009::EntityDim->new($self->{_io}, $self, $self->{_root});
-    }
-    elsif ($_on == $CAD::Format::DWG::AC1009::ENTITIES_BLOCK_BEGIN) {
-        $self->{data} = CAD::Format::DWG::AC1009::EntityBlockBegin->new($self->{_io}, $self, $self->{_root});
-    }
-    elsif ($_on == $CAD::Format::DWG::AC1009::ENTITIES_LINE) {
-        $self->{data} = CAD::Format::DWG::AC1009::EntityLine->new($self->{_io}, $self, $self->{_root});
-    }
-    elsif ($_on == $CAD::Format::DWG::AC1009::ENTITIES_TEXT) {
-        $self->{data} = CAD::Format::DWG::AC1009::EntityText->new($self->{_io}, $self, $self->{_root});
-    }
-    elsif ($_on == $CAD::Format::DWG::AC1009::ENTITIES_INSERT) {
-        $self->{data} = CAD::Format::DWG::AC1009::EntityInsert->new($self->{_io}, $self, $self->{_root});
-    }
-    elsif ($_on == $CAD::Format::DWG::AC1009::ENTITIES_POLYLINE2) {
-        $self->{data} = CAD::Format::DWG::AC1009::EntityPolyline->new($self->{_io}, $self, $self->{_root});
-    }
-    elsif ($_on == $CAD::Format::DWG::AC1009::ENTITIES_CIRCLE) {
-        $self->{data} = CAD::Format::DWG::AC1009::EntityCircle->new($self->{_io}, $self, $self->{_root});
-    }
-    elsif ($_on == $CAD::Format::DWG::AC1009::ENTITIES_ARC) {
-        $self->{data} = CAD::Format::DWG::AC1009::EntityArc->new($self->{_io}, $self, $self->{_root});
-    }
-    elsif ($_on == $CAD::Format::DWG::AC1009::ENTITIES_VERTEX) {
-        $self->{data} = CAD::Format::DWG::AC1009::EntityVertex->new($self->{_io}, $self, $self->{_root});
-    }
-    elsif ($_on == $CAD::Format::DWG::AC1009::ENTITIES_FACE3D) {
-        $self->{data} = CAD::Format::DWG::AC1009::EntityFace3d->new($self->{_io}, $self, $self->{_root});
-    }
-    elsif ($_on == $CAD::Format::DWG::AC1009::ENTITIES_ATTDEF) {
-        $self->{data} = CAD::Format::DWG::AC1009::EntityAttdef->new($self->{_io}, $self, $self->{_root});
-    }
-    elsif ($_on == $CAD::Format::DWG::AC1009::ENTITIES_BLOCK_END) {
-        $self->{data} = CAD::Format::DWG::AC1009::EntityBlockEnd->new($self->{_io}, $self, $self->{_root});
-    }
-    elsif ($_on == $CAD::Format::DWG::AC1009::ENTITIES_POINT) {
-        $self->{data} = CAD::Format::DWG::AC1009::EntityPoint->new($self->{_io}, $self, $self->{_root});
-    }
-    elsif ($_on == $CAD::Format::DWG::AC1009::ENTITIES_TRACE) {
-        $self->{data} = CAD::Format::DWG::AC1009::EntityTrace->new($self->{_io}, $self, $self->{_root});
-    }
-    elsif ($_on == $CAD::Format::DWG::AC1009::ENTITIES_POLYLINE) {
-        $self->{data} = CAD::Format::DWG::AC1009::EntityPolyline->new($self->{_io}, $self, $self->{_root});
-    }
-    else {
-        $self->{data} = CAD::Format::DWG::AC1009::EntityTmp->new($self->{_io}, $self, $self->{_root});
-    }
-}
-
-sub entity_type {
-    my ($self) = @_;
-    return $self->{entity_type};
-}
-
-sub data {
-    my ($self) = @_;
-    return $self->{data};
-}
-
-########################################################################
-package CAD::Format::DWG::AC1009::EntitySeqend;
-
-our @ISA = 'IO::KaitaiStruct::Struct';
-
-sub from_file {
-    my ($class, $filename) = @_;
-    my $fd;
-
-    open($fd, '<', $filename) or return undef;
-    binmode($fd);
-    return new($class, IO::KaitaiStruct::Stream->new($fd));
-}
-
-sub new {
-    my ($class, $_io, $_parent, $_root) = @_;
-    my $self = IO::KaitaiStruct::Struct->new($_io);
-
-    bless $self, $class;
-    $self->{_parent} = $_parent;
-    $self->{_root} = $_root || $self;;
-
-    $self->_read();
-
-    return $self;
-}
-
-sub _read {
-    my ($self) = @_;
-
-    $self->{entity_common} = CAD::Format::DWG::AC1009::EntityCommon->new($self->{_io}, $self, $self->{_root});
-    $self->{unknown} = $self->{_io}->read_bytes(4);
-}
-
-sub entity_common {
-    my ($self) = @_;
-    return $self->{entity_common};
-}
-
-sub unknown {
-    my ($self) = @_;
-    return $self->{unknown};
-}
-
-########################################################################
-package CAD::Format::DWG::AC1009::Header;
-
-our @ISA = 'IO::KaitaiStruct::Struct';
-
-sub from_file {
-    my ($class, $filename) = @_;
-    my $fd;
-
-    open($fd, '<', $filename) or return undef;
-    binmode($fd);
-    return new($class, IO::KaitaiStruct::Stream->new($fd));
-}
-
-sub new {
-    my ($class, $_io, $_parent, $_root) = @_;
-    my $self = IO::KaitaiStruct::Struct->new($_io);
-
-    bless $self, $class;
-    $self->{_parent} = $_parent;
-    $self->{_root} = $_root || $self;;
-
-    $self->_read();
-
-    return $self;
-}
-
-sub _read {
-    my ($self) = @_;
-
-    $self->{magic} = $self->{_io}->read_bytes(6);
-    $self->{zeros} = $self->{_io}->read_bytes(6);
-    $self->{zero_one_or_three} = $self->{_io}->read_s1();
-    $self->{version_major} = $self->{_io}->read_s2le();
-    $self->{version_minor} = $self->{_io}->read_s2le();
-    $self->{version_micro} = $self->{_io}->read_s2le();
-    $self->{dwg_version} = $self->{_io}->read_s1();
-    $self->{entities_start} = $self->{_io}->read_s4le();
-    $self->{entities_end} = $self->{_io}->read_s4le();
-    $self->{blocks_start} = $self->{_io}->read_s4le();
-    $self->{blocks_size_raw} = $self->{_io}->read_u2le();
-    $self->{blocks_end} = $self->{_io}->read_s4le();
-    $self->{unknown4b} = $self->{_io}->read_bytes(2);
-    $self->{unknown4c} = $self->{_io}->read_bytes(2);
-    $self->{block_table_item_size} = $self->{_io}->read_s2le();
-    $self->{number_of_table_blocks} = $self->{_io}->read_s4le();
-    $self->{block_table_begin} = $self->{_io}->read_u4le();
-    $self->{layer_table_item_size} = $self->{_io}->read_s2le();
-    $self->{number_of_table_layers} = $self->{_io}->read_s4le();
-    $self->{layer_table_begin} = $self->{_io}->read_u4le();
-    $self->{style_table_item_size} = $self->{_io}->read_s2le();
-    $self->{number_of_table_styles} = $self->{_io}->read_s4le();
-    $self->{style_table_begin} = $self->{_io}->read_u4le();
-    $self->{linetype_table_item_size} = $self->{_io}->read_s2le();
-    $self->{number_of_table_linetypes} = $self->{_io}->read_s4le();
-    $self->{linetype_table_begin} = $self->{_io}->read_u4le();
-    $self->{view_table_item_size} = $self->{_io}->read_s2le();
-    $self->{number_of_table_views} = $self->{_io}->read_s4le();
-    $self->{view_table_begin} = $self->{_io}->read_u4le();
-    $self->{insertion_base_x} = $self->{_io}->read_f8le();
-    $self->{insertion_base_y} = $self->{_io}->read_f8le();
-    $self->{insertion_base_z} = $self->{_io}->read_f8le();
+    $self->{insertion_base} = CAD::Format::DWG::AC1009::Point3d->new($self->{_io}, $self, $self->{_root});
     $self->{plinegen} = $self->{_io}->read_s2le();
-    $self->{drawing_first_x} = $self->{_io}->read_f8le();
-    $self->{drawing_first_y} = $self->{_io}->read_f8le();
-    $self->{drawing_first_z} = $self->{_io}->read_f8le();
-    $self->{drawing_second_x} = $self->{_io}->read_f8le();
-    $self->{drawing_second_y} = $self->{_io}->read_f8le();
-    $self->{drawing_second_z} = $self->{_io}->read_f8le();
-    $self->{limits_min_x} = $self->{_io}->read_f8le();
-    $self->{limits_min_y} = $self->{_io}->read_f8le();
-    $self->{limits_max_x} = $self->{_io}->read_f8le();
-    $self->{limits_max_y} = $self->{_io}->read_f8le();
-    $self->{view_ctrl_x} = $self->{_io}->read_f8le();
-    $self->{view_ctrl_y} = $self->{_io}->read_f8le();
-    $self->{view_ctrl_z} = $self->{_io}->read_f8le();
+    $self->{drawing_first} = CAD::Format::DWG::AC1009::Point3d->new($self->{_io}, $self, $self->{_root});
+    $self->{drawing_second} = CAD::Format::DWG::AC1009::Point3d->new($self->{_io}, $self, $self->{_root});
+    $self->{limits_min} = CAD::Format::DWG::AC1009::Point2d->new($self->{_io}, $self, $self->{_root});
+    $self->{limits_max} = CAD::Format::DWG::AC1009::Point2d->new($self->{_io}, $self, $self->{_root});
+    $self->{view_ctrl} = CAD::Format::DWG::AC1009::Point3d->new($self->{_io}, $self, $self->{_root});
     $self->{view_size} = $self->{_io}->read_f8le();
     $self->{snap} = $self->{_io}->read_s2le();
     $self->{snap_resolution_x} = $self->{_io}->read_f8le();
@@ -2323,7 +2499,7 @@ sub _read {
     $self->{dim_suppression_of_zeros} = $self->{_io}->read_s1();
     $self->{dim_rounding} = $self->{_io}->read_f8le();
     $self->{dim_extension_line_extend2} = $self->{_io}->read_f8le();
-    $self->{dim_arrowhead_block} = Encode::decode("ASCII", IO::KaitaiStruct::Stream::bytes_terminate($self->{_io}->read_bytes(32), 46, 0));
+    $self->{dim_arrowhead_block} = Encode::decode("ASCII", IO::KaitaiStruct::Stream::bytes_terminate($self->{_io}->read_bytes(32), 0, 0));
     $self->{unknown30} = $self->{_io}->read_s1();
     $self->{circle_zoom_percent} = $self->{_io}->read_s2le();
     $self->{coordinates} = $self->{_io}->read_s2le();
@@ -2362,14 +2538,37 @@ sub _read {
     $self->{dim_alternate_units_decimal_places} = $self->{_io}->read_s1();
     $self->{dim_associative} = $self->{_io}->read_s1();
     $self->{dim_sho} = $self->{_io}->read_s1();
-    $self->{dim_measurement_postfix} = Encode::decode("ASCII", $self->{_io}->read_bytes(16));
-    $self->{dim_alternate_measurement_postfix} = Encode::decode("ASCII", $self->{_io}->read_bytes(16));
+    $self->{dim_measurement_postfix} = Encode::decode("ASCII", IO::KaitaiStruct::Stream::bytes_terminate($self->{_io}->read_bytes(16), 0, 0));
+    $self->{dim_alternate_measurement_postfix} = Encode::decode("ASCII", IO::KaitaiStruct::Stream::bytes_terminate($self->{_io}->read_bytes(16), 0, 0));
     $self->{dim_alternate_units_multiplier} = $self->{_io}->read_f8le();
     $self->{dim_linear_measurements_scale_factor} = $self->{_io}->read_f8le();
-    $self->{unknown35} = $self->{_io}->read_bytes(8);
+    $self->{spline_segs} = $self->{_io}->read_s2le();
+    $self->{spline_frame} = $self->{_io}->read_s2le();
+    $self->{unknown31b} = $self->{_io}->read_s2le();
+    $self->{unknown31c} = $self->{_io}->read_s2le();
     $self->{chamfera} = $self->{_io}->read_f8le();
     $self->{chamferb} = $self->{_io}->read_f8le();
-    $self->{unknown36} = $self->{_io}->read_bytes(293);
+    $self->{mirror_text} = $self->{_io}->read_s2le();
+    $self->{table_ucs} = CAD::Format::DWG::AC1009::Table->new($self->{_io}, $self, $self->{_root});
+    $self->{unknown37} = $self->{_io}->read_bytes(2);
+    $self->{ucs_org} = CAD::Format::DWG::AC1009::Point3d->new($self->{_io}, $self, $self->{_root});
+    $self->{ucs_x_dir} = CAD::Format::DWG::AC1009::Point3d->new($self->{_io}, $self, $self->{_root});
+    $self->{ucs_y_dir} = CAD::Format::DWG::AC1009::Point3d->new($self->{_io}, $self, $self->{_root});
+    $self->{unknown38} = $self->{_io}->read_f8le();
+    $self->{unknown39} = $self->{_io}->read_f8le();
+    $self->{unknown40} = $self->{_io}->read_f8le();
+    $self->{unknown41} = $self->{_io}->read_f8le();
+    $self->{unknown42} = $self->{_io}->read_bytes(26);
+    $self->{unknown43} = $self->{_io}->read_u1();
+    $self->{unknown44} = $self->{_io}->read_bytes(130);
+    $self->{table_vport} = CAD::Format::DWG::AC1009::Table->new($self->{_io}, $self, $self->{_root});
+    $self->{unknown45} = $self->{_io}->read_u2le();
+    $self->{spline_type} = $self->{_io}->read_u2le();
+    $self->{unknown46} = $self->{_io}->read_u2le();
+    $self->{unknown47} = $self->{_io}->read_u2le();
+    $self->{table_appid} = CAD::Format::DWG::AC1009::Table->new($self->{_io}, $self, $self->{_root});
+    $self->{unknown48} = $self->{_io}->read_u2le();
+    $self->{unknown49} = $self->{_io}->read_bytes(433);
 }
 
 sub create_date {
@@ -2386,178 +2585,9 @@ sub update_date {
     return $self->{update_date};
 }
 
-sub blocks_size_unknown {
+sub insertion_base {
     my ($self) = @_;
-    return $self->{blocks_size_unknown} if ($self->{blocks_size_unknown});
-    $self->{blocks_size_unknown} = (($self->blocks_size_raw() & 4278190080) >> 24);
-    return $self->{blocks_size_unknown};
-}
-
-sub blocks_size {
-    my ($self) = @_;
-    return $self->{blocks_size} if ($self->{blocks_size});
-    $self->{blocks_size} = ($self->blocks_size_raw() & 16777215);
-    return $self->{blocks_size};
-}
-
-sub magic {
-    my ($self) = @_;
-    return $self->{magic};
-}
-
-sub zeros {
-    my ($self) = @_;
-    return $self->{zeros};
-}
-
-sub zero_one_or_three {
-    my ($self) = @_;
-    return $self->{zero_one_or_three};
-}
-
-sub version_major {
-    my ($self) = @_;
-    return $self->{version_major};
-}
-
-sub version_minor {
-    my ($self) = @_;
-    return $self->{version_minor};
-}
-
-sub version_micro {
-    my ($self) = @_;
-    return $self->{version_micro};
-}
-
-sub dwg_version {
-    my ($self) = @_;
-    return $self->{dwg_version};
-}
-
-sub entities_start {
-    my ($self) = @_;
-    return $self->{entities_start};
-}
-
-sub entities_end {
-    my ($self) = @_;
-    return $self->{entities_end};
-}
-
-sub blocks_start {
-    my ($self) = @_;
-    return $self->{blocks_start};
-}
-
-sub blocks_size_raw {
-    my ($self) = @_;
-    return $self->{blocks_size_raw};
-}
-
-sub blocks_end {
-    my ($self) = @_;
-    return $self->{blocks_end};
-}
-
-sub unknown4b {
-    my ($self) = @_;
-    return $self->{unknown4b};
-}
-
-sub unknown4c {
-    my ($self) = @_;
-    return $self->{unknown4c};
-}
-
-sub block_table_item_size {
-    my ($self) = @_;
-    return $self->{block_table_item_size};
-}
-
-sub number_of_table_blocks {
-    my ($self) = @_;
-    return $self->{number_of_table_blocks};
-}
-
-sub block_table_begin {
-    my ($self) = @_;
-    return $self->{block_table_begin};
-}
-
-sub layer_table_item_size {
-    my ($self) = @_;
-    return $self->{layer_table_item_size};
-}
-
-sub number_of_table_layers {
-    my ($self) = @_;
-    return $self->{number_of_table_layers};
-}
-
-sub layer_table_begin {
-    my ($self) = @_;
-    return $self->{layer_table_begin};
-}
-
-sub style_table_item_size {
-    my ($self) = @_;
-    return $self->{style_table_item_size};
-}
-
-sub number_of_table_styles {
-    my ($self) = @_;
-    return $self->{number_of_table_styles};
-}
-
-sub style_table_begin {
-    my ($self) = @_;
-    return $self->{style_table_begin};
-}
-
-sub linetype_table_item_size {
-    my ($self) = @_;
-    return $self->{linetype_table_item_size};
-}
-
-sub number_of_table_linetypes {
-    my ($self) = @_;
-    return $self->{number_of_table_linetypes};
-}
-
-sub linetype_table_begin {
-    my ($self) = @_;
-    return $self->{linetype_table_begin};
-}
-
-sub view_table_item_size {
-    my ($self) = @_;
-    return $self->{view_table_item_size};
-}
-
-sub number_of_table_views {
-    my ($self) = @_;
-    return $self->{number_of_table_views};
-}
-
-sub view_table_begin {
-    my ($self) = @_;
-    return $self->{view_table_begin};
-}
-
-sub insertion_base_x {
-    my ($self) = @_;
-    return $self->{insertion_base_x};
-}
-
-sub insertion_base_y {
-    my ($self) = @_;
-    return $self->{insertion_base_y};
-}
-
-sub insertion_base_z {
-    my ($self) = @_;
-    return $self->{insertion_base_z};
+    return $self->{insertion_base};
 }
 
 sub plinegen {
@@ -2565,69 +2595,29 @@ sub plinegen {
     return $self->{plinegen};
 }
 
-sub drawing_first_x {
+sub drawing_first {
     my ($self) = @_;
-    return $self->{drawing_first_x};
+    return $self->{drawing_first};
 }
 
-sub drawing_first_y {
+sub drawing_second {
     my ($self) = @_;
-    return $self->{drawing_first_y};
+    return $self->{drawing_second};
 }
 
-sub drawing_first_z {
+sub limits_min {
     my ($self) = @_;
-    return $self->{drawing_first_z};
+    return $self->{limits_min};
 }
 
-sub drawing_second_x {
+sub limits_max {
     my ($self) = @_;
-    return $self->{drawing_second_x};
+    return $self->{limits_max};
 }
 
-sub drawing_second_y {
+sub view_ctrl {
     my ($self) = @_;
-    return $self->{drawing_second_y};
-}
-
-sub drawing_second_z {
-    my ($self) = @_;
-    return $self->{drawing_second_z};
-}
-
-sub limits_min_x {
-    my ($self) = @_;
-    return $self->{limits_min_x};
-}
-
-sub limits_min_y {
-    my ($self) = @_;
-    return $self->{limits_min_y};
-}
-
-sub limits_max_x {
-    my ($self) = @_;
-    return $self->{limits_max_x};
-}
-
-sub limits_max_y {
-    my ($self) = @_;
-    return $self->{limits_max_y};
-}
-
-sub view_ctrl_x {
-    my ($self) = @_;
-    return $self->{view_ctrl_x};
-}
-
-sub view_ctrl_y {
-    my ($self) = @_;
-    return $self->{view_ctrl_y};
-}
-
-sub view_ctrl_z {
-    my ($self) = @_;
-    return $self->{view_ctrl_z};
+    return $self->{view_ctrl};
 }
 
 sub view_size {
@@ -3285,9 +3275,24 @@ sub dim_linear_measurements_scale_factor {
     return $self->{dim_linear_measurements_scale_factor};
 }
 
-sub unknown35 {
+sub spline_segs {
     my ($self) = @_;
-    return $self->{unknown35};
+    return $self->{spline_segs};
+}
+
+sub spline_frame {
+    my ($self) = @_;
+    return $self->{spline_frame};
+}
+
+sub unknown31b {
+    my ($self) = @_;
+    return $self->{unknown31b};
+}
+
+sub unknown31c {
+    my ($self) = @_;
+    return $self->{unknown31c};
 }
 
 sub chamfera {
@@ -3300,9 +3305,488 @@ sub chamferb {
     return $self->{chamferb};
 }
 
-sub unknown36 {
+sub mirror_text {
     my ($self) = @_;
-    return $self->{unknown36};
+    return $self->{mirror_text};
+}
+
+sub table_ucs {
+    my ($self) = @_;
+    return $self->{table_ucs};
+}
+
+sub unknown37 {
+    my ($self) = @_;
+    return $self->{unknown37};
+}
+
+sub ucs_org {
+    my ($self) = @_;
+    return $self->{ucs_org};
+}
+
+sub ucs_x_dir {
+    my ($self) = @_;
+    return $self->{ucs_x_dir};
+}
+
+sub ucs_y_dir {
+    my ($self) = @_;
+    return $self->{ucs_y_dir};
+}
+
+sub unknown38 {
+    my ($self) = @_;
+    return $self->{unknown38};
+}
+
+sub unknown39 {
+    my ($self) = @_;
+    return $self->{unknown39};
+}
+
+sub unknown40 {
+    my ($self) = @_;
+    return $self->{unknown40};
+}
+
+sub unknown41 {
+    my ($self) = @_;
+    return $self->{unknown41};
+}
+
+sub unknown42 {
+    my ($self) = @_;
+    return $self->{unknown42};
+}
+
+sub unknown43 {
+    my ($self) = @_;
+    return $self->{unknown43};
+}
+
+sub unknown44 {
+    my ($self) = @_;
+    return $self->{unknown44};
+}
+
+sub table_vport {
+    my ($self) = @_;
+    return $self->{table_vport};
+}
+
+sub unknown45 {
+    my ($self) = @_;
+    return $self->{unknown45};
+}
+
+sub spline_type {
+    my ($self) = @_;
+    return $self->{spline_type};
+}
+
+sub unknown46 {
+    my ($self) = @_;
+    return $self->{unknown46};
+}
+
+sub unknown47 {
+    my ($self) = @_;
+    return $self->{unknown47};
+}
+
+sub table_appid {
+    my ($self) = @_;
+    return $self->{table_appid};
+}
+
+sub unknown48 {
+    my ($self) = @_;
+    return $self->{unknown48};
+}
+
+sub unknown49 {
+    my ($self) = @_;
+    return $self->{unknown49};
+}
+
+########################################################################
+package CAD::Format::DWG::AC1009::EntityArc;
+
+our @ISA = 'IO::KaitaiStruct::Struct';
+
+sub from_file {
+    my ($class, $filename) = @_;
+    my $fd;
+
+    open($fd, '<', $filename) or return undef;
+    binmode($fd);
+    return new($class, IO::KaitaiStruct::Stream->new($fd));
+}
+
+sub new {
+    my ($class, $_io, $_parent, $_root) = @_;
+    my $self = IO::KaitaiStruct::Struct->new($_io);
+
+    bless $self, $class;
+    $self->{_parent} = $_parent;
+    $self->{_root} = $_root || $self;;
+
+    $self->_read();
+
+    return $self;
+}
+
+sub _read {
+    my ($self) = @_;
+
+    $self->{entity_common} = CAD::Format::DWG::AC1009::EntityCommon->new($self->{_io}, $self, $self->{_root});
+    $self->{x} = $self->{_io}->read_f8le();
+    $self->{y} = $self->{_io}->read_f8le();
+    $self->{radius} = $self->{_io}->read_f8le();
+    $self->{angle_from} = $self->{_io}->read_f8le();
+    $self->{angle_to} = $self->{_io}->read_f8le();
+}
+
+sub entity_common {
+    my ($self) = @_;
+    return $self->{entity_common};
+}
+
+sub x {
+    my ($self) = @_;
+    return $self->{x};
+}
+
+sub y {
+    my ($self) = @_;
+    return $self->{y};
+}
+
+sub radius {
+    my ($self) = @_;
+    return $self->{radius};
+}
+
+sub angle_from {
+    my ($self) = @_;
+    return $self->{angle_from};
+}
+
+sub angle_to {
+    my ($self) = @_;
+    return $self->{angle_to};
+}
+
+########################################################################
+package CAD::Format::DWG::AC1009::Entity;
+
+our @ISA = 'IO::KaitaiStruct::Struct';
+
+sub from_file {
+    my ($class, $filename) = @_;
+    my $fd;
+
+    open($fd, '<', $filename) or return undef;
+    binmode($fd);
+    return new($class, IO::KaitaiStruct::Stream->new($fd));
+}
+
+sub new {
+    my ($class, $_io, $_parent, $_root) = @_;
+    my $self = IO::KaitaiStruct::Struct->new($_io);
+
+    bless $self, $class;
+    $self->{_parent} = $_parent;
+    $self->{_root} = $_root || $self;;
+
+    $self->_read();
+
+    return $self;
+}
+
+sub _read {
+    my ($self) = @_;
+
+    $self->{entity_type} = $self->{_io}->read_s1();
+    my $_on = $self->entity_type();
+    if ($_on == $CAD::Format::DWG::AC1009::ENTITIES_SOLID) {
+        $self->{data} = CAD::Format::DWG::AC1009::EntitySolid->new($self->{_io}, $self, $self->{_root});
+    }
+    elsif ($_on == $CAD::Format::DWG::AC1009::ENTITIES_SHAPE) {
+        $self->{data} = CAD::Format::DWG::AC1009::EntityShape->new($self->{_io}, $self, $self->{_root});
+    }
+    elsif ($_on == $CAD::Format::DWG::AC1009::ENTITIES_SEQEND) {
+        $self->{data} = CAD::Format::DWG::AC1009::EntitySeqend->new($self->{_io}, $self, $self->{_root});
+    }
+    elsif ($_on == $CAD::Format::DWG::AC1009::ENTITIES_DIM) {
+        $self->{data} = CAD::Format::DWG::AC1009::EntityDim->new($self->{_io}, $self, $self->{_root});
+    }
+    elsif ($_on == $CAD::Format::DWG::AC1009::ENTITIES_BLOCK_BEGIN) {
+        $self->{data} = CAD::Format::DWG::AC1009::EntityBlockBegin->new($self->{_io}, $self, $self->{_root});
+    }
+    elsif ($_on == $CAD::Format::DWG::AC1009::ENTITIES_LINE) {
+        $self->{data} = CAD::Format::DWG::AC1009::EntityLine->new($self->{_io}, $self, $self->{_root});
+    }
+    elsif ($_on == $CAD::Format::DWG::AC1009::ENTITIES_TEXT) {
+        $self->{data} = CAD::Format::DWG::AC1009::EntityText->new($self->{_io}, $self, $self->{_root});
+    }
+    elsif ($_on == $CAD::Format::DWG::AC1009::ENTITIES_INSERT) {
+        $self->{data} = CAD::Format::DWG::AC1009::EntityInsert->new($self->{_io}, $self, $self->{_root});
+    }
+    elsif ($_on == $CAD::Format::DWG::AC1009::ENTITIES_POLYLINE2) {
+        $self->{data} = CAD::Format::DWG::AC1009::EntityPolyline->new($self->{_io}, $self, $self->{_root});
+    }
+    elsif ($_on == $CAD::Format::DWG::AC1009::ENTITIES_CIRCLE) {
+        $self->{data} = CAD::Format::DWG::AC1009::EntityCircle->new($self->{_io}, $self, $self->{_root});
+    }
+    elsif ($_on == $CAD::Format::DWG::AC1009::ENTITIES_ARC) {
+        $self->{data} = CAD::Format::DWG::AC1009::EntityArc->new($self->{_io}, $self, $self->{_root});
+    }
+    elsif ($_on == $CAD::Format::DWG::AC1009::ENTITIES_VERTEX) {
+        $self->{data} = CAD::Format::DWG::AC1009::EntityVertex->new($self->{_io}, $self, $self->{_root});
+    }
+    elsif ($_on == $CAD::Format::DWG::AC1009::ENTITIES_FACE3D) {
+        $self->{data} = CAD::Format::DWG::AC1009::EntityFace3d->new($self->{_io}, $self, $self->{_root});
+    }
+    elsif ($_on == $CAD::Format::DWG::AC1009::ENTITIES_ATTDEF) {
+        $self->{data} = CAD::Format::DWG::AC1009::EntityAttdef->new($self->{_io}, $self, $self->{_root});
+    }
+    elsif ($_on == $CAD::Format::DWG::AC1009::ENTITIES_BLOCK_END) {
+        $self->{data} = CAD::Format::DWG::AC1009::EntityBlockEnd->new($self->{_io}, $self, $self->{_root});
+    }
+    elsif ($_on == $CAD::Format::DWG::AC1009::ENTITIES_POINT) {
+        $self->{data} = CAD::Format::DWG::AC1009::EntityPoint->new($self->{_io}, $self, $self->{_root});
+    }
+    elsif ($_on == $CAD::Format::DWG::AC1009::ENTITIES_TRACE) {
+        $self->{data} = CAD::Format::DWG::AC1009::EntityTrace->new($self->{_io}, $self, $self->{_root});
+    }
+    elsif ($_on == $CAD::Format::DWG::AC1009::ENTITIES_POLYLINE) {
+        $self->{data} = CAD::Format::DWG::AC1009::EntityPolyline->new($self->{_io}, $self, $self->{_root});
+    }
+    else {
+        $self->{data} = CAD::Format::DWG::AC1009::EntityTmp->new($self->{_io}, $self, $self->{_root});
+    }
+}
+
+sub entity_type {
+    my ($self) = @_;
+    return $self->{entity_type};
+}
+
+sub data {
+    my ($self) = @_;
+    return $self->{data};
+}
+
+########################################################################
+package CAD::Format::DWG::AC1009::EntitySeqend;
+
+our @ISA = 'IO::KaitaiStruct::Struct';
+
+sub from_file {
+    my ($class, $filename) = @_;
+    my $fd;
+
+    open($fd, '<', $filename) or return undef;
+    binmode($fd);
+    return new($class, IO::KaitaiStruct::Stream->new($fd));
+}
+
+sub new {
+    my ($class, $_io, $_parent, $_root) = @_;
+    my $self = IO::KaitaiStruct::Struct->new($_io);
+
+    bless $self, $class;
+    $self->{_parent} = $_parent;
+    $self->{_root} = $_root || $self;;
+
+    $self->_read();
+
+    return $self;
+}
+
+sub _read {
+    my ($self) = @_;
+
+    $self->{entity_common} = CAD::Format::DWG::AC1009::EntityCommon->new($self->{_io}, $self, $self->{_root});
+    $self->{unknown} = $self->{_io}->read_bytes(4);
+}
+
+sub entity_common {
+    my ($self) = @_;
+    return $self->{entity_common};
+}
+
+sub unknown {
+    my ($self) = @_;
+    return $self->{unknown};
+}
+
+########################################################################
+package CAD::Format::DWG::AC1009::Header;
+
+our @ISA = 'IO::KaitaiStruct::Struct';
+
+sub from_file {
+    my ($class, $filename) = @_;
+    my $fd;
+
+    open($fd, '<', $filename) or return undef;
+    binmode($fd);
+    return new($class, IO::KaitaiStruct::Stream->new($fd));
+}
+
+sub new {
+    my ($class, $_io, $_parent, $_root) = @_;
+    my $self = IO::KaitaiStruct::Struct->new($_io);
+
+    bless $self, $class;
+    $self->{_parent} = $_parent;
+    $self->{_root} = $_root || $self;;
+
+    $self->_read();
+
+    return $self;
+}
+
+sub _read {
+    my ($self) = @_;
+
+    $self->{magic} = $self->{_io}->read_bytes(6);
+    $self->{zeros} = $self->{_io}->read_bytes(6);
+    $self->{zero_one_or_three} = $self->{_io}->read_s1();
+    $self->{unknown_3} = $self->{_io}->read_s2le();
+    $self->{num_sections} = $self->{_io}->read_s2le();
+    $self->{num_header_vars} = $self->{_io}->read_s2le();
+    $self->{dwg_version} = $self->{_io}->read_s1();
+    $self->{entities_start} = $self->{_io}->read_s4le();
+    $self->{entities_end} = $self->{_io}->read_s4le();
+    $self->{blocks_start} = $self->{_io}->read_s4le();
+    $self->{blocks_size_raw} = $self->{_io}->read_u4le();
+    $self->{blocks_end} = $self->{_io}->read_s4le();
+    $self->{unknown4b} = $self->{_io}->read_bytes(2);
+    $self->{unknown4c} = $self->{_io}->read_bytes(2);
+    $self->{table_block} = CAD::Format::DWG::AC1009::Table->new($self->{_io}, $self, $self->{_root});
+    $self->{table_layer} = CAD::Format::DWG::AC1009::Table->new($self->{_io}, $self, $self->{_root});
+    $self->{table_style} = CAD::Format::DWG::AC1009::Table->new($self->{_io}, $self, $self->{_root});
+    $self->{table_linetype} = CAD::Format::DWG::AC1009::Table->new($self->{_io}, $self, $self->{_root});
+    $self->{table_view} = CAD::Format::DWG::AC1009::Table->new($self->{_io}, $self, $self->{_root});
+    $self->{variables} = CAD::Format::DWG::AC1009::HeaderVariables->new($self->{_io}, $self, $self->{_root});
+}
+
+sub blocks_size_unknown {
+    my ($self) = @_;
+    return $self->{blocks_size_unknown} if ($self->{blocks_size_unknown});
+    $self->{blocks_size_unknown} = (($self->blocks_size_raw() & 4278190080) >> 24);
+    return $self->{blocks_size_unknown};
+}
+
+sub blocks_size {
+    my ($self) = @_;
+    return $self->{blocks_size} if ($self->{blocks_size});
+    $self->{blocks_size} = ($self->blocks_size_raw() & 16777215);
+    return $self->{blocks_size};
+}
+
+sub magic {
+    my ($self) = @_;
+    return $self->{magic};
+}
+
+sub zeros {
+    my ($self) = @_;
+    return $self->{zeros};
+}
+
+sub zero_one_or_three {
+    my ($self) = @_;
+    return $self->{zero_one_or_three};
+}
+
+sub unknown_3 {
+    my ($self) = @_;
+    return $self->{unknown_3};
+}
+
+sub num_sections {
+    my ($self) = @_;
+    return $self->{num_sections};
+}
+
+sub num_header_vars {
+    my ($self) = @_;
+    return $self->{num_header_vars};
+}
+
+sub dwg_version {
+    my ($self) = @_;
+    return $self->{dwg_version};
+}
+
+sub entities_start {
+    my ($self) = @_;
+    return $self->{entities_start};
+}
+
+sub entities_end {
+    my ($self) = @_;
+    return $self->{entities_end};
+}
+
+sub blocks_start {
+    my ($self) = @_;
+    return $self->{blocks_start};
+}
+
+sub blocks_size_raw {
+    my ($self) = @_;
+    return $self->{blocks_size_raw};
+}
+
+sub blocks_end {
+    my ($self) = @_;
+    return $self->{blocks_end};
+}
+
+sub unknown4b {
+    my ($self) = @_;
+    return $self->{unknown4b};
+}
+
+sub unknown4c {
+    my ($self) = @_;
+    return $self->{unknown4c};
+}
+
+sub table_block {
+    my ($self) = @_;
+    return $self->{table_block};
+}
+
+sub table_layer {
+    my ($self) = @_;
+    return $self->{table_layer};
+}
+
+sub table_style {
+    my ($self) = @_;
+    return $self->{table_style};
+}
+
+sub table_linetype {
+    my ($self) = @_;
+    return $self->{table_linetype};
+}
+
+sub table_view {
+    my ($self) = @_;
+    return $self->{table_view};
+}
+
+sub variables {
+    my ($self) = @_;
+    return $self->{variables};
 }
 
 ########################################################################
@@ -3344,6 +3828,274 @@ sub _read {
 sub entities {
     my ($self) = @_;
     return $self->{entities};
+}
+
+########################################################################
+package CAD::Format::DWG::AC1009::AppidFlag;
+
+our @ISA = 'IO::KaitaiStruct::Struct';
+
+sub from_file {
+    my ($class, $filename) = @_;
+    my $fd;
+
+    open($fd, '<', $filename) or return undef;
+    binmode($fd);
+    return new($class, IO::KaitaiStruct::Stream->new($fd));
+}
+
+sub new {
+    my ($class, $_io, $_parent, $_root) = @_;
+    my $self = IO::KaitaiStruct::Struct->new($_io);
+
+    bless $self, $class;
+    $self->{_parent} = $_parent;
+    $self->{_root} = $_root || $self;;
+
+    $self->_read();
+
+    return $self;
+}
+
+sub _read {
+    my ($self) = @_;
+
+    $self->{flag1} = $self->{_io}->read_bits_int_be(1);
+    $self->{flag2} = $self->{_io}->read_bits_int_be(1);
+    $self->{flag3} = $self->{_io}->read_bits_int_be(1);
+    $self->{flag4} = $self->{_io}->read_bits_int_be(1);
+    $self->{flag5} = $self->{_io}->read_bits_int_be(1);
+    $self->{flag6} = $self->{_io}->read_bits_int_be(1);
+    $self->{flag7} = $self->{_io}->read_bits_int_be(1);
+    $self->{flag8} = $self->{_io}->read_bits_int_be(1);
+}
+
+sub flag1 {
+    my ($self) = @_;
+    return $self->{flag1};
+}
+
+sub flag2 {
+    my ($self) = @_;
+    return $self->{flag2};
+}
+
+sub flag3 {
+    my ($self) = @_;
+    return $self->{flag3};
+}
+
+sub flag4 {
+    my ($self) = @_;
+    return $self->{flag4};
+}
+
+sub flag5 {
+    my ($self) = @_;
+    return $self->{flag5};
+}
+
+sub flag6 {
+    my ($self) = @_;
+    return $self->{flag6};
+}
+
+sub flag7 {
+    my ($self) = @_;
+    return $self->{flag7};
+}
+
+sub flag8 {
+    my ($self) = @_;
+    return $self->{flag8};
+}
+
+########################################################################
+package CAD::Format::DWG::AC1009::Vport;
+
+our @ISA = 'IO::KaitaiStruct::Struct';
+
+sub from_file {
+    my ($class, $filename) = @_;
+    my $fd;
+
+    open($fd, '<', $filename) or return undef;
+    binmode($fd);
+    return new($class, IO::KaitaiStruct::Stream->new($fd));
+}
+
+sub new {
+    my ($class, $_io, $_parent, $_root) = @_;
+    my $self = IO::KaitaiStruct::Struct->new($_io);
+
+    bless $self, $class;
+    $self->{_parent} = $_parent;
+    $self->{_root} = $_root || $self;;
+
+    $self->_read();
+
+    return $self;
+}
+
+sub _read {
+    my ($self) = @_;
+
+    $self->{flag} = CAD::Format::DWG::AC1009::VportFlag->new($self->{_io}, $self, $self->{_root});
+    $self->{vport_name} = Encode::decode("ASCII", IO::KaitaiStruct::Stream::bytes_terminate($self->{_io}->read_bytes(32), 0, 0));
+    $self->{view_size_vport_10_20} = CAD::Format::DWG::AC1009::Point2d->new($self->{_io}, $self, $self->{_root});
+    $self->{view_ctrl_vport_11_21} = CAD::Format::DWG::AC1009::Point2d->new($self->{_io}, $self, $self->{_root});
+    $self->{view_taget_vport_17_27_37} = CAD::Format::DWG::AC1009::Point3d->new($self->{_io}, $self, $self->{_root});
+    $self->{vport_16_26_36} = CAD::Format::DWG::AC1009::Point3d->new($self->{_io}, $self, $self->{_root});
+    $self->{vport_51_in_radians} = $self->{_io}->read_f8le();
+    $self->{vport_40} = $self->{_io}->read_f8le();
+    $self->{vport_12_22} = CAD::Format::DWG::AC1009::Point2d->new($self->{_io}, $self, $self->{_root});
+    $self->{vport_41} = $self->{_io}->read_f8le();
+    $self->{vport_42} = $self->{_io}->read_f8le();
+    $self->{vport_43} = $self->{_io}->read_f8le();
+    $self->{vport_44} = $self->{_io}->read_f8le();
+    $self->{vport_71} = $self->{_io}->read_u2le();
+    $self->{vport_72} = $self->{_io}->read_u2le();
+    $self->{vport_73} = $self->{_io}->read_u2le();
+    $self->{vport_74} = $self->{_io}->read_u2le();
+    $self->{vport_75} = $self->{_io}->read_u2le();
+    $self->{vport_76} = $self->{_io}->read_u2le();
+    $self->{vport_77} = $self->{_io}->read_u2le();
+    $self->{vport_78} = $self->{_io}->read_u2le();
+    $self->{u14} = $self->{_io}->read_f8le();
+    $self->{u15} = $self->{_io}->read_f8le();
+    $self->{u16} = $self->{_io}->read_f8le();
+    $self->{vport_14_24} = CAD::Format::DWG::AC1009::Point2d->new($self->{_io}, $self, $self->{_root});
+    $self->{vport_15_25} = CAD::Format::DWG::AC1009::Point2d->new($self->{_io}, $self, $self->{_root});
+}
+
+sub flag {
+    my ($self) = @_;
+    return $self->{flag};
+}
+
+sub vport_name {
+    my ($self) = @_;
+    return $self->{vport_name};
+}
+
+sub view_size_vport_10_20 {
+    my ($self) = @_;
+    return $self->{view_size_vport_10_20};
+}
+
+sub view_ctrl_vport_11_21 {
+    my ($self) = @_;
+    return $self->{view_ctrl_vport_11_21};
+}
+
+sub view_taget_vport_17_27_37 {
+    my ($self) = @_;
+    return $self->{view_taget_vport_17_27_37};
+}
+
+sub vport_16_26_36 {
+    my ($self) = @_;
+    return $self->{vport_16_26_36};
+}
+
+sub vport_51_in_radians {
+    my ($self) = @_;
+    return $self->{vport_51_in_radians};
+}
+
+sub vport_40 {
+    my ($self) = @_;
+    return $self->{vport_40};
+}
+
+sub vport_12_22 {
+    my ($self) = @_;
+    return $self->{vport_12_22};
+}
+
+sub vport_41 {
+    my ($self) = @_;
+    return $self->{vport_41};
+}
+
+sub vport_42 {
+    my ($self) = @_;
+    return $self->{vport_42};
+}
+
+sub vport_43 {
+    my ($self) = @_;
+    return $self->{vport_43};
+}
+
+sub vport_44 {
+    my ($self) = @_;
+    return $self->{vport_44};
+}
+
+sub vport_71 {
+    my ($self) = @_;
+    return $self->{vport_71};
+}
+
+sub vport_72 {
+    my ($self) = @_;
+    return $self->{vport_72};
+}
+
+sub vport_73 {
+    my ($self) = @_;
+    return $self->{vport_73};
+}
+
+sub vport_74 {
+    my ($self) = @_;
+    return $self->{vport_74};
+}
+
+sub vport_75 {
+    my ($self) = @_;
+    return $self->{vport_75};
+}
+
+sub vport_76 {
+    my ($self) = @_;
+    return $self->{vport_76};
+}
+
+sub vport_77 {
+    my ($self) = @_;
+    return $self->{vport_77};
+}
+
+sub vport_78 {
+    my ($self) = @_;
+    return $self->{vport_78};
+}
+
+sub u14 {
+    my ($self) = @_;
+    return $self->{u14};
+}
+
+sub u15 {
+    my ($self) = @_;
+    return $self->{u15};
+}
+
+sub u16 {
+    my ($self) = @_;
+    return $self->{u16};
+}
+
+sub vport_14_24 {
+    my ($self) = @_;
+    return $self->{vport_14_24};
+}
+
+sub vport_15_25 {
+    my ($self) = @_;
+    return $self->{vport_15_25};
 }
 
 ########################################################################
@@ -3553,6 +4305,86 @@ sub unknown_in_radians {
 }
 
 ########################################################################
+package CAD::Format::DWG::AC1009::LayerFlag;
+
+our @ISA = 'IO::KaitaiStruct::Struct';
+
+sub from_file {
+    my ($class, $filename) = @_;
+    my $fd;
+
+    open($fd, '<', $filename) or return undef;
+    binmode($fd);
+    return new($class, IO::KaitaiStruct::Stream->new($fd));
+}
+
+sub new {
+    my ($class, $_io, $_parent, $_root) = @_;
+    my $self = IO::KaitaiStruct::Struct->new($_io);
+
+    bless $self, $class;
+    $self->{_parent} = $_parent;
+    $self->{_root} = $_root || $self;;
+
+    $self->_read();
+
+    return $self;
+}
+
+sub _read {
+    my ($self) = @_;
+
+    $self->{flag1} = $self->{_io}->read_bits_int_be(1);
+    $self->{flag2} = $self->{_io}->read_bits_int_be(1);
+    $self->{flag3} = $self->{_io}->read_bits_int_be(1);
+    $self->{flag4} = $self->{_io}->read_bits_int_be(1);
+    $self->{flag5} = $self->{_io}->read_bits_int_be(1);
+    $self->{flag6} = $self->{_io}->read_bits_int_be(1);
+    $self->{flag7} = $self->{_io}->read_bits_int_be(1);
+    $self->{frozen} = $self->{_io}->read_bits_int_be(1);
+}
+
+sub flag1 {
+    my ($self) = @_;
+    return $self->{flag1};
+}
+
+sub flag2 {
+    my ($self) = @_;
+    return $self->{flag2};
+}
+
+sub flag3 {
+    my ($self) = @_;
+    return $self->{flag3};
+}
+
+sub flag4 {
+    my ($self) = @_;
+    return $self->{flag4};
+}
+
+sub flag5 {
+    my ($self) = @_;
+    return $self->{flag5};
+}
+
+sub flag6 {
+    my ($self) = @_;
+    return $self->{flag6};
+}
+
+sub flag7 {
+    my ($self) = @_;
+    return $self->{flag7};
+}
+
+sub frozen {
+    my ($self) = @_;
+    return $self->{frozen};
+}
+
+########################################################################
 package CAD::Format::DWG::AC1009::EntityMode;
 
 our @ISA = 'IO::KaitaiStruct::Struct';
@@ -3711,6 +4543,124 @@ sub z2 {
 }
 
 ########################################################################
+package CAD::Format::DWG::AC1009::Ucs;
+
+our @ISA = 'IO::KaitaiStruct::Struct';
+
+sub from_file {
+    my ($class, $filename) = @_;
+    my $fd;
+
+    open($fd, '<', $filename) or return undef;
+    binmode($fd);
+    return new($class, IO::KaitaiStruct::Stream->new($fd));
+}
+
+sub new {
+    my ($class, $_io, $_parent, $_root) = @_;
+    my $self = IO::KaitaiStruct::Struct->new($_io);
+
+    bless $self, $class;
+    $self->{_parent} = $_parent;
+    $self->{_root} = $_root || $self;;
+
+    $self->_read();
+
+    return $self;
+}
+
+sub _read {
+    my ($self) = @_;
+
+    $self->{flag} = CAD::Format::DWG::AC1009::UcsFlag->new($self->{_io}, $self, $self->{_root});
+    $self->{ucs_name} = Encode::decode("ASCII", IO::KaitaiStruct::Stream::bytes_terminate($self->{_io}->read_bytes(32), 0, 0));
+    $self->{ucs_org} = CAD::Format::DWG::AC1009::Point3d->new($self->{_io}, $self, $self->{_root});
+    $self->{ucs_x_dir} = CAD::Format::DWG::AC1009::Point3d->new($self->{_io}, $self, $self->{_root});
+    $self->{ucs_y_dir} = CAD::Format::DWG::AC1009::Point3d->new($self->{_io}, $self, $self->{_root});
+}
+
+sub flag {
+    my ($self) = @_;
+    return $self->{flag};
+}
+
+sub ucs_name {
+    my ($self) = @_;
+    return $self->{ucs_name};
+}
+
+sub ucs_org {
+    my ($self) = @_;
+    return $self->{ucs_org};
+}
+
+sub ucs_x_dir {
+    my ($self) = @_;
+    return $self->{ucs_x_dir};
+}
+
+sub ucs_y_dir {
+    my ($self) = @_;
+    return $self->{ucs_y_dir};
+}
+
+########################################################################
+package CAD::Format::DWG::AC1009::Table;
+
+our @ISA = 'IO::KaitaiStruct::Struct';
+
+sub from_file {
+    my ($class, $filename) = @_;
+    my $fd;
+
+    open($fd, '<', $filename) or return undef;
+    binmode($fd);
+    return new($class, IO::KaitaiStruct::Stream->new($fd));
+}
+
+sub new {
+    my ($class, $_io, $_parent, $_root) = @_;
+    my $self = IO::KaitaiStruct::Struct->new($_io);
+
+    bless $self, $class;
+    $self->{_parent} = $_parent;
+    $self->{_root} = $_root || $self;;
+
+    $self->_read();
+
+    return $self;
+}
+
+sub _read {
+    my ($self) = @_;
+
+    $self->{item_size} = $self->{_io}->read_u2le();
+    $self->{items} = $self->{_io}->read_u2le();
+    $self->{unknown} = $self->{_io}->read_bytes(2);
+    $self->{begin} = $self->{_io}->read_u4le();
+}
+
+sub item_size {
+    my ($self) = @_;
+    return $self->{item_size};
+}
+
+sub items {
+    my ($self) = @_;
+    return $self->{items};
+}
+
+sub unknown {
+    my ($self) = @_;
+    return $self->{unknown};
+}
+
+sub begin {
+    my ($self) = @_;
+    return $self->{begin};
+}
+
+########################################################################
 package CAD::Format::DWG::AC1009::EntityPolyline;
 
 our @ISA = 'IO::KaitaiStruct::Struct';
@@ -3770,6 +4720,86 @@ sub x {
 sub y {
     my ($self) = @_;
     return $self->{y};
+}
+
+########################################################################
+package CAD::Format::DWG::AC1009::VportFlag;
+
+our @ISA = 'IO::KaitaiStruct::Struct';
+
+sub from_file {
+    my ($class, $filename) = @_;
+    my $fd;
+
+    open($fd, '<', $filename) or return undef;
+    binmode($fd);
+    return new($class, IO::KaitaiStruct::Stream->new($fd));
+}
+
+sub new {
+    my ($class, $_io, $_parent, $_root) = @_;
+    my $self = IO::KaitaiStruct::Struct->new($_io);
+
+    bless $self, $class;
+    $self->{_parent} = $_parent;
+    $self->{_root} = $_root || $self;;
+
+    $self->_read();
+
+    return $self;
+}
+
+sub _read {
+    my ($self) = @_;
+
+    $self->{deleted} = $self->{_io}->read_bits_int_be(1);
+    $self->{flag2} = $self->{_io}->read_bits_int_be(1);
+    $self->{flag3} = $self->{_io}->read_bits_int_be(1);
+    $self->{flag4} = $self->{_io}->read_bits_int_be(1);
+    $self->{flag5} = $self->{_io}->read_bits_int_be(1);
+    $self->{flag6} = $self->{_io}->read_bits_int_be(1);
+    $self->{flag7} = $self->{_io}->read_bits_int_be(1);
+    $self->{flag8} = $self->{_io}->read_bits_int_be(1);
+}
+
+sub deleted {
+    my ($self) = @_;
+    return $self->{deleted};
+}
+
+sub flag2 {
+    my ($self) = @_;
+    return $self->{flag2};
+}
+
+sub flag3 {
+    my ($self) = @_;
+    return $self->{flag3};
+}
+
+sub flag4 {
+    my ($self) = @_;
+    return $self->{flag4};
+}
+
+sub flag5 {
+    my ($self) = @_;
+    return $self->{flag5};
+}
+
+sub flag6 {
+    my ($self) = @_;
+    return $self->{flag6};
+}
+
+sub flag7 {
+    my ($self) = @_;
+    return $self->{flag7};
+}
+
+sub flag8 {
+    my ($self) = @_;
+    return $self->{flag8};
 }
 
 ########################################################################
