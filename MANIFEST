@@ -19,8 +19,25 @@ Makefile.PL
 MANIFEST			This list of files
 META.yml
 README
-t/CAD-Format-DWG-AC1009/01-use.t
-t/CAD-Format-DWG-AC1009/02-version.t
+t/CAD-Format-DWG-AC1009/001-use.t
+t/CAD-Format-DWG-AC1009/002-version.t
+t/CAD-Format-DWG-AC1009/003-header-blocks_end.t
+t/CAD-Format-DWG-AC1009/004-header-blocks_size_raw.t
+t/CAD-Format-DWG-AC1009/005-header-blocks_size_unknown.t
+t/CAD-Format-DWG-AC1009/006-header-blocks_size.t
+t/CAD-Format-DWG-AC1009/007-header-blocks_start.t
+t/CAD-Format-DWG-AC1009/008-header-dwg_version.t
+t/CAD-Format-DWG-AC1009/009-header-entities_start.t
+t/CAD-Format-DWG-AC1009/010-header-entities_end.t
+t/CAD-Format-DWG-AC1009/011-header-magic.t
+t/CAD-Format-DWG-AC1009/012-header-num_header_vars.t
+t/CAD-Format-DWG-AC1009/013-header-num_sections.t
+t/CAD-Format-DWG-AC1009/014-header-table_block-begin.t
+t/CAD-Format-DWG-AC1009/015-header-table_block-item_size.t
+t/CAD-Format-DWG-AC1009/016-header-table_block-items.t
+t/CAD-Format-DWG-AC1009/017-header-table_layer-begin.t
+t/CAD-Format-DWG-AC1009/018-header-table_layer-item_size.t
+t/CAD-Format-DWG-AC1009/019-header-table_layer-items.t
 t/data/blank/BLANK.DWG
 xt/CAD-Format-DWG-AC1009/01-pod_coverage.t
 xt/CAD-Format-DWG-AC1009/02-pod.t
