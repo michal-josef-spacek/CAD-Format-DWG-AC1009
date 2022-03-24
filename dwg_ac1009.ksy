@@ -1,6 +1,6 @@
 meta:
   id: dwg_ac1009
-  title: AutoCAD drawing (AC1006)
+  title: AutoCAD drawing (AC1009)
   application: AutoCAD
   file-extension:
     - dwg
