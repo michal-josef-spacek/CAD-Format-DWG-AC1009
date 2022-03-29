@@ -464,17 +464,13 @@ types:
         type: s2
         doc: 0x033f-0x0340, $USRTIMER
       - id: fast_zoom
-        type: s1
-        doc: 0x0341, $FASTZOOM
-      - id: unknown33
-        size: 1
+        type: u2
+        doc: 0x0341-0x0342, $FASTZOOM
       - id: sketch_type
-        type: s1
-        doc: 0x0343, $SKPOLY
-      - id: unknown33b
-        size: 7
-      - id: unknown34
-        type: f8
+        type: u2
+        doc: 0x0343-0x0344, $SKPOLY
+      - id: unknown_date
+        type: unknown_date
       - id: angle_base
         type: f8
         doc: 0x0353-0x035a, $ANGBASE
@@ -621,6 +617,22 @@ types:
         value: create_date_days + (create_date_ms / 86400000.0)
       update_date:
         value: update_date_days + (update_date_ms / 86400000.0)
+  unknown_date:
+    seq:
+      - id: month
+        type: u2
+      - id: day
+        type: u2
+      - id: year
+        type: u2
+      - id: hour
+        type: u2
+      - id: minute
+        type: u2
+      - id: second
+        type: u2
+      - id: ms
+        type: u2
   entity:
     seq:
       - id: entity_type
