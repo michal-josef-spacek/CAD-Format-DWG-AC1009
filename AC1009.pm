@@ -2609,7 +2609,13 @@ sub _read {
     $self->{unknown47} = $self->{_io}->read_u2le();
     $self->{table_appid} = CAD::Format::DWG::AC1009::Table->new($self->{_io}, $self, $self->{_root});
     $self->{unknown48} = $self->{_io}->read_u2le();
-    $self->{unknown49} = $self->{_io}->read_bytes(433);
+    $self->{unknown49} = $self->{_io}->read_bytes(25);
+    $self->{shade_edge} = $self->{_io}->read_u2le();
+    $self->{unknown50} = $self->{_io}->read_bytes(14);
+    $self->{unknown51} = $self->{_io}->read_f8le();
+    $self->{unknown52} = $self->{_io}->read_f8le();
+    $self->{unknown53} = $self->{_io}->read_f8le();
+    $self->{unknown54} = $self->{_io}->read_bytes(368);
 }
 
 sub create_date {
@@ -3514,6 +3520,36 @@ sub unknown48 {
 sub unknown49 {
     my ($self) = @_;
     return $self->{unknown49};
+}
+
+sub shade_edge {
+    my ($self) = @_;
+    return $self->{shade_edge};
+}
+
+sub unknown50 {
+    my ($self) = @_;
+    return $self->{unknown50};
+}
+
+sub unknown51 {
+    my ($self) = @_;
+    return $self->{unknown51};
+}
+
+sub unknown52 {
+    my ($self) = @_;
+    return $self->{unknown52};
+}
+
+sub unknown53 {
+    my ($self) = @_;
+    return $self->{unknown53};
+}
+
+sub unknown54 {
+    my ($self) = @_;
+    return $self->{unknown54};
 }
 
 ########################################################################

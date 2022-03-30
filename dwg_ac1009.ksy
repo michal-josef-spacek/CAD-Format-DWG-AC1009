@@ -654,7 +654,19 @@ types:
       - id: unknown48
         type: u2
       - id: unknown49
-        size: 433
+        size: 25
+      - id: shade_edge
+        type: u2
+      - id: unknown50
+        size: 14
+      - id: unknown51
+        type: f8
+      - id: unknown52
+        type: f8
+      - id: unknown53
+        type: f8
+      - id: unknown54
+        size: 368
     instances:
       create_date:
         value: create_date_days + (create_date_ms / 86400000.0)
