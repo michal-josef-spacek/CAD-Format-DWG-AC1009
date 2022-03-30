@@ -23,6 +23,9 @@ our $COORDINATES_ABSOLUTE_COORDINATES = 0;
 our $COORDINATES_ABSOLUTE_COORDINATES_REALTIME = 1;
 our $COORDINATES_RELATIVE_POLAR_COORDINATES = 2;
 
+our $SPLINE_TYPE_QUADRATIC_B_SPLINE = 5;
+our $SPLINE_TYPE_CUBIC_B_SPLINE = 6;
+
 our $ENTITIES_LINE = 1;
 our $ENTITIES_POINT = 2;
 our $ENTITIES_CIRCLE = 3;
@@ -2742,7 +2745,7 @@ sub _read {
     $self->{table_vport} = CAD::Format::DWG::AC1009::Table->new($self->{_io}, $self, $self->{_root});
     $self->{unknown45} = $self->{_io}->read_u2le();
     $self->{spline_type} = $self->{_io}->read_u2le();
-    $self->{unknown46} = $self->{_io}->read_u2le();
+    $self->{ucs_icon} = $self->{_io}->read_u2le();
     $self->{unknown47} = $self->{_io}->read_u2le();
     $self->{table_appid} = CAD::Format::DWG::AC1009::Table->new($self->{_io}, $self, $self->{_root});
     $self->{world_view} = $self->{_io}->read_u2le();
@@ -3650,9 +3653,9 @@ sub spline_type {
     return $self->{spline_type};
 }
 
-sub unknown46 {
+sub ucs_icon {
     my ($self) = @_;
-    return $self->{unknown46};
+    return $self->{ucs_icon};
 }
 
 sub unknown47 {

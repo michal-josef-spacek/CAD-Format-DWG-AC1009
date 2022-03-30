@@ -666,9 +666,11 @@ types:
         type: u2
       - id: spline_type
         type: u2
+        enum: spline_type
         doc: 0x050c-0x050d, $SPLINETYPE
-      - id: unknown46
+      - id: ucs_icon
         type: u2
+        doc: $UCSICON
       - id: unknown47
         type: u2
       - id: table_appid
@@ -1817,3 +1819,6 @@ enums:
     0: left
     1: top
     2: right
+  spline_type:
+    5: quadratic_b_spline
+    6: cubic_b_spline
