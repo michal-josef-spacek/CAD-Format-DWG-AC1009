@@ -564,10 +564,12 @@ types:
       - id: spline_frame
         type: s2
         doc: 0x03d7-0x03d8, $SPLFRAME
-      - id: unknown31b
-        type: s2
-      - id: unknown31c
-        type: s2
+      - id: attreq
+        type: u2
+        doc: 0x03d9-0x03da, $ATTREQ
+      - id: attdia
+        type: u2
+        doc: 0x03db-0x03dc, $ATTDIA
       - id: chamfera
         type: f8
         doc: 0x03dd-0x04e4, $CHAMFERA/40
