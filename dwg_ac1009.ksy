@@ -622,21 +622,74 @@ types:
       - id: ucs_y_dir
         type: point_3d
         doc: $UCSYDIR/12|22|32 ~ $UCSYORI
-      - id: unknown38
+      - id: target
+        type: point_3d
+        doc: $TARGET
+      - id: lens_length
         type: f8
-      - id: unknown39
+        doc: $LENSLENGTH
+      - id: view_rotation_angle_radians
         type: f8
-      - id: unknown40
+        doc: $VIEWTWIST
+      - id: frontz_z
         type: f8
-      - id: unknown41
+        doc: $FRONTZ
+      - id: backz_z
         type: f8
-      - id: unknown42
-        size: 26
-      - id: unknown43
+        doc: $BACKZ
+      - id: view_mode
+        type: u2
+        doc: $VIEWMODE
+      - id: dim_tofl
         type: u1
-        doc: 0x047d, TODO libredwg DIMTOFL
-      - id: unknown44
-        size: 130
+        doc: 0x047d, $DIMTOFL
+      - id: dim_arrowhead_block1
+        size: 33
+        type: str
+        encoding: ASCII
+        terminator: 0x00
+        doc: $DIMBLK1
+      - id: dim_arrowhead_block2
+        size: 33
+        type: str
+        encoding: ASCII
+        terminator: 0x00
+        doc: $DIMBLK2
+      - id: dim_arrowhead_blocks_control
+        type: u1
+        doc: $DIMSAH
+      - id: dim_text_between_ext_lines
+        type: u1
+        doc: $DIMTIX
+      - id: dim_arrowhead_suppress
+        type: u1
+        doc: $DIMSOXD
+      - id: dim_text_vertical_position_size
+        type: f8
+        doc: $DIMTVP
+      - id: unknown440
+        size: 33
+      - id: handling
+        type: u2
+        doc: $HANDLING
+      - id: handseed
+        type: u8be
+        doc: $HANDSEED, in hex
+      - id: surfu
+        type: u2
+        doc: $SURFU
+      - id: surfv
+        type: u2
+        doc: $SURFV
+      - id: surftype
+        type: u2
+        doc: $SURFTYPE
+      - id: surftab1
+        type: u2
+        doc: $SURFTAB1
+      - id: surftab2
+        type: u2
+        doc: $SURFTAB2
       - id: table_vport
         type: table
       - id: unknown45
@@ -654,12 +707,32 @@ types:
       - id: world_view
         type: u2
         doc: 0x051d-0x051e, $WORLDVIEW/70
-      - id: unknown49
-        size: 25
+      - id: unknown49a
+        type: u2
+      - id: unknown49b
+        type: u2
+      - id: unknown49c
+        size: 15
+      - id: dim_clrd_c
+        type: u2
+        doc: $DIMCLRD_C/70
+      - id: dim_clre_c
+        type: u2
+        doc: $DIMCLRE_C/70
+      - id: dim_clrt_c
+        type: u2
+        doc: $DIMCLRT_C/70
       - id: shade_edge
         type: u2
+        doc: $SHADEDGE/70
+      - id: shade_dif
+        type: u2
+        doc: $SHADEDIF/70
+      - id: unit_mode
+        type: u2
+        doc: $UNITMODE/70
       - id: unknown50
-        size: 14
+        size: 10
       - id: unknown51
         type: f8
       - id: unknown52
@@ -667,7 +740,70 @@ types:
       - id: unknown53
         type: f8
       - id: unknown54
-        size: 368
+        size: 128
+      - id: dim_tfac
+        type: f8
+        doc: $DIMTFAC/40
+      - id: p_ucs_org
+        type: point_3d
+        doc: $PUCSORG/10
+      - id: p_ucs_xdir
+        type: point_3d
+        doc: $PUCSXDIR/11
+      - id: p_ucs_ydir
+        type: point_3d
+        doc: $PUCSXDIR/12
+      - id: unknown55
+        type: u2
+      - id: tile_mode
+        type: u1
+        doc: $TILEMODE/70
+      - id: plim_check
+        type: u2
+        doc: $PLIMCHECK/70
+      - id: unknown56
+        type: u2
+      - id: unknown57
+        type: u1
+      - id: p_ext_min
+        type: point_3d
+        doc: $PEXTMIN/10
+      - id: p_ext_max
+        type: point_3d
+        doc: $PEXTMAX/10
+      - id: p_lim_min
+        type: point_2d
+        doc: $PLIMMIN/10
+      - id: p_lim_max
+        type: point_2d
+        doc: $PLIMMAX/10
+      - id: p_insertion_base
+        type: point_3d
+        doc: $PINSBASE/10|20|30
+      - id: unknown58d
+        type: u2
+      - id: unknown58e
+        type: u2
+      - id: unknown58f
+        type: u2
+      - id: unknown58g
+        type: u2
+      - id: unknown58h
+        type: u2
+      - id: max_actvp
+        type: u2
+        doc: $MAXACTVP/70
+      - id: dim_gap
+        type: f8
+        doc: $DIMGAP/40
+      - id: p_elevation
+        type: f8
+        doc: $PELEVATION/40
+      - id: vis_retain
+        type: u2
+        doc: $VISRETAIN/70
+      - id: unknown59
+        size: 18
     instances:
       create_date:
         value: create_date_days + (create_date_ms / 86400000.0)

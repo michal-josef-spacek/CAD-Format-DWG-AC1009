@@ -2595,13 +2595,27 @@ sub _read {
     $self->{ucs_origin_point} = CAD::Format::DWG::AC1009::Point3d->new($self->{_io}, $self, $self->{_root});
     $self->{ucs_x_dir} = CAD::Format::DWG::AC1009::Point3d->new($self->{_io}, $self, $self->{_root});
     $self->{ucs_y_dir} = CAD::Format::DWG::AC1009::Point3d->new($self->{_io}, $self, $self->{_root});
-    $self->{unknown38} = $self->{_io}->read_f8le();
-    $self->{unknown39} = $self->{_io}->read_f8le();
-    $self->{unknown40} = $self->{_io}->read_f8le();
-    $self->{unknown41} = $self->{_io}->read_f8le();
-    $self->{unknown42} = $self->{_io}->read_bytes(26);
-    $self->{unknown43} = $self->{_io}->read_u1();
-    $self->{unknown44} = $self->{_io}->read_bytes(130);
+    $self->{target} = CAD::Format::DWG::AC1009::Point3d->new($self->{_io}, $self, $self->{_root});
+    $self->{lens_length} = $self->{_io}->read_f8le();
+    $self->{view_rotation_angle_radians} = $self->{_io}->read_f8le();
+    $self->{frontz_z} = $self->{_io}->read_f8le();
+    $self->{backz_z} = $self->{_io}->read_f8le();
+    $self->{view_mode} = $self->{_io}->read_u2le();
+    $self->{dim_tofl} = $self->{_io}->read_u1();
+    $self->{dim_arrowhead_block1} = Encode::decode("ASCII", IO::KaitaiStruct::Stream::bytes_terminate($self->{_io}->read_bytes(33), 0, 0));
+    $self->{dim_arrowhead_block2} = Encode::decode("ASCII", IO::KaitaiStruct::Stream::bytes_terminate($self->{_io}->read_bytes(33), 0, 0));
+    $self->{dim_arrowhead_blocks_control} = $self->{_io}->read_u1();
+    $self->{dim_text_between_ext_lines} = $self->{_io}->read_u1();
+    $self->{dim_arrowhead_suppress} = $self->{_io}->read_u1();
+    $self->{dim_text_vertical_position_size} = $self->{_io}->read_f8le();
+    $self->{unknown440} = $self->{_io}->read_bytes(33);
+    $self->{handling} = $self->{_io}->read_u2le();
+    $self->{handseed} = $self->{_io}->read_u8be();
+    $self->{surfu} = $self->{_io}->read_u2le();
+    $self->{surfv} = $self->{_io}->read_u2le();
+    $self->{surftype} = $self->{_io}->read_u2le();
+    $self->{surftab1} = $self->{_io}->read_u2le();
+    $self->{surftab2} = $self->{_io}->read_u2le();
     $self->{table_vport} = CAD::Format::DWG::AC1009::Table->new($self->{_io}, $self, $self->{_root});
     $self->{unknown45} = $self->{_io}->read_u2le();
     $self->{spline_type} = $self->{_io}->read_u2le();
@@ -2609,13 +2623,44 @@ sub _read {
     $self->{unknown47} = $self->{_io}->read_u2le();
     $self->{table_appid} = CAD::Format::DWG::AC1009::Table->new($self->{_io}, $self, $self->{_root});
     $self->{world_view} = $self->{_io}->read_u2le();
-    $self->{unknown49} = $self->{_io}->read_bytes(25);
+    $self->{unknown49a} = $self->{_io}->read_u2le();
+    $self->{unknown49b} = $self->{_io}->read_u2le();
+    $self->{unknown49c} = $self->{_io}->read_bytes(15);
+    $self->{dim_clrd_c} = $self->{_io}->read_u2le();
+    $self->{dim_clre_c} = $self->{_io}->read_u2le();
+    $self->{dim_clrt_c} = $self->{_io}->read_u2le();
     $self->{shade_edge} = $self->{_io}->read_u2le();
-    $self->{unknown50} = $self->{_io}->read_bytes(14);
+    $self->{shade_dif} = $self->{_io}->read_u2le();
+    $self->{unit_mode} = $self->{_io}->read_u2le();
+    $self->{unknown50} = $self->{_io}->read_bytes(10);
     $self->{unknown51} = $self->{_io}->read_f8le();
     $self->{unknown52} = $self->{_io}->read_f8le();
     $self->{unknown53} = $self->{_io}->read_f8le();
-    $self->{unknown54} = $self->{_io}->read_bytes(368);
+    $self->{unknown54} = $self->{_io}->read_bytes(128);
+    $self->{dim_tfac} = $self->{_io}->read_f8le();
+    $self->{p_ucs_org} = CAD::Format::DWG::AC1009::Point3d->new($self->{_io}, $self, $self->{_root});
+    $self->{p_ucs_xdir} = CAD::Format::DWG::AC1009::Point3d->new($self->{_io}, $self, $self->{_root});
+    $self->{p_ucs_ydir} = CAD::Format::DWG::AC1009::Point3d->new($self->{_io}, $self, $self->{_root});
+    $self->{unknown55} = $self->{_io}->read_u2le();
+    $self->{tile_mode} = $self->{_io}->read_u1();
+    $self->{plim_check} = $self->{_io}->read_u2le();
+    $self->{unknown56} = $self->{_io}->read_u2le();
+    $self->{unknown57} = $self->{_io}->read_u1();
+    $self->{p_ext_min} = CAD::Format::DWG::AC1009::Point3d->new($self->{_io}, $self, $self->{_root});
+    $self->{p_ext_max} = CAD::Format::DWG::AC1009::Point3d->new($self->{_io}, $self, $self->{_root});
+    $self->{p_lim_min} = CAD::Format::DWG::AC1009::Point2d->new($self->{_io}, $self, $self->{_root});
+    $self->{p_lim_max} = CAD::Format::DWG::AC1009::Point2d->new($self->{_io}, $self, $self->{_root});
+    $self->{p_insertion_base} = CAD::Format::DWG::AC1009::Point3d->new($self->{_io}, $self, $self->{_root});
+    $self->{unknown58d} = $self->{_io}->read_u2le();
+    $self->{unknown58e} = $self->{_io}->read_u2le();
+    $self->{unknown58f} = $self->{_io}->read_u2le();
+    $self->{unknown58g} = $self->{_io}->read_u2le();
+    $self->{unknown58h} = $self->{_io}->read_u2le();
+    $self->{max_actvp} = $self->{_io}->read_u2le();
+    $self->{dim_gap} = $self->{_io}->read_f8le();
+    $self->{p_elevation} = $self->{_io}->read_f8le();
+    $self->{vis_retain} = $self->{_io}->read_u2le();
+    $self->{unknown59} = $self->{_io}->read_bytes(18);
 }
 
 sub create_date {
@@ -3447,39 +3492,109 @@ sub ucs_y_dir {
     return $self->{ucs_y_dir};
 }
 
-sub unknown38 {
+sub target {
     my ($self) = @_;
-    return $self->{unknown38};
+    return $self->{target};
 }
 
-sub unknown39 {
+sub lens_length {
     my ($self) = @_;
-    return $self->{unknown39};
+    return $self->{lens_length};
 }
 
-sub unknown40 {
+sub view_rotation_angle_radians {
     my ($self) = @_;
-    return $self->{unknown40};
+    return $self->{view_rotation_angle_radians};
 }
 
-sub unknown41 {
+sub frontz_z {
     my ($self) = @_;
-    return $self->{unknown41};
+    return $self->{frontz_z};
 }
 
-sub unknown42 {
+sub backz_z {
     my ($self) = @_;
-    return $self->{unknown42};
+    return $self->{backz_z};
 }
 
-sub unknown43 {
+sub view_mode {
     my ($self) = @_;
-    return $self->{unknown43};
+    return $self->{view_mode};
 }
 
-sub unknown44 {
+sub dim_tofl {
     my ($self) = @_;
-    return $self->{unknown44};
+    return $self->{dim_tofl};
+}
+
+sub dim_arrowhead_block1 {
+    my ($self) = @_;
+    return $self->{dim_arrowhead_block1};
+}
+
+sub dim_arrowhead_block2 {
+    my ($self) = @_;
+    return $self->{dim_arrowhead_block2};
+}
+
+sub dim_arrowhead_blocks_control {
+    my ($self) = @_;
+    return $self->{dim_arrowhead_blocks_control};
+}
+
+sub dim_text_between_ext_lines {
+    my ($self) = @_;
+    return $self->{dim_text_between_ext_lines};
+}
+
+sub dim_arrowhead_suppress {
+    my ($self) = @_;
+    return $self->{dim_arrowhead_suppress};
+}
+
+sub dim_text_vertical_position_size {
+    my ($self) = @_;
+    return $self->{dim_text_vertical_position_size};
+}
+
+sub unknown440 {
+    my ($self) = @_;
+    return $self->{unknown440};
+}
+
+sub handling {
+    my ($self) = @_;
+    return $self->{handling};
+}
+
+sub handseed {
+    my ($self) = @_;
+    return $self->{handseed};
+}
+
+sub surfu {
+    my ($self) = @_;
+    return $self->{surfu};
+}
+
+sub surfv {
+    my ($self) = @_;
+    return $self->{surfv};
+}
+
+sub surftype {
+    my ($self) = @_;
+    return $self->{surftype};
+}
+
+sub surftab1 {
+    my ($self) = @_;
+    return $self->{surftab1};
+}
+
+sub surftab2 {
+    my ($self) = @_;
+    return $self->{surftab2};
 }
 
 sub table_vport {
@@ -3517,14 +3632,49 @@ sub world_view {
     return $self->{world_view};
 }
 
-sub unknown49 {
+sub unknown49a {
     my ($self) = @_;
-    return $self->{unknown49};
+    return $self->{unknown49a};
+}
+
+sub unknown49b {
+    my ($self) = @_;
+    return $self->{unknown49b};
+}
+
+sub unknown49c {
+    my ($self) = @_;
+    return $self->{unknown49c};
+}
+
+sub dim_clrd_c {
+    my ($self) = @_;
+    return $self->{dim_clrd_c};
+}
+
+sub dim_clre_c {
+    my ($self) = @_;
+    return $self->{dim_clre_c};
+}
+
+sub dim_clrt_c {
+    my ($self) = @_;
+    return $self->{dim_clrt_c};
 }
 
 sub shade_edge {
     my ($self) = @_;
     return $self->{shade_edge};
+}
+
+sub shade_dif {
+    my ($self) = @_;
+    return $self->{shade_dif};
+}
+
+sub unit_mode {
+    my ($self) = @_;
+    return $self->{unit_mode};
 }
 
 sub unknown50 {
@@ -3550,6 +3700,126 @@ sub unknown53 {
 sub unknown54 {
     my ($self) = @_;
     return $self->{unknown54};
+}
+
+sub dim_tfac {
+    my ($self) = @_;
+    return $self->{dim_tfac};
+}
+
+sub p_ucs_org {
+    my ($self) = @_;
+    return $self->{p_ucs_org};
+}
+
+sub p_ucs_xdir {
+    my ($self) = @_;
+    return $self->{p_ucs_xdir};
+}
+
+sub p_ucs_ydir {
+    my ($self) = @_;
+    return $self->{p_ucs_ydir};
+}
+
+sub unknown55 {
+    my ($self) = @_;
+    return $self->{unknown55};
+}
+
+sub tile_mode {
+    my ($self) = @_;
+    return $self->{tile_mode};
+}
+
+sub plim_check {
+    my ($self) = @_;
+    return $self->{plim_check};
+}
+
+sub unknown56 {
+    my ($self) = @_;
+    return $self->{unknown56};
+}
+
+sub unknown57 {
+    my ($self) = @_;
+    return $self->{unknown57};
+}
+
+sub p_ext_min {
+    my ($self) = @_;
+    return $self->{p_ext_min};
+}
+
+sub p_ext_max {
+    my ($self) = @_;
+    return $self->{p_ext_max};
+}
+
+sub p_lim_min {
+    my ($self) = @_;
+    return $self->{p_lim_min};
+}
+
+sub p_lim_max {
+    my ($self) = @_;
+    return $self->{p_lim_max};
+}
+
+sub p_insertion_base {
+    my ($self) = @_;
+    return $self->{p_insertion_base};
+}
+
+sub unknown58d {
+    my ($self) = @_;
+    return $self->{unknown58d};
+}
+
+sub unknown58e {
+    my ($self) = @_;
+    return $self->{unknown58e};
+}
+
+sub unknown58f {
+    my ($self) = @_;
+    return $self->{unknown58f};
+}
+
+sub unknown58g {
+    my ($self) = @_;
+    return $self->{unknown58g};
+}
+
+sub unknown58h {
+    my ($self) = @_;
+    return $self->{unknown58h};
+}
+
+sub max_actvp {
+    my ($self) = @_;
+    return $self->{max_actvp};
+}
+
+sub dim_gap {
+    my ($self) = @_;
+    return $self->{dim_gap};
+}
+
+sub p_elevation {
+    my ($self) = @_;
+    return $self->{p_elevation};
+}
+
+sub vis_retain {
+    my ($self) = @_;
+    return $self->{vis_retain};
+}
+
+sub unknown59 {
+    my ($self) = @_;
+    return $self->{unknown59};
 }
 
 ########################################################################
