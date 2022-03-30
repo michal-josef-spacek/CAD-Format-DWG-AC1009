@@ -2608,7 +2608,7 @@ sub _read {
     $self->{unknown46} = $self->{_io}->read_u2le();
     $self->{unknown47} = $self->{_io}->read_u2le();
     $self->{table_appid} = CAD::Format::DWG::AC1009::Table->new($self->{_io}, $self, $self->{_root});
-    $self->{unknown48} = $self->{_io}->read_u2le();
+    $self->{world_view} = $self->{_io}->read_u2le();
     $self->{unknown49} = $self->{_io}->read_bytes(25);
     $self->{shade_edge} = $self->{_io}->read_u2le();
     $self->{unknown50} = $self->{_io}->read_bytes(14);
@@ -3512,9 +3512,9 @@ sub table_appid {
     return $self->{table_appid};
 }
 
-sub unknown48 {
+sub world_view {
     my ($self) = @_;
-    return $self->{unknown48};
+    return $self->{world_view};
 }
 
 sub unknown49 {

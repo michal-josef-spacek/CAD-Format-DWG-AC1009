@@ -651,8 +651,9 @@ types:
       - id: table_appid
         type: table
         doc: 0x0512-0x051c
-      - id: unknown48
+      - id: world_view
         type: u2
+        doc: 0x051d-0x051e, $WORLDVIEW/70
       - id: unknown49
         size: 25
       - id: shade_edge
