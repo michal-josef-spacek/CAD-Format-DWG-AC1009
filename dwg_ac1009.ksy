@@ -752,15 +752,17 @@ types:
       - id: p_insertion_base
         type: point_3d
         doc: $PINSBASE/10|20|30
-      - id: unknown58d
+      - id: unknown58a
         type: u2
+      - id: unknown58b
+        type: u2
+      - id: unknown58c
+        type: u2
+      - id: unknown58da
+        type: u1
+      - id: unknown58db
+        type: u1
       - id: unknown58e
-        type: u2
-      - id: unknown58f
-        type: u2
-      - id: unknown58g
-        type: u2
-      - id: unknown58h
         type: u2
       - id: max_actvp
         type: u2
