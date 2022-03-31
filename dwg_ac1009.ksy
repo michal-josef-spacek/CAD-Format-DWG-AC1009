@@ -711,8 +711,26 @@ types:
         type: f8
       - id: unknown53
         type: f8
-      - id: unknown54
-        size: 128
+      - id: unknown_string_unit1
+        size: 32
+        type: str
+        encoding: ASCII
+        terminator: 0x00
+      - id: unknown_string_unit2
+        size: 32
+        type: str
+        encoding: ASCII
+        terminator: 0x00
+      - id: unknown_string_unit3
+        size: 32
+        type: str
+        encoding: ASCII
+        terminator: 0x00
+      - id: unknown_string_unit4
+        size: 32
+        type: str
+        encoding: ASCII
+        terminator: 0x00
       - id: dim_tfac
         type: f8
         doc: $DIMTFAC/40

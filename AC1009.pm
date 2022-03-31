@@ -2780,11 +2780,12 @@ sub _read {
     $self->{p_lim_min} = CAD::Format::DWG::AC1009::Point2d->new($self->{_io}, $self, $self->{_root});
     $self->{p_lim_max} = CAD::Format::DWG::AC1009::Point2d->new($self->{_io}, $self, $self->{_root});
     $self->{p_insertion_base} = CAD::Format::DWG::AC1009::Point3d->new($self->{_io}, $self, $self->{_root});
-    $self->{unknown58d} = $self->{_io}->read_u2le();
+    $self->{unknown58a} = $self->{_io}->read_u2le();
+    $self->{unknown58b} = $self->{_io}->read_u2le();
+    $self->{unknown58c} = $self->{_io}->read_u2le();
+    $self->{unknown58da} = $self->{_io}->read_u1();
+    $self->{unknown58db} = $self->{_io}->read_u1();
     $self->{unknown58e} = $self->{_io}->read_u2le();
-    $self->{unknown58f} = $self->{_io}->read_u2le();
-    $self->{unknown58g} = $self->{_io}->read_u2le();
-    $self->{unknown58h} = $self->{_io}->read_u2le();
     $self->{max_actvp} = $self->{_io}->read_u2le();
     $self->{dim_gap} = $self->{_io}->read_f8le();
     $self->{p_elevation} = $self->{_io}->read_f8le();
@@ -3831,29 +3832,34 @@ sub p_insertion_base {
     return $self->{p_insertion_base};
 }
 
-sub unknown58d {
+sub unknown58a {
     my ($self) = @_;
-    return $self->{unknown58d};
+    return $self->{unknown58a};
+}
+
+sub unknown58b {
+    my ($self) = @_;
+    return $self->{unknown58b};
+}
+
+sub unknown58c {
+    my ($self) = @_;
+    return $self->{unknown58c};
+}
+
+sub unknown58da {
+    my ($self) = @_;
+    return $self->{unknown58da};
+}
+
+sub unknown58db {
+    my ($self) = @_;
+    return $self->{unknown58db};
 }
 
 sub unknown58e {
     my ($self) = @_;
     return $self->{unknown58e};
-}
-
-sub unknown58f {
-    my ($self) = @_;
-    return $self->{unknown58f};
-}
-
-sub unknown58g {
-    my ($self) = @_;
-    return $self->{unknown58g};
-}
-
-sub unknown58h {
-    my ($self) = @_;
-    return $self->{unknown58h};
 }
 
 sub max_actvp {
