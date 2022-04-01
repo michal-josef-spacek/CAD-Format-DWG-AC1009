@@ -51,7 +51,7 @@ t/CAD-Format-DWG-AC1009/029-header-unknown_3.t
 t/CAD-Format-DWG-AC1009/030-header-variables-angle_base.t
 t/CAD-Format-DWG-AC1009/031-header-variables-angle_direction.t
 t/CAD-Format-DWG-AC1009/032-header-variables-angular_precision.t
-t/CAD-Format-DWG-AC1009/033-header-variables-attributes.t
+t/CAD-Format-DWG-AC1009/033-header-variables-att_visibility.t
 t/CAD-Format-DWG-AC1009/034-header-variables-axis.t
 t/CAD-Format-DWG-AC1009/035-header-variables-axis_value_x.t
 t/CAD-Format-DWG-AC1009/036-header-variables-axis_value_y.t
