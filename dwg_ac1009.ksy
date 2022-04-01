@@ -683,7 +683,7 @@ types:
         type: u2
       - id: unknown49c
         size: 15
-      - id: dim_clrd_c
+      - id: dim_line_color
         type: u2
         doc: $DIMCLRD_C/70
       - id: dim_clre_c

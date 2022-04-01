@@ -2819,7 +2819,7 @@ sub _read {
     $self->{unknown49a} = $self->{_io}->read_u2le();
     $self->{unknown49b} = $self->{_io}->read_u2le();
     $self->{unknown49c} = $self->{_io}->read_bytes(15);
-    $self->{dim_clrd_c} = $self->{_io}->read_u2le();
+    $self->{dim_line_color} = $self->{_io}->read_u2le();
     $self->{dim_clre_c} = $self->{_io}->read_u2le();
     $self->{dim_clrt_c} = $self->{_io}->read_u2le();
     $self->{shade_edge} = $self->{_io}->read_u2le();
@@ -3754,9 +3754,9 @@ sub unknown49c {
     return $self->{unknown49c};
 }
 
-sub dim_clrd_c {
+sub dim_line_color {
     my ($self) = @_;
-    return $self->{dim_clrd_c};
+    return $self->{dim_line_color};
 }
 
 sub dim_clre_c {
