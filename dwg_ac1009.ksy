@@ -236,11 +236,11 @@ types:
         type: s2
         doc: 0x014a-0x014b, $CLAYER
       - id: current_color_convert
-        type: s2
-        doc: 0x014c-0x014d, (2, 3, 8, 15 - default)
-      - id: unknown6
         type: f8
-        doc: 0x014e-0x0155
+        doc: 0x014c-0x0153
+      - id: unknown6
+        type: u2
+        doc: 0x0154-0x0155
       - id: psltscale
         type: u2
         doc: 0x0156-0x0157, $PSLTSCALE/70

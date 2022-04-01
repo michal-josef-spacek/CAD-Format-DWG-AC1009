@@ -2668,8 +2668,8 @@ sub _read {
     $self->{text_size} = $self->{_io}->read_f8le();
     $self->{trace_width} = $self->{_io}->read_f8le();
     $self->{current_layer_index} = $self->{_io}->read_s2le();
-    $self->{current_color_convert} = $self->{_io}->read_s2le();
-    $self->{unknown6} = $self->{_io}->read_f8le();
+    $self->{current_color_convert} = $self->{_io}->read_f8le();
+    $self->{unknown6} = $self->{_io}->read_u2le();
     $self->{psltscale} = $self->{_io}->read_u2le();
     $self->{unknown7c} = $self->{_io}->read_bytes(2);
     $self->{unknown7d} = $self->{_io}->read_bytes(2);
