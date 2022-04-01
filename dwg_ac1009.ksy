@@ -20,41 +20,73 @@ seq:
   - id: entities
     type: real_entities
     size: header.entities_end - header.entities_start
+  - id: crc_entities
+    size: header.table_block.begin-_io.pos
   - id: blocks
     type: block
     repeat: expr
     repeat-expr: header.table_block.items
+  - id: crc_blocks
+    size: header.table_layer.begin-_io.pos
   - id: layers
     type: layer
     repeat: expr
     repeat-expr: header.table_layer.items
-#  - id: styles
-#    type: style
-#    repeat: expr
-#    repeat-expr: header.table_style.items
-#  - id: linetypes
-#    type: linetype
-#    repeat: expr
-#    repeat-expr: header.table_linetype.items
-#  - id: views
-#    type: view
-#    repeat: expr
-#    repeat-expr: header.table_view.items
-#  - id: block_entities
-#    type: real_entities
-#    size: header.blocks_size
-#  - id: ucss
-#    type: ucs
-#    repeat: expr
-#    repeat-expr: header.variables.table_ucs.items
-#  - id: vports
-#    type: vport
-#    repeat: expr
-#    repeat-expr: header.variables.table_vport.items
-#  - id: appids
-#    type: appid
-#    repeat: expr
-#    repeat-expr: header.variables.table_appid.items
+  - id: crc_layers
+    size: header.table_style.begin-_io.pos
+  - id: styles
+    type: style
+    repeat: expr
+    repeat-expr: header.table_style.items
+  - id: crc_styles
+    size: header.table_linetype.begin-_io.pos
+  - id: linetypes
+    type: linetype
+    repeat: expr
+    repeat-expr: header.table_linetype.items
+  - id: crc_linetypes
+    size: header.table_view.begin-_io.pos
+  - id: views
+    type: view
+    repeat: expr
+    repeat-expr: header.table_view.items
+  - id: crc_views
+    size: header.variables.table_ucs.begin-_io.pos
+  - id: ucss
+    type: ucs
+    repeat: expr
+    repeat-expr: header.variables.table_ucs.items
+  - id: crc_ucss
+    size: header.variables.table_vport.begin-_io.pos
+  - id: vports
+    type: vport
+    repeat: expr
+    repeat-expr: header.variables.table_vport.items
+  - id: crc_vports
+    size: header.variables.table_appid.begin-_io.pos
+  - id: appids
+    type: appid
+    repeat: expr
+    repeat-expr: header.variables.table_appid.items
+  - id: crc_appids
+    size: header.variables.table_dimstyle.begin-_io.pos
+  - id: dimstyles
+    type: dimstyle
+    repeat: expr
+    repeat-expr: header.variables.table_dimstyle.items
+  - id: crc_dimstyles
+    size: header.variables.table_vx.begin-_io.pos
+  - id: vxs
+    type: vx
+    repeat: expr
+    repeat-expr: header.variables.table_vx.items
+  - id: crc_vxs
+    size: header.blocks_start-_io.pos
+  - id: block_entities
+    type: real_entities
+    size: header.blocks_size
+  - id: crc_block_entities
+    size: 32
   - id: todo
     size-eos: true
     repeat: eos
@@ -71,15 +103,17 @@ types:
         encoding: ASCII
         terminator: 0x00
         doc: BLOCK/2
-      - id: u2
+      - id: block_scaling
         type: s1
-      - id: u3
-        type: s1
-      - id: u4
-        type: s1
-      - id: u5
-        type: s1
-      - id: u6
+      - id: num_owned
+        type: s2
+      - id: flag2
+        type: block_flag2
+#      - id: num_inserts
+#        type: u1
+#      - id: flag3
+#        type: block_flag3
+      - id: u1
         type: f8
   block_flag:
     seq:
@@ -98,6 +132,42 @@ types:
       - id: resolved_external_reference
         type: b1
       - id: references_external_reference
+        type: b1
+  block_flag2:
+    seq:
+      - id: flag1
+        type: b1
+      - id: flag2
+        type: b1
+      - id: flag3
+        type: b1
+      - id: flag4
+        type: b1
+      - id: flag5
+        type: b1
+      - id: flag6
+        type: b1
+      - id: flag7
+        type: b1
+      - id: flag8
+        type: b1
+  block_flag3:
+    seq:
+      - id: flag1
+        type: b1
+      - id: flag2
+        type: b1
+      - id: flag3
+        type: b1
+      - id: flag4
+        type: b1
+      - id: flag5
+        type: b1
+      - id: flag6
+        type: b1
+      - id: flag7
+        type: b1
+      - id: flag8
         type: b1
   header:
     seq:
@@ -681,8 +751,10 @@ types:
         type: u2
       - id: unknown49b
         type: u2
+      - id: table_dimstyle
+        type: table
       - id: unknown49c
-        size: 15
+        size: 5
       - id: dim_line_color
         type: u2
         doc: $DIMCLRD_C/70
@@ -768,18 +840,8 @@ types:
       - id: p_insertion_base
         type: point_3d
         doc: $PINSBASE/10|20|30
-      - id: unknown58a
-        type: u2
-      - id: unknown58b
-        type: u2
-      - id: unknown58c
-        type: u2
-      - id: unknown58da
-        type: u1
-      - id: unknown58db
-        type: u1
-      - id: unknown58e
-        type: u2
+      - id: table_vx
+        type: table
       - id: max_actvp
         type: u2
         doc: $MAXACTVP/70
@@ -794,6 +856,7 @@ types:
         doc: $VISRETAIN/70
       - id: unknown59
         size: 18
+        doc: 7ef
     instances:
       create_date:
         value: create_date_days + (create_date_ms / 86400000.0)
@@ -1453,6 +1516,8 @@ types:
         doc: LTYPE/49
       - id: unknown
         type: s1
+      - id: unknown2
+        size: 27
   pattern:
     seq:
       - id: pattern1
@@ -1534,6 +1599,8 @@ types:
         encoding: ASCII
         terminator: 0x00
         doc: STYLE/4
+      - id: unknown
+        size: 4
   style_flag:
     seq:
       - id: flag1
@@ -1697,6 +1764,8 @@ types:
       - id: vport_15_25
         type: point_2d
         doc: VPORT/15|25
+      - id: u17
+        size: 4
   vport_flag:
     seq:
       - id: deleted
@@ -1726,7 +1795,71 @@ types:
         encoding: ASCII
         terminator: 0x00
         doc: APPID/2
+      - id: u1
+        size: 4
   appid_flag:
+    seq:
+      - id: flag1
+        type: b1
+      - id: flag2
+        type: b1
+      - id: flag3
+        type: b1
+      - id: flag4
+        type: b1
+      - id: flag5
+        type: b1
+      - id: flag6
+        type: b1
+      - id: flag7
+        type: b1
+      - id: flag8
+        type: b1
+  dimstyle:
+    seq:
+      - id: flag
+        type: dimstyle_flag
+        doc: DIMSTYLE/70
+      - id: dimstyle_name
+        size: 32
+        type: str
+        encoding: ASCII
+        terminator: 0x00
+        doc: DIMSTYLE/2
+      - id: u1
+        size: 291
+  dimstyle_flag:
+    seq:
+      - id: flag1
+        type: b1
+      - id: flag2
+        type: b1
+      - id: flag3
+        type: b1
+      - id: flag4
+        type: b1
+      - id: flag5
+        type: b1
+      - id: flag6
+        type: b1
+      - id: flag7
+        type: b1
+      - id: flag8
+        type: b1
+  vx:
+    seq:
+      - id: flag
+        type: vx_flag
+        doc: APPID/70
+      - id: vx_name
+        size: 32
+        type: str
+        encoding: ASCII
+        terminator: 0x00
+        doc: VX/2
+      - id: u1
+        size: 4
+  vx_flag:
     seq:
       - id: flag1
         type: b1
