@@ -83,9 +83,9 @@ types:
         type: f8
   block_flag:
     seq:
-      - id: flag1
+      - id: none
         type: b1
-      - id: flag2
+      - id: anonymous_block
         type: b1
       - id: flag3
         type: b1
@@ -95,9 +95,9 @@ types:
         type: b1
       - id: flag6
         type: b1
-      - id: flag7
+      - id: resolved_external_reference
         type: b1
-      - id: flag8
+      - id: references_external_reference
         type: b1
   header:
     seq:

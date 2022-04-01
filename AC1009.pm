@@ -430,24 +430,24 @@ sub new {
 sub _read {
     my ($self) = @_;
 
-    $self->{flag1} = $self->{_io}->read_bits_int_be(1);
-    $self->{flag2} = $self->{_io}->read_bits_int_be(1);
+    $self->{none} = $self->{_io}->read_bits_int_be(1);
+    $self->{anonymous_block} = $self->{_io}->read_bits_int_be(1);
     $self->{flag3} = $self->{_io}->read_bits_int_be(1);
     $self->{flag4} = $self->{_io}->read_bits_int_be(1);
     $self->{flag5} = $self->{_io}->read_bits_int_be(1);
     $self->{flag6} = $self->{_io}->read_bits_int_be(1);
-    $self->{flag7} = $self->{_io}->read_bits_int_be(1);
-    $self->{flag8} = $self->{_io}->read_bits_int_be(1);
+    $self->{resolved_external_reference} = $self->{_io}->read_bits_int_be(1);
+    $self->{references_external_reference} = $self->{_io}->read_bits_int_be(1);
 }
 
-sub flag1 {
+sub none {
     my ($self) = @_;
-    return $self->{flag1};
+    return $self->{none};
 }
 
-sub flag2 {
+sub anonymous_block {
     my ($self) = @_;
-    return $self->{flag2};
+    return $self->{anonymous_block};
 }
 
 sub flag3 {
@@ -470,14 +470,14 @@ sub flag6 {
     return $self->{flag6};
 }
 
-sub flag7 {
+sub resolved_external_reference {
     my ($self) = @_;
-    return $self->{flag7};
+    return $self->{resolved_external_reference};
 }
 
-sub flag8 {
+sub references_external_reference {
     my ($self) = @_;
-    return $self->{flag8};
+    return $self->{references_external_reference};
 }
 
 ########################################################################
