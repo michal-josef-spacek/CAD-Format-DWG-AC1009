@@ -103,7 +103,7 @@ types:
     seq:
       - id: magic
         contents: [0x41, 0x43, 0x31, 0x30, 0x30, 0x39]
-        doc: 0x0000-0x0005, $ACADVER
+        doc: 0x0000-0x0005, $ACADVER/1
       - id: zeros
         size: 6
       - id: zero_one_or_three
@@ -289,7 +289,7 @@ types:
       - id: att_visibility
         enum: att_visibility
         type: s2
-        doc: 0x0192-0x0193, $ATTMODE
+        doc: 0x0192-0x0193, $ATTMODE/70
       - id: menu
         size: 15
         type: str
@@ -482,7 +482,7 @@ types:
         type: unknown_date
       - id: angle_base
         type: f8
-        doc: 0x0353-0x035a, $ANGBASE
+        doc: 0x0353-0x035a, $ANGBASE/50
       - id: angle_direction
         enum: angle_direction
         type: s2
@@ -564,10 +564,10 @@ types:
         doc: 0x03d7-0x03d8, $SPLFRAME
       - id: attreq
         type: u2
-        doc: 0x03d9-0x03da, $ATTREQ
       - id: attdia
+        doc: 0x03d9-0x03da, $ATTREQ/70
         type: u2
-        doc: 0x03db-0x03dc, $ATTDIA
+        doc: 0x03db-0x03dc, $ATTDIA/70
       - id: chamfera
         type: f8
         doc: 0x03dd-0x04e4, $CHAMFERA/40
