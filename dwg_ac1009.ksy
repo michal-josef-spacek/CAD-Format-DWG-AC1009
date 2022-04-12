@@ -1934,6 +1934,7 @@ enums:
     # NOT_USED 21: line3d
     22: face3d
     23: dim
+    # TODO 24: viewport
   osnap_modes:
     0: none
     1: endpoint
