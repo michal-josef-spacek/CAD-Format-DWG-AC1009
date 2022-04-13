@@ -728,8 +728,9 @@ types:
         doc: $SURFTAB2
       - id: table_vport
         type: table
-      - id: unknown45
+      - id: flatland
         type: u2
+        doc: 0x050a-0x050b, $FLATLAND
       - id: spline_type
         type: u2
         enum: spline_type

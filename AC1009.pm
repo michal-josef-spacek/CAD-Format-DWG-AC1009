@@ -3422,7 +3422,7 @@ sub _read {
     $self->{surftab1} = $self->{_io}->read_u2le();
     $self->{surftab2} = $self->{_io}->read_u2le();
     $self->{table_vport} = CAD::Format::DWG::AC1009::Table->new($self->{_io}, $self, $self->{_root});
-    $self->{unknown45} = $self->{_io}->read_u2le();
+    $self->{flatland} = $self->{_io}->read_u2le();
     $self->{spline_type} = $self->{_io}->read_u2le();
     $self->{ucs_icon} = $self->{_io}->read_u2le();
     $self->{unknown47} = $self->{_io}->read_u2le();
@@ -4312,9 +4312,9 @@ sub table_vport {
     return $self->{table_vport};
 }
 
-sub unknown45 {
+sub flatland {
     my ($self) = @_;
-    return $self->{unknown45};
+    return $self->{flatland};
 }
 
 sub spline_type {
