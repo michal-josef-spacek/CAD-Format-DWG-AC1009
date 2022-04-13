@@ -779,22 +779,22 @@ types:
         type: f8
       - id: unknown53
         type: f8
-      - id: unknown_string_unit1
+      - id: unknown_unit1
         size: 32
         type: str
         encoding: ASCII
         terminator: 0x00
-      - id: unknown_string_unit2
+      - id: unknown_unit2
         size: 32
         type: str
         encoding: ASCII
         terminator: 0x00
-      - id: unknown_string_unit3
+      - id: unknown_unit3
         size: 32
         type: str
         encoding: ASCII
         terminator: 0x00
-      - id: unknown_string_unit4
+      - id: unknown_unit4
         size: 32
         type: str
         encoding: ASCII

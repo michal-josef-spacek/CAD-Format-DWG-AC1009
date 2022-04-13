@@ -3442,10 +3442,10 @@ sub _read {
     $self->{unknown51} = $self->{_io}->read_f8le();
     $self->{unknown52} = $self->{_io}->read_f8le();
     $self->{unknown53} = $self->{_io}->read_f8le();
-    $self->{unknown_string_unit1} = Encode::decode("ASCII", IO::KaitaiStruct::Stream::bytes_terminate($self->{_io}->read_bytes(32), 0, 0));
-    $self->{unknown_string_unit2} = Encode::decode("ASCII", IO::KaitaiStruct::Stream::bytes_terminate($self->{_io}->read_bytes(32), 0, 0));
-    $self->{unknown_string_unit3} = Encode::decode("ASCII", IO::KaitaiStruct::Stream::bytes_terminate($self->{_io}->read_bytes(32), 0, 0));
-    $self->{unknown_string_unit4} = Encode::decode("ASCII", IO::KaitaiStruct::Stream::bytes_terminate($self->{_io}->read_bytes(32), 0, 0));
+    $self->{unknown_unit1} = Encode::decode("ASCII", IO::KaitaiStruct::Stream::bytes_terminate($self->{_io}->read_bytes(32), 0, 0));
+    $self->{unknown_unit2} = Encode::decode("ASCII", IO::KaitaiStruct::Stream::bytes_terminate($self->{_io}->read_bytes(32), 0, 0));
+    $self->{unknown_unit3} = Encode::decode("ASCII", IO::KaitaiStruct::Stream::bytes_terminate($self->{_io}->read_bytes(32), 0, 0));
+    $self->{unknown_unit4} = Encode::decode("ASCII", IO::KaitaiStruct::Stream::bytes_terminate($self->{_io}->read_bytes(32), 0, 0));
     $self->{dim_tfac} = $self->{_io}->read_f8le();
     $self->{p_ucs_org} = CAD::Format::DWG::AC1009::Point3d->new($self->{_io}, $self, $self->{_root});
     $self->{p_ucs_xdir} = CAD::Format::DWG::AC1009::Point3d->new($self->{_io}, $self, $self->{_root});
@@ -4412,24 +4412,24 @@ sub unknown53 {
     return $self->{unknown53};
 }
 
-sub unknown_string_unit1 {
+sub unknown_unit1 {
     my ($self) = @_;
-    return $self->{unknown_string_unit1};
+    return $self->{unknown_unit1};
 }
 
-sub unknown_string_unit2 {
+sub unknown_unit2 {
     my ($self) = @_;
-    return $self->{unknown_string_unit2};
+    return $self->{unknown_unit2};
 }
 
-sub unknown_string_unit3 {
+sub unknown_unit3 {
     my ($self) = @_;
-    return $self->{unknown_string_unit3};
+    return $self->{unknown_unit3};
 }
 
-sub unknown_string_unit4 {
+sub unknown_unit4 {
     my ($self) = @_;
-    return $self->{unknown_string_unit4};
+    return $self->{unknown_unit4};
 }
 
 sub dim_tfac {
