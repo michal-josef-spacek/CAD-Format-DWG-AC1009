@@ -840,6 +840,7 @@ types:
         doc: $PINSBASE/10|20|30
       - id: table_vx
         type: table
+        doc: 0x069f-0x06a8
       - id: max_actvp
         type: u2
         doc: $MAXACTVP/70
