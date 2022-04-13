@@ -703,8 +703,11 @@ types:
       - id: dim_text_vertical_position_size
         type: f8
         doc: $DIMTVP
-      - id: unknown440
+      - id: unknown_string
         size: 33
+        type: str
+        encoding: ASCII
+        terminator: 0x00
       - id: handling
         type: u2
         doc: $HANDLING
