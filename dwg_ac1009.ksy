@@ -314,8 +314,8 @@ types:
       - id: psltscale
         type: u2
         doc: 0x0156-0x0157, $PSLTSCALE/70
-      - id: unknown7c
-        size: 2
+      - id: tree_depth
+        type: u2
         doc: 0x0158-0x0159
       - id: unknown7d
         size: 2

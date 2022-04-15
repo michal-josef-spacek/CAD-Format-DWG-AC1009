@@ -3284,7 +3284,7 @@ sub _read {
     $self->{current_color_convert} = $self->{_io}->read_f8le();
     $self->{unknown6} = $self->{_io}->read_u2le();
     $self->{psltscale} = $self->{_io}->read_u2le();
-    $self->{unknown7c} = $self->{_io}->read_bytes(2);
+    $self->{tree_depth} = $self->{_io}->read_u2le();
     $self->{unknown7d} = $self->{_io}->read_bytes(2);
     $self->{unknown8} = $self->{_io}->read_f8le();
     $self->{linear_units_format} = $self->{_io}->read_s2le();
@@ -3622,9 +3622,9 @@ sub psltscale {
     return $self->{psltscale};
 }
 
-sub unknown7c {
+sub tree_depth {
     my ($self) = @_;
-    return $self->{unknown7c};
+    return $self->{tree_depth};
 }
 
 sub unknown7d {
