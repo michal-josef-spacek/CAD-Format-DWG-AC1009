@@ -1337,11 +1337,17 @@ sub _read {
     if ($self->entity_mode()->entity_thickness_flag()) {
         $self->{entity_thickness} = $self->{_io}->read_f8le();
     }
+    if ($self->entity_mode()->entity_pspace_flag()) {
+        $self->{unknown} = $self->{_io}->read_u1();
+    }
     if ($self->entity_mode()->entity_handling_flag()) {
         $self->{handling_size} = $self->{_io}->read_u1();
     }
     if ($self->entity_mode()->entity_handling_flag()) {
         $self->{handling_id} = $self->{_io}->read_bytes($self->handling_size());
+    }
+    if ($self->entity_mode()->entity_pspace_flag()) {
+        $self->{space} = $self->{_io}->read_u2le();
     }
 }
 
@@ -1460,6 +1466,11 @@ sub entity_thickness {
     return $self->{entity_thickness};
 }
 
+sub unknown {
+    my ($self) = @_;
+    return $self->{unknown};
+}
+
 sub handling_size {
     my ($self) = @_;
     return $self->{handling_size};
@@ -1468,6 +1479,11 @@ sub handling_size {
 sub handling_id {
     my ($self) = @_;
     return $self->{handling_id};
+}
+
+sub space {
+    my ($self) = @_;
+    return $self->{space};
 }
 
 ########################################################################
@@ -5543,7 +5559,7 @@ sub _read {
     my ($self) = @_;
 
     $self->{entity_mode1} = $self->{_io}->read_bits_int_be(1);
-    $self->{entity_mode2} = $self->{_io}->read_bits_int_be(1);
+    $self->{entity_pspace_flag} = $self->{_io}->read_bits_int_be(1);
     $self->{entity_handling_flag} = $self->{_io}->read_bits_int_be(1);
     $self->{entity_mode4} = $self->{_io}->read_bits_int_be(1);
     $self->{entity_thickness_flag} = $self->{_io}->read_bits_int_be(1);
@@ -5557,9 +5573,9 @@ sub entity_mode1 {
     return $self->{entity_mode1};
 }
 
-sub entity_mode2 {
+sub entity_pspace_flag {
     my ($self) = @_;
-    return $self->{entity_mode2};
+    return $self->{entity_pspace_flag};
 }
 
 sub entity_handling_flag {

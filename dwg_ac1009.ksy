@@ -951,7 +951,7 @@ types:
     seq:
       - id: entity_mode1
         type: b1
-      - id: entity_mode2
+      - id: entity_pspace_flag
         type: b1
       - id: entity_handling_flag
         type: b1
@@ -1016,12 +1016,18 @@ types:
       - id: entity_thickness
         type: f8
         if: entity_mode.entity_thickness_flag
+      - id: unknown
+        type: u1
+        if: entity_mode.entity_pspace_flag
       - id: handling_size
         type: u1
         if: entity_mode.entity_handling_flag
       - id: handling_id
         size: handling_size
         if: entity_mode.entity_handling_flag
+      - id: space
+        type: u2
+        if: entity_mode.entity_pspace_flag
   entity_arc:
     seq:
       - id: entity_common
