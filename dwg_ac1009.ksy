@@ -1256,6 +1256,10 @@ types:
         type: f8
         if: entity_common.entity_mode.entity_elevation_flag == false
         doc: LINE/31
+      - id: u1
+        type: u1
+      - id: u2
+        type: u1
   entity_tmp:
     seq:
       - id: entity_mode
