@@ -1320,6 +1320,10 @@ types:
       - id: y
         type: f8
         doc: POINT/20
+      - id: z
+        type: f8
+        if: entity_common.entity_mode.entity_elevation_flag == false
+        doc: POINT/30
   entity_polyline:
     seq:
       - id: entity_common

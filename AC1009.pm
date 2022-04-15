@@ -2137,6 +2137,9 @@ sub _read {
     $self->{entity_common} = CAD::Format::DWG::AC1009::EntityCommon->new($self->{_io}, $self, $self->{_root});
     $self->{x} = $self->{_io}->read_f8le();
     $self->{y} = $self->{_io}->read_f8le();
+    if ($self->entity_common()->entity_mode()->entity_elevation_flag() == 0) {
+        $self->{z} = $self->{_io}->read_f8le();
+    }
 }
 
 sub entity_common {
@@ -2152,6 +2155,11 @@ sub x {
 sub y {
     my ($self) = @_;
     return $self->{y};
+}
+
+sub z {
+    my ($self) = @_;
+    return $self->{z};
 }
 
 ########################################################################
