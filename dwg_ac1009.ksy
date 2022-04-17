@@ -946,6 +946,7 @@ types:
             'entities::text': entity_text
             'entities::trace': entity_trace
             'entities::vertex': entity_vertex
+            'entities::vport': entity_vport
             _: entity_tmp
   entity_mode:
     seq:
@@ -1016,9 +1017,49 @@ types:
       - id: entity_thickness
         type: f8
         if: entity_mode.entity_thickness_flag
-      - id: unknown
+      - id: unknown1
         type: u1
         if: entity_mode.entity_pspace_flag
+      - id: unknown2
+        size: 5
+        if: entity_mode.entity_pspace_flag and unknown1 == 6
+      - id: unknown_1000
+        type: vport_unknown_1000
+        doc: VIEWPORT/1000
+        if: entity_mode.entity_pspace_flag and unknown1 == 6
+      - id: unknown_1002
+        size: 2
+        type: vport_unknown_1002
+        if: entity_mode.entity_pspace_flag and unknown1 == 6
+      - id: unknown_1070_3
+        size: 3
+        type: vport_unknown_1070
+        if: entity_mode.entity_pspace_flag and unknown1 == 6
+      - id: unknown_1010
+        size: 50
+        type: vport_unknown_1010
+        if: entity_mode.entity_pspace_flag and unknown1 == 6
+      - id: unknown_1040
+        size: 63
+        type: vport_unknown_1040
+        if: entity_mode.entity_pspace_flag and unknown1 == 6
+      - id: unknown_1070
+        size: 24
+        type: vport_unknown_1070
+        doc: VIEWPORT/1070
+        if: entity_mode.entity_pspace_flag and unknown1 == 6
+      - id: unknown_1040_2
+        size: 63
+        type: vport_unknown_1040
+        if: entity_mode.entity_pspace_flag and unknown1 == 6
+      - id: unknown_1070_2
+        size: 3
+        type: vport_unknown_1070
+        if: entity_mode.entity_pspace_flag and unknown1 == 6
+      - id: unknown_1002_2
+        size: 6
+        type: vport_unknown_1002
+        if: entity_mode.entity_pspace_flag and unknown1 == 6
       - id: handling_size
         type: u1
         if: entity_mode.entity_handling_flag
@@ -1430,6 +1471,87 @@ types:
         type: f8
         if: entity_common.flag2_4
         doc: VERTEX/50
+  entity_vport:
+    seq:
+      - id: entity_common
+        type: entity_common
+      - id: x
+        type: f8
+        doc: VIEWPORT/10
+      - id: y
+        type: f8
+        doc: VIEWPORT/20
+      - id: z
+        type: f8
+        doc: VIEWPORT/30
+      - id: width
+        type: f8
+        doc: VIEWPORT/40
+      - id: height
+        type: f8
+        doc: VIEWPORT/41
+      - id: u1
+        type: s2
+        doc: VIEWPORT/68 ?
+      - id: u2
+        type: s2
+        doc: VIEWPORT/69 ?
+  vport_unknown_1040:
+    seq:
+# TODO Rewrite to detection of block
+      - id: unknown_1040
+        type: vport_unknown_1040_item
+        repeat: eos
+  vport_unknown_1040_item:
+    seq:
+      - id: separator_28
+        type: u1
+      - id: value
+        type: f8
+# TODO Rewrite to detection of block
+  vport_unknown_1070:
+    seq:
+      - id: unknown_1070
+        type: vport_unknown_1070_item
+        repeat: eos
+  vport_unknown_1070_item:
+    seq:
+      - id: separator_46
+        type: u1
+      - id: value
+        type: u2
+  vport_unknown_1000:
+    seq:
+      - id: separator_00
+        type: u1
+      - id: name_size
+        type: u1
+      - id: name
+        size: name_size
+        type: str
+        encoding: ASCII
+  vport_unknown_1002:
+    seq:
+      - id: unknown_1002
+        type: vport_unknown_1002_item
+        repeat: eos
+  vport_unknown_1002_item:
+    seq:
+      - id: separator_02
+        type: u1
+      - id: value
+        type: u1
+  vport_unknown_1010:
+    seq:
+      - id: unknown_1010
+        type: vport_unknown_1010_item
+        repeat: eos
+  vport_unknown_1010_item:
+    seq:
+      - id: separator_0a
+        type: u1
+      - id: value
+        type: point_3d
   attdef_flags:
     seq:
       - id: flag_1
@@ -1957,7 +2079,7 @@ enums:
     # NOT_USED 21: line3d
     22: face3d
     23: dim
-    # TODO 24: viewport
+    24: vport
   osnap_modes:
     0: none
     1: endpoint
