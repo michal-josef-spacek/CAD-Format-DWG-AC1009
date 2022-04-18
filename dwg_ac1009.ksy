@@ -1160,6 +1160,10 @@ types:
       - id: y
         type: f8
         doc: INSERT/20
+      - id: u1
+        type: u1
+      - id: u2
+        type: u1
       - id: x_scale
         type: f8
         if: entity_common.flag2_8

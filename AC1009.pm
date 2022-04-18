@@ -1064,6 +1064,8 @@ sub _read {
     $self->{block_index} = $self->{_io}->read_s2le();
     $self->{x} = $self->{_io}->read_f8le();
     $self->{y} = $self->{_io}->read_f8le();
+    $self->{u1} = $self->{_io}->read_u1();
+    $self->{u2} = $self->{_io}->read_u1();
     if ($self->entity_common()->flag2_8()) {
         $self->{x_scale} = $self->{_io}->read_f8le();
     }
@@ -1108,6 +1110,16 @@ sub x {
 sub y {
     my ($self) = @_;
     return $self->{y};
+}
+
+sub u1 {
+    my ($self) = @_;
+    return $self->{u1};
+}
+
+sub u2 {
+    my ($self) = @_;
+    return $self->{u2};
 }
 
 sub x_scale {
