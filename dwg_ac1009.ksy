@@ -316,7 +316,7 @@ types:
         doc: 0x0156-0x0157, $PSLTSCALE/70
       - id: tree_depth
         type: u2
-        doc: 0x0158-0x0159
+        doc: 0x0158-0x0159, $TREEDEPTH/70
       - id: unknown7d
         size: 2
         doc: 0x015a-0x015b
