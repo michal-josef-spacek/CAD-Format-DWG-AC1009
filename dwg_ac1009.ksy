@@ -1365,6 +1365,10 @@ types:
         type: f8
         if: entity_common.entity_mode.entity_elevation_flag == false
         doc: POINT/30
+      - id: u1
+        type: u1
+      - id: u2
+        type: u1
   entity_polyline:
     seq:
       - id: entity_common

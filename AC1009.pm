@@ -2488,6 +2488,8 @@ sub _read {
     if ($self->entity_common()->entity_mode()->entity_elevation_flag() == 0) {
         $self->{z} = $self->{_io}->read_f8le();
     }
+    $self->{u1} = $self->{_io}->read_u1();
+    $self->{u2} = $self->{_io}->read_u1();
 }
 
 sub entity_common {
@@ -2508,6 +2510,16 @@ sub y {
 sub z {
     my ($self) = @_;
     return $self->{z};
+}
+
+sub u1 {
+    my ($self) = @_;
+    return $self->{u1};
+}
+
+sub u2 {
+    my ($self) = @_;
+    return $self->{u2};
 }
 
 ########################################################################
