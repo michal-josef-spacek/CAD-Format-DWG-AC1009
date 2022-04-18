@@ -1769,12 +1769,10 @@ types:
       - id: u1
         size: 4
       - id: view_name
-        size: 31
+        size: 32
         type: str
         encoding: ASCII
         terminator: 0x2e
-      - id: u2
-        type: u1
       - id: view_size
         type: f8
         doc: VIEW/40
