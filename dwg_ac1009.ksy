@@ -1171,6 +1171,10 @@ types:
     seq:
       - id: entity_common
         type: entity_common
+      - id: u1
+        type: u1
+      - id: u2
+        type: u1
   entity_insert:
     seq:
       - id: entity_common

@@ -2229,11 +2229,23 @@ sub _read {
     my ($self) = @_;
 
     $self->{entity_common} = CAD::Format::DWG::AC1009::EntityCommon->new($self->{_io}, $self, $self->{_root});
+    $self->{u1} = $self->{_io}->read_u1();
+    $self->{u2} = $self->{_io}->read_u1();
 }
 
 sub entity_common {
     my ($self) = @_;
     return $self->{entity_common};
+}
+
+sub u1 {
+    my ($self) = @_;
+    return $self->{u1};
+}
+
+sub u2 {
+    my ($self) = @_;
+    return $self->{u2};
 }
 
 ########################################################################
