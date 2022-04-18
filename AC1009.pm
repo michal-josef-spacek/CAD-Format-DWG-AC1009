@@ -458,7 +458,8 @@ sub _read {
     $self->{flag3_7} = $self->{_io}->read_bits_int_be(1);
     $self->{flag3_8} = $self->{_io}->read_bits_int_be(1);
     $self->{_io}->align_to_byte();
-    $self->{xxx} = $self->{_io}->read_bytes(($self->entity_size() - 8));
+    $self->{xxx} = $self->{_io}->read_bytes(($self->entity_size() - 10));
+    $self->{crc} = $self->{_io}->read_bytes(2);
 }
 
 sub entity_mode {
@@ -564,6 +565,11 @@ sub flag3_8 {
 sub xxx {
     my ($self) = @_;
     return $self->{xxx};
+}
+
+sub crc {
+    my ($self) = @_;
+    return $self->{crc};
 }
 
 ########################################################################
@@ -843,11 +849,17 @@ sub _read {
     my ($self) = @_;
 
     $self->{entity_common} = CAD::Format::DWG::AC1009::EntityCommon->new($self->{_io}, $self, $self->{_root});
+    $self->{crc} = $self->{_io}->read_bytes(2);
 }
 
 sub entity_common {
     my ($self) = @_;
     return $self->{entity_common};
+}
+
+sub crc {
+    my ($self) = @_;
+    return $self->{crc};
 }
 
 ########################################################################
@@ -929,6 +941,7 @@ sub _read {
     $self->{from_and} = CAD::Format::DWG::AC1009::Point2d->new($self->{_io}, $self, $self->{_root});
     $self->{to} = CAD::Format::DWG::AC1009::Point2d->new($self->{_io}, $self, $self->{_root});
     $self->{to_and} = CAD::Format::DWG::AC1009::Point2d->new($self->{_io}, $self, $self->{_root});
+    $self->{crc} = $self->{_io}->read_bytes(2);
 }
 
 sub entity_common {
@@ -954,6 +967,11 @@ sub to {
 sub to_and {
     my ($self) = @_;
     return $self->{to_and};
+}
+
+sub crc {
+    my ($self) = @_;
+    return $self->{crc};
 }
 
 ########################################################################
@@ -1064,8 +1082,6 @@ sub _read {
     $self->{block_index} = $self->{_io}->read_s2le();
     $self->{x} = $self->{_io}->read_f8le();
     $self->{y} = $self->{_io}->read_f8le();
-    $self->{u1} = $self->{_io}->read_u1();
-    $self->{u2} = $self->{_io}->read_u1();
     if ($self->entity_common()->flag2_8()) {
         $self->{x_scale} = $self->{_io}->read_f8le();
     }
@@ -1090,6 +1106,7 @@ sub _read {
     if ($self->entity_common()->flag2_1()) {
         $self->{row_spacing} = $self->{_io}->read_f8le();
     }
+    $self->{crc} = $self->{_io}->read_bytes(2);
 }
 
 sub entity_common {
@@ -1110,16 +1127,6 @@ sub x {
 sub y {
     my ($self) = @_;
     return $self->{y};
-}
-
-sub u1 {
-    my ($self) = @_;
-    return $self->{u1};
-}
-
-sub u2 {
-    my ($self) = @_;
-    return $self->{u2};
 }
 
 sub x_scale {
@@ -1160,6 +1167,11 @@ sub column_spacing {
 sub row_spacing {
     my ($self) = @_;
     return $self->{row_spacing};
+}
+
+sub crc {
+    my ($self) = @_;
+    return $self->{crc};
 }
 
 ########################################################################
@@ -2229,8 +2241,7 @@ sub _read {
     my ($self) = @_;
 
     $self->{entity_common} = CAD::Format::DWG::AC1009::EntityCommon->new($self->{_io}, $self, $self->{_root});
-    $self->{u1} = $self->{_io}->read_u1();
-    $self->{u2} = $self->{_io}->read_u1();
+    $self->{crc} = $self->{_io}->read_bytes(2);
 }
 
 sub entity_common {
@@ -2238,14 +2249,9 @@ sub entity_common {
     return $self->{entity_common};
 }
 
-sub u1 {
+sub crc {
     my ($self) = @_;
-    return $self->{u1};
-}
-
-sub u2 {
-    my ($self) = @_;
-    return $self->{u2};
+    return $self->{crc};
 }
 
 ########################################################################
@@ -2512,8 +2518,7 @@ sub _read {
     if ($self->entity_common()->entity_mode()->entity_elevation_flag() == 0) {
         $self->{z} = $self->{_io}->read_f8le();
     }
-    $self->{u1} = $self->{_io}->read_u1();
-    $self->{u2} = $self->{_io}->read_u1();
+    $self->{crc} = $self->{_io}->read_bytes(2);
 }
 
 sub entity_common {
@@ -2536,14 +2541,9 @@ sub z {
     return $self->{z};
 }
 
-sub u1 {
+sub crc {
     my ($self) = @_;
-    return $self->{u1};
-}
-
-sub u2 {
-    my ($self) = @_;
-    return $self->{u2};
+    return $self->{crc};
 }
 
 ########################################################################
@@ -2741,6 +2741,7 @@ sub _read {
     $self->{from_and} = CAD::Format::DWG::AC1009::Point2d->new($self->{_io}, $self, $self->{_root});
     $self->{to} = CAD::Format::DWG::AC1009::Point2d->new($self->{_io}, $self, $self->{_root});
     $self->{to_and} = CAD::Format::DWG::AC1009::Point2d->new($self->{_io}, $self, $self->{_root});
+    $self->{crc} = $self->{_io}->read_bytes(2);
 }
 
 sub entity_common {
@@ -2766,6 +2767,11 @@ sub to {
 sub to_and {
     my ($self) = @_;
     return $self->{to_and};
+}
+
+sub crc {
+    my ($self) = @_;
+    return $self->{crc};
 }
 
 ########################################################################
@@ -3109,8 +3115,7 @@ sub _read {
     if ($self->entity_common()->flag2_8()) {
         $self->{angle} = $self->{_io}->read_f8le();
     }
-    $self->{u1} = $self->{_io}->read_u1();
-    $self->{u2} = $self->{_io}->read_u1();
+    $self->{crc} = $self->{_io}->read_bytes(2);
 }
 
 sub entity_common {
@@ -3148,14 +3153,9 @@ sub angle {
     return $self->{angle};
 }
 
-sub u1 {
+sub crc {
     my ($self) = @_;
-    return $self->{u1};
-}
-
-sub u2 {
-    my ($self) = @_;
-    return $self->{u2};
+    return $self->{crc};
 }
 
 ########################################################################
@@ -3393,6 +3393,7 @@ sub _read {
     if ($self->entity_common()->flag2_1()) {
         $self->{end_point} = CAD::Format::DWG::AC1009::Point2d->new($self->{_io}, $self, $self->{_root});
     }
+    $self->{crc} = $self->{_io}->read_bytes(2);
 }
 
 sub entity_common {
@@ -3470,6 +3471,11 @@ sub end_point {
     return $self->{end_point};
 }
 
+sub crc {
+    my ($self) = @_;
+    return $self->{crc};
+}
+
 ########################################################################
 package CAD::Format::DWG::AC1009::EntityBlockBegin;
 
@@ -3515,8 +3521,7 @@ sub _read {
     if ($self->entity_common()->flag2_6()) {
         $self->{ref2} = Encode::decode("ASCII", $self->{_io}->read_bytes($self->ref2_size()));
     }
-    $self->{u1} = $self->{_io}->read_u1();
-    $self->{u2} = $self->{_io}->read_u1();
+    $self->{crc} = $self->{_io}->read_bytes(2);
 }
 
 sub entity_common {
@@ -3554,14 +3559,9 @@ sub ref2 {
     return $self->{ref2};
 }
 
-sub u1 {
+sub crc {
     my ($self) = @_;
-    return $self->{u1};
-}
-
-sub u2 {
-    my ($self) = @_;
-    return $self->{u2};
+    return $self->{crc};
 }
 
 ########################################################################
@@ -3601,7 +3601,7 @@ sub _read {
     $self->{width} = $self->{_io}->read_f8le();
     $self->{height} = $self->{_io}->read_f8le();
     $self->{u1} = $self->{_io}->read_s2le();
-    $self->{u2} = $self->{_io}->read_s2le();
+    $self->{crc} = $self->{_io}->read_bytes(2);
 }
 
 sub entity_common {
@@ -3639,9 +3639,9 @@ sub u1 {
     return $self->{u1};
 }
 
-sub u2 {
+sub crc {
     my ($self) = @_;
-    return $self->{u2};
+    return $self->{crc};
 }
 
 ########################################################################
@@ -3723,6 +3723,7 @@ sub _read {
     if ($self->entity_common()->flag3_8()) {
         $self->{rotation_in_radians} = $self->{_io}->read_f8le();
     }
+    $self->{crc} = $self->{_io}->read_bytes(2);
 }
 
 sub entity_common {
@@ -3818,6 +3819,11 @@ sub unknown2_z {
 sub rotation_in_radians {
     my ($self) = @_;
     return $self->{rotation_in_radians};
+}
+
+sub crc {
+    my ($self) = @_;
+    return $self->{crc};
 }
 
 ########################################################################
@@ -5162,6 +5168,7 @@ sub _read {
     $self->{radius} = $self->{_io}->read_f8le();
     $self->{angle_from} = $self->{_io}->read_f8le();
     $self->{angle_to} = $self->{_io}->read_f8le();
+    $self->{crc} = $self->{_io}->read_bytes(2);
 }
 
 sub entity_common {
@@ -5192,6 +5199,11 @@ sub angle_from {
 sub angle_to {
     my ($self) = @_;
     return $self->{angle_to};
+}
+
+sub crc {
+    my ($self) = @_;
+    return $self->{crc};
 }
 
 ########################################################################
@@ -5371,6 +5383,7 @@ sub _read {
 
     $self->{entity_common} = CAD::Format::DWG::AC1009::EntityCommon->new($self->{_io}, $self, $self->{_root});
     $self->{unknown} = $self->{_io}->read_bytes(4);
+    $self->{crc} = $self->{_io}->read_bytes(2);
 }
 
 sub entity_common {
@@ -5381,6 +5394,11 @@ sub entity_common {
 sub unknown {
     my ($self) = @_;
     return $self->{unknown};
+}
+
+sub crc {
+    my ($self) = @_;
+    return $self->{crc};
 }
 
 ########################################################################
@@ -5942,6 +5960,7 @@ sub _read {
     $self->{x} = $self->{_io}->read_f8le();
     $self->{y} = $self->{_io}->read_f8le();
     $self->{radius} = $self->{_io}->read_f8le();
+    $self->{crc} = $self->{_io}->read_bytes(2);
 }
 
 sub entity_common {
@@ -5962,6 +5981,11 @@ sub y {
 sub radius {
     my ($self) = @_;
     return $self->{radius};
+}
+
+sub crc {
+    my ($self) = @_;
+    return $self->{crc};
 }
 
 ########################################################################
@@ -6003,6 +6027,7 @@ sub _read {
         $self->{angle_in_radians} = $self->{_io}->read_f8le();
     }
     $self->{load_num} = $self->{_io}->read_u1();
+    $self->{crc} = $self->{_io}->read_bytes(2);
 }
 
 sub entity_common {
@@ -6038,6 +6063,11 @@ sub angle_in_radians {
 sub load_num {
     my ($self) = @_;
     return $self->{load_num};
+}
+
+sub crc {
+    my ($self) = @_;
+    return $self->{crc};
 }
 
 ########################################################################
@@ -6082,6 +6112,7 @@ sub _read {
     if ($self->entity_common()->flag2_4()) {
         $self->{unknown_in_radians} = $self->{_io}->read_f8le();
     }
+    $self->{crc} = $self->{_io}->read_bytes(2);
 }
 
 sub entity_common {
@@ -6112,6 +6143,11 @@ sub bulge {
 sub unknown_in_radians {
     my ($self) = @_;
     return $self->{unknown_in_radians};
+}
+
+sub crc {
+    my ($self) = @_;
+    return $self->{crc};
 }
 
 ########################################################################
@@ -6315,8 +6351,7 @@ sub _read {
     if ($self->entity_common()->entity_mode()->entity_elevation_flag() == 0) {
         $self->{z2} = $self->{_io}->read_f8le();
     }
-    $self->{u1} = $self->{_io}->read_u1();
-    $self->{u2} = $self->{_io}->read_u1();
+    $self->{crc} = $self->{_io}->read_bytes(2);
 }
 
 sub entity_common {
@@ -6354,14 +6389,9 @@ sub z2 {
     return $self->{z2};
 }
 
-sub u1 {
+sub crc {
     my ($self) = @_;
-    return $self->{u1};
-}
-
-sub u2 {
-    my ($self) = @_;
-    return $self->{u2};
+    return $self->{crc};
 }
 
 ########################################################################
@@ -6566,6 +6596,7 @@ sub _read {
     if ($self->entity_common()->flag2_6()) {
         $self->{y} = $self->{_io}->read_f8le();
     }
+    $self->{crc} = $self->{_io}->read_bytes(2);
 }
 
 sub entity_common {
@@ -6586,6 +6617,11 @@ sub x {
 sub y {
     my ($self) = @_;
     return $self->{y};
+}
+
+sub crc {
+    my ($self) = @_;
+    return $self->{crc};
 }
 
 ########################################################################

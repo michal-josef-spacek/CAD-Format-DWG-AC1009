@@ -1088,6 +1088,8 @@ types:
       - id: angle_to
         type: f8
         doc: ARC/51
+      - id: crc
+        size: 2
   entity_attdef:
     seq:
       - id: entity_common
@@ -1135,6 +1137,8 @@ types:
         type: point_2d
         if: entity_common.flag2_1
         doc: ATTDEF/11|21
+      - id: crc
+        size: 2
   entity_block_begin:
     seq:
       - id: entity_common
@@ -1163,18 +1167,14 @@ types:
         type: str
         encoding: ASCII
         if: entity_common.flag2_6
-      - id: u1
-        type: u1
-      - id: u2
-        type: u1
+      - id: crc
+        size: 2
   entity_block_end:
     seq:
       - id: entity_common
         type: entity_common
-      - id: u1
-        type: u1
-      - id: u2
-        type: u1
+      - id: crc
+        size: 2
   entity_insert:
     seq:
       - id: entity_common
@@ -1188,10 +1188,6 @@ types:
       - id: y
         type: f8
         doc: INSERT/20
-      - id: u1
-        type: u1
-      - id: u2
-        type: u1
       - id: x_scale
         type: f8
         if: entity_common.flag2_8
@@ -1224,6 +1220,8 @@ types:
         type: f8
         if: entity_common.flag2_1
         doc: INSERT/45
+      - id: crc
+        size: 2
   entity_circle:
     seq:
       - id: entity_common
@@ -1237,6 +1235,8 @@ types:
       - id: radius
         type: f8
         doc: CIRCLE/40
+      - id: crc
+        size: 2
   entity_dim:
     seq:
       - id: entity_common
@@ -1307,10 +1307,14 @@ types:
       - id: rotation_in_radians
         type: f8
         if: entity_common.flag3_8
+      - id: crc
+        size: 2
   entity_face3d:
     seq:
       - id: entity_common
         type: entity_common
+      - id: crc
+        size: 2
   entity_line:
     seq:
       - id: entity_common
@@ -1335,10 +1339,8 @@ types:
         type: f8
         if: entity_common.entity_mode.entity_elevation_flag == false
         doc: LINE/31
-      - id: u1
-        type: u1
-      - id: u2
-        type: u1
+      - id: crc
+        size: 2
   entity_tmp:
     seq:
       - id: entity_mode
@@ -1382,7 +1384,9 @@ types:
       - id: flag3_8
         type: b1
       - id: xxx
-        size: entity_size - 8
+        size: entity_size - 10
+      - id: crc
+        size: 2
   entity_point:
     seq:
       - id: entity_common
@@ -1397,10 +1401,8 @@ types:
         type: f8
         if: entity_common.entity_mode.entity_elevation_flag == false
         doc: POINT/30
-      - id: u1
-        type: u1
-      - id: u2
-        type: u1
+      - id: crc
+        size: 2
   entity_polyline:
     seq:
       - id: entity_common
@@ -1417,12 +1419,16 @@ types:
         type: f8
         if: entity_common.flag2_6
         doc: POLYLINE/41
+      - id: crc
+        size: 2
   entity_seqend:
     seq:
       - id: entity_common
         type: entity_common
       - id: unknown
         size: 4
+      - id: crc
+        size: 2
   entity_shape:
     seq:
       - id: entity_common
@@ -1445,6 +1451,8 @@ types:
         doc: SHAPE/50
       - id: load_num
         type: u1
+      - id: crc
+        size: 2
   entity_solid:
     seq:
       - id: entity_common
@@ -1457,6 +1465,8 @@ types:
         type: point_2d
       - id: to_and
         type: point_2d
+      - id: crc
+        size: 2
   entity_text:
     seq:
       - id: entity_common
@@ -1476,10 +1486,8 @@ types:
       - id: angle
         type: f8
         if: entity_common.flag2_8
-      - id: u1
-        type: u1
-      - id: u2
-        type: u1
+      - id: crc
+        size: 2
   entity_trace:
     seq:
       - id: entity_common
@@ -1492,6 +1500,8 @@ types:
         type: point_2d
       - id: to_and
         type: point_2d
+      - id: crc
+        size: 2
   entity_vertex:
     seq:
       - id: entity_common
@@ -1513,6 +1523,8 @@ types:
         type: f8
         if: entity_common.flag2_4
         doc: VERTEX/50
+      - id: crc
+        size: 2
   entity_vport:
     seq:
       - id: entity_common
@@ -1534,10 +1546,9 @@ types:
         doc: VIEWPORT/41
       - id: u1
         type: s2
-        doc: VIEWPORT/68 ?
-      - id: u2
-        type: s2
-        doc: VIEWPORT/69 ?
+        doc: VIEWPORT/68/69 ?
+      - id: crc
+        size: 2
   vport_unknown_1040:
     seq:
 # TODO Rewrite to detection of block
