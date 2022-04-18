@@ -3479,6 +3479,20 @@ sub _read {
     $self->{entity_common} = CAD::Format::DWG::AC1009::EntityCommon->new($self->{_io}, $self, $self->{_root});
     $self->{x} = $self->{_io}->read_f8le();
     $self->{y} = $self->{_io}->read_f8le();
+    if ($self->entity_common()->flag2_6()) {
+        $self->{ref_size} = $self->{_io}->read_u2le();
+    }
+    if ($self->entity_common()->flag2_6()) {
+        $self->{ref} = Encode::decode("ASCII", $self->{_io}->read_bytes($self->ref_size()));
+    }
+    if ($self->entity_common()->flag2_6()) {
+        $self->{ref2_size} = $self->{_io}->read_u2le();
+    }
+    if ($self->entity_common()->flag2_6()) {
+        $self->{ref2} = Encode::decode("ASCII", $self->{_io}->read_bytes($self->ref2_size()));
+    }
+    $self->{u1} = $self->{_io}->read_u1();
+    $self->{u2} = $self->{_io}->read_u1();
 }
 
 sub entity_common {
@@ -3494,6 +3508,36 @@ sub x {
 sub y {
     my ($self) = @_;
     return $self->{y};
+}
+
+sub ref_size {
+    my ($self) = @_;
+    return $self->{ref_size};
+}
+
+sub ref {
+    my ($self) = @_;
+    return $self->{ref};
+}
+
+sub ref2_size {
+    my ($self) = @_;
+    return $self->{ref2_size};
+}
+
+sub ref2 {
+    my ($self) = @_;
+    return $self->{ref2};
+}
+
+sub u1 {
+    my ($self) = @_;
+    return $self->{u1};
+}
+
+sub u2 {
+    my ($self) = @_;
+    return $self->{u2};
 }
 
 ########################################################################
