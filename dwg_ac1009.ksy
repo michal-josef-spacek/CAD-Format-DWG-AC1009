@@ -1467,9 +1467,15 @@ types:
         type: s2
       - id: value
         size: size
+        type: str
+        encoding: ASCII
       - id: angle
         type: f8
         if: entity_common.flag2_8
+      - id: u1
+        type: u1
+      - id: u2
+        type: u1
   entity_trace:
     seq:
       - id: entity_common
