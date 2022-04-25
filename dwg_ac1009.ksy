@@ -1407,10 +1407,14 @@ types:
     seq:
       - id: entity_common
         type: entity_common
-      - id: closed
-        type: u1
+      - id: z
+        type: f8
+        if: entity_common.flag3_1
+        doc: POLYLINE/30
+      - id: flag
+        type: polyline_flags
         if: entity_common.flag2_8
-        doc: POLYLINE/66
+        doc: POLYLINE/70
       - id: x
         type: f8
         if: entity_common.flag2_7
@@ -1419,8 +1423,30 @@ types:
         type: f8
         if: entity_common.flag2_6
         doc: POLYLINE/41
+      - id: u1
+        type: point_3d
+        if: entity_common.flag2_5
+        doc: POLYLINE/?
       - id: crc
         size: 2
+  polyline_flags:
+    seq:
+      - id: flag1
+        type: b1
+      - id: flag2
+        type: b1
+      - id: flag3
+        type: b1
+      - id: flag4
+        type: b1
+      - id: flag5
+        type: b1
+      - id: flag6
+        type: b1
+      - id: flag7
+        type: b1
+      - id: closed
+        type: b1
   entity_seqend:
     seq:
       - id: entity_common
