@@ -1414,7 +1414,6 @@ types:
       - id: flag
         type: polyline_flags
         if: entity_common.flag2_8
-        doc: POLYLINE/70
       - id: x
         type: f8
         if: entity_common.flag2_7
@@ -1426,7 +1425,6 @@ types:
       - id: u1
         type: point_3d
         if: entity_common.flag2_5
-        doc: POLYLINE/?
       - id: crc
         size: 2
   polyline_flags:
