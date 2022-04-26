@@ -849,12 +849,92 @@ sub _read {
     my ($self) = @_;
 
     $self->{entity_common} = CAD::Format::DWG::AC1009::EntityCommon->new($self->{_io}, $self, $self->{_root});
+    $self->{first_point_x} = $self->{_io}->read_f8le();
+    $self->{first_point_y} = $self->{_io}->read_f8le();
+    if ($self->entity_common()->entity_mode()->entity_elevation_flag() == 0) {
+        $self->{first_point_z} = $self->{_io}->read_f8le();
+    }
+    $self->{second_point_x} = $self->{_io}->read_f8le();
+    $self->{second_point_y} = $self->{_io}->read_f8le();
+    if ($self->entity_common()->entity_mode()->entity_elevation_flag() == 0) {
+        $self->{second_point_z} = $self->{_io}->read_f8le();
+    }
+    $self->{third_point_x} = $self->{_io}->read_f8le();
+    $self->{third_point_y} = $self->{_io}->read_f8le();
+    if ($self->entity_common()->entity_mode()->entity_elevation_flag() == 0) {
+        $self->{third_point_z} = $self->{_io}->read_f8le();
+    }
+    $self->{fourth_point_x} = $self->{_io}->read_f8le();
+    $self->{fourth_point_y} = $self->{_io}->read_f8le();
+    if ($self->entity_common()->entity_mode()->entity_elevation_flag() == 0) {
+        $self->{fourth_point_z} = $self->{_io}->read_f8le();
+    }
     $self->{crc} = $self->{_io}->read_bytes(2);
 }
 
 sub entity_common {
     my ($self) = @_;
     return $self->{entity_common};
+}
+
+sub first_point_x {
+    my ($self) = @_;
+    return $self->{first_point_x};
+}
+
+sub first_point_y {
+    my ($self) = @_;
+    return $self->{first_point_y};
+}
+
+sub first_point_z {
+    my ($self) = @_;
+    return $self->{first_point_z};
+}
+
+sub second_point_x {
+    my ($self) = @_;
+    return $self->{second_point_x};
+}
+
+sub second_point_y {
+    my ($self) = @_;
+    return $self->{second_point_y};
+}
+
+sub second_point_z {
+    my ($self) = @_;
+    return $self->{second_point_z};
+}
+
+sub third_point_x {
+    my ($self) = @_;
+    return $self->{third_point_x};
+}
+
+sub third_point_y {
+    my ($self) = @_;
+    return $self->{third_point_y};
+}
+
+sub third_point_z {
+    my ($self) = @_;
+    return $self->{third_point_z};
+}
+
+sub fourth_point_x {
+    my ($self) = @_;
+    return $self->{fourth_point_x};
+}
+
+sub fourth_point_y {
+    my ($self) = @_;
+    return $self->{fourth_point_y};
+}
+
+sub fourth_point_z {
+    my ($self) = @_;
+    return $self->{fourth_point_z};
 }
 
 sub crc {

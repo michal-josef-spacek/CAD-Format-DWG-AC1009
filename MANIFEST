@@ -172,7 +172,10 @@ t/CAD-Format-DWG-AC1009/150-header-variables-view_size.t
 t/CAD-Format-DWG-AC1009/150-header-variables-world_view.t
 t/CAD-Format-DWG-AC1009/152-header-zeros.t
 t/CAD-Format-DWG-AC1009/153-header-zero_one_or_three.t
+t/CAD-Format-DWG-AC1009/154-entities-3dface.t
 t/data/blank/BLANK.DWG
+t/data/entity/3dface/3DFACE1.DWG
+t/data/entity/3dface/3DFACE2.DWG
 t/data/header/tree_depth/TD1.DWG
 t/data/header/world_view/WV_OFF.DWG
 xt/CAD-Format-DWG-AC1009/01-pod_coverage.t

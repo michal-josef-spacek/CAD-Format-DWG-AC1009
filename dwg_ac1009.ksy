@@ -1313,6 +1313,34 @@ types:
     seq:
       - id: entity_common
         type: entity_common
+      - id: first_point_x
+        type: f8
+      - id: first_point_y
+        type: f8
+      - id: first_point_z
+        type: f8
+        if: entity_common.entity_mode.entity_elevation_flag == false
+      - id: second_point_x
+        type: f8
+      - id: second_point_y
+        type: f8
+      - id: second_point_z
+        type: f8
+        if: entity_common.entity_mode.entity_elevation_flag == false
+      - id: third_point_x
+        type: f8
+      - id: third_point_y
+        type: f8
+      - id: third_point_z
+        type: f8
+        if: entity_common.entity_mode.entity_elevation_flag == false
+      - id: fourth_point_x
+        type: f8
+      - id: fourth_point_y
+        type: f8
+      - id: fourth_point_z
+        type: f8
+        if: entity_common.entity_mode.entity_elevation_flag == false
       - id: crc
         size: 2
   entity_line:
