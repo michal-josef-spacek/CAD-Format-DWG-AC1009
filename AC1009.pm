@@ -4218,8 +4218,9 @@ sub _read {
     $self->{max_actvp} = $self->{_io}->read_u2le();
     $self->{dim_gap} = $self->{_io}->read_f8le();
     $self->{p_elevation} = $self->{_io}->read_f8le();
-    $self->{vis_retain} = $self->{_io}->read_u2le();
-    $self->{unknown59} = $self->{_io}->read_bytes(18);
+    if ($self->_parent()->num_header_vars() == 205) {
+        $self->{vis_retain} = $self->{_io}->read_u2le();
+    }
 }
 
 sub create_date {
@@ -5281,11 +5282,6 @@ sub vis_retain {
     return $self->{vis_retain};
 }
 
-sub unknown59 {
-    my ($self) = @_;
-    return $self->{unknown59};
-}
-
 ########################################################################
 package CAD::Format::DWG::AC1009::EntityArc;
 
@@ -5649,6 +5645,7 @@ sub _read {
     $self->{table_linetype} = CAD::Format::DWG::AC1009::Table->new($self->{_io}, $self, $self->{_root});
     $self->{table_view} = CAD::Format::DWG::AC1009::Table->new($self->{_io}, $self, $self->{_root});
     $self->{variables} = CAD::Format::DWG::AC1009::HeaderVariables->new($self->{_io}, $self, $self->{_root});
+    $self->{unknown59} = $self->{_io}->read_bytes(18);
 }
 
 sub blocks_size_unknown {
@@ -5763,6 +5760,11 @@ sub table_view {
 sub variables {
     my ($self) = @_;
     return $self->{variables};
+}
+
+sub unknown59 {
+    my ($self) = @_;
+    return $self->{unknown59};
 }
 
 ########################################################################

@@ -212,6 +212,8 @@ types:
         type: table
       - id: variables
         type: header_variables
+      - id: unknown59
+        size: 18
     instances:
       blocks_size_unknown:
          value: (blocks_size_raw & 0xff000000) >> 24
@@ -857,9 +859,7 @@ types:
       - id: vis_retain
         type: u2
         doc: $VISRETAIN/70
-      - id: unknown59
-        size: 18
-        doc: 7ef
+        if: _parent.num_header_vars == 205
     instances:
       create_date:
         value: create_date_days + (create_date_ms / 86400000.0)
