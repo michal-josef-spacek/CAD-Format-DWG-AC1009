@@ -17,6 +17,8 @@ meta:
 seq:
   - id: header
     type: header
+  - id: header_sentinel
+    size: 16
   - id: entities
     type: real_entities
     size: header.entities_end - header.entities_start
@@ -212,8 +214,8 @@ types:
         type: table
       - id: variables
         type: header_variables
-      - id: unknown59
-        size: 18
+      - id: crc16
+        size: 2
     instances:
       blocks_size_unknown:
          value: (blocks_size_raw & 0xff000000) >> 24

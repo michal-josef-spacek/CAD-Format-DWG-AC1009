@@ -118,6 +118,7 @@ sub _read {
     my ($self) = @_;
 
     $self->{header} = CAD::Format::DWG::AC1009::Header->new($self->{_io}, $self, $self->{_root});
+    $self->{header_sentinel} = $self->{_io}->read_bytes(16);
     $self->{_raw_entities} = $self->{_io}->read_bytes(($self->header()->entities_end() - $self->header()->entities_start()));
     my $io__raw_entities = IO::KaitaiStruct::Stream->new($self->{_raw_entities});
     $self->{entities} = CAD::Format::DWG::AC1009::RealEntities->new($io__raw_entities, $self, $self->{_root});
@@ -197,6 +198,11 @@ sub _read {
 sub header {
     my ($self) = @_;
     return $self->{header};
+}
+
+sub header_sentinel {
+    my ($self) = @_;
+    return $self->{header_sentinel};
 }
 
 sub entities {
@@ -5694,7 +5700,7 @@ sub _read {
     $self->{table_linetype} = CAD::Format::DWG::AC1009::Table->new($self->{_io}, $self, $self->{_root});
     $self->{table_view} = CAD::Format::DWG::AC1009::Table->new($self->{_io}, $self, $self->{_root});
     $self->{variables} = CAD::Format::DWG::AC1009::HeaderVariables->new($self->{_io}, $self, $self->{_root});
-    $self->{unknown59} = $self->{_io}->read_bytes(18);
+    $self->{crc16} = $self->{_io}->read_bytes(2);
 }
 
 sub blocks_size_unknown {
@@ -5811,9 +5817,9 @@ sub variables {
     return $self->{variables};
 }
 
-sub unknown59 {
+sub crc16 {
     my ($self) = @_;
-    return $self->{unknown59};
+    return $self->{crc16};
 }
 
 ########################################################################
