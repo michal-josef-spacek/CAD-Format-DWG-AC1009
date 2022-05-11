@@ -1088,7 +1088,7 @@ types:
       - id: angle_to
         type: f8
         doc: ARC/51
-      - id: crc
+      - id: crc16
         size: 2
   entity_attdef:
     seq:
@@ -1137,7 +1137,7 @@ types:
         type: point_2d
         if: entity_common.flag2_1
         doc: ATTDEF/11|21
-      - id: crc
+      - id: crc16
         size: 2
   entity_block_begin:
     seq:
@@ -1167,13 +1167,13 @@ types:
         type: str
         encoding: ASCII
         if: entity_common.flag2_6
-      - id: crc
+      - id: crc16
         size: 2
   entity_block_end:
     seq:
       - id: entity_common
         type: entity_common
-      - id: crc
+      - id: crc16
         size: 2
   entity_insert:
     seq:
@@ -1220,7 +1220,7 @@ types:
         type: f8
         if: entity_common.flag2_1
         doc: INSERT/45
-      - id: crc
+      - id: crc16
         size: 2
   entity_circle:
     seq:
@@ -1235,7 +1235,7 @@ types:
       - id: radius
         type: f8
         doc: CIRCLE/40
-      - id: crc
+      - id: crc16
         size: 2
   entity_dim:
     seq:
@@ -1307,7 +1307,7 @@ types:
       - id: rotation_in_radians
         type: f8
         if: entity_common.flag3_8
-      - id: crc
+      - id: crc16
         size: 2
   dim_type:
     seq:
@@ -1354,7 +1354,7 @@ types:
       - id: fourth_point_z
         type: f8
         if: entity_common.entity_mode.entity_elevation_flag == false
-      - id: crc
+      - id: crc16
         size: 2
   entity_line:
     seq:
@@ -1380,7 +1380,7 @@ types:
         type: f8
         if: entity_common.entity_mode.entity_elevation_flag == false
         doc: LINE/31
-      - id: crc
+      - id: crc16
         size: 2
   entity_tmp:
     seq:
@@ -1424,7 +1424,7 @@ types:
         type: b1
       - id: xxx
         size: entity_size - 10
-      - id: crc
+      - id: crc16
         size: 2
   entity_point:
     seq:
@@ -1440,7 +1440,7 @@ types:
         type: f8
         if: entity_common.entity_mode.entity_elevation_flag == false
         doc: POINT/30
-      - id: crc
+      - id: crc16
         size: 2
   entity_polyline:
     seq:
@@ -1465,7 +1465,7 @@ types:
       - id: u1
         type: point_3d
         if: entity_common.flag2_5
-      - id: crc
+      - id: crc16
         size: 2
   polyline_flags:
     seq:
@@ -1491,7 +1491,7 @@ types:
         type: entity_common
       - id: unknown
         size: 4
-      - id: crc
+      - id: crc16
         size: 2
   entity_shape:
     seq:
@@ -1515,7 +1515,7 @@ types:
         doc: SHAPE/50
       - id: load_num
         type: u1
-      - id: crc
+      - id: crc16
         size: 2
   entity_solid:
     seq:
@@ -1529,7 +1529,7 @@ types:
         type: point_2d
       - id: to_and
         type: point_2d
-      - id: crc
+      - id: crc16
         size: 2
   entity_text:
     seq:
@@ -1581,7 +1581,7 @@ types:
         type: point_2d
         if: entity_common.flag2_2
         doc: TEXT/11|21
-      - id: crc
+      - id: crc16
         size: 2
   entity_trace:
     seq:
@@ -1595,7 +1595,7 @@ types:
         type: point_2d
       - id: to_and
         type: point_2d
-      - id: crc
+      - id: crc16
         size: 2
   entity_vertex:
     seq:
@@ -1618,7 +1618,7 @@ types:
         type: f8
         if: entity_common.flag2_4
         doc: VERTEX/50
-      - id: crc
+      - id: crc16
         size: 2
   entity_vport:
     seq:
@@ -1642,7 +1642,7 @@ types:
       - id: u1
         type: s2
         doc: VIEWPORT/68/69 ?
-      - id: crc
+      - id: crc16
         size: 2
   vport_unknown_1040:
     seq:
