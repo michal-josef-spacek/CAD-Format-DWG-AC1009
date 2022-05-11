@@ -3,7 +3,8 @@ TODO
 1. First version.
 2. current_linetype = 32767. Is it right?
 3. Sync attdef and attrib with previous version.
-4.
+4. Detect entity_common vport items by key
+5.
 
 Applied
 =======
