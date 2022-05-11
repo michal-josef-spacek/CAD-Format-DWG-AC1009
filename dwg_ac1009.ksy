@@ -1758,8 +1758,8 @@ types:
         type: s1
       - id: unknown4
         type: s1
-      - id: unknown5
-        type: u2
+      - id: crc16
+        size: 2
   layer_flag:
     seq:
       - id: flag1

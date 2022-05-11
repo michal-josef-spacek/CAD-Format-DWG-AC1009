@@ -2979,7 +2979,7 @@ sub _read {
     $self->{linetype_index} = $self->{_io}->read_u2le();
     $self->{unknown3} = $self->{_io}->read_s1();
     $self->{unknown4} = $self->{_io}->read_s1();
-    $self->{unknown5} = $self->{_io}->read_u2le();
+    $self->{crc16} = $self->{_io}->read_bytes(2);
 }
 
 sub flag {
@@ -3012,9 +3012,9 @@ sub unknown4 {
     return $self->{unknown4};
 }
 
-sub unknown5 {
+sub crc16 {
     my ($self) = @_;
-    return $self->{unknown5};
+    return $self->{crc16};
 }
 
 ########################################################################
