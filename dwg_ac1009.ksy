@@ -1020,45 +1020,8 @@ types:
       - id: unknown1
         type: u1
         if: entity_mode.entity_pspace_flag
-      - id: unknown2
-        size: 5
-        if: entity_mode.entity_pspace_flag and unknown1 == 6
-      - id: unknown_1000
-        type: vport_unknown_1000
-        doc: VIEWPORT/1000
-        if: entity_mode.entity_pspace_flag and unknown1 == 6
-      - id: unknown_1002
-        size: 2
-        type: vport_unknown_1002
-        if: entity_mode.entity_pspace_flag and unknown1 == 6
-      - id: unknown_1070_3
-        size: 3
-        type: vport_unknown_1070
-        if: entity_mode.entity_pspace_flag and unknown1 == 6
-      - id: unknown_1010
-        size: 50
-        type: vport_unknown_1010
-        if: entity_mode.entity_pspace_flag and unknown1 == 6
-      - id: unknown_1040
-        size: 63
-        type: vport_unknown_1040
-        if: entity_mode.entity_pspace_flag and unknown1 == 6
-      - id: unknown_1070
-        size: 24
-        type: vport_unknown_1070
-        doc: VIEWPORT/1070
-        if: entity_mode.entity_pspace_flag and unknown1 == 6
-      - id: unknown_1040_2
-        size: 63
-        type: vport_unknown_1040
-        if: entity_mode.entity_pspace_flag and unknown1 == 6
-      - id: unknown_1070_2
-        size: 3
-        type: vport_unknown_1070
-        if: entity_mode.entity_pspace_flag and unknown1 == 6
-      - id: unknown_1002_2
-        size: 6
-        type: vport_unknown_1002
+      - id: vport_in_entity
+        type: vport_in_entity
         if: entity_mode.entity_pspace_flag and unknown1 == 6
       - id: handling_size
         type: u1
@@ -1069,6 +1032,66 @@ types:
       - id: space
         type: u2
         if: entity_mode.entity_pspace_flag
+  vport_in_entity:
+    seq:
+      - id: vport_size
+        type: u2
+      - id: vport_data
+        type: vport_data
+        size: vport_size
+  vport_data:
+    seq:
+      - id: vports
+        type: vport_detect
+        repeat: eos
+  vport_detect:
+    seq:
+      - id: separator
+        type: u1
+        enum: vports
+      - id: data
+        type:
+          switch-on: separator
+          cases:
+            'vports::vport_1000': vport_1000
+            'vports::vport_1001': vport_1001
+            'vports::vport_1002': vport_1002
+            'vports::vport_1003': vport_1003
+            'vports::vport_1010': vport_1010
+            'vports::vport_1040': vport_1040
+            'vports::vport_1070': vport_1070
+  vport_1000:
+    seq:
+      - id: name_size
+        type: u1
+      - id: name
+        size: name_size
+        type: str
+        encoding: ASCII
+  vport_1001:
+    seq:
+      - id: value
+        type: u2
+  vport_1002:
+    seq:
+      - id: value
+        type: u1
+  vport_1003:
+    seq:
+      - id: value
+        type: u2
+  vport_1010:
+    seq:
+      - id: value
+        type: point_3d
+  vport_1040:
+    seq:
+      - id: value
+        type: f8
+  vport_1070:
+    seq:
+      - id: value
+        type: u2
   entity_arc:
     seq:
       - id: entity_common
@@ -1644,62 +1667,6 @@ types:
         doc: VIEWPORT/68/69 ?
       - id: crc16
         size: 2
-  vport_unknown_1040:
-    seq:
-# TODO Rewrite to detection of block
-      - id: unknown_1040
-        type: vport_unknown_1040_item
-        repeat: eos
-  vport_unknown_1040_item:
-    seq:
-      - id: separator_28
-        type: u1
-      - id: value
-        type: f8
-# TODO Rewrite to detection of block
-  vport_unknown_1070:
-    seq:
-      - id: unknown_1070
-        type: vport_unknown_1070_item
-        repeat: eos
-  vport_unknown_1070_item:
-    seq:
-      - id: separator_46
-        type: u1
-      - id: value
-        type: u2
-  vport_unknown_1000:
-    seq:
-      - id: separator_00
-        type: u1
-      - id: name_size
-        type: u1
-      - id: name
-        size: name_size
-        type: str
-        encoding: ASCII
-  vport_unknown_1002:
-    seq:
-      - id: unknown_1002
-        type: vport_unknown_1002_item
-        repeat: eos
-  vport_unknown_1002_item:
-    seq:
-      - id: separator_02
-        type: u1
-      - id: value
-        type: u1
-  vport_unknown_1010:
-    seq:
-      - id: unknown_1010
-        type: vport_unknown_1010_item
-        repeat: eos
-  vport_unknown_1010_item:
-    seq:
-      - id: separator_0a
-        type: u1
-      - id: value
-        type: point_3d
   attdef_flags:
     seq:
       - id: flag_1
@@ -2296,3 +2263,11 @@ enums:
   spline_type:
     5: quadratic_b_spline
     6: cubic_b_spline
+  vports:
+    0: vport_1000
+    1: vport_1001
+    2: vport_1002
+    3: vport_1003
+    10: vport_1010
+    40: vport_1040
+    70: vport_1070

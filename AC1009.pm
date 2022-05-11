@@ -46,6 +46,14 @@ our $ENTITIES_FACE3D = 22;
 our $ENTITIES_DIM = 23;
 our $ENTITIES_VPORT = 24;
 
+our $VPORTS_VPORT_1000 = 0;
+our $VPORTS_VPORT_1001 = 1;
+our $VPORTS_VPORT_1002 = 2;
+our $VPORTS_VPORT_1003 = 3;
+our $VPORTS_VPORT_1010 = 10;
+our $VPORTS_VPORT_1040 = 40;
+our $VPORTS_VPORT_1070 = 70;
+
 our $ISO_PLANE_LEFT = 0;
 our $ISO_PLANE_TOP = 1;
 our $ISO_PLANE_RIGHT = 2;
@@ -588,6 +596,50 @@ sub crc16 {
 }
 
 ########################################################################
+package CAD::Format::DWG::AC1009::Vport1000;
+
+our @ISA = 'IO::KaitaiStruct::Struct';
+
+sub from_file {
+    my ($class, $filename) = @_;
+    my $fd;
+
+    open($fd, '<', $filename) or return undef;
+    binmode($fd);
+    return new($class, IO::KaitaiStruct::Stream->new($fd));
+}
+
+sub new {
+    my ($class, $_io, $_parent, $_root) = @_;
+    my $self = IO::KaitaiStruct::Struct->new($_io);
+
+    bless $self, $class;
+    $self->{_parent} = $_parent;
+    $self->{_root} = $_root || $self;;
+
+    $self->_read();
+
+    return $self;
+}
+
+sub _read {
+    my ($self) = @_;
+
+    $self->{name_size} = $self->{_io}->read_u1();
+    $self->{name} = Encode::decode("ASCII", $self->{_io}->read_bytes($self->name_size()));
+}
+
+sub name_size {
+    my ($self) = @_;
+    return $self->{name_size};
+}
+
+sub name {
+    my ($self) = @_;
+    return $self->{name};
+}
+
+########################################################################
 package CAD::Format::DWG::AC1009::BlockFlag;
 
 our @ISA = 'IO::KaitaiStruct::Struct';
@@ -745,6 +797,57 @@ sub flag7 {
 sub flag8 {
     my ($self) = @_;
     return $self->{flag8};
+}
+
+########################################################################
+package CAD::Format::DWG::AC1009::VportInEntity;
+
+our @ISA = 'IO::KaitaiStruct::Struct';
+
+sub from_file {
+    my ($class, $filename) = @_;
+    my $fd;
+
+    open($fd, '<', $filename) or return undef;
+    binmode($fd);
+    return new($class, IO::KaitaiStruct::Stream->new($fd));
+}
+
+sub new {
+    my ($class, $_io, $_parent, $_root) = @_;
+    my $self = IO::KaitaiStruct::Struct->new($_io);
+
+    bless $self, $class;
+    $self->{_parent} = $_parent;
+    $self->{_root} = $_root || $self;;
+
+    $self->_read();
+
+    return $self;
+}
+
+sub _read {
+    my ($self) = @_;
+
+    $self->{vport_size} = $self->{_io}->read_u2le();
+    $self->{_raw_vport_data} = $self->{_io}->read_bytes($self->vport_size());
+    my $io__raw_vport_data = IO::KaitaiStruct::Stream->new($self->{_raw_vport_data});
+    $self->{vport_data} = CAD::Format::DWG::AC1009::VportData->new($io__raw_vport_data, $self, $self->{_root});
+}
+
+sub vport_size {
+    my ($self) = @_;
+    return $self->{vport_size};
+}
+
+sub vport_data {
+    my ($self) = @_;
+    return $self->{vport_data};
+}
+
+sub _raw_vport_data {
+    my ($self) = @_;
+    return $self->{_raw_vport_data};
 }
 
 ########################################################################
@@ -955,50 +1058,6 @@ sub fourth_point_z {
 sub crc16 {
     my ($self) = @_;
     return $self->{crc16};
-}
-
-########################################################################
-package CAD::Format::DWG::AC1009::VportUnknown1010Item;
-
-our @ISA = 'IO::KaitaiStruct::Struct';
-
-sub from_file {
-    my ($class, $filename) = @_;
-    my $fd;
-
-    open($fd, '<', $filename) or return undef;
-    binmode($fd);
-    return new($class, IO::KaitaiStruct::Stream->new($fd));
-}
-
-sub new {
-    my ($class, $_io, $_parent, $_root) = @_;
-    my $self = IO::KaitaiStruct::Struct->new($_io);
-
-    bless $self, $class;
-    $self->{_parent} = $_parent;
-    $self->{_root} = $_root || $self;;
-
-    $self->_read();
-
-    return $self;
-}
-
-sub _read {
-    my ($self) = @_;
-
-    $self->{separator_0a} = $self->{_io}->read_u1();
-    $self->{value} = CAD::Format::DWG::AC1009::Point3d->new($self->{_io}, $self, $self->{_root});
-}
-
-sub separator_0a {
-    my ($self) = @_;
-    return $self->{separator_0a};
-}
-
-sub value {
-    my ($self) = @_;
-    return $self->{value};
 }
 
 ########################################################################
@@ -1350,47 +1409,6 @@ sub flag8 {
 }
 
 ########################################################################
-package CAD::Format::DWG::AC1009::VportUnknown1070;
-
-our @ISA = 'IO::KaitaiStruct::Struct';
-
-sub from_file {
-    my ($class, $filename) = @_;
-    my $fd;
-
-    open($fd, '<', $filename) or return undef;
-    binmode($fd);
-    return new($class, IO::KaitaiStruct::Stream->new($fd));
-}
-
-sub new {
-    my ($class, $_io, $_parent, $_root) = @_;
-    my $self = IO::KaitaiStruct::Struct->new($_io);
-
-    bless $self, $class;
-    $self->{_parent} = $_parent;
-    $self->{_root} = $_root || $self;;
-
-    $self->_read();
-
-    return $self;
-}
-
-sub _read {
-    my ($self) = @_;
-
-    $self->{unknown_1070} = ();
-    while (!$self->{_io}->is_eof()) {
-        push @{$self->{unknown_1070}}, CAD::Format::DWG::AC1009::VportUnknown1070Item->new($self->{_io}, $self, $self->{_root});
-    }
-}
-
-sub unknown_1070 {
-    my ($self) = @_;
-    return $self->{unknown_1070};
-}
-
-########################################################################
 package CAD::Format::DWG::AC1009::Style;
 
 our @ISA = 'IO::KaitaiStruct::Struct';
@@ -1625,50 +1643,7 @@ sub _read {
         $self->{unknown1} = $self->{_io}->read_u1();
     }
     if ( (($self->entity_mode()->entity_pspace_flag()) && ($self->unknown1() == 6)) ) {
-        $self->{unknown2} = $self->{_io}->read_bytes(5);
-    }
-    if ( (($self->entity_mode()->entity_pspace_flag()) && ($self->unknown1() == 6)) ) {
-        $self->{unknown_1000} = CAD::Format::DWG::AC1009::VportUnknown1000->new($self->{_io}, $self, $self->{_root});
-    }
-    if ( (($self->entity_mode()->entity_pspace_flag()) && ($self->unknown1() == 6)) ) {
-        $self->{_raw_unknown_1002} = $self->{_io}->read_bytes(2);
-        my $io__raw_unknown_1002 = IO::KaitaiStruct::Stream->new($self->{_raw_unknown_1002});
-        $self->{unknown_1002} = CAD::Format::DWG::AC1009::VportUnknown1002->new($io__raw_unknown_1002, $self, $self->{_root});
-    }
-    if ( (($self->entity_mode()->entity_pspace_flag()) && ($self->unknown1() == 6)) ) {
-        $self->{_raw_unknown_1070_3} = $self->{_io}->read_bytes(3);
-        my $io__raw_unknown_1070_3 = IO::KaitaiStruct::Stream->new($self->{_raw_unknown_1070_3});
-        $self->{unknown_1070_3} = CAD::Format::DWG::AC1009::VportUnknown1070->new($io__raw_unknown_1070_3, $self, $self->{_root});
-    }
-    if ( (($self->entity_mode()->entity_pspace_flag()) && ($self->unknown1() == 6)) ) {
-        $self->{_raw_unknown_1010} = $self->{_io}->read_bytes(50);
-        my $io__raw_unknown_1010 = IO::KaitaiStruct::Stream->new($self->{_raw_unknown_1010});
-        $self->{unknown_1010} = CAD::Format::DWG::AC1009::VportUnknown1010->new($io__raw_unknown_1010, $self, $self->{_root});
-    }
-    if ( (($self->entity_mode()->entity_pspace_flag()) && ($self->unknown1() == 6)) ) {
-        $self->{_raw_unknown_1040} = $self->{_io}->read_bytes(63);
-        my $io__raw_unknown_1040 = IO::KaitaiStruct::Stream->new($self->{_raw_unknown_1040});
-        $self->{unknown_1040} = CAD::Format::DWG::AC1009::VportUnknown1040->new($io__raw_unknown_1040, $self, $self->{_root});
-    }
-    if ( (($self->entity_mode()->entity_pspace_flag()) && ($self->unknown1() == 6)) ) {
-        $self->{_raw_unknown_1070} = $self->{_io}->read_bytes(24);
-        my $io__raw_unknown_1070 = IO::KaitaiStruct::Stream->new($self->{_raw_unknown_1070});
-        $self->{unknown_1070} = CAD::Format::DWG::AC1009::VportUnknown1070->new($io__raw_unknown_1070, $self, $self->{_root});
-    }
-    if ( (($self->entity_mode()->entity_pspace_flag()) && ($self->unknown1() == 6)) ) {
-        $self->{_raw_unknown_1040_2} = $self->{_io}->read_bytes(63);
-        my $io__raw_unknown_1040_2 = IO::KaitaiStruct::Stream->new($self->{_raw_unknown_1040_2});
-        $self->{unknown_1040_2} = CAD::Format::DWG::AC1009::VportUnknown1040->new($io__raw_unknown_1040_2, $self, $self->{_root});
-    }
-    if ( (($self->entity_mode()->entity_pspace_flag()) && ($self->unknown1() == 6)) ) {
-        $self->{_raw_unknown_1070_2} = $self->{_io}->read_bytes(3);
-        my $io__raw_unknown_1070_2 = IO::KaitaiStruct::Stream->new($self->{_raw_unknown_1070_2});
-        $self->{unknown_1070_2} = CAD::Format::DWG::AC1009::VportUnknown1070->new($io__raw_unknown_1070_2, $self, $self->{_root});
-    }
-    if ( (($self->entity_mode()->entity_pspace_flag()) && ($self->unknown1() == 6)) ) {
-        $self->{_raw_unknown_1002_2} = $self->{_io}->read_bytes(6);
-        my $io__raw_unknown_1002_2 = IO::KaitaiStruct::Stream->new($self->{_raw_unknown_1002_2});
-        $self->{unknown_1002_2} = CAD::Format::DWG::AC1009::VportUnknown1002->new($io__raw_unknown_1002_2, $self, $self->{_root});
+        $self->{vport_in_entity} = CAD::Format::DWG::AC1009::VportInEntity->new($self->{_io}, $self, $self->{_root});
     }
     if ($self->entity_mode()->entity_handling_flag()) {
         $self->{handling_size} = $self->{_io}->read_u1();
@@ -1796,54 +1771,9 @@ sub unknown1 {
     return $self->{unknown1};
 }
 
-sub unknown2 {
+sub vport_in_entity {
     my ($self) = @_;
-    return $self->{unknown2};
-}
-
-sub unknown_1000 {
-    my ($self) = @_;
-    return $self->{unknown_1000};
-}
-
-sub unknown_1002 {
-    my ($self) = @_;
-    return $self->{unknown_1002};
-}
-
-sub unknown_1070_3 {
-    my ($self) = @_;
-    return $self->{unknown_1070_3};
-}
-
-sub unknown_1010 {
-    my ($self) = @_;
-    return $self->{unknown_1010};
-}
-
-sub unknown_1040 {
-    my ($self) = @_;
-    return $self->{unknown_1040};
-}
-
-sub unknown_1070 {
-    my ($self) = @_;
-    return $self->{unknown_1070};
-}
-
-sub unknown_1040_2 {
-    my ($self) = @_;
-    return $self->{unknown_1040_2};
-}
-
-sub unknown_1070_2 {
-    my ($self) = @_;
-    return $self->{unknown_1070_2};
-}
-
-sub unknown_1002_2 {
-    my ($self) = @_;
-    return $self->{unknown_1002_2};
+    return $self->{vport_in_entity};
 }
 
 sub handling_size {
@@ -1859,46 +1789,6 @@ sub handling_id {
 sub space {
     my ($self) = @_;
     return $self->{space};
-}
-
-sub _raw_unknown_1002 {
-    my ($self) = @_;
-    return $self->{_raw_unknown_1002};
-}
-
-sub _raw_unknown_1070_3 {
-    my ($self) = @_;
-    return $self->{_raw_unknown_1070_3};
-}
-
-sub _raw_unknown_1010 {
-    my ($self) = @_;
-    return $self->{_raw_unknown_1010};
-}
-
-sub _raw_unknown_1040 {
-    my ($self) = @_;
-    return $self->{_raw_unknown_1040};
-}
-
-sub _raw_unknown_1070 {
-    my ($self) = @_;
-    return $self->{_raw_unknown_1070};
-}
-
-sub _raw_unknown_1040_2 {
-    my ($self) = @_;
-    return $self->{_raw_unknown_1040_2};
-}
-
-sub _raw_unknown_1070_2 {
-    my ($self) = @_;
-    return $self->{_raw_unknown_1070_2};
-}
-
-sub _raw_unknown_1002_2 {
-    my ($self) = @_;
-    return $self->{_raw_unknown_1002_2};
 }
 
 ########################################################################
@@ -2198,7 +2088,7 @@ sub u1 {
 }
 
 ########################################################################
-package CAD::Format::DWG::AC1009::VportUnknown1010;
+package CAD::Format::DWG::AC1009::Vport1001;
 
 our @ISA = 'IO::KaitaiStruct::Struct';
 
@@ -2227,15 +2117,12 @@ sub new {
 sub _read {
     my ($self) = @_;
 
-    $self->{unknown_1010} = ();
-    while (!$self->{_io}->is_eof()) {
-        push @{$self->{unknown_1010}}, CAD::Format::DWG::AC1009::VportUnknown1010Item->new($self->{_io}, $self, $self->{_root});
-    }
+    $self->{value} = $self->{_io}->read_u2le();
 }
 
-sub unknown_1010 {
+sub value {
     my ($self) = @_;
-    return $self->{unknown_1010};
+    return $self->{value};
 }
 
 ########################################################################
@@ -2339,47 +2226,6 @@ sub z {
 }
 
 ########################################################################
-package CAD::Format::DWG::AC1009::VportUnknown1002;
-
-our @ISA = 'IO::KaitaiStruct::Struct';
-
-sub from_file {
-    my ($class, $filename) = @_;
-    my $fd;
-
-    open($fd, '<', $filename) or return undef;
-    binmode($fd);
-    return new($class, IO::KaitaiStruct::Stream->new($fd));
-}
-
-sub new {
-    my ($class, $_io, $_parent, $_root) = @_;
-    my $self = IO::KaitaiStruct::Struct->new($_io);
-
-    bless $self, $class;
-    $self->{_parent} = $_parent;
-    $self->{_root} = $_root || $self;;
-
-    $self->_read();
-
-    return $self;
-}
-
-sub _read {
-    my ($self) = @_;
-
-    $self->{unknown_1002} = ();
-    while (!$self->{_io}->is_eof()) {
-        push @{$self->{unknown_1002}}, CAD::Format::DWG::AC1009::VportUnknown1002Item->new($self->{_io}, $self, $self->{_root});
-    }
-}
-
-sub unknown_1002 {
-    my ($self) = @_;
-    return $self->{unknown_1002};
-}
-
-########################################################################
 package CAD::Format::DWG::AC1009::EntityBlockEnd;
 
 our @ISA = 'IO::KaitaiStruct::Struct';
@@ -2421,50 +2267,6 @@ sub entity_common {
 sub crc16 {
     my ($self) = @_;
     return $self->{crc16};
-}
-
-########################################################################
-package CAD::Format::DWG::AC1009::VportUnknown1040Item;
-
-our @ISA = 'IO::KaitaiStruct::Struct';
-
-sub from_file {
-    my ($class, $filename) = @_;
-    my $fd;
-
-    open($fd, '<', $filename) or return undef;
-    binmode($fd);
-    return new($class, IO::KaitaiStruct::Stream->new($fd));
-}
-
-sub new {
-    my ($class, $_io, $_parent, $_root) = @_;
-    my $self = IO::KaitaiStruct::Struct->new($_io);
-
-    bless $self, $class;
-    $self->{_parent} = $_parent;
-    $self->{_root} = $_root || $self;;
-
-    $self->_read();
-
-    return $self;
-}
-
-sub _read {
-    my ($self) = @_;
-
-    $self->{separator_28} = $self->{_io}->read_u1();
-    $self->{value} = $self->{_io}->read_f8le();
-}
-
-sub separator_28 {
-    my ($self) = @_;
-    return $self->{separator_28};
-}
-
-sub value {
-    my ($self) = @_;
-    return $self->{value};
 }
 
 ########################################################################
@@ -2649,6 +2451,44 @@ sub x {
 sub y {
     my ($self) = @_;
     return $self->{y};
+}
+
+########################################################################
+package CAD::Format::DWG::AC1009::Vport1010;
+
+our @ISA = 'IO::KaitaiStruct::Struct';
+
+sub from_file {
+    my ($class, $filename) = @_;
+    my $fd;
+
+    open($fd, '<', $filename) or return undef;
+    binmode($fd);
+    return new($class, IO::KaitaiStruct::Stream->new($fd));
+}
+
+sub new {
+    my ($class, $_io, $_parent, $_root) = @_;
+    my $self = IO::KaitaiStruct::Struct->new($_io);
+
+    bless $self, $class;
+    $self->{_parent} = $_parent;
+    $self->{_root} = $_root || $self;;
+
+    $self->_read();
+
+    return $self;
+}
+
+sub _read {
+    my ($self) = @_;
+
+    $self->{value} = CAD::Format::DWG::AC1009::Point3d->new($self->{_io}, $self, $self->{_root});
+}
+
+sub value {
+    my ($self) = @_;
+    return $self->{value};
 }
 
 ########################################################################
@@ -3376,6 +3216,71 @@ sub crc16 {
 }
 
 ########################################################################
+package CAD::Format::DWG::AC1009::VportDetect;
+
+our @ISA = 'IO::KaitaiStruct::Struct';
+
+sub from_file {
+    my ($class, $filename) = @_;
+    my $fd;
+
+    open($fd, '<', $filename) or return undef;
+    binmode($fd);
+    return new($class, IO::KaitaiStruct::Stream->new($fd));
+}
+
+sub new {
+    my ($class, $_io, $_parent, $_root) = @_;
+    my $self = IO::KaitaiStruct::Struct->new($_io);
+
+    bless $self, $class;
+    $self->{_parent} = $_parent;
+    $self->{_root} = $_root || $self;;
+
+    $self->_read();
+
+    return $self;
+}
+
+sub _read {
+    my ($self) = @_;
+
+    $self->{separator} = $self->{_io}->read_u1();
+    my $_on = $self->separator();
+    if ($_on == $CAD::Format::DWG::AC1009::VPORTS_VPORT_1000) {
+        $self->{data} = CAD::Format::DWG::AC1009::Vport1000->new($self->{_io}, $self, $self->{_root});
+    }
+    elsif ($_on == $CAD::Format::DWG::AC1009::VPORTS_VPORT_1001) {
+        $self->{data} = CAD::Format::DWG::AC1009::Vport1001->new($self->{_io}, $self, $self->{_root});
+    }
+    elsif ($_on == $CAD::Format::DWG::AC1009::VPORTS_VPORT_1010) {
+        $self->{data} = CAD::Format::DWG::AC1009::Vport1010->new($self->{_io}, $self, $self->{_root});
+    }
+    elsif ($_on == $CAD::Format::DWG::AC1009::VPORTS_VPORT_1040) {
+        $self->{data} = CAD::Format::DWG::AC1009::Vport1040->new($self->{_io}, $self, $self->{_root});
+    }
+    elsif ($_on == $CAD::Format::DWG::AC1009::VPORTS_VPORT_1003) {
+        $self->{data} = CAD::Format::DWG::AC1009::Vport1003->new($self->{_io}, $self, $self->{_root});
+    }
+    elsif ($_on == $CAD::Format::DWG::AC1009::VPORTS_VPORT_1070) {
+        $self->{data} = CAD::Format::DWG::AC1009::Vport1070->new($self->{_io}, $self, $self->{_root});
+    }
+    elsif ($_on == $CAD::Format::DWG::AC1009::VPORTS_VPORT_1002) {
+        $self->{data} = CAD::Format::DWG::AC1009::Vport1002->new($self->{_io}, $self, $self->{_root});
+    }
+}
+
+sub separator {
+    my ($self) = @_;
+    return $self->{separator};
+}
+
+sub data {
+    my ($self) = @_;
+    return $self->{data};
+}
+
+########################################################################
 package CAD::Format::DWG::AC1009::Appid;
 
 our @ISA = 'IO::KaitaiStruct::Struct';
@@ -3426,7 +3331,7 @@ sub u1 {
 }
 
 ########################################################################
-package CAD::Format::DWG::AC1009::VportUnknown1000;
+package CAD::Format::DWG::AC1009::Vport1040;
 
 our @ISA = 'IO::KaitaiStruct::Struct';
 
@@ -3455,24 +3360,12 @@ sub new {
 sub _read {
     my ($self) = @_;
 
-    $self->{separator_00} = $self->{_io}->read_u1();
-    $self->{name_size} = $self->{_io}->read_u1();
-    $self->{name} = Encode::decode("ASCII", $self->{_io}->read_bytes($self->name_size()));
+    $self->{value} = $self->{_io}->read_f8le();
 }
 
-sub separator_00 {
+sub value {
     my ($self) = @_;
-    return $self->{separator_00};
-}
-
-sub name_size {
-    my ($self) = @_;
-    return $self->{name_size};
-}
-
-sub name {
-    my ($self) = @_;
-    return $self->{name};
+    return $self->{value};
 }
 
 ########################################################################
@@ -4041,6 +3934,44 @@ sub rotation_in_radians {
 sub crc16 {
     my ($self) = @_;
     return $self->{crc16};
+}
+
+########################################################################
+package CAD::Format::DWG::AC1009::Vport1070;
+
+our @ISA = 'IO::KaitaiStruct::Struct';
+
+sub from_file {
+    my ($class, $filename) = @_;
+    my $fd;
+
+    open($fd, '<', $filename) or return undef;
+    binmode($fd);
+    return new($class, IO::KaitaiStruct::Stream->new($fd));
+}
+
+sub new {
+    my ($class, $_io, $_parent, $_root) = @_;
+    my $self = IO::KaitaiStruct::Struct->new($_io);
+
+    bless $self, $class;
+    $self->{_parent} = $_parent;
+    $self->{_root} = $_root || $self;;
+
+    $self->_read();
+
+    return $self;
+}
+
+sub _read {
+    my ($self) = @_;
+
+    $self->{value} = $self->{_io}->read_u2le();
+}
+
+sub value {
+    my ($self) = @_;
+    return $self->{value};
 }
 
 ########################################################################
@@ -5420,47 +5351,6 @@ sub crc16 {
 }
 
 ########################################################################
-package CAD::Format::DWG::AC1009::VportUnknown1040;
-
-our @ISA = 'IO::KaitaiStruct::Struct';
-
-sub from_file {
-    my ($class, $filename) = @_;
-    my $fd;
-
-    open($fd, '<', $filename) or return undef;
-    binmode($fd);
-    return new($class, IO::KaitaiStruct::Stream->new($fd));
-}
-
-sub new {
-    my ($class, $_io, $_parent, $_root) = @_;
-    my $self = IO::KaitaiStruct::Struct->new($_io);
-
-    bless $self, $class;
-    $self->{_parent} = $_parent;
-    $self->{_root} = $_root || $self;;
-
-    $self->_read();
-
-    return $self;
-}
-
-sub _read {
-    my ($self) = @_;
-
-    $self->{unknown_1040} = ();
-    while (!$self->{_io}->is_eof()) {
-        push @{$self->{unknown_1040}}, CAD::Format::DWG::AC1009::VportUnknown1040Item->new($self->{_io}, $self, $self->{_root});
-    }
-}
-
-sub unknown_1040 {
-    my ($self) = @_;
-    return $self->{unknown_1040};
-}
-
-########################################################################
 package CAD::Format::DWG::AC1009::Entity;
 
 our @ISA = 'IO::KaitaiStruct::Struct';
@@ -5615,7 +5505,7 @@ sub crc16 {
 }
 
 ########################################################################
-package CAD::Format::DWG::AC1009::VportUnknown1070Item;
+package CAD::Format::DWG::AC1009::Vport1003;
 
 our @ISA = 'IO::KaitaiStruct::Struct';
 
@@ -5644,13 +5534,7 @@ sub new {
 sub _read {
     my ($self) = @_;
 
-    $self->{separator_46} = $self->{_io}->read_u1();
     $self->{value} = $self->{_io}->read_u2le();
-}
-
-sub separator_46 {
-    my ($self) = @_;
-    return $self->{separator_46};
 }
 
 sub value {
@@ -6143,6 +6027,47 @@ sub vport_15_25 {
 sub u17 {
     my ($self) = @_;
     return $self->{u17};
+}
+
+########################################################################
+package CAD::Format::DWG::AC1009::VportData;
+
+our @ISA = 'IO::KaitaiStruct::Struct';
+
+sub from_file {
+    my ($class, $filename) = @_;
+    my $fd;
+
+    open($fd, '<', $filename) or return undef;
+    binmode($fd);
+    return new($class, IO::KaitaiStruct::Stream->new($fd));
+}
+
+sub new {
+    my ($class, $_io, $_parent, $_root) = @_;
+    my $self = IO::KaitaiStruct::Struct->new($_io);
+
+    bless $self, $class;
+    $self->{_parent} = $_parent;
+    $self->{_root} = $_root || $self;;
+
+    $self->_read();
+
+    return $self;
+}
+
+sub _read {
+    my ($self) = @_;
+
+    $self->{vports} = ();
+    while (!$self->{_io}->is_eof()) {
+        push @{$self->{vports}}, CAD::Format::DWG::AC1009::VportDetect->new($self->{_io}, $self, $self->{_root});
+    }
+}
+
+sub vports {
+    my ($self) = @_;
+    return $self->{vports};
 }
 
 ########################################################################
@@ -6794,50 +6719,6 @@ sub begin {
 }
 
 ########################################################################
-package CAD::Format::DWG::AC1009::VportUnknown1002Item;
-
-our @ISA = 'IO::KaitaiStruct::Struct';
-
-sub from_file {
-    my ($class, $filename) = @_;
-    my $fd;
-
-    open($fd, '<', $filename) or return undef;
-    binmode($fd);
-    return new($class, IO::KaitaiStruct::Stream->new($fd));
-}
-
-sub new {
-    my ($class, $_io, $_parent, $_root) = @_;
-    my $self = IO::KaitaiStruct::Struct->new($_io);
-
-    bless $self, $class;
-    $self->{_parent} = $_parent;
-    $self->{_root} = $_root || $self;;
-
-    $self->_read();
-
-    return $self;
-}
-
-sub _read {
-    my ($self) = @_;
-
-    $self->{separator_02} = $self->{_io}->read_u1();
-    $self->{value} = $self->{_io}->read_u1();
-}
-
-sub separator_02 {
-    my ($self) = @_;
-    return $self->{separator_02};
-}
-
-sub value {
-    my ($self) = @_;
-    return $self->{value};
-}
-
-########################################################################
 package CAD::Format::DWG::AC1009::EntityPolyline;
 
 our @ISA = 'IO::KaitaiStruct::Struct';
@@ -7079,6 +6960,44 @@ sub u3 {
 sub u4 {
     my ($self) = @_;
     return $self->{u4};
+}
+
+########################################################################
+package CAD::Format::DWG::AC1009::Vport1002;
+
+our @ISA = 'IO::KaitaiStruct::Struct';
+
+sub from_file {
+    my ($class, $filename) = @_;
+    my $fd;
+
+    open($fd, '<', $filename) or return undef;
+    binmode($fd);
+    return new($class, IO::KaitaiStruct::Stream->new($fd));
+}
+
+sub new {
+    my ($class, $_io, $_parent, $_root) = @_;
+    my $self = IO::KaitaiStruct::Struct->new($_io);
+
+    bless $self, $class;
+    $self->{_parent} = $_parent;
+    $self->{_root} = $_root || $self;;
+
+    $self->_read();
+
+    return $self;
+}
+
+sub _read {
+    my ($self) = @_;
+
+    $self->{value} = $self->{_io}->read_u1();
+}
+
+sub value {
+    my ($self) = @_;
+    return $self->{value};
 }
 
 1;
