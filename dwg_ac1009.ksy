@@ -1731,7 +1731,7 @@ types:
     seq:
       - id: flag1
         type: b1
-      - id: flag2
+      - id: referenced
         type: b1
       - id: flag3
         type: b1
@@ -1741,7 +1741,7 @@ types:
         type: b1
       - id: flag6
         type: b1
-      - id: flag7
+      - id: frozen_in_new_viewports
         type: b1
       - id: frozen
         type: b1

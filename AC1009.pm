@@ -6325,12 +6325,12 @@ sub _read {
     my ($self) = @_;
 
     $self->{flag1} = $self->{_io}->read_bits_int_be(1);
-    $self->{flag2} = $self->{_io}->read_bits_int_be(1);
+    $self->{referenced} = $self->{_io}->read_bits_int_be(1);
     $self->{flag3} = $self->{_io}->read_bits_int_be(1);
     $self->{flag4} = $self->{_io}->read_bits_int_be(1);
     $self->{flag5} = $self->{_io}->read_bits_int_be(1);
     $self->{flag6} = $self->{_io}->read_bits_int_be(1);
-    $self->{flag7} = $self->{_io}->read_bits_int_be(1);
+    $self->{frozen_in_new_viewports} = $self->{_io}->read_bits_int_be(1);
     $self->{frozen} = $self->{_io}->read_bits_int_be(1);
 }
 
@@ -6339,9 +6339,9 @@ sub flag1 {
     return $self->{flag1};
 }
 
-sub flag2 {
+sub referenced {
     my ($self) = @_;
-    return $self->{flag2};
+    return $self->{referenced};
 }
 
 sub flag3 {
@@ -6364,9 +6364,9 @@ sub flag6 {
     return $self->{flag6};
 }
 
-sub flag7 {
+sub frozen_in_new_viewports {
     my ($self) = @_;
-    return $self->{flag7};
+    return $self->{frozen_in_new_viewports};
 }
 
 sub frozen {
