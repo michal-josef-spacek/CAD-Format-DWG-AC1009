@@ -1538,6 +1538,15 @@ types:
         doc: SHAPE/50
       - id: load_num
         type: u1
+        if: entity_common.flag2_7
+      - id: width_factor
+        type: f8
+        if: entity_common.flag2_6
+        doc: SHAPE/41
+      - id: oblique_angle
+        type: f8
+        if: entity_common.flag2_5
+        doc: SHAPE/51
       - id: crc16
         size: 2
   entity_solid:

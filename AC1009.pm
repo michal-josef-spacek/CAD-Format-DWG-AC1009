@@ -6170,7 +6170,15 @@ sub _read {
     if ($self->entity_common()->flag2_8()) {
         $self->{angle_in_radians} = $self->{_io}->read_f8le();
     }
-    $self->{load_num} = $self->{_io}->read_u1();
+    if ($self->entity_common()->flag2_7()) {
+        $self->{load_num} = $self->{_io}->read_u1();
+    }
+    if ($self->entity_common()->flag2_6()) {
+        $self->{width_factor} = $self->{_io}->read_f8le();
+    }
+    if ($self->entity_common()->flag2_5()) {
+        $self->{oblique_angle} = $self->{_io}->read_f8le();
+    }
     $self->{crc16} = $self->{_io}->read_bytes(2);
 }
 
@@ -6207,6 +6215,16 @@ sub angle_in_radians {
 sub load_num {
     my ($self) = @_;
     return $self->{load_num};
+}
+
+sub width_factor {
+    my ($self) = @_;
+    return $self->{width_factor};
+}
+
+sub oblique_angle {
+    my ($self) = @_;
+    return $self->{oblique_angle};
 }
 
 sub crc16 {
