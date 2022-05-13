@@ -1012,7 +1012,7 @@ types:
         type: s1
         if: entity_mode.entity_color_flag
       - id: entity_linetype_index
-        type: s1
+        type: s2
         if: entity_mode.entity_linetype_flag
       - id: entity_thickness
         type: f8

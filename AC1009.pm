@@ -1634,7 +1634,7 @@ sub _read {
         $self->{entity_color} = $self->{_io}->read_s1();
     }
     if ($self->entity_mode()->entity_linetype_flag()) {
-        $self->{entity_linetype_index} = $self->{_io}->read_s1();
+        $self->{entity_linetype_index} = $self->{_io}->read_s2le();
     }
     if ($self->entity_mode()->entity_thickness_flag()) {
         $self->{entity_thickness} = $self->{_io}->read_f8le();
