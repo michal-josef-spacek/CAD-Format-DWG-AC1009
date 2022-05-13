@@ -387,13 +387,13 @@ sub _read {
     my ($self) = @_;
 
     $self->{flag1} = $self->{_io}->read_bits_int_be(1);
-    $self->{flag2} = $self->{_io}->read_bits_int_be(1);
+    $self->{referenced} = $self->{_io}->read_bits_int_be(1);
     $self->{flag3} = $self->{_io}->read_bits_int_be(1);
     $self->{flag4} = $self->{_io}->read_bits_int_be(1);
     $self->{flag5} = $self->{_io}->read_bits_int_be(1);
     $self->{flag6} = $self->{_io}->read_bits_int_be(1);
     $self->{flag7} = $self->{_io}->read_bits_int_be(1);
-    $self->{frozen} = $self->{_io}->read_bits_int_be(1);
+    $self->{flag8} = $self->{_io}->read_bits_int_be(1);
 }
 
 sub flag1 {
@@ -401,9 +401,9 @@ sub flag1 {
     return $self->{flag1};
 }
 
-sub flag2 {
+sub referenced {
     my ($self) = @_;
-    return $self->{flag2};
+    return $self->{referenced};
 }
 
 sub flag3 {
@@ -431,9 +431,9 @@ sub flag7 {
     return $self->{flag7};
 }
 
-sub frozen {
+sub flag8 {
     my ($self) = @_;
-    return $self->{frozen};
+    return $self->{flag8};
 }
 
 ########################################################################
@@ -889,6 +889,9 @@ sub _read {
     $self->{pattern7} = $self->{_io}->read_f8le();
     $self->{pattern8} = $self->{_io}->read_f8le();
     $self->{pattern9} = $self->{_io}->read_f8le();
+    $self->{pattern10} = $self->{_io}->read_f8le();
+    $self->{pattern11} = $self->{_io}->read_f8le();
+    $self->{pattern12} = $self->{_io}->read_f8le();
 }
 
 sub pattern1 {
@@ -934,6 +937,21 @@ sub pattern8 {
 sub pattern9 {
     my ($self) = @_;
     return $self->{pattern9};
+}
+
+sub pattern10 {
+    my ($self) = @_;
+    return $self->{pattern10};
+}
+
+sub pattern11 {
+    my ($self) = @_;
+    return $self->{pattern11};
+}
+
+sub pattern12 {
+    my ($self) = @_;
+    return $self->{pattern12};
 }
 
 ########################################################################
@@ -1823,13 +1841,13 @@ sub _read {
 
     $self->{flag} = CAD::Format::DWG::AC1009::LinetypeFlag->new($self->{_io}, $self, $self->{_root});
     $self->{linetype_name} = Encode::decode("ASCII", IO::KaitaiStruct::Stream::bytes_terminate($self->{_io}->read_bytes(32), 0, 0));
+    $self->{used} = $self->{_io}->read_u2le();
     $self->{description} = Encode::decode("ASCII", IO::KaitaiStruct::Stream::bytes_terminate($self->{_io}->read_bytes(48), 0, 0));
     $self->{alignment} = $self->{_io}->read_u1();
     $self->{num_dashes} = $self->{_io}->read_u1();
     $self->{pattern_len} = $self->{_io}->read_f8le();
     $self->{pattern} = CAD::Format::DWG::AC1009::Pattern->new($self->{_io}, $self, $self->{_root});
-    $self->{unknown} = $self->{_io}->read_s1();
-    $self->{unknown2} = $self->{_io}->read_bytes(27);
+    $self->{crc16} = $self->{_io}->read_bytes(2);
 }
 
 sub flag {
@@ -1840,6 +1858,11 @@ sub flag {
 sub linetype_name {
     my ($self) = @_;
     return $self->{linetype_name};
+}
+
+sub used {
+    my ($self) = @_;
+    return $self->{used};
 }
 
 sub description {
@@ -1867,14 +1890,9 @@ sub pattern {
     return $self->{pattern};
 }
 
-sub unknown {
+sub crc16 {
     my ($self) = @_;
-    return $self->{unknown};
-}
-
-sub unknown2 {
-    my ($self) = @_;
-    return $self->{unknown2};
+    return $self->{crc16};
 }
 
 ########################################################################

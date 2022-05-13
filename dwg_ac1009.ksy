@@ -1765,6 +1765,8 @@ types:
         encoding: ASCII
         terminator: 0x00
         doc: LTYPE/2
+      - id: used
+        type: u2
       - id: description
         size: 48
         type: str
@@ -1783,10 +1785,8 @@ types:
       - id: pattern
         type: pattern
         doc: LTYPE/49
-      - id: unknown
-        type: s1
-      - id: unknown2
-        size: 27
+      - id: crc16
+        size: 2
   pattern:
     seq:
       - id: pattern1
@@ -1807,11 +1807,17 @@ types:
         type: f8
       - id: pattern9
         type: f8
+      - id: pattern10
+        type: f8
+      - id: pattern11
+        type: f8
+      - id: pattern12
+        type: f8
   linetype_flag:
     seq:
       - id: flag1
         type: b1
-      - id: flag2
+      - id: referenced
         type: b1
       - id: flag3
         type: b1
@@ -1823,7 +1829,7 @@ types:
         type: b1
       - id: flag7
         type: b1
-      - id: frozen
+      - id: flag8
         type: b1
   real_entities:
     seq:
