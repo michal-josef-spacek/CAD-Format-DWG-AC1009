@@ -38,6 +38,7 @@ our $ENTITIES_BLOCK_BEGIN = 12;
 our $ENTITIES_BLOCK_END = 13;
 our $ENTITIES_INSERT = 14;
 our $ENTITIES_ATTDEF = 15;
+our $ENTITIES_ATTRIB = 16;
 our $ENTITIES_SEQEND = 17;
 our $ENTITIES_POLYLINE = 18;
 our $ENTITIES_POLYLINE2 = 19;
@@ -354,6 +355,142 @@ sub _raw_entities {
 sub _raw_block_entities {
     my ($self) = @_;
     return $self->{_raw_block_entities};
+}
+
+########################################################################
+package CAD::Format::DWG::AC1009::EntityAttrib;
+
+our @ISA = 'IO::KaitaiStruct::Struct';
+
+sub from_file {
+    my ($class, $filename) = @_;
+    my $fd;
+
+    open($fd, '<', $filename) or return undef;
+    binmode($fd);
+    return new($class, IO::KaitaiStruct::Stream->new($fd));
+}
+
+sub new {
+    my ($class, $_io, $_parent, $_root) = @_;
+    my $self = IO::KaitaiStruct::Struct->new($_io);
+
+    bless $self, $class;
+    $self->{_parent} = $_parent;
+    $self->{_root} = $_root || $self;;
+
+    $self->_read();
+
+    return $self;
+}
+
+sub _read {
+    my ($self) = @_;
+
+    $self->{entity_common} = CAD::Format::DWG::AC1009::EntityCommon->new($self->{_io}, $self, $self->{_root});
+    $self->{point_from} = CAD::Format::DWG::AC1009::Point2d->new($self->{_io}, $self, $self->{_root});
+    $self->{height} = $self->{_io}->read_f8le();
+    $self->{value_size} = $self->{_io}->read_s2le();
+    $self->{value} = Encode::decode("ASCII", IO::KaitaiStruct::Stream::bytes_terminate($self->{_io}->read_bytes($self->value_size()), 0, 0));
+    $self->{tag_size} = $self->{_io}->read_s2le();
+    $self->{tag} = Encode::decode("ASCII", IO::KaitaiStruct::Stream::bytes_terminate($self->{_io}->read_bytes($self->tag_size()), 0, 0));
+    $self->{flags} = CAD::Format::DWG::AC1009::AttrFlags->new($self->{_io}, $self, $self->{_root});
+    if ($self->entity_common()->flag2_7()) {
+        $self->{rotation_angle_in_radians} = $self->{_io}->read_f8le();
+    }
+    if ($self->entity_common()->flag2_6()) {
+        $self->{width_scale_factor} = $self->{_io}->read_f8le();
+    }
+    if ($self->entity_common()->flag2_5()) {
+        $self->{obliquing_angle_in_radians} = $self->{_io}->read_f8le();
+    }
+    if ($self->entity_common()->flag2_4()) {
+        $self->{text_style_index} = $self->{_io}->read_u1();
+    }
+    if ($self->entity_common()->flag2_3()) {
+        $self->{generation} = CAD::Format::DWG::AC1009::GenerationFlags->new($self->{_io}, $self, $self->{_root});
+    }
+    if ($self->entity_common()->flag2_2()) {
+        $self->{horiz_text_justification_type} = $self->{_io}->read_u1();
+    }
+    if ($self->entity_common()->flag2_1()) {
+        $self->{aligned_to} = CAD::Format::DWG::AC1009::Point2d->new($self->{_io}, $self, $self->{_root});
+    }
+}
+
+sub entity_common {
+    my ($self) = @_;
+    return $self->{entity_common};
+}
+
+sub point_from {
+    my ($self) = @_;
+    return $self->{point_from};
+}
+
+sub height {
+    my ($self) = @_;
+    return $self->{height};
+}
+
+sub value_size {
+    my ($self) = @_;
+    return $self->{value_size};
+}
+
+sub value {
+    my ($self) = @_;
+    return $self->{value};
+}
+
+sub tag_size {
+    my ($self) = @_;
+    return $self->{tag_size};
+}
+
+sub tag {
+    my ($self) = @_;
+    return $self->{tag};
+}
+
+sub flags {
+    my ($self) = @_;
+    return $self->{flags};
+}
+
+sub rotation_angle_in_radians {
+    my ($self) = @_;
+    return $self->{rotation_angle_in_radians};
+}
+
+sub width_scale_factor {
+    my ($self) = @_;
+    return $self->{width_scale_factor};
+}
+
+sub obliquing_angle_in_radians {
+    my ($self) = @_;
+    return $self->{obliquing_angle_in_radians};
+}
+
+sub text_style_index {
+    my ($self) = @_;
+    return $self->{text_style_index};
+}
+
+sub generation {
+    my ($self) = @_;
+    return $self->{generation};
+}
+
+sub horiz_text_justification_type {
+    my ($self) = @_;
+    return $self->{horiz_text_justification_type};
+}
+
+sub aligned_to {
+    my ($self) = @_;
+    return $self->{aligned_to};
 }
 
 ########################################################################
@@ -1596,6 +1733,86 @@ sub flag7 {
 sub closed {
     my ($self) = @_;
     return $self->{closed};
+}
+
+########################################################################
+package CAD::Format::DWG::AC1009::AttrFlags;
+
+our @ISA = 'IO::KaitaiStruct::Struct';
+
+sub from_file {
+    my ($class, $filename) = @_;
+    my $fd;
+
+    open($fd, '<', $filename) or return undef;
+    binmode($fd);
+    return new($class, IO::KaitaiStruct::Stream->new($fd));
+}
+
+sub new {
+    my ($class, $_io, $_parent, $_root) = @_;
+    my $self = IO::KaitaiStruct::Struct->new($_io);
+
+    bless $self, $class;
+    $self->{_parent} = $_parent;
+    $self->{_root} = $_root || $self;;
+
+    $self->_read();
+
+    return $self;
+}
+
+sub _read {
+    my ($self) = @_;
+
+    $self->{flag1} = $self->{_io}->read_bits_int_be(1);
+    $self->{flag2} = $self->{_io}->read_bits_int_be(1);
+    $self->{flag3} = $self->{_io}->read_bits_int_be(1);
+    $self->{flag4} = $self->{_io}->read_bits_int_be(1);
+    $self->{flag5} = $self->{_io}->read_bits_int_be(1);
+    $self->{verify} = $self->{_io}->read_bits_int_be(1);
+    $self->{constant} = $self->{_io}->read_bits_int_be(1);
+    $self->{invisible} = $self->{_io}->read_bits_int_be(1);
+}
+
+sub flag1 {
+    my ($self) = @_;
+    return $self->{flag1};
+}
+
+sub flag2 {
+    my ($self) = @_;
+    return $self->{flag2};
+}
+
+sub flag3 {
+    my ($self) = @_;
+    return $self->{flag3};
+}
+
+sub flag4 {
+    my ($self) = @_;
+    return $self->{flag4};
+}
+
+sub flag5 {
+    my ($self) = @_;
+    return $self->{flag5};
+}
+
+sub verify {
+    my ($self) = @_;
+    return $self->{verify};
+}
+
+sub constant {
+    my ($self) = @_;
+    return $self->{constant};
+}
+
+sub invisible {
+    my ($self) = @_;
+    return $self->{invisible};
 }
 
 ########################################################################
@@ -5441,6 +5658,9 @@ sub _read {
     }
     elsif ($_on == $CAD::Format::DWG::AC1009::ENTITIES_FACE3D) {
         $self->{data} = CAD::Format::DWG::AC1009::EntityFace3d->new($self->{_io}, $self, $self->{_root});
+    }
+    elsif ($_on == $CAD::Format::DWG::AC1009::ENTITIES_ATTRIB) {
+        $self->{data} = CAD::Format::DWG::AC1009::EntityAttrib->new($self->{_io}, $self, $self->{_root});
     }
     elsif ($_on == $CAD::Format::DWG::AC1009::ENTITIES_ATTDEF) {
         $self->{data} = CAD::Format::DWG::AC1009::EntityAttdef->new($self->{_io}, $self, $self->{_root});

@@ -2,6 +2,7 @@ TODO
 ====
 2. current_linetype = 32767. Is it right?
 3. Sync attdef and attrib with previous version.
+attrib is
 5.
 
 Applied

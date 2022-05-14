@@ -932,6 +932,7 @@ types:
           cases:
             'entities::arc': entity_arc
             'entities::attdef': entity_attdef
+            'entities::attrib': entity_attrib
             'entities::block_begin': entity_block_begin
             'entities::block_end': entity_block_end
             'entities::insert' : entity_insert
@@ -1162,6 +1163,82 @@ types:
         doc: ATTDEF/11|21
       - id: crc16
         size: 2
+  entity_attrib:
+    seq:
+      - id: entity_common
+        type: entity_common
+      - id: point_from
+        type: point_2d
+        doc: ATTRIB/10|20
+      - id: height
+        type: f8
+        doc: ATTRIB/40
+      - id: value_size
+        type: s2
+      - id: value
+        size: value_size
+        type: str
+        encoding: ASCII
+        terminator: 0x00
+        doc: ATTRIB/1
+      - id: tag_size
+        type: s2
+      - id: tag
+        size: tag_size
+        type: str
+        encoding: ASCII
+        terminator: 0x00
+        doc: ATTRIB/2
+      - id: flags
+        type: attr_flags
+        doc: ATTRIB/70
+      - id: rotation_angle_in_radians
+        type: f8
+        if: entity_common.flag2_7
+        doc: ATTRIB/50
+      - id: width_scale_factor
+        type: f8
+        if: entity_common.flag2_6
+        doc: ATTRIB/41
+      - id: obliquing_angle_in_radians
+        type: f8
+        if: entity_common.flag2_5
+        doc: ATTRIB/51
+      - id: text_style_index
+        type: u1
+        if: entity_common.flag2_4
+        doc: ATTRIB/7
+      - id: generation
+        type: generation_flags
+        if: entity_common.flag2_3
+        doc: ATTRIB/71
+      - id: horiz_text_justification_type
+        type: u1
+        enum: text_type
+        if: entity_common.flag2_2
+        doc: ATTRIB/72
+      - id: aligned_to
+        type: point_2d
+        if: entity_common.flag2_1
+        doc: ATTRIB/11|21
+  attr_flags:
+    seq:
+      - id: flag1
+        type: b1
+      - id: flag2
+        type: b1
+      - id: flag3
+        type: b1
+      - id: flag4
+        type: b1
+      - id: flag5
+        type: b1
+      - id: verify
+        type: b1
+      - id: constant
+        type: b1
+      - id: invisible
+        type: b1
   entity_block_begin:
     seq:
       - id: entity_common
@@ -2199,7 +2276,7 @@ enums:
     13: block_end
     14: insert
     15: attdef
-    # 16 TODO attrib
+    16: attrib
     17: seqend
     18: polyline
     19: polyline2
