@@ -1243,25 +1243,24 @@ types:
     seq:
       - id: entity_common
         type: entity_common
-      - id: x
-        type: f8
-      - id: y
-        type: f8
-# TODO Mayber flag2_7
+      - id: insert_point
+        type: point_2d
+        doc: BLOCK/10|20
+# TODO Maybe flag2_7
       - id: ref_size
         type: u2
         if: entity_common.flag2_6
-# TODO Mayber flag2_7
+# TODO Maybe flag2_7
       - id: ref
         size: ref_size
         type: str
         encoding: ASCII
         if: entity_common.flag2_6
-# TODO Mayber flag2_7
+# TODO Maybe flag2_7
       - id: ref2_size
         type: u2
         if: entity_common.flag2_6
-# TODO Mayber flag2_7
+# TODO Maybe flag2_7
       - id: ref2
         size: ref2_size
         type: str
