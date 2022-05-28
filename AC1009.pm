@@ -3763,11 +3763,11 @@ sub _read {
     $self->{start_point} = CAD::Format::DWG::AC1009::Point2d->new($self->{_io}, $self, $self->{_root});
     $self->{height} = $self->{_io}->read_f8le();
     $self->{default_size} = $self->{_io}->read_s2le();
-    $self->{default} = $self->{_io}->read_bytes($self->default_size());
+    $self->{default} = Encode::decode("ASCII", IO::KaitaiStruct::Stream::bytes_terminate($self->{_io}->read_bytes($self->default_size()), 0, 0));
     $self->{prompt_size} = $self->{_io}->read_s2le();
-    $self->{prompt} = $self->{_io}->read_bytes($self->prompt_size());
+    $self->{prompt} = Encode::decode("ASCII", IO::KaitaiStruct::Stream::bytes_terminate($self->{_io}->read_bytes($self->prompt_size()), 0, 0));
     $self->{tag_size} = $self->{_io}->read_s2le();
-    $self->{tag} = $self->{_io}->read_bytes($self->tag_size());
+    $self->{tag} = Encode::decode("ASCII", IO::KaitaiStruct::Stream::bytes_terminate($self->{_io}->read_bytes($self->tag_size()), 0, 0));
     $self->{flags} = CAD::Format::DWG::AC1009::AttdefFlags->new($self->{_io}, $self, $self->{_root});
     if ($self->entity_common()->flag2_7()) {
         $self->{rotation_angle_in_radians} = $self->{_io}->read_f8le();
@@ -3775,11 +3775,17 @@ sub _read {
     if ($self->entity_common()->flag2_6()) {
         $self->{width_scale_factor} = $self->{_io}->read_f8le();
     }
+    if ($self->entity_common()->flag2_5()) {
+        $self->{obliquing_angle_in_radians} = $self->{_io}->read_f8le();
+    }
     if ($self->entity_common()->flag2_4()) {
-        $self->{unknown_index} = $self->{_io}->read_u1();
+        $self->{text_style_index} = $self->{_io}->read_u1();
+    }
+    if ($self->entity_common()->flag2_3()) {
+        $self->{generation} = CAD::Format::DWG::AC1009::GenerationFlags->new($self->{_io}, $self, $self->{_root});
     }
     if ($self->entity_common()->flag2_2()) {
-        $self->{flags2} = CAD::Format::DWG::AC1009::AttdefFlags2->new($self->{_io}, $self, $self->{_root});
+        $self->{text_type} = $self->{_io}->read_u1();
     }
     if ($self->entity_common()->flag2_1()) {
         $self->{end_point} = CAD::Format::DWG::AC1009::Point2d->new($self->{_io}, $self, $self->{_root});
@@ -3847,14 +3853,24 @@ sub width_scale_factor {
     return $self->{width_scale_factor};
 }
 
-sub unknown_index {
+sub obliquing_angle_in_radians {
     my ($self) = @_;
-    return $self->{unknown_index};
+    return $self->{obliquing_angle_in_radians};
 }
 
-sub flags2 {
+sub text_style_index {
     my ($self) = @_;
-    return $self->{flags2};
+    return $self->{text_style_index};
+}
+
+sub generation {
+    my ($self) = @_;
+    return $self->{generation};
+}
+
+sub text_type {
+    my ($self) = @_;
+    return $self->{text_type};
 }
 
 sub end_point {
