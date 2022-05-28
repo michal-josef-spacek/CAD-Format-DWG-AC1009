@@ -1325,17 +1325,26 @@ types:
     seq:
       - id: entity_common
         type: entity_common
+      - id: center_point
+        type: circle_center_point
+        doc: CIRCLE/10|20|30
+      - id: radius
+        type: f8
+        doc: CIRCLE/40
+      - id: crc16
+        size: 2
+  circle_center_point:
+    seq:
       - id: x
         type: f8
         doc: CIRCLE/10
       - id: y
         type: f8
         doc: CIRCLE/20
-      - id: radius
+      - id: z
         type: f8
-        doc: CIRCLE/40
-      - id: crc16
-        size: 2
+        doc: CIRCLE/30
+        if: _parent.entity_common.entity_mode.entity_elevation_flag == true
   entity_dim:
     seq:
       - id: entity_common
