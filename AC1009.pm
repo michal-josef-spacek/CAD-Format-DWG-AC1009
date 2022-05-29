@@ -5598,9 +5598,7 @@ sub _read {
     my ($self) = @_;
 
     $self->{entity_common} = CAD::Format::DWG::AC1009::EntityCommon->new($self->{_io}, $self, $self->{_root});
-    $self->{x} = $self->{_io}->read_f8le();
-    $self->{y} = $self->{_io}->read_f8le();
-    $self->{radius} = $self->{_io}->read_f8le();
+    $self->{center_point} = CAD::Format::DWG::AC1009::Point3d->new($self->{_io}, $self, $self->{_root});
     $self->{angle_from} = $self->{_io}->read_f8le();
     $self->{angle_to} = $self->{_io}->read_f8le();
     $self->{crc16} = $self->{_io}->read_bytes(2);
@@ -5611,19 +5609,9 @@ sub entity_common {
     return $self->{entity_common};
 }
 
-sub x {
+sub center_point {
     my ($self) = @_;
-    return $self->{x};
-}
-
-sub y {
-    my ($self) = @_;
-    return $self->{y};
-}
-
-sub radius {
-    my ($self) = @_;
-    return $self->{radius};
+    return $self->{center_point};
 }
 
 sub angle_from {
