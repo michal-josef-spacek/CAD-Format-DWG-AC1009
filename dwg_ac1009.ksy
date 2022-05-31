@@ -1708,6 +1708,11 @@ types:
         type: point_2d
         if: entity_common.flag2_2
         doc: TEXT/11|21
+      - id: vert_type
+        enum: text_type_vert
+        type: u1
+        if: entity_common.flag3_8
+        doc: TEXT/73
       - id: crc16
         size: 2
   entity_trace:
@@ -2362,6 +2367,11 @@ enums:
     3: aligned
     4: middle
     5: fit
+  text_type_vert:
+    0: baseline
+    1: bottom
+    2: middle
+    3: top
   dim_type:
     0: rotated_horizontal_or_vertical
     1: aligned

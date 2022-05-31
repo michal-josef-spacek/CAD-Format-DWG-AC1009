@@ -66,6 +66,11 @@ our $TEXT_TYPE_ALIGNED = 3;
 our $TEXT_TYPE_MIDDLE = 4;
 our $TEXT_TYPE_FIT = 5;
 
+our $TEXT_TYPE_VERT_BASELINE = 0;
+our $TEXT_TYPE_VERT_BOTTOM = 1;
+our $TEXT_TYPE_VERT_MIDDLE = 2;
+our $TEXT_TYPE_VERT_TOP = 3;
+
 our $ANGLE_DIRECTION_COUNTERCLOCKWISE = 0;
 our $ANGLE_DIRECTION_CLOCKWISE = 1;
 
@@ -3428,6 +3433,9 @@ sub _read {
     if ($self->entity_common()->flag2_2()) {
         $self->{aligned_to} = CAD::Format::DWG::AC1009::Point2d->new($self->{_io}, $self, $self->{_root});
     }
+    if ($self->entity_common()->flag3_8()) {
+        $self->{vert_type} = $self->{_io}->read_u1();
+    }
     $self->{crc16} = $self->{_io}->read_bytes(2);
 }
 
@@ -3489,6 +3497,11 @@ sub type {
 sub aligned_to {
     my ($self) = @_;
     return $self->{aligned_to};
+}
+
+sub vert_type {
+    my ($self) = @_;
+    return $self->{vert_type};
 }
 
 sub crc16 {
