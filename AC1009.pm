@@ -7063,10 +7063,10 @@ sub _read {
         $self->{flag} = CAD::Format::DWG::AC1009::PolylineFlags->new($self->{_io}, $self, $self->{_root});
     }
     if ($self->entity_common()->flag2_7()) {
-        $self->{x} = $self->{_io}->read_f8le();
+        $self->{start_width} = $self->{_io}->read_f8le();
     }
     if ($self->entity_common()->flag2_6()) {
-        $self->{y} = $self->{_io}->read_f8le();
+        $self->{end_width} = $self->{_io}->read_f8le();
     }
     if ($self->entity_common()->flag2_5()) {
         $self->{u1} = CAD::Format::DWG::AC1009::Point3d->new($self->{_io}, $self, $self->{_root});
@@ -7089,14 +7089,14 @@ sub flag {
     return $self->{flag};
 }
 
-sub x {
+sub start_width {
     my ($self) = @_;
-    return $self->{x};
+    return $self->{start_width};
 }
 
-sub y {
+sub end_width {
     my ($self) = @_;
-    return $self->{y};
+    return $self->{end_width};
 }
 
 sub u1 {
