@@ -148,61 +148,61 @@ sub _read {
     $self->{blocks} = ();
     my $n_blocks = $self->header()->table_block()->items();
     for (my $i = 0; $i < $n_blocks; $i++) {
-        $self->{blocks}[$i] = CAD::Format::DWG::AC1009::Block->new($self->{_io}, $self, $self->{_root});
+        push @{$self->{blocks}}, CAD::Format::DWG::AC1009::Block->new($self->{_io}, $self, $self->{_root});
     }
     $self->{crc_blocks} = $self->{_io}->read_bytes(($self->header()->table_layer()->begin() - $self->_io()->pos()));
     $self->{layers} = ();
     my $n_layers = $self->header()->table_layer()->items();
     for (my $i = 0; $i < $n_layers; $i++) {
-        $self->{layers}[$i] = CAD::Format::DWG::AC1009::Layer->new($self->{_io}, $self, $self->{_root});
+        push @{$self->{layers}}, CAD::Format::DWG::AC1009::Layer->new($self->{_io}, $self, $self->{_root});
     }
     $self->{crc_layers} = $self->{_io}->read_bytes(($self->header()->table_style()->begin() - $self->_io()->pos()));
     $self->{styles} = ();
     my $n_styles = $self->header()->table_style()->items();
     for (my $i = 0; $i < $n_styles; $i++) {
-        $self->{styles}[$i] = CAD::Format::DWG::AC1009::Style->new($self->{_io}, $self, $self->{_root});
+        push @{$self->{styles}}, CAD::Format::DWG::AC1009::Style->new($self->{_io}, $self, $self->{_root});
     }
     $self->{crc_styles} = $self->{_io}->read_bytes(($self->header()->table_linetype()->begin() - $self->_io()->pos()));
     $self->{linetypes} = ();
     my $n_linetypes = $self->header()->table_linetype()->items();
     for (my $i = 0; $i < $n_linetypes; $i++) {
-        $self->{linetypes}[$i] = CAD::Format::DWG::AC1009::Linetype->new($self->{_io}, $self, $self->{_root});
+        push @{$self->{linetypes}}, CAD::Format::DWG::AC1009::Linetype->new($self->{_io}, $self, $self->{_root});
     }
     $self->{crc_linetypes} = $self->{_io}->read_bytes(($self->header()->table_view()->begin() - $self->_io()->pos()));
     $self->{views} = ();
     my $n_views = $self->header()->table_view()->items();
     for (my $i = 0; $i < $n_views; $i++) {
-        $self->{views}[$i] = CAD::Format::DWG::AC1009::View->new($self->{_io}, $self, $self->{_root});
+        push @{$self->{views}}, CAD::Format::DWG::AC1009::View->new($self->{_io}, $self, $self->{_root});
     }
     $self->{crc_views} = $self->{_io}->read_bytes(($self->header()->variables()->table_ucs()->begin() - $self->_io()->pos()));
     $self->{ucss} = ();
     my $n_ucss = $self->header()->variables()->table_ucs()->items();
     for (my $i = 0; $i < $n_ucss; $i++) {
-        $self->{ucss}[$i] = CAD::Format::DWG::AC1009::Ucs->new($self->{_io}, $self, $self->{_root});
+        push @{$self->{ucss}}, CAD::Format::DWG::AC1009::Ucs->new($self->{_io}, $self, $self->{_root});
     }
     $self->{crc_ucss} = $self->{_io}->read_bytes(($self->header()->variables()->table_vport()->begin() - $self->_io()->pos()));
     $self->{vports} = ();
     my $n_vports = $self->header()->variables()->table_vport()->items();
     for (my $i = 0; $i < $n_vports; $i++) {
-        $self->{vports}[$i] = CAD::Format::DWG::AC1009::Vport->new($self->{_io}, $self, $self->{_root});
+        push @{$self->{vports}}, CAD::Format::DWG::AC1009::Vport->new($self->{_io}, $self, $self->{_root});
     }
     $self->{crc_vports} = $self->{_io}->read_bytes(($self->header()->variables()->table_appid()->begin() - $self->_io()->pos()));
     $self->{appids} = ();
     my $n_appids = $self->header()->variables()->table_appid()->items();
     for (my $i = 0; $i < $n_appids; $i++) {
-        $self->{appids}[$i] = CAD::Format::DWG::AC1009::Appid->new($self->{_io}, $self, $self->{_root});
+        push @{$self->{appids}}, CAD::Format::DWG::AC1009::Appid->new($self->{_io}, $self, $self->{_root});
     }
     $self->{crc_appids} = $self->{_io}->read_bytes(($self->header()->variables()->table_dimstyle()->begin() - $self->_io()->pos()));
     $self->{dimstyles} = ();
     my $n_dimstyles = $self->header()->variables()->table_dimstyle()->items();
     for (my $i = 0; $i < $n_dimstyles; $i++) {
-        $self->{dimstyles}[$i] = CAD::Format::DWG::AC1009::Dimstyle->new($self->{_io}, $self, $self->{_root});
+        push @{$self->{dimstyles}}, CAD::Format::DWG::AC1009::Dimstyle->new($self->{_io}, $self, $self->{_root});
     }
     $self->{crc_dimstyles} = $self->{_io}->read_bytes(($self->header()->variables()->table_vx()->begin() - $self->_io()->pos()));
     $self->{vxs} = ();
     my $n_vxs = $self->header()->variables()->table_vx()->items();
     for (my $i = 0; $i < $n_vxs; $i++) {
-        $self->{vxs}[$i] = CAD::Format::DWG::AC1009::Vx->new($self->{_io}, $self, $self->{_root});
+        push @{$self->{vxs}}, CAD::Format::DWG::AC1009::Vx->new($self->{_io}, $self, $self->{_root});
     }
     $self->{crc_vxs} = $self->{_io}->read_bytes(($self->header()->blocks_start() - $self->_io()->pos()));
     $self->{_raw_block_entities} = $self->{_io}->read_bytes($self->header()->blocks_size());
@@ -971,15 +971,15 @@ sub new {
 sub _read {
     my ($self) = @_;
 
-    $self->{vport_size} = $self->{_io}->read_u2le();
-    $self->{_raw_vport_data} = $self->{_io}->read_bytes($self->vport_size());
+    $self->{len_vport_data} = $self->{_io}->read_u2le();
+    $self->{_raw_vport_data} = $self->{_io}->read_bytes($self->len_vport_data());
     my $io__raw_vport_data = IO::KaitaiStruct::Stream->new($self->{_raw_vport_data});
     $self->{vport_data} = CAD::Format::DWG::AC1009::VportData->new($io__raw_vport_data, $self, $self->{_root});
 }
 
-sub vport_size {
+sub len_vport_data {
     my ($self) = @_;
-    return $self->{vport_size};
+    return $self->{len_vport_data};
 }
 
 sub vport_data {
@@ -1821,58 +1821,6 @@ sub invisible {
 }
 
 ########################################################################
-package CAD::Format::DWG::AC1009::CircleCenterPoint;
-
-our @ISA = 'IO::KaitaiStruct::Struct';
-
-sub from_file {
-    my ($class, $filename) = @_;
-    my $fd;
-
-    open($fd, '<', $filename) or return undef;
-    binmode($fd);
-    return new($class, IO::KaitaiStruct::Stream->new($fd));
-}
-
-sub new {
-    my ($class, $_io, $_parent, $_root) = @_;
-    my $self = IO::KaitaiStruct::Struct->new($_io);
-
-    bless $self, $class;
-    $self->{_parent} = $_parent;
-    $self->{_root} = $_root || $self;;
-
-    $self->_read();
-
-    return $self;
-}
-
-sub _read {
-    my ($self) = @_;
-
-    $self->{x} = $self->{_io}->read_f8le();
-    $self->{y} = $self->{_io}->read_f8le();
-    if ($self->_parent()->entity_common()->entity_mode()->entity_elevation_flag() == 1) {
-        $self->{z} = $self->{_io}->read_f8le();
-    }
-}
-
-sub x {
-    my ($self) = @_;
-    return $self->{x};
-}
-
-sub y {
-    my ($self) = @_;
-    return $self->{y};
-}
-
-sub z {
-    my ($self) = @_;
-    return $self->{z};
-}
-
-########################################################################
 package CAD::Format::DWG::AC1009::EntityCommon;
 
 our @ISA = 'IO::KaitaiStruct::Struct';
@@ -1931,6 +1879,9 @@ sub _read {
     if ($self->entity_mode()->entity_thickness_flag()) {
         $self->{entity_thickness} = $self->{_io}->read_f8le();
     }
+    if ($self->entity_mode()->entity_elevation_flag()) {
+        $self->{entity_elevation} = $self->{_io}->read_f8le();
+    }
     if ($self->entity_mode()->entity_pspace_flag()) {
         $self->{unknown1} = $self->{_io}->read_u1();
     }
@@ -1938,10 +1889,10 @@ sub _read {
         $self->{vport_in_entity} = CAD::Format::DWG::AC1009::VportInEntity->new($self->{_io}, $self, $self->{_root});
     }
     if ($self->entity_mode()->entity_handling_flag()) {
-        $self->{handling_size} = $self->{_io}->read_u1();
+        $self->{len_handling_id} = $self->{_io}->read_u1();
     }
     if ($self->entity_mode()->entity_handling_flag()) {
-        $self->{handling_id} = $self->{_io}->read_bytes($self->handling_size());
+        $self->{handling_id} = $self->{_io}->read_bytes($self->len_handling_id());
     }
     if ($self->entity_mode()->entity_pspace_flag()) {
         $self->{space} = $self->{_io}->read_u2le();
@@ -2058,6 +2009,11 @@ sub entity_thickness {
     return $self->{entity_thickness};
 }
 
+sub entity_elevation {
+    my ($self) = @_;
+    return $self->{entity_elevation};
+}
+
 sub unknown1 {
     my ($self) = @_;
     return $self->{unknown1};
@@ -2068,9 +2024,9 @@ sub vport_in_entity {
     return $self->{vport_in_entity};
 }
 
-sub handling_size {
+sub len_handling_id {
     my ($self) = @_;
-    return $self->{handling_size};
+    return $self->{len_handling_id};
 }
 
 sub handling_id {
@@ -4099,10 +4055,10 @@ sub _read {
         $self->{dim_type} = CAD::Format::DWG::AC1009::DimType->new($self->{_io}, $self, $self->{_root});
     }
     if ($self->entity_common()->flag2_6()) {
-        $self->{text_size} = $self->{_io}->read_s2le();
+        $self->{len_text} = $self->{_io}->read_s2le();
     }
     if ($self->entity_common()->flag2_6()) {
-        $self->{text} = $self->{_io}->read_bytes($self->text_size());
+        $self->{text} = $self->{_io}->read_bytes($self->len_text());
     }
     if ($self->entity_common()->flag2_5()) {
         $self->{extension_defining_point1} = CAD::Format::DWG::AC1009::Point2d->new($self->{_io}, $self, $self->{_root});
@@ -4170,9 +4126,9 @@ sub dim_type {
     return $self->{dim_type};
 }
 
-sub text_size {
+sub len_text {
     my ($self) = @_;
-    return $self->{text_size};
+    return $self->{len_text};
 }
 
 sub text {
@@ -6396,7 +6352,7 @@ sub _read {
     my ($self) = @_;
 
     $self->{entity_common} = CAD::Format::DWG::AC1009::EntityCommon->new($self->{_io}, $self, $self->{_root});
-    $self->{center_point} = CAD::Format::DWG::AC1009::CircleCenterPoint->new($self->{_io}, $self, $self->{_root});
+    $self->{center_point} = CAD::Format::DWG::AC1009::Point2d->new($self->{_io}, $self, $self->{_root});
     $self->{radius} = $self->{_io}->read_f8le();
     $self->{crc16} = $self->{_io}->read_bytes(2);
 }
@@ -6719,7 +6675,7 @@ sub new {
 sub _read {
     my ($self) = @_;
 
-    $self->{entity_mode1} = $self->{_io}->read_bits_int_be(1);
+    $self->{entity_has_attributes_flag} = $self->{_io}->read_bits_int_be(1);
     $self->{entity_pspace_flag} = $self->{_io}->read_bits_int_be(1);
     $self->{entity_handling_flag} = $self->{_io}->read_bits_int_be(1);
     $self->{entity_mode4} = $self->{_io}->read_bits_int_be(1);
@@ -6729,9 +6685,9 @@ sub _read {
     $self->{entity_color_flag} = $self->{_io}->read_bits_int_be(1);
 }
 
-sub entity_mode1 {
+sub entity_has_attributes_flag {
     my ($self) = @_;
-    return $self->{entity_mode1};
+    return $self->{entity_has_attributes_flag};
 }
 
 sub entity_pspace_flag {
