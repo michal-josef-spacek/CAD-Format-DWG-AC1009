@@ -1027,22 +1027,22 @@ types:
       - id: vport_in_entity
         type: vport_in_entity
         if: entity_mode.entity_pspace_flag and unknown1 == 6
-      - id: handling_size
+      - id: len_handling_id
         type: u1
         if: entity_mode.entity_handling_flag
       - id: handling_id
-        size: handling_size
+        size: len_handling_id
         if: entity_mode.entity_handling_flag
       - id: space
         type: u2
         if: entity_mode.entity_pspace_flag
   vport_in_entity:
     seq:
-      - id: vport_size
+      - id: len_vport_data
         type: u2
       - id: vport_data
         type: vport_data
-        size: vport_size
+        size: len_vport_data
   vport_data:
     seq:
       - id: vports
@@ -1373,11 +1373,11 @@ types:
         type: dim_type
         if: entity_common.flag2_7
         doc: DIMENSION/70
-      - id: text_size
+      - id: len_text
         type: s2
         if: entity_common.flag2_6
       - id: text
-        size: text_size
+        size: len_text
         if: entity_common.flag2_6
         doc: DIMENSION/1
       - id: extension_defining_point1
