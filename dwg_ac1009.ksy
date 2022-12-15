@@ -953,7 +953,7 @@ types:
             _: entity_tmp
   entity_mode:
     seq:
-      - id: entity_mode1
+      - id: entity_has_attributes_flag
         type: b1
       - id: entity_pspace_flag
         type: b1
