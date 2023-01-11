@@ -1819,16 +1819,14 @@ types:
         encoding: ASCII
         terminator: 0x00
         doc: LAYER/2
+      - id: used
+        type: u2
       - id: color
         type: s2
         doc: LAYER/62
       - id: linetype_index
         type: s2
         doc: LAYER/6
-      - id: unknown3
-        type: s1
-      - id: unknown4
-        type: s1
       - id: crc16
         size: 2
   layer_flag:

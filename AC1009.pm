@@ -3063,10 +3063,9 @@ sub _read {
 
     $self->{flag} = CAD::Format::DWG::AC1009::LayerFlag->new($self->{_io}, $self, $self->{_root});
     $self->{layer_name} = Encode::decode("ASCII", IO::KaitaiStruct::Stream::bytes_terminate($self->{_io}->read_bytes(32), 0, 0));
+    $self->{used} = $self->{_io}->read_u2le();
     $self->{color} = $self->{_io}->read_s2le();
     $self->{linetype_index} = $self->{_io}->read_s2le();
-    $self->{unknown3} = $self->{_io}->read_s1();
-    $self->{unknown4} = $self->{_io}->read_s1();
     $self->{crc16} = $self->{_io}->read_bytes(2);
 }
 
@@ -3080,6 +3079,11 @@ sub layer_name {
     return $self->{layer_name};
 }
 
+sub used {
+    my ($self) = @_;
+    return $self->{used};
+}
+
 sub color {
     my ($self) = @_;
     return $self->{color};
@@ -3088,16 +3092,6 @@ sub color {
 sub linetype_index {
     my ($self) = @_;
     return $self->{linetype_index};
-}
-
-sub unknown3 {
-    my ($self) = @_;
-    return $self->{unknown3};
-}
-
-sub unknown4 {
-    my ($self) = @_;
-    return $self->{unknown4};
 }
 
 sub crc16 {
