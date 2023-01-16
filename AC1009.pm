@@ -392,7 +392,37 @@ sub new {
 sub _read {
     my ($self) = @_;
 
+    $self->{entity_mode} = CAD::Format::DWG::AC1009::EntityMode->new($self->{_io}, $self, $self->{_root});
+    $self->{entity_size} = $self->{_io}->read_s2le();
+    $self->{entity_layer_index} = $self->{_io}->read_s2le();
     $self->{entity_common} = CAD::Format::DWG::AC1009::EntityCommon->new($self->{_io}, $self, $self->{_root});
+    if ($self->entity_mode()->entity_color_flag()) {
+        $self->{entity_color} = $self->{_io}->read_s1();
+    }
+    if ($self->entity_mode()->entity_linetype_flag()) {
+        $self->{entity_linetype_index} = $self->{_io}->read_s2le();
+    }
+    if ($self->entity_mode()->entity_thickness_flag()) {
+        $self->{entity_thickness} = $self->{_io}->read_f8le();
+    }
+    if ($self->entity_mode()->entity_elevation_flag()) {
+        $self->{entity_elevation} = $self->{_io}->read_f8le();
+    }
+    if ($self->entity_mode()->entity_pspace_flag()) {
+        $self->{unknown1} = $self->{_io}->read_u1();
+    }
+    if ( (($self->entity_mode()->entity_pspace_flag()) && ($self->unknown1() == 6)) ) {
+        $self->{vport_in_entity} = CAD::Format::DWG::AC1009::VportInEntity->new($self->{_io}, $self, $self->{_root});
+    }
+    if ($self->entity_mode()->entity_handling_flag()) {
+        $self->{len_handling_id} = $self->{_io}->read_u1();
+    }
+    if ($self->entity_mode()->entity_handling_flag()) {
+        $self->{handling_id} = $self->{_io}->read_bytes($self->len_handling_id());
+    }
+    if ($self->entity_mode()->entity_pspace_flag()) {
+        $self->{space} = $self->{_io}->read_u2le();
+    }
     $self->{point_from} = CAD::Format::DWG::AC1009::Point2d->new($self->{_io}, $self, $self->{_root});
     $self->{height} = $self->{_io}->read_f8le();
     $self->{value_size} = $self->{_io}->read_s2le();
@@ -423,9 +453,69 @@ sub _read {
     }
 }
 
+sub entity_mode {
+    my ($self) = @_;
+    return $self->{entity_mode};
+}
+
+sub entity_size {
+    my ($self) = @_;
+    return $self->{entity_size};
+}
+
+sub entity_layer_index {
+    my ($self) = @_;
+    return $self->{entity_layer_index};
+}
+
 sub entity_common {
     my ($self) = @_;
     return $self->{entity_common};
+}
+
+sub entity_color {
+    my ($self) = @_;
+    return $self->{entity_color};
+}
+
+sub entity_linetype_index {
+    my ($self) = @_;
+    return $self->{entity_linetype_index};
+}
+
+sub entity_thickness {
+    my ($self) = @_;
+    return $self->{entity_thickness};
+}
+
+sub entity_elevation {
+    my ($self) = @_;
+    return $self->{entity_elevation};
+}
+
+sub unknown1 {
+    my ($self) = @_;
+    return $self->{unknown1};
+}
+
+sub vport_in_entity {
+    my ($self) = @_;
+    return $self->{vport_in_entity};
+}
+
+sub len_handling_id {
+    my ($self) = @_;
+    return $self->{len_handling_id};
+}
+
+sub handling_id {
+    my ($self) = @_;
+    return $self->{handling_id};
+}
+
+sub space {
+    my ($self) = @_;
+    return $self->{space};
 }
 
 sub point_from {
@@ -1126,33 +1216,123 @@ sub new {
 sub _read {
     my ($self) = @_;
 
+    $self->{entity_mode} = CAD::Format::DWG::AC1009::EntityMode->new($self->{_io}, $self, $self->{_root});
+    $self->{entity_size} = $self->{_io}->read_s2le();
+    $self->{entity_layer_index} = $self->{_io}->read_s2le();
     $self->{entity_common} = CAD::Format::DWG::AC1009::EntityCommon->new($self->{_io}, $self, $self->{_root});
+    if ($self->entity_mode()->entity_color_flag()) {
+        $self->{entity_color} = $self->{_io}->read_s1();
+    }
+    if ($self->entity_mode()->entity_linetype_flag()) {
+        $self->{entity_linetype_index} = $self->{_io}->read_s2le();
+    }
+    if ($self->entity_mode()->entity_thickness_flag()) {
+        $self->{entity_thickness} = $self->{_io}->read_f8le();
+    }
+    if ($self->entity_mode()->entity_elevation_flag()) {
+        $self->{entity_elevation} = $self->{_io}->read_f8le();
+    }
+    if ($self->entity_mode()->entity_pspace_flag()) {
+        $self->{unknown1} = $self->{_io}->read_u1();
+    }
+    if ( (($self->entity_mode()->entity_pspace_flag()) && ($self->unknown1() == 6)) ) {
+        $self->{vport_in_entity} = CAD::Format::DWG::AC1009::VportInEntity->new($self->{_io}, $self, $self->{_root});
+    }
+    if ($self->entity_mode()->entity_handling_flag()) {
+        $self->{len_handling_id} = $self->{_io}->read_u1();
+    }
+    if ($self->entity_mode()->entity_handling_flag()) {
+        $self->{handling_id} = $self->{_io}->read_bytes($self->len_handling_id());
+    }
+    if ($self->entity_mode()->entity_pspace_flag()) {
+        $self->{space} = $self->{_io}->read_u2le();
+    }
     $self->{first_point_x} = $self->{_io}->read_f8le();
     $self->{first_point_y} = $self->{_io}->read_f8le();
-    if ($self->entity_common()->entity_mode()->entity_elevation_flag() == 0) {
+    if ($self->entity_mode()->entity_elevation_flag() == 0) {
         $self->{first_point_z} = $self->{_io}->read_f8le();
     }
     $self->{second_point_x} = $self->{_io}->read_f8le();
     $self->{second_point_y} = $self->{_io}->read_f8le();
-    if ($self->entity_common()->entity_mode()->entity_elevation_flag() == 0) {
+    if ($self->entity_mode()->entity_elevation_flag() == 0) {
         $self->{second_point_z} = $self->{_io}->read_f8le();
     }
     $self->{third_point_x} = $self->{_io}->read_f8le();
     $self->{third_point_y} = $self->{_io}->read_f8le();
-    if ($self->entity_common()->entity_mode()->entity_elevation_flag() == 0) {
+    if ($self->entity_mode()->entity_elevation_flag() == 0) {
         $self->{third_point_z} = $self->{_io}->read_f8le();
     }
     $self->{fourth_point_x} = $self->{_io}->read_f8le();
     $self->{fourth_point_y} = $self->{_io}->read_f8le();
-    if ($self->entity_common()->entity_mode()->entity_elevation_flag() == 0) {
+    if ($self->entity_mode()->entity_elevation_flag() == 0) {
         $self->{fourth_point_z} = $self->{_io}->read_f8le();
     }
     $self->{crc16} = $self->{_io}->read_bytes(2);
 }
 
+sub entity_mode {
+    my ($self) = @_;
+    return $self->{entity_mode};
+}
+
+sub entity_size {
+    my ($self) = @_;
+    return $self->{entity_size};
+}
+
+sub entity_layer_index {
+    my ($self) = @_;
+    return $self->{entity_layer_index};
+}
+
 sub entity_common {
     my ($self) = @_;
     return $self->{entity_common};
+}
+
+sub entity_color {
+    my ($self) = @_;
+    return $self->{entity_color};
+}
+
+sub entity_linetype_index {
+    my ($self) = @_;
+    return $self->{entity_linetype_index};
+}
+
+sub entity_thickness {
+    my ($self) = @_;
+    return $self->{entity_thickness};
+}
+
+sub entity_elevation {
+    my ($self) = @_;
+    return $self->{entity_elevation};
+}
+
+sub unknown1 {
+    my ($self) = @_;
+    return $self->{unknown1};
+}
+
+sub vport_in_entity {
+    my ($self) = @_;
+    return $self->{vport_in_entity};
+}
+
+sub len_handling_id {
+    my ($self) = @_;
+    return $self->{len_handling_id};
+}
+
+sub handling_id {
+    my ($self) = @_;
+    return $self->{handling_id};
+}
+
+sub space {
+    my ($self) = @_;
+    return $self->{space};
 }
 
 sub first_point_x {
@@ -1250,7 +1430,37 @@ sub new {
 sub _read {
     my ($self) = @_;
 
+    $self->{entity_mode} = CAD::Format::DWG::AC1009::EntityMode->new($self->{_io}, $self, $self->{_root});
+    $self->{entity_size} = $self->{_io}->read_s2le();
+    $self->{entity_layer_index} = $self->{_io}->read_s2le();
     $self->{entity_common} = CAD::Format::DWG::AC1009::EntityCommon->new($self->{_io}, $self, $self->{_root});
+    if ($self->entity_mode()->entity_color_flag()) {
+        $self->{entity_color} = $self->{_io}->read_s1();
+    }
+    if ($self->entity_mode()->entity_linetype_flag()) {
+        $self->{entity_linetype_index} = $self->{_io}->read_s2le();
+    }
+    if ($self->entity_mode()->entity_thickness_flag()) {
+        $self->{entity_thickness} = $self->{_io}->read_f8le();
+    }
+    if ($self->entity_mode()->entity_elevation_flag()) {
+        $self->{entity_elevation} = $self->{_io}->read_f8le();
+    }
+    if ($self->entity_mode()->entity_pspace_flag()) {
+        $self->{unknown1} = $self->{_io}->read_u1();
+    }
+    if ( (($self->entity_mode()->entity_pspace_flag()) && ($self->unknown1() == 6)) ) {
+        $self->{vport_in_entity} = CAD::Format::DWG::AC1009::VportInEntity->new($self->{_io}, $self, $self->{_root});
+    }
+    if ($self->entity_mode()->entity_handling_flag()) {
+        $self->{len_handling_id} = $self->{_io}->read_u1();
+    }
+    if ($self->entity_mode()->entity_handling_flag()) {
+        $self->{handling_id} = $self->{_io}->read_bytes($self->len_handling_id());
+    }
+    if ($self->entity_mode()->entity_pspace_flag()) {
+        $self->{space} = $self->{_io}->read_u2le();
+    }
     $self->{from} = CAD::Format::DWG::AC1009::Point2d->new($self->{_io}, $self, $self->{_root});
     $self->{from_and} = CAD::Format::DWG::AC1009::Point2d->new($self->{_io}, $self, $self->{_root});
     $self->{to} = CAD::Format::DWG::AC1009::Point2d->new($self->{_io}, $self, $self->{_root});
@@ -1258,9 +1468,69 @@ sub _read {
     $self->{crc16} = $self->{_io}->read_bytes(2);
 }
 
+sub entity_mode {
+    my ($self) = @_;
+    return $self->{entity_mode};
+}
+
+sub entity_size {
+    my ($self) = @_;
+    return $self->{entity_size};
+}
+
+sub entity_layer_index {
+    my ($self) = @_;
+    return $self->{entity_layer_index};
+}
+
 sub entity_common {
     my ($self) = @_;
     return $self->{entity_common};
+}
+
+sub entity_color {
+    my ($self) = @_;
+    return $self->{entity_color};
+}
+
+sub entity_linetype_index {
+    my ($self) = @_;
+    return $self->{entity_linetype_index};
+}
+
+sub entity_thickness {
+    my ($self) = @_;
+    return $self->{entity_thickness};
+}
+
+sub entity_elevation {
+    my ($self) = @_;
+    return $self->{entity_elevation};
+}
+
+sub unknown1 {
+    my ($self) = @_;
+    return $self->{unknown1};
+}
+
+sub vport_in_entity {
+    my ($self) = @_;
+    return $self->{vport_in_entity};
+}
+
+sub len_handling_id {
+    my ($self) = @_;
+    return $self->{len_handling_id};
+}
+
+sub handling_id {
+    my ($self) = @_;
+    return $self->{handling_id};
+}
+
+sub space {
+    my ($self) = @_;
+    return $self->{space};
 }
 
 sub from {
@@ -1392,7 +1662,37 @@ sub new {
 sub _read {
     my ($self) = @_;
 
+    $self->{entity_mode} = CAD::Format::DWG::AC1009::EntityMode->new($self->{_io}, $self, $self->{_root});
+    $self->{entity_size} = $self->{_io}->read_s2le();
+    $self->{entity_layer_index} = $self->{_io}->read_s2le();
     $self->{entity_common} = CAD::Format::DWG::AC1009::EntityCommon->new($self->{_io}, $self, $self->{_root});
+    if ($self->entity_mode()->entity_color_flag()) {
+        $self->{entity_color} = $self->{_io}->read_s1();
+    }
+    if ($self->entity_mode()->entity_linetype_flag()) {
+        $self->{entity_linetype_index} = $self->{_io}->read_s2le();
+    }
+    if ($self->entity_mode()->entity_thickness_flag()) {
+        $self->{entity_thickness} = $self->{_io}->read_f8le();
+    }
+    if ($self->entity_mode()->entity_elevation_flag()) {
+        $self->{entity_elevation} = $self->{_io}->read_f8le();
+    }
+    if ($self->entity_mode()->entity_pspace_flag()) {
+        $self->{unknown1} = $self->{_io}->read_u1();
+    }
+    if ( (($self->entity_mode()->entity_pspace_flag()) && ($self->unknown1() == 6)) ) {
+        $self->{vport_in_entity} = CAD::Format::DWG::AC1009::VportInEntity->new($self->{_io}, $self, $self->{_root});
+    }
+    if ($self->entity_mode()->entity_handling_flag()) {
+        $self->{len_handling_id} = $self->{_io}->read_u1();
+    }
+    if ($self->entity_mode()->entity_handling_flag()) {
+        $self->{handling_id} = $self->{_io}->read_bytes($self->len_handling_id());
+    }
+    if ($self->entity_mode()->entity_pspace_flag()) {
+        $self->{space} = $self->{_io}->read_u2le();
+    }
     $self->{block_index} = $self->{_io}->read_s2le();
     $self->{x} = $self->{_io}->read_f8le();
     $self->{y} = $self->{_io}->read_f8le();
@@ -1423,9 +1723,69 @@ sub _read {
     $self->{crc16} = $self->{_io}->read_bytes(2);
 }
 
+sub entity_mode {
+    my ($self) = @_;
+    return $self->{entity_mode};
+}
+
+sub entity_size {
+    my ($self) = @_;
+    return $self->{entity_size};
+}
+
+sub entity_layer_index {
+    my ($self) = @_;
+    return $self->{entity_layer_index};
+}
+
 sub entity_common {
     my ($self) = @_;
     return $self->{entity_common};
+}
+
+sub entity_color {
+    my ($self) = @_;
+    return $self->{entity_color};
+}
+
+sub entity_linetype_index {
+    my ($self) = @_;
+    return $self->{entity_linetype_index};
+}
+
+sub entity_thickness {
+    my ($self) = @_;
+    return $self->{entity_thickness};
+}
+
+sub entity_elevation {
+    my ($self) = @_;
+    return $self->{entity_elevation};
+}
+
+sub unknown1 {
+    my ($self) = @_;
+    return $self->{unknown1};
+}
+
+sub vport_in_entity {
+    my ($self) = @_;
+    return $self->{vport_in_entity};
+}
+
+sub len_handling_id {
+    my ($self) = @_;
+    return $self->{len_handling_id};
+}
+
+sub handling_id {
+    my ($self) = @_;
+    return $self->{handling_id};
+}
+
+sub space {
+    my ($self) = @_;
+    return $self->{space};
 }
 
 sub block_index {
@@ -1850,9 +2210,6 @@ sub new {
 sub _read {
     my ($self) = @_;
 
-    $self->{entity_mode} = CAD::Format::DWG::AC1009::EntityMode->new($self->{_io}, $self, $self->{_root});
-    $self->{entity_size} = $self->{_io}->read_s2le();
-    $self->{entity_layer_index} = $self->{_io}->read_s2le();
     $self->{flag2_1} = $self->{_io}->read_bits_int_be(1);
     $self->{flag2_2} = $self->{_io}->read_bits_int_be(1);
     $self->{flag2_3} = $self->{_io}->read_bits_int_be(1);
@@ -1869,49 +2226,6 @@ sub _read {
     $self->{flag3_6} = $self->{_io}->read_bits_int_be(1);
     $self->{flag3_7} = $self->{_io}->read_bits_int_be(1);
     $self->{flag3_8} = $self->{_io}->read_bits_int_be(1);
-    $self->{_io}->align_to_byte();
-    if ($self->entity_mode()->entity_color_flag()) {
-        $self->{entity_color} = $self->{_io}->read_s1();
-    }
-    if ($self->entity_mode()->entity_linetype_flag()) {
-        $self->{entity_linetype_index} = $self->{_io}->read_s2le();
-    }
-    if ($self->entity_mode()->entity_thickness_flag()) {
-        $self->{entity_thickness} = $self->{_io}->read_f8le();
-    }
-    if ($self->entity_mode()->entity_elevation_flag()) {
-        $self->{entity_elevation} = $self->{_io}->read_f8le();
-    }
-    if ($self->entity_mode()->entity_pspace_flag()) {
-        $self->{unknown1} = $self->{_io}->read_u1();
-    }
-    if ( (($self->entity_mode()->entity_pspace_flag()) && ($self->unknown1() == 6)) ) {
-        $self->{vport_in_entity} = CAD::Format::DWG::AC1009::VportInEntity->new($self->{_io}, $self, $self->{_root});
-    }
-    if ($self->entity_mode()->entity_handling_flag()) {
-        $self->{len_handling_id} = $self->{_io}->read_u1();
-    }
-    if ($self->entity_mode()->entity_handling_flag()) {
-        $self->{handling_id} = $self->{_io}->read_bytes($self->len_handling_id());
-    }
-    if ($self->entity_mode()->entity_pspace_flag()) {
-        $self->{space} = $self->{_io}->read_u2le();
-    }
-}
-
-sub entity_mode {
-    my ($self) = @_;
-    return $self->{entity_mode};
-}
-
-sub entity_size {
-    my ($self) = @_;
-    return $self->{entity_size};
-}
-
-sub entity_layer_index {
-    my ($self) = @_;
-    return $self->{entity_layer_index};
 }
 
 sub flag2_1 {
@@ -1992,51 +2306,6 @@ sub flag3_7 {
 sub flag3_8 {
     my ($self) = @_;
     return $self->{flag3_8};
-}
-
-sub entity_color {
-    my ($self) = @_;
-    return $self->{entity_color};
-}
-
-sub entity_linetype_index {
-    my ($self) = @_;
-    return $self->{entity_linetype_index};
-}
-
-sub entity_thickness {
-    my ($self) = @_;
-    return $self->{entity_thickness};
-}
-
-sub entity_elevation {
-    my ($self) = @_;
-    return $self->{entity_elevation};
-}
-
-sub unknown1 {
-    my ($self) = @_;
-    return $self->{unknown1};
-}
-
-sub vport_in_entity {
-    my ($self) = @_;
-    return $self->{vport_in_entity};
-}
-
-sub len_handling_id {
-    my ($self) = @_;
-    return $self->{len_handling_id};
-}
-
-sub handling_id {
-    my ($self) = @_;
-    return $self->{handling_id};
-}
-
-sub space {
-    my ($self) = @_;
-    return $self->{space};
 }
 
 ########################################################################
@@ -2503,13 +2772,103 @@ sub new {
 sub _read {
     my ($self) = @_;
 
+    $self->{entity_mode} = CAD::Format::DWG::AC1009::EntityMode->new($self->{_io}, $self, $self->{_root});
+    $self->{entity_size} = $self->{_io}->read_s2le();
+    $self->{entity_layer_index} = $self->{_io}->read_s2le();
     $self->{entity_common} = CAD::Format::DWG::AC1009::EntityCommon->new($self->{_io}, $self, $self->{_root});
+    if ($self->entity_mode()->entity_color_flag()) {
+        $self->{entity_color} = $self->{_io}->read_s1();
+    }
+    if ($self->entity_mode()->entity_linetype_flag()) {
+        $self->{entity_linetype_index} = $self->{_io}->read_s2le();
+    }
+    if ($self->entity_mode()->entity_thickness_flag()) {
+        $self->{entity_thickness} = $self->{_io}->read_f8le();
+    }
+    if ($self->entity_mode()->entity_elevation_flag()) {
+        $self->{entity_elevation} = $self->{_io}->read_f8le();
+    }
+    if ($self->entity_mode()->entity_pspace_flag()) {
+        $self->{unknown1} = $self->{_io}->read_u1();
+    }
+    if ( (($self->entity_mode()->entity_pspace_flag()) && ($self->unknown1() == 6)) ) {
+        $self->{vport_in_entity} = CAD::Format::DWG::AC1009::VportInEntity->new($self->{_io}, $self, $self->{_root});
+    }
+    if ($self->entity_mode()->entity_handling_flag()) {
+        $self->{len_handling_id} = $self->{_io}->read_u1();
+    }
+    if ($self->entity_mode()->entity_handling_flag()) {
+        $self->{handling_id} = $self->{_io}->read_bytes($self->len_handling_id());
+    }
+    if ($self->entity_mode()->entity_pspace_flag()) {
+        $self->{space} = $self->{_io}->read_u2le();
+    }
     $self->{crc16} = $self->{_io}->read_bytes(2);
+}
+
+sub entity_mode {
+    my ($self) = @_;
+    return $self->{entity_mode};
+}
+
+sub entity_size {
+    my ($self) = @_;
+    return $self->{entity_size};
+}
+
+sub entity_layer_index {
+    my ($self) = @_;
+    return $self->{entity_layer_index};
 }
 
 sub entity_common {
     my ($self) = @_;
     return $self->{entity_common};
+}
+
+sub entity_color {
+    my ($self) = @_;
+    return $self->{entity_color};
+}
+
+sub entity_linetype_index {
+    my ($self) = @_;
+    return $self->{entity_linetype_index};
+}
+
+sub entity_thickness {
+    my ($self) = @_;
+    return $self->{entity_thickness};
+}
+
+sub entity_elevation {
+    my ($self) = @_;
+    return $self->{entity_elevation};
+}
+
+sub unknown1 {
+    my ($self) = @_;
+    return $self->{unknown1};
+}
+
+sub vport_in_entity {
+    my ($self) = @_;
+    return $self->{vport_in_entity};
+}
+
+sub len_handling_id {
+    my ($self) = @_;
+    return $self->{len_handling_id};
+}
+
+sub handling_id {
+    my ($self) = @_;
+    return $self->{handling_id};
+}
+
+sub space {
+    my ($self) = @_;
+    return $self->{space};
 }
 
 sub crc16 {
@@ -2769,18 +3128,108 @@ sub new {
 sub _read {
     my ($self) = @_;
 
+    $self->{entity_mode} = CAD::Format::DWG::AC1009::EntityMode->new($self->{_io}, $self, $self->{_root});
+    $self->{entity_size} = $self->{_io}->read_s2le();
+    $self->{entity_layer_index} = $self->{_io}->read_s2le();
     $self->{entity_common} = CAD::Format::DWG::AC1009::EntityCommon->new($self->{_io}, $self, $self->{_root});
+    if ($self->entity_mode()->entity_color_flag()) {
+        $self->{entity_color} = $self->{_io}->read_s1();
+    }
+    if ($self->entity_mode()->entity_linetype_flag()) {
+        $self->{entity_linetype_index} = $self->{_io}->read_s2le();
+    }
+    if ($self->entity_mode()->entity_thickness_flag()) {
+        $self->{entity_thickness} = $self->{_io}->read_f8le();
+    }
+    if ($self->entity_mode()->entity_elevation_flag()) {
+        $self->{entity_elevation} = $self->{_io}->read_f8le();
+    }
+    if ($self->entity_mode()->entity_pspace_flag()) {
+        $self->{unknown1} = $self->{_io}->read_u1();
+    }
+    if ( (($self->entity_mode()->entity_pspace_flag()) && ($self->unknown1() == 6)) ) {
+        $self->{vport_in_entity} = CAD::Format::DWG::AC1009::VportInEntity->new($self->{_io}, $self, $self->{_root});
+    }
+    if ($self->entity_mode()->entity_handling_flag()) {
+        $self->{len_handling_id} = $self->{_io}->read_u1();
+    }
+    if ($self->entity_mode()->entity_handling_flag()) {
+        $self->{handling_id} = $self->{_io}->read_bytes($self->len_handling_id());
+    }
+    if ($self->entity_mode()->entity_pspace_flag()) {
+        $self->{space} = $self->{_io}->read_u2le();
+    }
     $self->{x} = $self->{_io}->read_f8le();
     $self->{y} = $self->{_io}->read_f8le();
-    if ($self->entity_common()->entity_mode()->entity_elevation_flag() == 0) {
+    if ($self->entity_mode()->entity_elevation_flag() == 0) {
         $self->{z} = $self->{_io}->read_f8le();
     }
     $self->{crc16} = $self->{_io}->read_bytes(2);
 }
 
+sub entity_mode {
+    my ($self) = @_;
+    return $self->{entity_mode};
+}
+
+sub entity_size {
+    my ($self) = @_;
+    return $self->{entity_size};
+}
+
+sub entity_layer_index {
+    my ($self) = @_;
+    return $self->{entity_layer_index};
+}
+
 sub entity_common {
     my ($self) = @_;
     return $self->{entity_common};
+}
+
+sub entity_color {
+    my ($self) = @_;
+    return $self->{entity_color};
+}
+
+sub entity_linetype_index {
+    my ($self) = @_;
+    return $self->{entity_linetype_index};
+}
+
+sub entity_thickness {
+    my ($self) = @_;
+    return $self->{entity_thickness};
+}
+
+sub entity_elevation {
+    my ($self) = @_;
+    return $self->{entity_elevation};
+}
+
+sub unknown1 {
+    my ($self) = @_;
+    return $self->{unknown1};
+}
+
+sub vport_in_entity {
+    my ($self) = @_;
+    return $self->{vport_in_entity};
+}
+
+sub len_handling_id {
+    my ($self) = @_;
+    return $self->{len_handling_id};
+}
+
+sub handling_id {
+    my ($self) = @_;
+    return $self->{handling_id};
+}
+
+sub space {
+    my ($self) = @_;
+    return $self->{space};
 }
 
 sub x {
@@ -2993,7 +3442,37 @@ sub new {
 sub _read {
     my ($self) = @_;
 
+    $self->{entity_mode} = CAD::Format::DWG::AC1009::EntityMode->new($self->{_io}, $self, $self->{_root});
+    $self->{entity_size} = $self->{_io}->read_s2le();
+    $self->{entity_layer_index} = $self->{_io}->read_s2le();
     $self->{entity_common} = CAD::Format::DWG::AC1009::EntityCommon->new($self->{_io}, $self, $self->{_root});
+    if ($self->entity_mode()->entity_color_flag()) {
+        $self->{entity_color} = $self->{_io}->read_s1();
+    }
+    if ($self->entity_mode()->entity_linetype_flag()) {
+        $self->{entity_linetype_index} = $self->{_io}->read_s2le();
+    }
+    if ($self->entity_mode()->entity_thickness_flag()) {
+        $self->{entity_thickness} = $self->{_io}->read_f8le();
+    }
+    if ($self->entity_mode()->entity_elevation_flag()) {
+        $self->{entity_elevation} = $self->{_io}->read_f8le();
+    }
+    if ($self->entity_mode()->entity_pspace_flag()) {
+        $self->{unknown1} = $self->{_io}->read_u1();
+    }
+    if ( (($self->entity_mode()->entity_pspace_flag()) && ($self->unknown1() == 6)) ) {
+        $self->{vport_in_entity} = CAD::Format::DWG::AC1009::VportInEntity->new($self->{_io}, $self, $self->{_root});
+    }
+    if ($self->entity_mode()->entity_handling_flag()) {
+        $self->{len_handling_id} = $self->{_io}->read_u1();
+    }
+    if ($self->entity_mode()->entity_handling_flag()) {
+        $self->{handling_id} = $self->{_io}->read_bytes($self->len_handling_id());
+    }
+    if ($self->entity_mode()->entity_pspace_flag()) {
+        $self->{space} = $self->{_io}->read_u2le();
+    }
     $self->{from} = CAD::Format::DWG::AC1009::Point2d->new($self->{_io}, $self, $self->{_root});
     $self->{from_and} = CAD::Format::DWG::AC1009::Point2d->new($self->{_io}, $self, $self->{_root});
     $self->{to} = CAD::Format::DWG::AC1009::Point2d->new($self->{_io}, $self, $self->{_root});
@@ -3001,9 +3480,69 @@ sub _read {
     $self->{crc16} = $self->{_io}->read_bytes(2);
 }
 
+sub entity_mode {
+    my ($self) = @_;
+    return $self->{entity_mode};
+}
+
+sub entity_size {
+    my ($self) = @_;
+    return $self->{entity_size};
+}
+
+sub entity_layer_index {
+    my ($self) = @_;
+    return $self->{entity_layer_index};
+}
+
 sub entity_common {
     my ($self) = @_;
     return $self->{entity_common};
+}
+
+sub entity_color {
+    my ($self) = @_;
+    return $self->{entity_color};
+}
+
+sub entity_linetype_index {
+    my ($self) = @_;
+    return $self->{entity_linetype_index};
+}
+
+sub entity_thickness {
+    my ($self) = @_;
+    return $self->{entity_thickness};
+}
+
+sub entity_elevation {
+    my ($self) = @_;
+    return $self->{entity_elevation};
+}
+
+sub unknown1 {
+    my ($self) = @_;
+    return $self->{unknown1};
+}
+
+sub vport_in_entity {
+    my ($self) = @_;
+    return $self->{vport_in_entity};
+}
+
+sub len_handling_id {
+    my ($self) = @_;
+    return $self->{len_handling_id};
+}
+
+sub handling_id {
+    my ($self) = @_;
+    return $self->{handling_id};
+}
+
+sub space {
+    my ($self) = @_;
+    return $self->{space};
 }
 
 sub from {
@@ -3357,7 +3896,37 @@ sub new {
 sub _read {
     my ($self) = @_;
 
+    $self->{entity_mode} = CAD::Format::DWG::AC1009::EntityMode->new($self->{_io}, $self, $self->{_root});
+    $self->{entity_size} = $self->{_io}->read_s2le();
+    $self->{entity_layer_index} = $self->{_io}->read_s2le();
     $self->{entity_common} = CAD::Format::DWG::AC1009::EntityCommon->new($self->{_io}, $self, $self->{_root});
+    if ($self->entity_mode()->entity_color_flag()) {
+        $self->{entity_color} = $self->{_io}->read_s1();
+    }
+    if ($self->entity_mode()->entity_linetype_flag()) {
+        $self->{entity_linetype_index} = $self->{_io}->read_s2le();
+    }
+    if ($self->entity_mode()->entity_thickness_flag()) {
+        $self->{entity_thickness} = $self->{_io}->read_f8le();
+    }
+    if ($self->entity_mode()->entity_elevation_flag()) {
+        $self->{entity_elevation} = $self->{_io}->read_f8le();
+    }
+    if ($self->entity_mode()->entity_pspace_flag()) {
+        $self->{unknown1} = $self->{_io}->read_u1();
+    }
+    if ( (($self->entity_mode()->entity_pspace_flag()) && ($self->unknown1() == 6)) ) {
+        $self->{vport_in_entity} = CAD::Format::DWG::AC1009::VportInEntity->new($self->{_io}, $self, $self->{_root});
+    }
+    if ($self->entity_mode()->entity_handling_flag()) {
+        $self->{len_handling_id} = $self->{_io}->read_u1();
+    }
+    if ($self->entity_mode()->entity_handling_flag()) {
+        $self->{handling_id} = $self->{_io}->read_bytes($self->len_handling_id());
+    }
+    if ($self->entity_mode()->entity_pspace_flag()) {
+        $self->{space} = $self->{_io}->read_u2le();
+    }
     $self->{insert_point} = CAD::Format::DWG::AC1009::Point2d->new($self->{_io}, $self, $self->{_root});
     $self->{height} = $self->{_io}->read_f8le();
     $self->{size} = $self->{_io}->read_s2le();
@@ -3389,9 +3958,69 @@ sub _read {
     $self->{crc16} = $self->{_io}->read_bytes(2);
 }
 
+sub entity_mode {
+    my ($self) = @_;
+    return $self->{entity_mode};
+}
+
+sub entity_size {
+    my ($self) = @_;
+    return $self->{entity_size};
+}
+
+sub entity_layer_index {
+    my ($self) = @_;
+    return $self->{entity_layer_index};
+}
+
 sub entity_common {
     my ($self) = @_;
     return $self->{entity_common};
+}
+
+sub entity_color {
+    my ($self) = @_;
+    return $self->{entity_color};
+}
+
+sub entity_linetype_index {
+    my ($self) = @_;
+    return $self->{entity_linetype_index};
+}
+
+sub entity_thickness {
+    my ($self) = @_;
+    return $self->{entity_thickness};
+}
+
+sub entity_elevation {
+    my ($self) = @_;
+    return $self->{entity_elevation};
+}
+
+sub unknown1 {
+    my ($self) = @_;
+    return $self->{unknown1};
+}
+
+sub vport_in_entity {
+    my ($self) = @_;
+    return $self->{vport_in_entity};
+}
+
+sub len_handling_id {
+    my ($self) = @_;
+    return $self->{len_handling_id};
+}
+
+sub handling_id {
+    my ($self) = @_;
+    return $self->{handling_id};
+}
+
+sub space {
+    my ($self) = @_;
+    return $self->{space};
 }
 
 sub insert_point {
@@ -3722,7 +4351,37 @@ sub new {
 sub _read {
     my ($self) = @_;
 
+    $self->{entity_mode} = CAD::Format::DWG::AC1009::EntityMode->new($self->{_io}, $self, $self->{_root});
+    $self->{entity_size} = $self->{_io}->read_s2le();
+    $self->{entity_layer_index} = $self->{_io}->read_s2le();
     $self->{entity_common} = CAD::Format::DWG::AC1009::EntityCommon->new($self->{_io}, $self, $self->{_root});
+    if ($self->entity_mode()->entity_color_flag()) {
+        $self->{entity_color} = $self->{_io}->read_s1();
+    }
+    if ($self->entity_mode()->entity_linetype_flag()) {
+        $self->{entity_linetype_index} = $self->{_io}->read_s2le();
+    }
+    if ($self->entity_mode()->entity_thickness_flag()) {
+        $self->{entity_thickness} = $self->{_io}->read_f8le();
+    }
+    if ($self->entity_mode()->entity_elevation_flag()) {
+        $self->{entity_elevation} = $self->{_io}->read_f8le();
+    }
+    if ($self->entity_mode()->entity_pspace_flag()) {
+        $self->{unknown1} = $self->{_io}->read_u1();
+    }
+    if ( (($self->entity_mode()->entity_pspace_flag()) && ($self->unknown1() == 6)) ) {
+        $self->{vport_in_entity} = CAD::Format::DWG::AC1009::VportInEntity->new($self->{_io}, $self, $self->{_root});
+    }
+    if ($self->entity_mode()->entity_handling_flag()) {
+        $self->{len_handling_id} = $self->{_io}->read_u1();
+    }
+    if ($self->entity_mode()->entity_handling_flag()) {
+        $self->{handling_id} = $self->{_io}->read_bytes($self->len_handling_id());
+    }
+    if ($self->entity_mode()->entity_pspace_flag()) {
+        $self->{space} = $self->{_io}->read_u2le();
+    }
     $self->{start_point} = CAD::Format::DWG::AC1009::Point2d->new($self->{_io}, $self, $self->{_root});
     $self->{height} = $self->{_io}->read_f8le();
     $self->{default_size} = $self->{_io}->read_s2le();
@@ -3756,9 +4415,69 @@ sub _read {
     $self->{crc16} = $self->{_io}->read_bytes(2);
 }
 
+sub entity_mode {
+    my ($self) = @_;
+    return $self->{entity_mode};
+}
+
+sub entity_size {
+    my ($self) = @_;
+    return $self->{entity_size};
+}
+
+sub entity_layer_index {
+    my ($self) = @_;
+    return $self->{entity_layer_index};
+}
+
 sub entity_common {
     my ($self) = @_;
     return $self->{entity_common};
+}
+
+sub entity_color {
+    my ($self) = @_;
+    return $self->{entity_color};
+}
+
+sub entity_linetype_index {
+    my ($self) = @_;
+    return $self->{entity_linetype_index};
+}
+
+sub entity_thickness {
+    my ($self) = @_;
+    return $self->{entity_thickness};
+}
+
+sub entity_elevation {
+    my ($self) = @_;
+    return $self->{entity_elevation};
+}
+
+sub unknown1 {
+    my ($self) = @_;
+    return $self->{unknown1};
+}
+
+sub vport_in_entity {
+    my ($self) = @_;
+    return $self->{vport_in_entity};
+}
+
+sub len_handling_id {
+    my ($self) = @_;
+    return $self->{len_handling_id};
+}
+
+sub handling_id {
+    my ($self) = @_;
+    return $self->{handling_id};
+}
+
+sub space {
+    my ($self) = @_;
+    return $self->{space};
 }
 
 sub start_point {
@@ -3876,7 +4595,37 @@ sub new {
 sub _read {
     my ($self) = @_;
 
+    $self->{entity_mode} = CAD::Format::DWG::AC1009::EntityMode->new($self->{_io}, $self, $self->{_root});
+    $self->{entity_size} = $self->{_io}->read_s2le();
+    $self->{entity_layer_index} = $self->{_io}->read_s2le();
     $self->{entity_common} = CAD::Format::DWG::AC1009::EntityCommon->new($self->{_io}, $self, $self->{_root});
+    if ($self->entity_mode()->entity_color_flag()) {
+        $self->{entity_color} = $self->{_io}->read_s1();
+    }
+    if ($self->entity_mode()->entity_linetype_flag()) {
+        $self->{entity_linetype_index} = $self->{_io}->read_s2le();
+    }
+    if ($self->entity_mode()->entity_thickness_flag()) {
+        $self->{entity_thickness} = $self->{_io}->read_f8le();
+    }
+    if ($self->entity_mode()->entity_elevation_flag()) {
+        $self->{entity_elevation} = $self->{_io}->read_f8le();
+    }
+    if ($self->entity_mode()->entity_pspace_flag()) {
+        $self->{unknown1} = $self->{_io}->read_u1();
+    }
+    if ( (($self->entity_mode()->entity_pspace_flag()) && ($self->unknown1() == 6)) ) {
+        $self->{vport_in_entity} = CAD::Format::DWG::AC1009::VportInEntity->new($self->{_io}, $self, $self->{_root});
+    }
+    if ($self->entity_mode()->entity_handling_flag()) {
+        $self->{len_handling_id} = $self->{_io}->read_u1();
+    }
+    if ($self->entity_mode()->entity_handling_flag()) {
+        $self->{handling_id} = $self->{_io}->read_bytes($self->len_handling_id());
+    }
+    if ($self->entity_mode()->entity_pspace_flag()) {
+        $self->{space} = $self->{_io}->read_u2le();
+    }
     $self->{insert_point} = CAD::Format::DWG::AC1009::Point2d->new($self->{_io}, $self, $self->{_root});
     if ($self->entity_common()->flag2_6()) {
         $self->{ref_size} = $self->{_io}->read_u2le();
@@ -3893,9 +4642,69 @@ sub _read {
     $self->{crc16} = $self->{_io}->read_bytes(2);
 }
 
+sub entity_mode {
+    my ($self) = @_;
+    return $self->{entity_mode};
+}
+
+sub entity_size {
+    my ($self) = @_;
+    return $self->{entity_size};
+}
+
+sub entity_layer_index {
+    my ($self) = @_;
+    return $self->{entity_layer_index};
+}
+
 sub entity_common {
     my ($self) = @_;
     return $self->{entity_common};
+}
+
+sub entity_color {
+    my ($self) = @_;
+    return $self->{entity_color};
+}
+
+sub entity_linetype_index {
+    my ($self) = @_;
+    return $self->{entity_linetype_index};
+}
+
+sub entity_thickness {
+    my ($self) = @_;
+    return $self->{entity_thickness};
+}
+
+sub entity_elevation {
+    my ($self) = @_;
+    return $self->{entity_elevation};
+}
+
+sub unknown1 {
+    my ($self) = @_;
+    return $self->{unknown1};
+}
+
+sub vport_in_entity {
+    my ($self) = @_;
+    return $self->{vport_in_entity};
+}
+
+sub len_handling_id {
+    my ($self) = @_;
+    return $self->{len_handling_id};
+}
+
+sub handling_id {
+    my ($self) = @_;
+    return $self->{handling_id};
+}
+
+sub space {
+    my ($self) = @_;
+    return $self->{space};
 }
 
 sub insert_point {
@@ -3958,7 +4767,37 @@ sub new {
 sub _read {
     my ($self) = @_;
 
+    $self->{entity_mode} = CAD::Format::DWG::AC1009::EntityMode->new($self->{_io}, $self, $self->{_root});
+    $self->{entity_size} = $self->{_io}->read_s2le();
+    $self->{entity_layer_index} = $self->{_io}->read_s2le();
     $self->{entity_common} = CAD::Format::DWG::AC1009::EntityCommon->new($self->{_io}, $self, $self->{_root});
+    if ($self->entity_mode()->entity_color_flag()) {
+        $self->{entity_color} = $self->{_io}->read_s1();
+    }
+    if ($self->entity_mode()->entity_linetype_flag()) {
+        $self->{entity_linetype_index} = $self->{_io}->read_s2le();
+    }
+    if ($self->entity_mode()->entity_thickness_flag()) {
+        $self->{entity_thickness} = $self->{_io}->read_f8le();
+    }
+    if ($self->entity_mode()->entity_elevation_flag()) {
+        $self->{entity_elevation} = $self->{_io}->read_f8le();
+    }
+    if ($self->entity_mode()->entity_pspace_flag()) {
+        $self->{unknown1} = $self->{_io}->read_u1();
+    }
+    if ( (($self->entity_mode()->entity_pspace_flag()) && ($self->unknown1() == 6)) ) {
+        $self->{vport_in_entity} = CAD::Format::DWG::AC1009::VportInEntity->new($self->{_io}, $self, $self->{_root});
+    }
+    if ($self->entity_mode()->entity_handling_flag()) {
+        $self->{len_handling_id} = $self->{_io}->read_u1();
+    }
+    if ($self->entity_mode()->entity_handling_flag()) {
+        $self->{handling_id} = $self->{_io}->read_bytes($self->len_handling_id());
+    }
+    if ($self->entity_mode()->entity_pspace_flag()) {
+        $self->{space} = $self->{_io}->read_u2le();
+    }
     $self->{x} = $self->{_io}->read_f8le();
     $self->{y} = $self->{_io}->read_f8le();
     $self->{z} = $self->{_io}->read_f8le();
@@ -3968,9 +4807,69 @@ sub _read {
     $self->{crc16} = $self->{_io}->read_bytes(2);
 }
 
+sub entity_mode {
+    my ($self) = @_;
+    return $self->{entity_mode};
+}
+
+sub entity_size {
+    my ($self) = @_;
+    return $self->{entity_size};
+}
+
+sub entity_layer_index {
+    my ($self) = @_;
+    return $self->{entity_layer_index};
+}
+
 sub entity_common {
     my ($self) = @_;
     return $self->{entity_common};
+}
+
+sub entity_color {
+    my ($self) = @_;
+    return $self->{entity_color};
+}
+
+sub entity_linetype_index {
+    my ($self) = @_;
+    return $self->{entity_linetype_index};
+}
+
+sub entity_thickness {
+    my ($self) = @_;
+    return $self->{entity_thickness};
+}
+
+sub entity_elevation {
+    my ($self) = @_;
+    return $self->{entity_elevation};
+}
+
+sub unknown1 {
+    my ($self) = @_;
+    return $self->{unknown1};
+}
+
+sub vport_in_entity {
+    my ($self) = @_;
+    return $self->{vport_in_entity};
+}
+
+sub len_handling_id {
+    my ($self) = @_;
+    return $self->{len_handling_id};
+}
+
+sub handling_id {
+    my ($self) = @_;
+    return $self->{handling_id};
+}
+
+sub space {
+    my ($self) = @_;
+    return $self->{space};
 }
 
 sub x {
@@ -4038,10 +4937,40 @@ sub new {
 sub _read {
     my ($self) = @_;
 
+    $self->{entity_mode} = CAD::Format::DWG::AC1009::EntityMode->new($self->{_io}, $self, $self->{_root});
+    $self->{entity_size} = $self->{_io}->read_s2le();
+    $self->{entity_layer_index} = $self->{_io}->read_s2le();
     $self->{entity_common} = CAD::Format::DWG::AC1009::EntityCommon->new($self->{_io}, $self, $self->{_root});
+    if ($self->entity_mode()->entity_color_flag()) {
+        $self->{entity_color} = $self->{_io}->read_s1();
+    }
+    if ($self->entity_mode()->entity_linetype_flag()) {
+        $self->{entity_linetype_index} = $self->{_io}->read_s2le();
+    }
+    if ($self->entity_mode()->entity_thickness_flag()) {
+        $self->{entity_thickness} = $self->{_io}->read_f8le();
+    }
+    if ($self->entity_mode()->entity_elevation_flag()) {
+        $self->{entity_elevation} = $self->{_io}->read_f8le();
+    }
+    if ($self->entity_mode()->entity_pspace_flag()) {
+        $self->{unknown1} = $self->{_io}->read_u1();
+    }
+    if ( (($self->entity_mode()->entity_pspace_flag()) && ($self->unknown1() == 6)) ) {
+        $self->{vport_in_entity} = CAD::Format::DWG::AC1009::VportInEntity->new($self->{_io}, $self, $self->{_root});
+    }
+    if ($self->entity_mode()->entity_handling_flag()) {
+        $self->{len_handling_id} = $self->{_io}->read_u1();
+    }
+    if ($self->entity_mode()->entity_handling_flag()) {
+        $self->{handling_id} = $self->{_io}->read_bytes($self->len_handling_id());
+    }
+    if ($self->entity_mode()->entity_pspace_flag()) {
+        $self->{space} = $self->{_io}->read_u2le();
+    }
     $self->{block_index} = $self->{_io}->read_s2le();
     $self->{dimension_line_defining_point} = CAD::Format::DWG::AC1009::Point2d->new($self->{_io}, $self, $self->{_root});
-    if ($self->entity_common()->entity_mode()->entity_elevation_flag() == 0) {
+    if ($self->entity_mode()->entity_elevation_flag() == 0) {
         $self->{dimension_line_defining_point_z} = $self->{_io}->read_f8le();
     }
     $self->{default_text_position} = CAD::Format::DWG::AC1009::Point2d->new($self->{_io}, $self, $self->{_root});
@@ -4057,31 +4986,31 @@ sub _read {
     if ($self->entity_common()->flag2_5()) {
         $self->{extension_defining_point1} = CAD::Format::DWG::AC1009::Point2d->new($self->{_io}, $self, $self->{_root});
     }
-    if ( (($self->entity_common()->entity_mode()->entity_elevation_flag() == 0) && ($self->entity_common()->flag2_5())) ) {
+    if ( (($self->entity_mode()->entity_elevation_flag() == 0) && ($self->entity_common()->flag2_5())) ) {
         $self->{extension_defining_point1_z} = $self->{_io}->read_f8le();
     }
     if ($self->entity_common()->flag2_4()) {
         $self->{extension_defining_point2} = CAD::Format::DWG::AC1009::Point2d->new($self->{_io}, $self, $self->{_root});
     }
-    if ( (($self->entity_common()->entity_mode()->entity_elevation_flag() == 0) && ($self->entity_common()->flag2_4())) ) {
+    if ( (($self->entity_mode()->entity_elevation_flag() == 0) && ($self->entity_common()->flag2_4())) ) {
         $self->{extension_defining_point2_z} = $self->{_io}->read_f8le();
     }
     if ($self->entity_common()->flag2_3()) {
         $self->{defining_point} = CAD::Format::DWG::AC1009::Point2d->new($self->{_io}, $self, $self->{_root});
     }
-    if ( (($self->entity_common()->entity_mode()->entity_elevation_flag() == 0) && ($self->entity_common()->flag2_3())) ) {
+    if ( (($self->entity_mode()->entity_elevation_flag() == 0) && ($self->entity_common()->flag2_3())) ) {
         $self->{defining_point_z} = $self->{_io}->read_f8le();
     }
     if ($self->entity_common()->flag2_2()) {
         $self->{dimension_line_arc_definition_point} = CAD::Format::DWG::AC1009::Point2d->new($self->{_io}, $self, $self->{_root});
     }
-    if ( (($self->entity_common()->entity_mode()->entity_elevation_flag() == 0) && ($self->entity_common()->flag2_2())) ) {
+    if ( (($self->entity_mode()->entity_elevation_flag() == 0) && ($self->entity_common()->flag2_2())) ) {
         $self->{dimension_line_arc_definition_point_z} = $self->{_io}->read_f8le();
     }
     if ($self->entity_common()->flag2_1()) {
         $self->{unknown2} = CAD::Format::DWG::AC1009::Point2d->new($self->{_io}, $self, $self->{_root});
     }
-    if ( (($self->entity_common()->entity_mode()->entity_elevation_flag() == 0) && ($self->entity_common()->flag2_1())) ) {
+    if ( (($self->entity_mode()->entity_elevation_flag() == 0) && ($self->entity_common()->flag2_1())) ) {
         $self->{unknown2_z} = $self->{_io}->read_f8le();
     }
     if ($self->entity_common()->flag3_8()) {
@@ -4090,9 +5019,69 @@ sub _read {
     $self->{crc16} = $self->{_io}->read_bytes(2);
 }
 
+sub entity_mode {
+    my ($self) = @_;
+    return $self->{entity_mode};
+}
+
+sub entity_size {
+    my ($self) = @_;
+    return $self->{entity_size};
+}
+
+sub entity_layer_index {
+    my ($self) = @_;
+    return $self->{entity_layer_index};
+}
+
 sub entity_common {
     my ($self) = @_;
     return $self->{entity_common};
+}
+
+sub entity_color {
+    my ($self) = @_;
+    return $self->{entity_color};
+}
+
+sub entity_linetype_index {
+    my ($self) = @_;
+    return $self->{entity_linetype_index};
+}
+
+sub entity_thickness {
+    my ($self) = @_;
+    return $self->{entity_thickness};
+}
+
+sub entity_elevation {
+    my ($self) = @_;
+    return $self->{entity_elevation};
+}
+
+sub unknown1 {
+    my ($self) = @_;
+    return $self->{unknown1};
+}
+
+sub vport_in_entity {
+    my ($self) = @_;
+    return $self->{vport_in_entity};
+}
+
+sub len_handling_id {
+    my ($self) = @_;
+    return $self->{len_handling_id};
+}
+
+sub handling_id {
+    my ($self) = @_;
+    return $self->{handling_id};
+}
+
+sub space {
+    my ($self) = @_;
+    return $self->{space};
 }
 
 sub block_index {
@@ -5560,16 +6549,106 @@ sub new {
 sub _read {
     my ($self) = @_;
 
+    $self->{entity_mode} = CAD::Format::DWG::AC1009::EntityMode->new($self->{_io}, $self, $self->{_root});
+    $self->{entity_size} = $self->{_io}->read_s2le();
+    $self->{entity_layer_index} = $self->{_io}->read_s2le();
     $self->{entity_common} = CAD::Format::DWG::AC1009::EntityCommon->new($self->{_io}, $self, $self->{_root});
+    if ($self->entity_mode()->entity_color_flag()) {
+        $self->{entity_color} = $self->{_io}->read_s1();
+    }
+    if ($self->entity_mode()->entity_linetype_flag()) {
+        $self->{entity_linetype_index} = $self->{_io}->read_s2le();
+    }
+    if ($self->entity_mode()->entity_thickness_flag()) {
+        $self->{entity_thickness} = $self->{_io}->read_f8le();
+    }
+    if ($self->entity_mode()->entity_elevation_flag()) {
+        $self->{entity_elevation} = $self->{_io}->read_f8le();
+    }
+    if ($self->entity_mode()->entity_pspace_flag()) {
+        $self->{unknown1} = $self->{_io}->read_u1();
+    }
+    if ( (($self->entity_mode()->entity_pspace_flag()) && ($self->unknown1() == 6)) ) {
+        $self->{vport_in_entity} = CAD::Format::DWG::AC1009::VportInEntity->new($self->{_io}, $self, $self->{_root});
+    }
+    if ($self->entity_mode()->entity_handling_flag()) {
+        $self->{len_handling_id} = $self->{_io}->read_u1();
+    }
+    if ($self->entity_mode()->entity_handling_flag()) {
+        $self->{handling_id} = $self->{_io}->read_bytes($self->len_handling_id());
+    }
+    if ($self->entity_mode()->entity_pspace_flag()) {
+        $self->{space} = $self->{_io}->read_u2le();
+    }
     $self->{center_point} = CAD::Format::DWG::AC1009::Point3d->new($self->{_io}, $self, $self->{_root});
     $self->{angle_from} = $self->{_io}->read_f8le();
     $self->{angle_to} = $self->{_io}->read_f8le();
     $self->{crc16} = $self->{_io}->read_bytes(2);
 }
 
+sub entity_mode {
+    my ($self) = @_;
+    return $self->{entity_mode};
+}
+
+sub entity_size {
+    my ($self) = @_;
+    return $self->{entity_size};
+}
+
+sub entity_layer_index {
+    my ($self) = @_;
+    return $self->{entity_layer_index};
+}
+
 sub entity_common {
     my ($self) = @_;
     return $self->{entity_common};
+}
+
+sub entity_color {
+    my ($self) = @_;
+    return $self->{entity_color};
+}
+
+sub entity_linetype_index {
+    my ($self) = @_;
+    return $self->{entity_linetype_index};
+}
+
+sub entity_thickness {
+    my ($self) = @_;
+    return $self->{entity_thickness};
+}
+
+sub entity_elevation {
+    my ($self) = @_;
+    return $self->{entity_elevation};
+}
+
+sub unknown1 {
+    my ($self) = @_;
+    return $self->{unknown1};
+}
+
+sub vport_in_entity {
+    my ($self) = @_;
+    return $self->{vport_in_entity};
+}
+
+sub len_handling_id {
+    my ($self) = @_;
+    return $self->{len_handling_id};
+}
+
+sub handling_id {
+    my ($self) = @_;
+    return $self->{handling_id};
+}
+
+sub space {
+    my ($self) = @_;
+    return $self->{space};
 }
 
 sub center_point {
@@ -5729,14 +6808,104 @@ sub new {
 sub _read {
     my ($self) = @_;
 
+    $self->{entity_mode} = CAD::Format::DWG::AC1009::EntityMode->new($self->{_io}, $self, $self->{_root});
+    $self->{entity_size} = $self->{_io}->read_s2le();
+    $self->{entity_layer_index} = $self->{_io}->read_s2le();
     $self->{entity_common} = CAD::Format::DWG::AC1009::EntityCommon->new($self->{_io}, $self, $self->{_root});
+    if ($self->entity_mode()->entity_color_flag()) {
+        $self->{entity_color} = $self->{_io}->read_s1();
+    }
+    if ($self->entity_mode()->entity_linetype_flag()) {
+        $self->{entity_linetype_index} = $self->{_io}->read_s2le();
+    }
+    if ($self->entity_mode()->entity_thickness_flag()) {
+        $self->{entity_thickness} = $self->{_io}->read_f8le();
+    }
+    if ($self->entity_mode()->entity_elevation_flag()) {
+        $self->{entity_elevation} = $self->{_io}->read_f8le();
+    }
+    if ($self->entity_mode()->entity_pspace_flag()) {
+        $self->{unknown1} = $self->{_io}->read_u1();
+    }
+    if ( (($self->entity_mode()->entity_pspace_flag()) && ($self->unknown1() == 6)) ) {
+        $self->{vport_in_entity} = CAD::Format::DWG::AC1009::VportInEntity->new($self->{_io}, $self, $self->{_root});
+    }
+    if ($self->entity_mode()->entity_handling_flag()) {
+        $self->{len_handling_id} = $self->{_io}->read_u1();
+    }
+    if ($self->entity_mode()->entity_handling_flag()) {
+        $self->{handling_id} = $self->{_io}->read_bytes($self->len_handling_id());
+    }
+    if ($self->entity_mode()->entity_pspace_flag()) {
+        $self->{space} = $self->{_io}->read_u2le();
+    }
     $self->{unknown} = $self->{_io}->read_bytes(4);
     $self->{crc16} = $self->{_io}->read_bytes(2);
+}
+
+sub entity_mode {
+    my ($self) = @_;
+    return $self->{entity_mode};
+}
+
+sub entity_size {
+    my ($self) = @_;
+    return $self->{entity_size};
+}
+
+sub entity_layer_index {
+    my ($self) = @_;
+    return $self->{entity_layer_index};
 }
 
 sub entity_common {
     my ($self) = @_;
     return $self->{entity_common};
+}
+
+sub entity_color {
+    my ($self) = @_;
+    return $self->{entity_color};
+}
+
+sub entity_linetype_index {
+    my ($self) = @_;
+    return $self->{entity_linetype_index};
+}
+
+sub entity_thickness {
+    my ($self) = @_;
+    return $self->{entity_thickness};
+}
+
+sub entity_elevation {
+    my ($self) = @_;
+    return $self->{entity_elevation};
+}
+
+sub unknown1 {
+    my ($self) = @_;
+    return $self->{unknown1};
+}
+
+sub vport_in_entity {
+    my ($self) = @_;
+    return $self->{vport_in_entity};
+}
+
+sub len_handling_id {
+    my ($self) = @_;
+    return $self->{len_handling_id};
+}
+
+sub handling_id {
+    my ($self) = @_;
+    return $self->{handling_id};
+}
+
+sub space {
+    my ($self) = @_;
+    return $self->{space};
 }
 
 sub unknown {
@@ -6345,15 +7514,105 @@ sub new {
 sub _read {
     my ($self) = @_;
 
+    $self->{entity_mode} = CAD::Format::DWG::AC1009::EntityMode->new($self->{_io}, $self, $self->{_root});
+    $self->{entity_size} = $self->{_io}->read_s2le();
+    $self->{entity_layer_index} = $self->{_io}->read_s2le();
     $self->{entity_common} = CAD::Format::DWG::AC1009::EntityCommon->new($self->{_io}, $self, $self->{_root});
+    if ($self->entity_mode()->entity_color_flag()) {
+        $self->{entity_color} = $self->{_io}->read_s1();
+    }
+    if ($self->entity_mode()->entity_linetype_flag()) {
+        $self->{entity_linetype_index} = $self->{_io}->read_s2le();
+    }
+    if ($self->entity_mode()->entity_thickness_flag()) {
+        $self->{entity_thickness} = $self->{_io}->read_f8le();
+    }
+    if ($self->entity_mode()->entity_elevation_flag()) {
+        $self->{entity_elevation} = $self->{_io}->read_f8le();
+    }
+    if ($self->entity_mode()->entity_pspace_flag()) {
+        $self->{unknown1} = $self->{_io}->read_u1();
+    }
+    if ( (($self->entity_mode()->entity_pspace_flag()) && ($self->unknown1() == 6)) ) {
+        $self->{vport_in_entity} = CAD::Format::DWG::AC1009::VportInEntity->new($self->{_io}, $self, $self->{_root});
+    }
+    if ($self->entity_mode()->entity_handling_flag()) {
+        $self->{len_handling_id} = $self->{_io}->read_u1();
+    }
+    if ($self->entity_mode()->entity_handling_flag()) {
+        $self->{handling_id} = $self->{_io}->read_bytes($self->len_handling_id());
+    }
+    if ($self->entity_mode()->entity_pspace_flag()) {
+        $self->{space} = $self->{_io}->read_u2le();
+    }
     $self->{center_point} = CAD::Format::DWG::AC1009::Point2d->new($self->{_io}, $self, $self->{_root});
     $self->{radius} = $self->{_io}->read_f8le();
     $self->{crc16} = $self->{_io}->read_bytes(2);
 }
 
+sub entity_mode {
+    my ($self) = @_;
+    return $self->{entity_mode};
+}
+
+sub entity_size {
+    my ($self) = @_;
+    return $self->{entity_size};
+}
+
+sub entity_layer_index {
+    my ($self) = @_;
+    return $self->{entity_layer_index};
+}
+
 sub entity_common {
     my ($self) = @_;
     return $self->{entity_common};
+}
+
+sub entity_color {
+    my ($self) = @_;
+    return $self->{entity_color};
+}
+
+sub entity_linetype_index {
+    my ($self) = @_;
+    return $self->{entity_linetype_index};
+}
+
+sub entity_thickness {
+    my ($self) = @_;
+    return $self->{entity_thickness};
+}
+
+sub entity_elevation {
+    my ($self) = @_;
+    return $self->{entity_elevation};
+}
+
+sub unknown1 {
+    my ($self) = @_;
+    return $self->{unknown1};
+}
+
+sub vport_in_entity {
+    my ($self) = @_;
+    return $self->{vport_in_entity};
+}
+
+sub len_handling_id {
+    my ($self) = @_;
+    return $self->{len_handling_id};
+}
+
+sub handling_id {
+    my ($self) = @_;
+    return $self->{handling_id};
+}
+
+sub space {
+    my ($self) = @_;
+    return $self->{space};
 }
 
 sub center_point {
@@ -6401,7 +7660,37 @@ sub new {
 sub _read {
     my ($self) = @_;
 
+    $self->{entity_mode} = CAD::Format::DWG::AC1009::EntityMode->new($self->{_io}, $self, $self->{_root});
+    $self->{entity_size} = $self->{_io}->read_s2le();
+    $self->{entity_layer_index} = $self->{_io}->read_s2le();
     $self->{entity_common} = CAD::Format::DWG::AC1009::EntityCommon->new($self->{_io}, $self, $self->{_root});
+    if ($self->entity_mode()->entity_color_flag()) {
+        $self->{entity_color} = $self->{_io}->read_s1();
+    }
+    if ($self->entity_mode()->entity_linetype_flag()) {
+        $self->{entity_linetype_index} = $self->{_io}->read_s2le();
+    }
+    if ($self->entity_mode()->entity_thickness_flag()) {
+        $self->{entity_thickness} = $self->{_io}->read_f8le();
+    }
+    if ($self->entity_mode()->entity_elevation_flag()) {
+        $self->{entity_elevation} = $self->{_io}->read_f8le();
+    }
+    if ($self->entity_mode()->entity_pspace_flag()) {
+        $self->{unknown1} = $self->{_io}->read_u1();
+    }
+    if ( (($self->entity_mode()->entity_pspace_flag()) && ($self->unknown1() == 6)) ) {
+        $self->{vport_in_entity} = CAD::Format::DWG::AC1009::VportInEntity->new($self->{_io}, $self, $self->{_root});
+    }
+    if ($self->entity_mode()->entity_handling_flag()) {
+        $self->{len_handling_id} = $self->{_io}->read_u1();
+    }
+    if ($self->entity_mode()->entity_handling_flag()) {
+        $self->{handling_id} = $self->{_io}->read_bytes($self->len_handling_id());
+    }
+    if ($self->entity_mode()->entity_pspace_flag()) {
+        $self->{space} = $self->{_io}->read_u2le();
+    }
     $self->{x} = $self->{_io}->read_f8le();
     $self->{y} = $self->{_io}->read_f8le();
     $self->{height} = $self->{_io}->read_f8le();
@@ -6421,9 +7710,69 @@ sub _read {
     $self->{crc16} = $self->{_io}->read_bytes(2);
 }
 
+sub entity_mode {
+    my ($self) = @_;
+    return $self->{entity_mode};
+}
+
+sub entity_size {
+    my ($self) = @_;
+    return $self->{entity_size};
+}
+
+sub entity_layer_index {
+    my ($self) = @_;
+    return $self->{entity_layer_index};
+}
+
 sub entity_common {
     my ($self) = @_;
     return $self->{entity_common};
+}
+
+sub entity_color {
+    my ($self) = @_;
+    return $self->{entity_color};
+}
+
+sub entity_linetype_index {
+    my ($self) = @_;
+    return $self->{entity_linetype_index};
+}
+
+sub entity_thickness {
+    my ($self) = @_;
+    return $self->{entity_thickness};
+}
+
+sub entity_elevation {
+    my ($self) = @_;
+    return $self->{entity_elevation};
+}
+
+sub unknown1 {
+    my ($self) = @_;
+    return $self->{unknown1};
+}
+
+sub vport_in_entity {
+    my ($self) = @_;
+    return $self->{vport_in_entity};
+}
+
+sub len_handling_id {
+    my ($self) = @_;
+    return $self->{len_handling_id};
+}
+
+sub handling_id {
+    my ($self) = @_;
+    return $self->{handling_id};
+}
+
+sub space {
+    my ($self) = @_;
+    return $self->{space};
 }
 
 sub x {
@@ -6501,7 +7850,37 @@ sub new {
 sub _read {
     my ($self) = @_;
 
+    $self->{entity_mode} = CAD::Format::DWG::AC1009::EntityMode->new($self->{_io}, $self, $self->{_root});
+    $self->{entity_size} = $self->{_io}->read_s2le();
+    $self->{entity_layer_index} = $self->{_io}->read_s2le();
     $self->{entity_common} = CAD::Format::DWG::AC1009::EntityCommon->new($self->{_io}, $self, $self->{_root});
+    if ($self->entity_mode()->entity_color_flag()) {
+        $self->{entity_color} = $self->{_io}->read_s1();
+    }
+    if ($self->entity_mode()->entity_linetype_flag()) {
+        $self->{entity_linetype_index} = $self->{_io}->read_s2le();
+    }
+    if ($self->entity_mode()->entity_thickness_flag()) {
+        $self->{entity_thickness} = $self->{_io}->read_f8le();
+    }
+    if ($self->entity_mode()->entity_elevation_flag()) {
+        $self->{entity_elevation} = $self->{_io}->read_f8le();
+    }
+    if ($self->entity_mode()->entity_pspace_flag()) {
+        $self->{unknown1} = $self->{_io}->read_u1();
+    }
+    if ( (($self->entity_mode()->entity_pspace_flag()) && ($self->unknown1() == 6)) ) {
+        $self->{vport_in_entity} = CAD::Format::DWG::AC1009::VportInEntity->new($self->{_io}, $self, $self->{_root});
+    }
+    if ($self->entity_mode()->entity_handling_flag()) {
+        $self->{len_handling_id} = $self->{_io}->read_u1();
+    }
+    if ($self->entity_mode()->entity_handling_flag()) {
+        $self->{handling_id} = $self->{_io}->read_bytes($self->len_handling_id());
+    }
+    if ($self->entity_mode()->entity_pspace_flag()) {
+        $self->{space} = $self->{_io}->read_u2le();
+    }
     $self->{x} = $self->{_io}->read_f8le();
     $self->{y} = $self->{_io}->read_f8le();
     if ($self->entity_common()->flag2_8()) {
@@ -6519,9 +7898,69 @@ sub _read {
     $self->{crc16} = $self->{_io}->read_bytes(2);
 }
 
+sub entity_mode {
+    my ($self) = @_;
+    return $self->{entity_mode};
+}
+
+sub entity_size {
+    my ($self) = @_;
+    return $self->{entity_size};
+}
+
+sub entity_layer_index {
+    my ($self) = @_;
+    return $self->{entity_layer_index};
+}
+
 sub entity_common {
     my ($self) = @_;
     return $self->{entity_common};
+}
+
+sub entity_color {
+    my ($self) = @_;
+    return $self->{entity_color};
+}
+
+sub entity_linetype_index {
+    my ($self) = @_;
+    return $self->{entity_linetype_index};
+}
+
+sub entity_thickness {
+    my ($self) = @_;
+    return $self->{entity_thickness};
+}
+
+sub entity_elevation {
+    my ($self) = @_;
+    return $self->{entity_elevation};
+}
+
+sub unknown1 {
+    my ($self) = @_;
+    return $self->{unknown1};
+}
+
+sub vport_in_entity {
+    my ($self) = @_;
+    return $self->{vport_in_entity};
+}
+
+sub len_handling_id {
+    my ($self) = @_;
+    return $self->{len_handling_id};
+}
+
+sub handling_id {
+    my ($self) = @_;
+    return $self->{handling_id};
+}
+
+sub space {
+    my ($self) = @_;
+    return $self->{space};
 }
 
 sub x {
@@ -6749,23 +8188,113 @@ sub new {
 sub _read {
     my ($self) = @_;
 
+    $self->{entity_mode} = CAD::Format::DWG::AC1009::EntityMode->new($self->{_io}, $self, $self->{_root});
+    $self->{entity_size} = $self->{_io}->read_s2le();
+    $self->{entity_layer_index} = $self->{_io}->read_s2le();
     $self->{entity_common} = CAD::Format::DWG::AC1009::EntityCommon->new($self->{_io}, $self, $self->{_root});
+    if ($self->entity_mode()->entity_color_flag()) {
+        $self->{entity_color} = $self->{_io}->read_s1();
+    }
+    if ($self->entity_mode()->entity_linetype_flag()) {
+        $self->{entity_linetype_index} = $self->{_io}->read_s2le();
+    }
+    if ($self->entity_mode()->entity_thickness_flag()) {
+        $self->{entity_thickness} = $self->{_io}->read_f8le();
+    }
+    if ($self->entity_mode()->entity_elevation_flag()) {
+        $self->{entity_elevation} = $self->{_io}->read_f8le();
+    }
+    if ($self->entity_mode()->entity_pspace_flag()) {
+        $self->{unknown1} = $self->{_io}->read_u1();
+    }
+    if ( (($self->entity_mode()->entity_pspace_flag()) && ($self->unknown1() == 6)) ) {
+        $self->{vport_in_entity} = CAD::Format::DWG::AC1009::VportInEntity->new($self->{_io}, $self, $self->{_root});
+    }
+    if ($self->entity_mode()->entity_handling_flag()) {
+        $self->{len_handling_id} = $self->{_io}->read_u1();
+    }
+    if ($self->entity_mode()->entity_handling_flag()) {
+        $self->{handling_id} = $self->{_io}->read_bytes($self->len_handling_id());
+    }
+    if ($self->entity_mode()->entity_pspace_flag()) {
+        $self->{space} = $self->{_io}->read_u2le();
+    }
     $self->{x1} = $self->{_io}->read_f8le();
     $self->{y1} = $self->{_io}->read_f8le();
-    if ($self->entity_common()->entity_mode()->entity_elevation_flag() == 0) {
+    if ($self->entity_mode()->entity_elevation_flag() == 0) {
         $self->{z1} = $self->{_io}->read_f8le();
     }
     $self->{x2} = $self->{_io}->read_f8le();
     $self->{y2} = $self->{_io}->read_f8le();
-    if ($self->entity_common()->entity_mode()->entity_elevation_flag() == 0) {
+    if ($self->entity_mode()->entity_elevation_flag() == 0) {
         $self->{z2} = $self->{_io}->read_f8le();
     }
     $self->{crc16} = $self->{_io}->read_bytes(2);
 }
 
+sub entity_mode {
+    my ($self) = @_;
+    return $self->{entity_mode};
+}
+
+sub entity_size {
+    my ($self) = @_;
+    return $self->{entity_size};
+}
+
+sub entity_layer_index {
+    my ($self) = @_;
+    return $self->{entity_layer_index};
+}
+
 sub entity_common {
     my ($self) = @_;
     return $self->{entity_common};
+}
+
+sub entity_color {
+    my ($self) = @_;
+    return $self->{entity_color};
+}
+
+sub entity_linetype_index {
+    my ($self) = @_;
+    return $self->{entity_linetype_index};
+}
+
+sub entity_thickness {
+    my ($self) = @_;
+    return $self->{entity_thickness};
+}
+
+sub entity_elevation {
+    my ($self) = @_;
+    return $self->{entity_elevation};
+}
+
+sub unknown1 {
+    my ($self) = @_;
+    return $self->{unknown1};
+}
+
+sub vport_in_entity {
+    my ($self) = @_;
+    return $self->{vport_in_entity};
+}
+
+sub len_handling_id {
+    my ($self) = @_;
+    return $self->{len_handling_id};
+}
+
+sub handling_id {
+    my ($self) = @_;
+    return $self->{handling_id};
+}
+
+sub space {
+    my ($self) = @_;
+    return $self->{space};
 }
 
 sub x1 {
@@ -7013,7 +8542,37 @@ sub new {
 sub _read {
     my ($self) = @_;
 
+    $self->{entity_mode} = CAD::Format::DWG::AC1009::EntityMode->new($self->{_io}, $self, $self->{_root});
+    $self->{entity_size} = $self->{_io}->read_s2le();
+    $self->{entity_layer_index} = $self->{_io}->read_s2le();
     $self->{entity_common} = CAD::Format::DWG::AC1009::EntityCommon->new($self->{_io}, $self, $self->{_root});
+    if ($self->entity_mode()->entity_color_flag()) {
+        $self->{entity_color} = $self->{_io}->read_s1();
+    }
+    if ($self->entity_mode()->entity_linetype_flag()) {
+        $self->{entity_linetype_index} = $self->{_io}->read_s2le();
+    }
+    if ($self->entity_mode()->entity_thickness_flag()) {
+        $self->{entity_thickness} = $self->{_io}->read_f8le();
+    }
+    if ($self->entity_mode()->entity_elevation_flag()) {
+        $self->{entity_elevation} = $self->{_io}->read_f8le();
+    }
+    if ($self->entity_mode()->entity_pspace_flag()) {
+        $self->{unknown1} = $self->{_io}->read_u1();
+    }
+    if ( (($self->entity_mode()->entity_pspace_flag()) && ($self->unknown1() == 6)) ) {
+        $self->{vport_in_entity} = CAD::Format::DWG::AC1009::VportInEntity->new($self->{_io}, $self, $self->{_root});
+    }
+    if ($self->entity_mode()->entity_handling_flag()) {
+        $self->{len_handling_id} = $self->{_io}->read_u1();
+    }
+    if ($self->entity_mode()->entity_handling_flag()) {
+        $self->{handling_id} = $self->{_io}->read_bytes($self->len_handling_id());
+    }
+    if ($self->entity_mode()->entity_pspace_flag()) {
+        $self->{space} = $self->{_io}->read_u2le();
+    }
     if ($self->entity_common()->flag3_1()) {
         $self->{z} = $self->{_io}->read_f8le();
     }
@@ -7032,9 +8591,69 @@ sub _read {
     $self->{crc16} = $self->{_io}->read_bytes(2);
 }
 
+sub entity_mode {
+    my ($self) = @_;
+    return $self->{entity_mode};
+}
+
+sub entity_size {
+    my ($self) = @_;
+    return $self->{entity_size};
+}
+
+sub entity_layer_index {
+    my ($self) = @_;
+    return $self->{entity_layer_index};
+}
+
 sub entity_common {
     my ($self) = @_;
     return $self->{entity_common};
+}
+
+sub entity_color {
+    my ($self) = @_;
+    return $self->{entity_color};
+}
+
+sub entity_linetype_index {
+    my ($self) = @_;
+    return $self->{entity_linetype_index};
+}
+
+sub entity_thickness {
+    my ($self) = @_;
+    return $self->{entity_thickness};
+}
+
+sub entity_elevation {
+    my ($self) = @_;
+    return $self->{entity_elevation};
+}
+
+sub unknown1 {
+    my ($self) = @_;
+    return $self->{unknown1};
+}
+
+sub vport_in_entity {
+    my ($self) = @_;
+    return $self->{vport_in_entity};
+}
+
+sub len_handling_id {
+    my ($self) = @_;
+    return $self->{len_handling_id};
+}
+
+sub handling_id {
+    my ($self) = @_;
+    return $self->{handling_id};
+}
+
+sub space {
+    my ($self) = @_;
+    return $self->{space};
 }
 
 sub z {
