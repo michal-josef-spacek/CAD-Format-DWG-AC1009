@@ -1600,6 +1600,10 @@ types:
 #        type: f8
 #        if: entity_mode.entity_elevation_flag == false
 #        doc: DIMENSION/31
+      - id: clone_ins_pt
+        type: point_2d
+        if: entity_common.flag2_8
+        doc: DIMENSION/12|22
       - id: dim_type
         type: dim_type
         if: entity_common.flag2_7

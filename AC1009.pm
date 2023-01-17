@@ -4974,6 +4974,9 @@ sub _read {
         $self->{dimension_line_defining_point_z} = $self->{_io}->read_f8le();
     }
     $self->{default_text_position} = CAD::Format::DWG::AC1009::Point2d->new($self->{_io}, $self, $self->{_root});
+    if ($self->entity_common()->flag2_8()) {
+        $self->{clone_ins_pt} = CAD::Format::DWG::AC1009::Point2d->new($self->{_io}, $self, $self->{_root});
+    }
     if ($self->entity_common()->flag2_7()) {
         $self->{dim_type} = CAD::Format::DWG::AC1009::DimType->new($self->{_io}, $self, $self->{_root});
     }
@@ -5102,6 +5105,11 @@ sub dimension_line_defining_point_z {
 sub default_text_position {
     my ($self) = @_;
     return $self->{default_text_position};
+}
+
+sub clone_ins_pt {
+    my ($self) = @_;
+    return $self->{clone_ins_pt};
 }
 
 sub dim_type {
