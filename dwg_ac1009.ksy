@@ -1654,6 +1654,9 @@ types:
       - id: rotation_in_radians
         type: f8
         if: entity_common.flag3_8
+      - id: u1
+        type: u2
+        if: entity_common.flag3_1
       - id: crc16
         size: 2
   dim_type:

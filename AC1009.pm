@@ -5019,6 +5019,9 @@ sub _read {
     if ($self->entity_common()->flag3_8()) {
         $self->{rotation_in_radians} = $self->{_io}->read_f8le();
     }
+    if ($self->entity_common()->flag3_1()) {
+        $self->{u1} = $self->{_io}->read_u2le();
+    }
     $self->{crc16} = $self->{_io}->read_bytes(2);
 }
 
@@ -5180,6 +5183,11 @@ sub unknown2_z {
 sub rotation_in_radians {
     my ($self) = @_;
     return $self->{rotation_in_radians};
+}
+
+sub u1 {
+    my ($self) = @_;
+    return $self->{u1};
 }
 
 sub crc16 {
