@@ -2762,8 +2762,10 @@ types:
         encoding: ASCII
         terminator: 0x00
         doc: APPID/2
-      - id: u1
-        size: 4
+      - id: usage
+        type: s2
+      - id: crc16
+        size: 2
   appid_flag:
     seq:
       - id: flag1

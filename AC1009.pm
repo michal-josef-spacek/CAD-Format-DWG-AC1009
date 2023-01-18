@@ -4185,7 +4185,8 @@ sub _read {
 
     $self->{flag} = CAD::Format::DWG::AC1009::AppidFlag->new($self->{_io}, $self, $self->{_root});
     $self->{appid_name} = Encode::decode("ASCII", IO::KaitaiStruct::Stream::bytes_terminate($self->{_io}->read_bytes(32), 0, 0));
-    $self->{u1} = $self->{_io}->read_bytes(4);
+    $self->{usage} = $self->{_io}->read_s2le();
+    $self->{crc16} = $self->{_io}->read_bytes(2);
 }
 
 sub flag {
@@ -4198,9 +4199,14 @@ sub appid_name {
     return $self->{appid_name};
 }
 
-sub u1 {
+sub usage {
     my ($self) = @_;
-    return $self->{u1};
+    return $self->{usage};
+}
+
+sub crc16 {
+    my ($self) = @_;
+    return $self->{crc16};
 }
 
 ########################################################################
