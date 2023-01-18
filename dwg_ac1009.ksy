@@ -2795,8 +2795,22 @@ types:
         encoding: ASCII
         terminator: 0x00
         doc: DIMSTYLE/2
+      - id: usage
+        type: s2
       - id: u1
-        size: 291
+        type: f8
+      - id: u2
+        type: f8
+      - id: u3
+        type: f8
+      - id: u4
+        type: f8
+      - id: u5
+        type: f8
+      - id: u6
+        size: 247
+      - id: crc16
+        size: 2
   dimstyle_flag:
     seq:
       - id: flag1

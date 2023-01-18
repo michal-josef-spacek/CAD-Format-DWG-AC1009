@@ -2674,7 +2674,14 @@ sub _read {
 
     $self->{flag} = CAD::Format::DWG::AC1009::DimstyleFlag->new($self->{_io}, $self, $self->{_root});
     $self->{dimstyle_name} = Encode::decode("ASCII", IO::KaitaiStruct::Stream::bytes_terminate($self->{_io}->read_bytes(32), 0, 0));
-    $self->{u1} = $self->{_io}->read_bytes(291);
+    $self->{usage} = $self->{_io}->read_s2le();
+    $self->{u1} = $self->{_io}->read_f8le();
+    $self->{u2} = $self->{_io}->read_f8le();
+    $self->{u3} = $self->{_io}->read_f8le();
+    $self->{u4} = $self->{_io}->read_f8le();
+    $self->{u5} = $self->{_io}->read_f8le();
+    $self->{u6} = $self->{_io}->read_bytes(247);
+    $self->{crc16} = $self->{_io}->read_bytes(2);
 }
 
 sub flag {
@@ -2687,9 +2694,44 @@ sub dimstyle_name {
     return $self->{dimstyle_name};
 }
 
+sub usage {
+    my ($self) = @_;
+    return $self->{usage};
+}
+
 sub u1 {
     my ($self) = @_;
     return $self->{u1};
+}
+
+sub u2 {
+    my ($self) = @_;
+    return $self->{u2};
+}
+
+sub u3 {
+    my ($self) = @_;
+    return $self->{u3};
+}
+
+sub u4 {
+    my ($self) = @_;
+    return $self->{u4};
+}
+
+sub u5 {
+    my ($self) = @_;
+    return $self->{u5};
+}
+
+sub u6 {
+    my ($self) = @_;
+    return $self->{u6};
+}
+
+sub crc16 {
+    my ($self) = @_;
+    return $self->{crc16};
 }
 
 ########################################################################
