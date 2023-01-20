@@ -1642,19 +1642,21 @@ types:
       - id: dimension_line_arc_definition_point
         type: point_2d
         if: entity_common.flag2_2
-      - id: dimension_line_arc_definition_point_z
-        type: f8
-        if: entity_mode.entity_elevation_flag == false and entity_common.flag2_2
-      - id: unknown2
+      - id: leader_length
         type: point_2d
         if: entity_common.flag2_1
-      - id: unknown2_z
+        doc: DIMENSION/40|50
+      - id: leader_length_z
         type: f8
         if: entity_mode.entity_elevation_flag == false and entity_common.flag2_1
+        doc: DIMENSION/60
       - id: rotation_in_radians
         type: f8
         if: entity_common.flag3_8
-      - id: u1
+      - id: text_rotation_in_radians
+        type: f8
+        if: entity_common.flag3_6
+      - id: dimstyle
         type: u2
         if: entity_common.flag3_1
       - id: crc16

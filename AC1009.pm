@@ -5055,20 +5055,20 @@ sub _read {
     if ($self->entity_common()->flag2_2()) {
         $self->{dimension_line_arc_definition_point} = CAD::Format::DWG::AC1009::Point2d->new($self->{_io}, $self, $self->{_root});
     }
-    if ( (($self->entity_mode()->entity_elevation_flag() == 0) && ($self->entity_common()->flag2_2())) ) {
-        $self->{dimension_line_arc_definition_point_z} = $self->{_io}->read_f8le();
-    }
     if ($self->entity_common()->flag2_1()) {
-        $self->{unknown2} = CAD::Format::DWG::AC1009::Point2d->new($self->{_io}, $self, $self->{_root});
+        $self->{leader_length} = CAD::Format::DWG::AC1009::Point2d->new($self->{_io}, $self, $self->{_root});
     }
     if ( (($self->entity_mode()->entity_elevation_flag() == 0) && ($self->entity_common()->flag2_1())) ) {
-        $self->{unknown2_z} = $self->{_io}->read_f8le();
+        $self->{leader_length_z} = $self->{_io}->read_f8le();
     }
     if ($self->entity_common()->flag3_8()) {
         $self->{rotation_in_radians} = $self->{_io}->read_f8le();
     }
+    if ($self->entity_common()->flag3_6()) {
+        $self->{text_rotation_in_radians} = $self->{_io}->read_f8le();
+    }
     if ($self->entity_common()->flag3_1()) {
-        $self->{u1} = $self->{_io}->read_u2le();
+        $self->{dimstyle} = $self->{_io}->read_u2le();
     }
     $self->{crc16} = $self->{_io}->read_bytes(2);
 }
@@ -5213,19 +5213,14 @@ sub dimension_line_arc_definition_point {
     return $self->{dimension_line_arc_definition_point};
 }
 
-sub dimension_line_arc_definition_point_z {
+sub leader_length {
     my ($self) = @_;
-    return $self->{dimension_line_arc_definition_point_z};
+    return $self->{leader_length};
 }
 
-sub unknown2 {
+sub leader_length_z {
     my ($self) = @_;
-    return $self->{unknown2};
-}
-
-sub unknown2_z {
-    my ($self) = @_;
-    return $self->{unknown2_z};
+    return $self->{leader_length_z};
 }
 
 sub rotation_in_radians {
@@ -5233,9 +5228,14 @@ sub rotation_in_radians {
     return $self->{rotation_in_radians};
 }
 
-sub u1 {
+sub text_rotation_in_radians {
     my ($self) = @_;
-    return $self->{u1};
+    return $self->{text_rotation_in_radians};
+}
+
+sub dimstyle {
+    my ($self) = @_;
+    return $self->{dimstyle};
 }
 
 sub crc16 {
