@@ -779,8 +779,10 @@ types:
       - id: unit_mode
         type: u2
         doc: $UNITMODE/70
+      - id: unknown_pre50
+        size: 2
       - id: unknown50
-        size: 10
+        type: f8
       - id: unknown51
         type: f8
       - id: unknown52

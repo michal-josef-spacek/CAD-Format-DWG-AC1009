@@ -5493,7 +5493,8 @@ sub _read {
     $self->{shade_edge} = $self->{_io}->read_u2le();
     $self->{shade_dif} = $self->{_io}->read_u2le();
     $self->{unit_mode} = $self->{_io}->read_u2le();
-    $self->{unknown50} = $self->{_io}->read_bytes(10);
+    $self->{unknown_pre50} = $self->{_io}->read_bytes(2);
+    $self->{unknown50} = $self->{_io}->read_f8le();
     $self->{unknown51} = $self->{_io}->read_f8le();
     $self->{unknown52} = $self->{_io}->read_f8le();
     $self->{unknown53} = $self->{_io}->read_f8le();
@@ -6446,6 +6447,11 @@ sub shade_dif {
 sub unit_mode {
     my ($self) = @_;
     return $self->{unit_mode};
+}
+
+sub unknown_pre50 {
+    my ($self) = @_;
+    return $self->{unknown_pre50};
 }
 
 sub unknown50 {
