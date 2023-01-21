@@ -716,8 +716,8 @@ types:
         type: u2
         doc: $HANDLING
       - id: handseed
-        type: u8be
-        doc: $HANDSEED, in hex
+        size: 8
+        doc: 0x04ee-0x04f5, $HANDSEED, in hex
       - id: surfu
         type: u2
         doc: $SURFU
