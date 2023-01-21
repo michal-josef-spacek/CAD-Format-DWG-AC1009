@@ -776,11 +776,11 @@ types:
       - id: shade_dif
         type: u2
         doc: $SHADEDIF/70
+      - id: unknown_pre50
+        size: 2
       - id: unit_mode
         type: u2
         doc: $UNITMODE/70
-      - id: unknown_pre50
-        size: 2
       - id: unknown50
         type: f8
       - id: unknown51
