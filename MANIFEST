@@ -166,9 +166,9 @@ t/CAD-Format-DWG-AC1009/144-header-variables-user_timer.t
 t/CAD-Format-DWG-AC1009/145-header-variables-view_ctrl_x.t
 t/CAD-Format-DWG-AC1009/146-header-variables-view_ctrl_y.t
 t/CAD-Format-DWG-AC1009/147-header-variables-view_ctrl_z.t
-t/CAD-Format-DWG-AC1009/148-header-variables-view_point_x.t
-t/CAD-Format-DWG-AC1009/149-header-variables-view_point_y.t
-t/CAD-Format-DWG-AC1009/150-header-variables-view_point_z.t
+t/CAD-Format-DWG-AC1009/148-header-variables-view_dir_x.t
+t/CAD-Format-DWG-AC1009/149-header-variables-view_dir_y.t
+t/CAD-Format-DWG-AC1009/150-header-variables-view_dir_z.t
 t/CAD-Format-DWG-AC1009/151-header-variables-view_size.t
 t/CAD-Format-DWG-AC1009/151-header-variables-world_view.t
 t/CAD-Format-DWG-AC1009/153-header-zeros.t
