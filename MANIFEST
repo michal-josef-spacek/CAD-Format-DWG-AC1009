@@ -180,6 +180,7 @@ t/data/entity/3dface/3DFACE1.DWG
 t/data/entity/3dface/3DFACE2.DWG
 t/data/entity/circle/CIRCLE1.DWG
 t/data/entity/circle/CIRCLE2.DWG
+t/data/header/sketch_type/SP1.DWG
 t/data/header/tree_depth/TD1.DWG
 t/data/header/unit_mode/UM0.DWG
 t/data/header/unit_mode/UM1.DWG
