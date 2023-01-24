@@ -5485,7 +5485,7 @@ sub _read {
     $self->{flatland} = $self->{_io}->read_u2le();
     $self->{spline_type} = $self->{_io}->read_u2le();
     $self->{ucs_icon} = $self->{_io}->read_u2le();
-    $self->{unknown47} = $self->{_io}->read_u2le();
+    $self->{ucs_name_index} = $self->{_io}->read_u2le();
     $self->{table_appid} = CAD::Format::DWG::AC1009::Table->new($self->{_io}, $self, $self->{_root});
     $self->{world_view} = $self->{_io}->read_u2le();
     $self->{unknown49a} = $self->{_io}->read_u2le();
@@ -6414,9 +6414,9 @@ sub ucs_icon {
     return $self->{ucs_icon};
 }
 
-sub unknown47 {
+sub ucs_name_index {
     my ($self) = @_;
-    return $self->{unknown47};
+    return $self->{ucs_name_index};
 }
 
 sub table_appid {
