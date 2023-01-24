@@ -791,30 +791,30 @@ types:
       - id: unit_mode
         type: u2
         doc: $UNITMODE/70
-      - id: unknown50
+      - id: unit1_ratio
         type: f8
-      - id: unknown51
+      - id: unit2_ratio
         type: f8
-      - id: unknown52
+      - id: unit3_ratio
         type: f8
-      - id: unknown53
+      - id: unit4_ratio
         type: f8
-      - id: unknown_unit1
+      - id: unit1_name
         size: 32
         type: str
         encoding: ASCII
         terminator: 0x00
-      - id: unknown_unit2
+      - id: unit2_name
         size: 32
         type: str
         encoding: ASCII
         terminator: 0x00
-      - id: unknown_unit3
+      - id: unit3_name
         size: 32
         type: str
         encoding: ASCII
         terminator: 0x00
-      - id: unknown_unit4
+      - id: unit4_name
         size: 32
         type: str
         encoding: ASCII

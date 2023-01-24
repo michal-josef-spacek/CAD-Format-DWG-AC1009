@@ -5499,14 +5499,14 @@ sub _read {
     $self->{shade_dif} = $self->{_io}->read_u2le();
     $self->{unknown_pre50} = $self->{_io}->read_bytes(2);
     $self->{unit_mode} = $self->{_io}->read_u2le();
-    $self->{unknown50} = $self->{_io}->read_f8le();
-    $self->{unknown51} = $self->{_io}->read_f8le();
-    $self->{unknown52} = $self->{_io}->read_f8le();
-    $self->{unknown53} = $self->{_io}->read_f8le();
-    $self->{unknown_unit1} = Encode::decode("ASCII", IO::KaitaiStruct::Stream::bytes_terminate($self->{_io}->read_bytes(32), 0, 0));
-    $self->{unknown_unit2} = Encode::decode("ASCII", IO::KaitaiStruct::Stream::bytes_terminate($self->{_io}->read_bytes(32), 0, 0));
-    $self->{unknown_unit3} = Encode::decode("ASCII", IO::KaitaiStruct::Stream::bytes_terminate($self->{_io}->read_bytes(32), 0, 0));
-    $self->{unknown_unit4} = Encode::decode("ASCII", IO::KaitaiStruct::Stream::bytes_terminate($self->{_io}->read_bytes(32), 0, 0));
+    $self->{unit1_ratio} = $self->{_io}->read_f8le();
+    $self->{unit2_ratio} = $self->{_io}->read_f8le();
+    $self->{unit3_ratio} = $self->{_io}->read_f8le();
+    $self->{unit4_ratio} = $self->{_io}->read_f8le();
+    $self->{unit1_name} = Encode::decode("ASCII", IO::KaitaiStruct::Stream::bytes_terminate($self->{_io}->read_bytes(32), 0, 0));
+    $self->{unit2_name} = Encode::decode("ASCII", IO::KaitaiStruct::Stream::bytes_terminate($self->{_io}->read_bytes(32), 0, 0));
+    $self->{unit3_name} = Encode::decode("ASCII", IO::KaitaiStruct::Stream::bytes_terminate($self->{_io}->read_bytes(32), 0, 0));
+    $self->{unit4_name} = Encode::decode("ASCII", IO::KaitaiStruct::Stream::bytes_terminate($self->{_io}->read_bytes(32), 0, 0));
     $self->{dim_tfac} = $self->{_io}->read_f8le();
     $self->{p_ucs_org} = CAD::Format::DWG::AC1009::Point3d->new($self->{_io}, $self, $self->{_root});
     $self->{p_ucs_xdir} = CAD::Format::DWG::AC1009::Point3d->new($self->{_io}, $self, $self->{_root});
@@ -6484,44 +6484,44 @@ sub unit_mode {
     return $self->{unit_mode};
 }
 
-sub unknown50 {
+sub unit1_ratio {
     my ($self) = @_;
-    return $self->{unknown50};
+    return $self->{unit1_ratio};
 }
 
-sub unknown51 {
+sub unit2_ratio {
     my ($self) = @_;
-    return $self->{unknown51};
+    return $self->{unit2_ratio};
 }
 
-sub unknown52 {
+sub unit3_ratio {
     my ($self) = @_;
-    return $self->{unknown52};
+    return $self->{unit3_ratio};
 }
 
-sub unknown53 {
+sub unit4_ratio {
     my ($self) = @_;
-    return $self->{unknown53};
+    return $self->{unit4_ratio};
 }
 
-sub unknown_unit1 {
+sub unit1_name {
     my ($self) = @_;
-    return $self->{unknown_unit1};
+    return $self->{unit1_name};
 }
 
-sub unknown_unit2 {
+sub unit2_name {
     my ($self) = @_;
-    return $self->{unknown_unit2};
+    return $self->{unit2_name};
 }
 
-sub unknown_unit3 {
+sub unit3_name {
     my ($self) = @_;
-    return $self->{unknown_unit3};
+    return $self->{unit3_name};
 }
 
-sub unknown_unit4 {
+sub unit4_name {
     my ($self) = @_;
-    return $self->{unknown_unit4};
+    return $self->{unit4_name};
 }
 
 sub dim_tfac {
