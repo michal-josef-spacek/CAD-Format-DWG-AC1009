@@ -5511,7 +5511,7 @@ sub _read {
     $self->{p_ucs_org} = CAD::Format::DWG::AC1009::Point3d->new($self->{_io}, $self, $self->{_root});
     $self->{p_ucs_xdir} = CAD::Format::DWG::AC1009::Point3d->new($self->{_io}, $self, $self->{_root});
     $self->{p_ucs_ydir} = CAD::Format::DWG::AC1009::Point3d->new($self->{_io}, $self, $self->{_root});
-    $self->{unknown55} = $self->{_io}->read_u2le();
+    $self->{p_ucs_name_index} = $self->{_io}->read_u2le();
     $self->{tile_mode} = $self->{_io}->read_u1();
     $self->{plim_check} = $self->{_io}->read_u2le();
     $self->{unknown56} = $self->{_io}->read_u2le();
@@ -6544,9 +6544,9 @@ sub p_ucs_ydir {
     return $self->{p_ucs_ydir};
 }
 
-sub unknown55 {
+sub p_ucs_name_index {
     my ($self) = @_;
-    return $self->{unknown55};
+    return $self->{p_ucs_name_index};
 }
 
 sub tile_mode {

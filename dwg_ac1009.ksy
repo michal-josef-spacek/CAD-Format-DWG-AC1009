@@ -831,8 +831,9 @@ types:
       - id: p_ucs_ydir
         type: point_3d
         doc: $PUCSXDIR/12
-      - id: unknown55
+      - id: p_ucs_name_index
         type: u2
+        doc: $PUCSNAME/2
       - id: tile_mode
         type: u1
         doc: $TILEMODE/70
