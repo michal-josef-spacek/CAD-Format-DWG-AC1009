@@ -105,18 +105,16 @@ types:
         encoding: ASCII
         terminator: 0x00
         doc: BLOCK/2
-      - id: block_scaling
-        type: s1
-      - id: num_owned
+      - id: used
+        type: s2
+      - id: begin_address_in_block_table
+        type: u4
+      - id: block_entity
         type: s2
       - id: flag2
         type: block_flag2
-#      - id: num_inserts
-#        type: u1
-#      - id: flag3
-#        type: block_flag3
       - id: u1
-        type: f8
+        type: s1
   block_flag:
     seq:
       - id: references_external_reference
@@ -136,24 +134,6 @@ types:
       - id: anonymous
         type: b1
   block_flag2:
-    seq:
-      - id: flag1
-        type: b1
-      - id: flag2
-        type: b1
-      - id: flag3
-        type: b1
-      - id: flag4
-        type: b1
-      - id: flag5
-        type: b1
-      - id: flag6
-        type: b1
-      - id: flag7
-        type: b1
-      - id: flag8
-        type: b1
-  block_flag3:
     seq:
       - id: flag1
         type: b1

@@ -2395,86 +2395,6 @@ sub crc16 {
 }
 
 ########################################################################
-package CAD::Format::DWG::AC1009::BlockFlag3;
-
-our @ISA = 'IO::KaitaiStruct::Struct';
-
-sub from_file {
-    my ($class, $filename) = @_;
-    my $fd;
-
-    open($fd, '<', $filename) or return undef;
-    binmode($fd);
-    return new($class, IO::KaitaiStruct::Stream->new($fd));
-}
-
-sub new {
-    my ($class, $_io, $_parent, $_root) = @_;
-    my $self = IO::KaitaiStruct::Struct->new($_io);
-
-    bless $self, $class;
-    $self->{_parent} = $_parent;
-    $self->{_root} = $_root || $self;;
-
-    $self->_read();
-
-    return $self;
-}
-
-sub _read {
-    my ($self) = @_;
-
-    $self->{flag1} = $self->{_io}->read_bits_int_be(1);
-    $self->{flag2} = $self->{_io}->read_bits_int_be(1);
-    $self->{flag3} = $self->{_io}->read_bits_int_be(1);
-    $self->{flag4} = $self->{_io}->read_bits_int_be(1);
-    $self->{flag5} = $self->{_io}->read_bits_int_be(1);
-    $self->{flag6} = $self->{_io}->read_bits_int_be(1);
-    $self->{flag7} = $self->{_io}->read_bits_int_be(1);
-    $self->{flag8} = $self->{_io}->read_bits_int_be(1);
-}
-
-sub flag1 {
-    my ($self) = @_;
-    return $self->{flag1};
-}
-
-sub flag2 {
-    my ($self) = @_;
-    return $self->{flag2};
-}
-
-sub flag3 {
-    my ($self) = @_;
-    return $self->{flag3};
-}
-
-sub flag4 {
-    my ($self) = @_;
-    return $self->{flag4};
-}
-
-sub flag5 {
-    my ($self) = @_;
-    return $self->{flag5};
-}
-
-sub flag6 {
-    my ($self) = @_;
-    return $self->{flag6};
-}
-
-sub flag7 {
-    my ($self) = @_;
-    return $self->{flag7};
-}
-
-sub flag8 {
-    my ($self) = @_;
-    return $self->{flag8};
-}
-
-########################################################################
 package CAD::Format::DWG::AC1009::StyleFlag;
 
 our @ISA = 'IO::KaitaiStruct::Struct';
@@ -3872,10 +3792,11 @@ sub _read {
 
     $self->{flag} = CAD::Format::DWG::AC1009::BlockFlag->new($self->{_io}, $self, $self->{_root});
     $self->{block_name} = Encode::decode("ASCII", IO::KaitaiStruct::Stream::bytes_terminate($self->{_io}->read_bytes(32), 0, 0));
-    $self->{block_scaling} = $self->{_io}->read_s1();
-    $self->{num_owned} = $self->{_io}->read_s2le();
+    $self->{used} = $self->{_io}->read_s2le();
+    $self->{begin_address_in_block_table} = $self->{_io}->read_u4le();
+    $self->{block_entity} = $self->{_io}->read_s2le();
     $self->{flag2} = CAD::Format::DWG::AC1009::BlockFlag2->new($self->{_io}, $self, $self->{_root});
-    $self->{u1} = $self->{_io}->read_f8le();
+    $self->{u1} = $self->{_io}->read_s1();
 }
 
 sub flag {
@@ -3888,14 +3809,19 @@ sub block_name {
     return $self->{block_name};
 }
 
-sub block_scaling {
+sub used {
     my ($self) = @_;
-    return $self->{block_scaling};
+    return $self->{used};
 }
 
-sub num_owned {
+sub begin_address_in_block_table {
     my ($self) = @_;
-    return $self->{num_owned};
+    return $self->{begin_address_in_block_table};
+}
+
+sub block_entity {
+    my ($self) = @_;
+    return $self->{block_entity};
 }
 
 sub flag2 {
