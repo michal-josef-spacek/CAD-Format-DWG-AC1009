@@ -1039,6 +1039,7 @@ types:
             'vports::vport_1001': vport_1001
             'vports::vport_1002': vport_1002
             'vports::vport_1003': vport_1003
+            'vports::vport_1005': vport_1005
             'vports::vport_1010': vport_1010
             'vports::vport_1040': vport_1040
             'vports::vport_1070': vport_1070
@@ -1062,6 +1063,10 @@ types:
     seq:
       - id: value
         type: u2
+  vport_1005:
+    seq:
+      - id: value
+        size: 8
   vport_1010:
     seq:
       - id: value
@@ -3036,6 +3041,7 @@ enums:
     1: vport_1001
     2: vport_1002
     3: vport_1003
+    5: vport_1005
     10: vport_1010
     40: vport_1040
     70: vport_1070

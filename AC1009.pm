@@ -51,6 +51,7 @@ our $VPORTS_VPORT_1000 = 0;
 our $VPORTS_VPORT_1001 = 1;
 our $VPORTS_VPORT_1002 = 2;
 our $VPORTS_VPORT_1003 = 3;
+our $VPORTS_VPORT_1005 = 5;
 our $VPORTS_VPORT_1010 = 10;
 our $VPORTS_VPORT_1040 = 40;
 our $VPORTS_VPORT_1070 = 70;
@@ -869,6 +870,44 @@ sub name_size {
 sub name {
     my ($self) = @_;
     return $self->{name};
+}
+
+########################################################################
+package CAD::Format::DWG::AC1009::Vport1005;
+
+our @ISA = 'IO::KaitaiStruct::Struct';
+
+sub from_file {
+    my ($class, $filename) = @_;
+    my $fd;
+
+    open($fd, '<', $filename) or return undef;
+    binmode($fd);
+    return new($class, IO::KaitaiStruct::Stream->new($fd));
+}
+
+sub new {
+    my ($class, $_io, $_parent, $_root) = @_;
+    my $self = IO::KaitaiStruct::Struct->new($_io);
+
+    bless $self, $class;
+    $self->{_parent} = $_parent;
+    $self->{_root} = $_root || $self;;
+
+    $self->_read();
+
+    return $self;
+}
+
+sub _read {
+    my ($self) = @_;
+
+    $self->{value} = $self->{_io}->read_bytes(8);
+}
+
+sub value {
+    my ($self) = @_;
+    return $self->{value};
 }
 
 ########################################################################
@@ -4082,6 +4121,9 @@ sub _read {
     my $_on = $self->separator();
     if ($_on == $CAD::Format::DWG::AC1009::VPORTS_VPORT_1000) {
         $self->{data} = CAD::Format::DWG::AC1009::Vport1000->new($self->{_io}, $self, $self->{_root});
+    }
+    elsif ($_on == $CAD::Format::DWG::AC1009::VPORTS_VPORT_1005) {
+        $self->{data} = CAD::Format::DWG::AC1009::Vport1005->new($self->{_io}, $self, $self->{_root});
     }
     elsif ($_on == $CAD::Format::DWG::AC1009::VPORTS_VPORT_1001) {
         $self->{data} = CAD::Format::DWG::AC1009::Vport1001->new($self->{_io}, $self, $self->{_root});
