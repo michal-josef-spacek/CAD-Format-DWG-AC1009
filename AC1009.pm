@@ -5162,6 +5162,86 @@ sub crc16 {
 }
 
 ########################################################################
+package CAD::Format::DWG::AC1009::VertexExtraFlag;
+
+our @ISA = 'IO::KaitaiStruct::Struct';
+
+sub from_file {
+    my ($class, $filename) = @_;
+    my $fd;
+
+    open($fd, '<', $filename) or return undef;
+    binmode($fd);
+    return new($class, IO::KaitaiStruct::Stream->new($fd));
+}
+
+sub new {
+    my ($class, $_io, $_parent, $_root) = @_;
+    my $self = IO::KaitaiStruct::Struct->new($_io);
+
+    bless $self, $class;
+    $self->{_parent} = $_parent;
+    $self->{_root} = $_root || $self;;
+
+    $self->_read();
+
+    return $self;
+}
+
+sub _read {
+    my ($self) = @_;
+
+    $self->{flag_1} = $self->{_io}->read_bits_int_be(1);
+    $self->{flag_2} = $self->{_io}->read_bits_int_be(1);
+    $self->{flag_3} = $self->{_io}->read_bits_int_be(1);
+    $self->{flag_4} = $self->{_io}->read_bits_int_be(1);
+    $self->{flag_5} = $self->{_io}->read_bits_int_be(1);
+    $self->{flag_6} = $self->{_io}->read_bits_int_be(1);
+    $self->{flag_7} = $self->{_io}->read_bits_int_be(1);
+    $self->{extra_vertex} = $self->{_io}->read_bits_int_be(1);
+}
+
+sub flag_1 {
+    my ($self) = @_;
+    return $self->{flag_1};
+}
+
+sub flag_2 {
+    my ($self) = @_;
+    return $self->{flag_2};
+}
+
+sub flag_3 {
+    my ($self) = @_;
+    return $self->{flag_3};
+}
+
+sub flag_4 {
+    my ($self) = @_;
+    return $self->{flag_4};
+}
+
+sub flag_5 {
+    my ($self) = @_;
+    return $self->{flag_5};
+}
+
+sub flag_6 {
+    my ($self) = @_;
+    return $self->{flag_6};
+}
+
+sub flag_7 {
+    my ($self) = @_;
+    return $self->{flag_7};
+}
+
+sub extra_vertex {
+    my ($self) = @_;
+    return $self->{extra_vertex};
+}
+
+########################################################################
 package CAD::Format::DWG::AC1009::Vport1070;
 
 our @ISA = 'IO::KaitaiStruct::Struct';
@@ -7998,6 +8078,9 @@ sub _read {
     if ($self->entity_common()->flag2_6()) {
         $self->{bulge} = $self->{_io}->read_f8le();
     }
+    if ($self->entity_common()->flag2_5()) {
+        $self->{vertex_extra_flag} = CAD::Format::DWG::AC1009::VertexExtraFlag->new($self->{_io}, $self, $self->{_root});
+    }
     if ($self->entity_common()->flag2_4()) {
         $self->{tangent_dir_in_radians} = $self->{_io}->read_f8le();
     }
@@ -8092,6 +8175,11 @@ sub end_width {
 sub bulge {
     my ($self) = @_;
     return $self->{bulge};
+}
+
+sub vertex_extra_flag {
+    my ($self) = @_;
+    return $self->{vertex_extra_flag};
 }
 
 sub tangent_dir_in_radians {

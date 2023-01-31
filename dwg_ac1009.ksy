@@ -2324,12 +2324,33 @@ types:
         type: f8
         if: entity_common.flag2_6
         doc: VERTEX/42
+      - id: vertex_extra_flag
+        type: vertex_extra_flag
+        if: entity_common.flag2_5
       - id: tangent_dir_in_radians
         type: f8
         if: entity_common.flag2_4
         doc: VERTEX/50
       - id: crc16
         size: 2
+  vertex_extra_flag:
+    seq:
+      - id: flag_1
+        type: b1
+      - id: flag_2
+        type: b1
+      - id: flag_3
+        type: b1
+      - id: flag_4
+        type: b1
+      - id: flag_5
+        type: b1
+      - id: flag_6
+        type: b1
+      - id: flag_7
+        type: b1
+      - id: extra_vertex
+        type: b1
   entity_vport:
     seq:
       - id: entity_mode
