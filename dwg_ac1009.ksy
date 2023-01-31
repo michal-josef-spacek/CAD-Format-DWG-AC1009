@@ -1704,9 +1704,6 @@ types:
       - id: entity_thickness
         type: f8
         if: entity_mode.has_thickness
-      - id: entity_elevation
-        type: f8
-        if: entity_mode.has_elevation
       - id: extra_flag
         type: extra_flag
         if: entity_mode.has_pspace
@@ -1728,28 +1725,28 @@ types:
         type: f8
       - id: first_point_z
         type: f8
-        if: entity_mode.has_elevation == false
+        if: not entity_mode.has_elevation
       - id: second_point_x
         type: f8
       - id: second_point_y
         type: f8
       - id: second_point_z
         type: f8
-        if: entity_mode.has_elevation == false
+        if: not entity_mode.has_elevation
       - id: third_point_x
         type: f8
       - id: third_point_y
         type: f8
       - id: third_point_z
         type: f8
-        if: entity_mode.has_elevation == false
+        if: not entity_mode.has_elevation
       - id: fourth_point_x
         type: f8
       - id: fourth_point_y
         type: f8
       - id: fourth_point_z
         type: f8
-        if: entity_mode.has_elevation == false
+        if: not entity_mode.has_elevation
       - id: crc16
         size: 2
   entity_line:

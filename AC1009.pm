@@ -1229,9 +1229,6 @@ sub _read {
     if ($self->entity_mode()->has_thickness()) {
         $self->{entity_thickness} = $self->{_io}->read_f8le();
     }
-    if ($self->entity_mode()->has_elevation()) {
-        $self->{entity_elevation} = $self->{_io}->read_f8le();
-    }
     if ($self->entity_mode()->has_pspace()) {
         $self->{extra_flag} = CAD::Format::DWG::AC1009::ExtraFlag->new($self->{_io}, $self, $self->{_root});
     }
@@ -1249,22 +1246,22 @@ sub _read {
     }
     $self->{first_point_x} = $self->{_io}->read_f8le();
     $self->{first_point_y} = $self->{_io}->read_f8le();
-    if ($self->entity_mode()->has_elevation() == 0) {
+    if (!($self->entity_mode()->has_elevation())) {
         $self->{first_point_z} = $self->{_io}->read_f8le();
     }
     $self->{second_point_x} = $self->{_io}->read_f8le();
     $self->{second_point_y} = $self->{_io}->read_f8le();
-    if ($self->entity_mode()->has_elevation() == 0) {
+    if (!($self->entity_mode()->has_elevation())) {
         $self->{second_point_z} = $self->{_io}->read_f8le();
     }
     $self->{third_point_x} = $self->{_io}->read_f8le();
     $self->{third_point_y} = $self->{_io}->read_f8le();
-    if ($self->entity_mode()->has_elevation() == 0) {
+    if (!($self->entity_mode()->has_elevation())) {
         $self->{third_point_z} = $self->{_io}->read_f8le();
     }
     $self->{fourth_point_x} = $self->{_io}->read_f8le();
     $self->{fourth_point_y} = $self->{_io}->read_f8le();
-    if ($self->entity_mode()->has_elevation() == 0) {
+    if (!($self->entity_mode()->has_elevation())) {
         $self->{fourth_point_z} = $self->{_io}->read_f8le();
     }
     $self->{crc16} = $self->{_io}->read_bytes(2);
@@ -1303,11 +1300,6 @@ sub entity_linetype_index {
 sub entity_thickness {
     my ($self) = @_;
     return $self->{entity_thickness};
-}
-
-sub entity_elevation {
-    my ($self) = @_;
-    return $self->{entity_elevation};
 }
 
 sub extra_flag {
