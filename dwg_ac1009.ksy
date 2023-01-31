@@ -1765,8 +1765,46 @@ types:
       - id: fourth_point_z
         type: f8
         if: not entity_mode.has_elevation
+      - id: invisible_edge_flags
+        type: invisible_edge_flags
+        if: entity_common.flag2_8
+        doc: 3DFACE/70
       - id: crc16
         size: 2
+  invisible_edge_flags:
+    seq:
+      - id: flag1
+        type: b1
+      - id: flag2
+        type: b1
+      - id: flag3
+        type: b1
+      - id: flag4
+        type: b1
+      - id: fourth_edge_is_invisible
+        type: b1
+      - id: third_edge_is_invisible
+        type: b1
+      - id: second_edge_is_invisible
+        type: b1
+      - id: first_edge_is_invisible
+        type: b1
+      - id: flag9
+        type: b1
+      - id: flag10
+        type: b1
+      - id: flag11
+        type: b1
+      - id: flag12
+        type: b1
+      - id: flag13
+        type: b1
+      - id: flag14
+        type: b1
+      - id: flag15
+        type: b1
+      - id: flag16
+        type: b1
   entity_line:
     seq:
       - id: entity_mode
