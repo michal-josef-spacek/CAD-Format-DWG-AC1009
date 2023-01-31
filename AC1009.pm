@@ -411,7 +411,7 @@ sub _read {
     if ($self->entity_mode()->has_pspace()) {
         $self->{extra_flag} = CAD::Format::DWG::AC1009::ExtraFlag->new($self->{_io}, $self, $self->{_root});
     }
-    if ($self->extra_flag()->has_eed()) {
+    if ( (($self->entity_mode()->has_pspace()) && ($self->extra_flag()->has_eed())) ) {
         $self->{vport_in_entity} = CAD::Format::DWG::AC1009::VportInEntity->new($self->{_io}, $self, $self->{_root});
     }
     if ($self->entity_mode()->has_handling()) {
@@ -420,7 +420,7 @@ sub _read {
     if ($self->entity_mode()->has_handling()) {
         $self->{handling_id} = $self->{_io}->read_bytes($self->len_handling_id());
     }
-    if ($self->extra_flag()->has_viewport()) {
+    if ( (($self->entity_mode()->has_pspace()) && ($self->extra_flag()->has_viewport())) ) {
         $self->{viewport} = $self->{_io}->read_u2le();
     }
     $self->{point_from} = CAD::Format::DWG::AC1009::Point2d->new($self->{_io}, $self, $self->{_root});
@@ -1235,7 +1235,7 @@ sub _read {
     if ($self->entity_mode()->has_pspace()) {
         $self->{extra_flag} = CAD::Format::DWG::AC1009::ExtraFlag->new($self->{_io}, $self, $self->{_root});
     }
-    if ($self->extra_flag()->has_eed()) {
+    if ( (($self->entity_mode()->has_pspace()) && ($self->extra_flag()->has_eed())) ) {
         $self->{vport_in_entity} = CAD::Format::DWG::AC1009::VportInEntity->new($self->{_io}, $self, $self->{_root});
     }
     if ($self->entity_mode()->has_handling()) {
@@ -1244,7 +1244,7 @@ sub _read {
     if ($self->entity_mode()->has_handling()) {
         $self->{handling_id} = $self->{_io}->read_bytes($self->len_handling_id());
     }
-    if ($self->extra_flag()->has_viewport()) {
+    if ( (($self->entity_mode()->has_pspace()) && ($self->extra_flag()->has_viewport())) ) {
         $self->{viewport} = $self->{_io}->read_u2le();
     }
     $self->{first_point_x} = $self->{_io}->read_f8le();
@@ -1449,7 +1449,7 @@ sub _read {
     if ($self->entity_mode()->has_pspace()) {
         $self->{extra_flag} = CAD::Format::DWG::AC1009::ExtraFlag->new($self->{_io}, $self, $self->{_root});
     }
-    if ($self->extra_flag()->has_eed()) {
+    if ( (($self->entity_mode()->has_pspace()) && ($self->extra_flag()->has_eed())) ) {
         $self->{vport_in_entity} = CAD::Format::DWG::AC1009::VportInEntity->new($self->{_io}, $self, $self->{_root});
     }
     if ($self->entity_mode()->has_handling()) {
@@ -1458,7 +1458,7 @@ sub _read {
     if ($self->entity_mode()->has_handling()) {
         $self->{handling_id} = $self->{_io}->read_bytes($self->len_handling_id());
     }
-    if ($self->extra_flag()->has_viewport()) {
+    if ( (($self->entity_mode()->has_pspace()) && ($self->extra_flag()->has_viewport())) ) {
         $self->{viewport} = $self->{_io}->read_u2le();
     }
     $self->{from} = CAD::Format::DWG::AC1009::Point2d->new($self->{_io}, $self, $self->{_root});
@@ -1681,7 +1681,7 @@ sub _read {
     if ($self->entity_mode()->has_pspace()) {
         $self->{extra_flag} = CAD::Format::DWG::AC1009::ExtraFlag->new($self->{_io}, $self, $self->{_root});
     }
-    if ($self->extra_flag()->has_eed()) {
+    if ( (($self->entity_mode()->has_pspace()) && ($self->extra_flag()->has_eed())) ) {
         $self->{vport_in_entity} = CAD::Format::DWG::AC1009::VportInEntity->new($self->{_io}, $self, $self->{_root});
     }
     if ($self->entity_mode()->has_handling()) {
@@ -1690,7 +1690,7 @@ sub _read {
     if ($self->entity_mode()->has_handling()) {
         $self->{handling_id} = $self->{_io}->read_bytes($self->len_handling_id());
     }
-    if ($self->extra_flag()->has_viewport()) {
+    if ( (($self->entity_mode()->has_pspace()) && ($self->extra_flag()->has_viewport())) ) {
         $self->{viewport} = $self->{_io}->read_u2le();
     }
     $self->{block_index} = $self->{_io}->read_s2le();
@@ -2753,7 +2753,7 @@ sub _read {
     if ($self->entity_mode()->has_pspace()) {
         $self->{extra_flag} = CAD::Format::DWG::AC1009::ExtraFlag->new($self->{_io}, $self, $self->{_root});
     }
-    if ($self->extra_flag()->has_eed()) {
+    if ( (($self->entity_mode()->has_pspace()) && ($self->extra_flag()->has_eed())) ) {
         $self->{vport_in_entity} = CAD::Format::DWG::AC1009::VportInEntity->new($self->{_io}, $self, $self->{_root});
     }
     if ($self->entity_mode()->has_handling()) {
@@ -2762,7 +2762,7 @@ sub _read {
     if ($self->entity_mode()->has_handling()) {
         $self->{handling_id} = $self->{_io}->read_bytes($self->len_handling_id());
     }
-    if ($self->extra_flag()->has_viewport()) {
+    if ( (($self->entity_mode()->has_pspace()) && ($self->extra_flag()->has_viewport())) ) {
         $self->{viewport} = $self->{_io}->read_u2le();
     }
     $self->{crc16} = $self->{_io}->read_bytes(2);
@@ -3109,7 +3109,7 @@ sub _read {
     if ($self->entity_mode()->has_pspace()) {
         $self->{extra_flag} = CAD::Format::DWG::AC1009::ExtraFlag->new($self->{_io}, $self, $self->{_root});
     }
-    if ($self->extra_flag()->has_eed()) {
+    if ( (($self->entity_mode()->has_pspace()) && ($self->extra_flag()->has_eed())) ) {
         $self->{vport_in_entity} = CAD::Format::DWG::AC1009::VportInEntity->new($self->{_io}, $self, $self->{_root});
     }
     if ($self->entity_mode()->has_handling()) {
@@ -3118,7 +3118,7 @@ sub _read {
     if ($self->entity_mode()->has_handling()) {
         $self->{handling_id} = $self->{_io}->read_bytes($self->len_handling_id());
     }
-    if ($self->extra_flag()->has_viewport()) {
+    if ( (($self->entity_mode()->has_pspace()) && ($self->extra_flag()->has_viewport())) ) {
         $self->{viewport} = $self->{_io}->read_u2le();
     }
     $self->{x} = $self->{_io}->read_f8le();
@@ -3423,7 +3423,7 @@ sub _read {
     if ($self->entity_mode()->has_pspace()) {
         $self->{extra_flag} = CAD::Format::DWG::AC1009::ExtraFlag->new($self->{_io}, $self, $self->{_root});
     }
-    if ($self->extra_flag()->has_eed()) {
+    if ( (($self->entity_mode()->has_pspace()) && ($self->extra_flag()->has_eed())) ) {
         $self->{vport_in_entity} = CAD::Format::DWG::AC1009::VportInEntity->new($self->{_io}, $self, $self->{_root});
     }
     if ($self->entity_mode()->has_handling()) {
@@ -3432,7 +3432,7 @@ sub _read {
     if ($self->entity_mode()->has_handling()) {
         $self->{handling_id} = $self->{_io}->read_bytes($self->len_handling_id());
     }
-    if ($self->extra_flag()->has_viewport()) {
+    if ( (($self->entity_mode()->has_pspace()) && ($self->extra_flag()->has_viewport())) ) {
         $self->{viewport} = $self->{_io}->read_u2le();
     }
     $self->{from} = CAD::Format::DWG::AC1009::Point2d->new($self->{_io}, $self, $self->{_root});
@@ -3883,7 +3883,7 @@ sub _read {
     if ($self->entity_mode()->has_pspace()) {
         $self->{extra_flag} = CAD::Format::DWG::AC1009::ExtraFlag->new($self->{_io}, $self, $self->{_root});
     }
-    if ($self->extra_flag()->has_eed()) {
+    if ( (($self->entity_mode()->has_pspace()) && ($self->extra_flag()->has_eed())) ) {
         $self->{vport_in_entity} = CAD::Format::DWG::AC1009::VportInEntity->new($self->{_io}, $self, $self->{_root});
     }
     if ($self->entity_mode()->has_handling()) {
@@ -3892,7 +3892,7 @@ sub _read {
     if ($self->entity_mode()->has_handling()) {
         $self->{handling_id} = $self->{_io}->read_bytes($self->len_handling_id());
     }
-    if ($self->extra_flag()->has_viewport()) {
+    if ( (($self->entity_mode()->has_pspace()) && ($self->extra_flag()->has_viewport())) ) {
         $self->{viewport} = $self->{_io}->read_u2le();
     }
     $self->{insert_point} = CAD::Format::DWG::AC1009::Point2d->new($self->{_io}, $self, $self->{_root});
@@ -4344,7 +4344,7 @@ sub _read {
     if ($self->entity_mode()->has_pspace()) {
         $self->{extra_flag} = CAD::Format::DWG::AC1009::ExtraFlag->new($self->{_io}, $self, $self->{_root});
     }
-    if ($self->extra_flag()->has_eed()) {
+    if ( (($self->entity_mode()->has_pspace()) && ($self->extra_flag()->has_eed())) ) {
         $self->{vport_in_entity} = CAD::Format::DWG::AC1009::VportInEntity->new($self->{_io}, $self, $self->{_root});
     }
     if ($self->entity_mode()->has_handling()) {
@@ -4353,7 +4353,7 @@ sub _read {
     if ($self->entity_mode()->has_handling()) {
         $self->{handling_id} = $self->{_io}->read_bytes($self->len_handling_id());
     }
-    if ($self->extra_flag()->has_viewport()) {
+    if ( (($self->entity_mode()->has_pspace()) && ($self->extra_flag()->has_viewport())) ) {
         $self->{viewport} = $self->{_io}->read_u2le();
     }
     $self->{start_point} = CAD::Format::DWG::AC1009::Point2d->new($self->{_io}, $self, $self->{_root});
@@ -4588,7 +4588,7 @@ sub _read {
     if ($self->entity_mode()->has_pspace()) {
         $self->{extra_flag} = CAD::Format::DWG::AC1009::ExtraFlag->new($self->{_io}, $self, $self->{_root});
     }
-    if ($self->extra_flag()->has_eed()) {
+    if ( (($self->entity_mode()->has_pspace()) && ($self->extra_flag()->has_eed())) ) {
         $self->{vport_in_entity} = CAD::Format::DWG::AC1009::VportInEntity->new($self->{_io}, $self, $self->{_root});
     }
     if ($self->entity_mode()->has_handling()) {
@@ -4597,7 +4597,7 @@ sub _read {
     if ($self->entity_mode()->has_handling()) {
         $self->{handling_id} = $self->{_io}->read_bytes($self->len_handling_id());
     }
-    if ($self->extra_flag()->has_viewport()) {
+    if ( (($self->entity_mode()->has_pspace()) && ($self->extra_flag()->has_viewport())) ) {
         $self->{viewport} = $self->{_io}->read_u2le();
     }
     $self->{insert_point} = CAD::Format::DWG::AC1009::Point2d->new($self->{_io}, $self, $self->{_root});
@@ -4760,7 +4760,7 @@ sub _read {
     if ($self->entity_mode()->has_pspace()) {
         $self->{extra_flag} = CAD::Format::DWG::AC1009::ExtraFlag->new($self->{_io}, $self, $self->{_root});
     }
-    if ($self->extra_flag()->has_eed()) {
+    if ( (($self->entity_mode()->has_pspace()) && ($self->extra_flag()->has_eed())) ) {
         $self->{vport_in_entity} = CAD::Format::DWG::AC1009::VportInEntity->new($self->{_io}, $self, $self->{_root});
     }
     if ($self->entity_mode()->has_handling()) {
@@ -4769,7 +4769,7 @@ sub _read {
     if ($self->entity_mode()->has_handling()) {
         $self->{handling_id} = $self->{_io}->read_bytes($self->len_handling_id());
     }
-    if ($self->extra_flag()->has_viewport()) {
+    if ( (($self->entity_mode()->has_pspace()) && ($self->extra_flag()->has_viewport())) ) {
         $self->{viewport} = $self->{_io}->read_u2le();
     }
     $self->{x} = $self->{_io}->read_f8le();
@@ -4930,7 +4930,7 @@ sub _read {
     if ($self->entity_mode()->has_pspace()) {
         $self->{extra_flag} = CAD::Format::DWG::AC1009::ExtraFlag->new($self->{_io}, $self, $self->{_root});
     }
-    if ($self->extra_flag()->has_eed()) {
+    if ( (($self->entity_mode()->has_pspace()) && ($self->extra_flag()->has_eed())) ) {
         $self->{vport_in_entity} = CAD::Format::DWG::AC1009::VportInEntity->new($self->{_io}, $self, $self->{_root});
     }
     if ($self->entity_mode()->has_handling()) {
@@ -4939,7 +4939,7 @@ sub _read {
     if ($self->entity_mode()->has_handling()) {
         $self->{handling_id} = $self->{_io}->read_bytes($self->len_handling_id());
     }
-    if ($self->extra_flag()->has_viewport()) {
+    if ( (($self->entity_mode()->has_pspace()) && ($self->extra_flag()->has_viewport())) ) {
         $self->{viewport} = $self->{_io}->read_u2le();
     }
     $self->{block_index} = $self->{_io}->read_s2le();
@@ -6594,7 +6594,7 @@ sub _read {
     if ($self->entity_mode()->has_pspace()) {
         $self->{extra_flag} = CAD::Format::DWG::AC1009::ExtraFlag->new($self->{_io}, $self, $self->{_root});
     }
-    if ($self->extra_flag()->has_eed()) {
+    if ( (($self->entity_mode()->has_pspace()) && ($self->extra_flag()->has_eed())) ) {
         $self->{vport_in_entity} = CAD::Format::DWG::AC1009::VportInEntity->new($self->{_io}, $self, $self->{_root});
     }
     if ($self->entity_mode()->has_handling()) {
@@ -6603,7 +6603,7 @@ sub _read {
     if ($self->entity_mode()->has_handling()) {
         $self->{handling_id} = $self->{_io}->read_bytes($self->len_handling_id());
     }
-    if ($self->extra_flag()->has_viewport()) {
+    if ( (($self->entity_mode()->has_pspace()) && ($self->extra_flag()->has_viewport())) ) {
         $self->{viewport} = $self->{_io}->read_u2le();
     }
     $self->{center_point} = CAD::Format::DWG::AC1009::Point3d->new($self->{_io}, $self, $self->{_root});
@@ -6853,7 +6853,7 @@ sub _read {
     if ($self->entity_mode()->has_pspace()) {
         $self->{extra_flag} = CAD::Format::DWG::AC1009::ExtraFlag->new($self->{_io}, $self, $self->{_root});
     }
-    if ($self->extra_flag()->has_eed()) {
+    if ( (($self->entity_mode()->has_pspace()) && ($self->extra_flag()->has_eed())) ) {
         $self->{vport_in_entity} = CAD::Format::DWG::AC1009::VportInEntity->new($self->{_io}, $self, $self->{_root});
     }
     if ($self->entity_mode()->has_handling()) {
@@ -6862,7 +6862,7 @@ sub _read {
     if ($self->entity_mode()->has_handling()) {
         $self->{handling_id} = $self->{_io}->read_bytes($self->len_handling_id());
     }
-    if ($self->extra_flag()->has_viewport()) {
+    if ( (($self->entity_mode()->has_pspace()) && ($self->extra_flag()->has_viewport())) ) {
         $self->{viewport} = $self->{_io}->read_u2le();
     }
     $self->{unknown} = $self->{_io}->read_bytes(4);
@@ -7639,7 +7639,7 @@ sub _read {
     if ($self->entity_mode()->has_pspace()) {
         $self->{extra_flag} = CAD::Format::DWG::AC1009::ExtraFlag->new($self->{_io}, $self, $self->{_root});
     }
-    if ($self->extra_flag()->has_eed()) {
+    if ( (($self->entity_mode()->has_pspace()) && ($self->extra_flag()->has_eed())) ) {
         $self->{vport_in_entity} = CAD::Format::DWG::AC1009::VportInEntity->new($self->{_io}, $self, $self->{_root});
     }
     if ($self->entity_mode()->has_handling()) {
@@ -7648,7 +7648,7 @@ sub _read {
     if ($self->entity_mode()->has_handling()) {
         $self->{handling_id} = $self->{_io}->read_bytes($self->len_handling_id());
     }
-    if ($self->extra_flag()->has_viewport()) {
+    if ( (($self->entity_mode()->has_pspace()) && ($self->extra_flag()->has_viewport())) ) {
         $self->{viewport} = $self->{_io}->read_u2le();
     }
     $self->{center_point} = CAD::Format::DWG::AC1009::Point2d->new($self->{_io}, $self, $self->{_root});
@@ -7785,7 +7785,7 @@ sub _read {
     if ($self->entity_mode()->has_pspace()) {
         $self->{extra_flag} = CAD::Format::DWG::AC1009::ExtraFlag->new($self->{_io}, $self, $self->{_root});
     }
-    if ($self->extra_flag()->has_eed()) {
+    if ( (($self->entity_mode()->has_pspace()) && ($self->extra_flag()->has_eed())) ) {
         $self->{vport_in_entity} = CAD::Format::DWG::AC1009::VportInEntity->new($self->{_io}, $self, $self->{_root});
     }
     if ($self->entity_mode()->has_handling()) {
@@ -7794,7 +7794,7 @@ sub _read {
     if ($self->entity_mode()->has_handling()) {
         $self->{handling_id} = $self->{_io}->read_bytes($self->len_handling_id());
     }
-    if ($self->extra_flag()->has_viewport()) {
+    if ( (($self->entity_mode()->has_pspace()) && ($self->extra_flag()->has_viewport())) ) {
         $self->{viewport} = $self->{_io}->read_u2le();
     }
     $self->{x} = $self->{_io}->read_f8le();
@@ -7975,7 +7975,7 @@ sub _read {
     if ($self->entity_mode()->has_pspace()) {
         $self->{extra_flag} = CAD::Format::DWG::AC1009::ExtraFlag->new($self->{_io}, $self, $self->{_root});
     }
-    if ($self->extra_flag()->has_eed()) {
+    if ( (($self->entity_mode()->has_pspace()) && ($self->extra_flag()->has_eed())) ) {
         $self->{vport_in_entity} = CAD::Format::DWG::AC1009::VportInEntity->new($self->{_io}, $self, $self->{_root});
     }
     if ($self->entity_mode()->has_handling()) {
@@ -7984,7 +7984,7 @@ sub _read {
     if ($self->entity_mode()->has_handling()) {
         $self->{handling_id} = $self->{_io}->read_bytes($self->len_handling_id());
     }
-    if ($self->extra_flag()->has_viewport()) {
+    if ( (($self->entity_mode()->has_pspace()) && ($self->extra_flag()->has_viewport())) ) {
         $self->{viewport} = $self->{_io}->read_u2le();
     }
     $self->{x} = $self->{_io}->read_f8le();
@@ -8313,7 +8313,7 @@ sub _read {
     if ($self->entity_mode()->has_pspace()) {
         $self->{extra_flag} = CAD::Format::DWG::AC1009::ExtraFlag->new($self->{_io}, $self, $self->{_root});
     }
-    if ($self->extra_flag()->has_eed()) {
+    if ( (($self->entity_mode()->has_pspace()) && ($self->extra_flag()->has_eed())) ) {
         $self->{vport_in_entity} = CAD::Format::DWG::AC1009::VportInEntity->new($self->{_io}, $self, $self->{_root});
     }
     if ($self->entity_mode()->has_handling()) {
@@ -8322,7 +8322,7 @@ sub _read {
     if ($self->entity_mode()->has_handling()) {
         $self->{handling_id} = $self->{_io}->read_bytes($self->len_handling_id());
     }
-    if ($self->extra_flag()->has_viewport()) {
+    if ( (($self->entity_mode()->has_pspace()) && ($self->extra_flag()->has_viewport())) ) {
         $self->{viewport} = $self->{_io}->read_u2le();
     }
     $self->{x1} = $self->{_io}->read_f8le();
@@ -8667,7 +8667,7 @@ sub _read {
     if ($self->entity_mode()->has_pspace()) {
         $self->{extra_flag} = CAD::Format::DWG::AC1009::ExtraFlag->new($self->{_io}, $self, $self->{_root});
     }
-    if ($self->extra_flag()->has_eed()) {
+    if ( (($self->entity_mode()->has_pspace()) && ($self->extra_flag()->has_eed())) ) {
         $self->{vport_in_entity} = CAD::Format::DWG::AC1009::VportInEntity->new($self->{_io}, $self, $self->{_root});
     }
     if ($self->entity_mode()->has_handling()) {
@@ -8676,7 +8676,7 @@ sub _read {
     if ($self->entity_mode()->has_handling()) {
         $self->{handling_id} = $self->{_io}->read_bytes($self->len_handling_id());
     }
-    if ($self->extra_flag()->has_viewport()) {
+    if ( (($self->entity_mode()->has_pspace()) && ($self->extra_flag()->has_viewport())) ) {
         $self->{viewport} = $self->{_io}->read_u2le();
     }
     if ($self->entity_common()->flag3_1()) {
