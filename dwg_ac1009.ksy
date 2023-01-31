@@ -1120,6 +1120,10 @@ types:
       - id: angle_to
         type: f8
         doc: ARC/51
+      - id: extrusion
+        type: point_3d
+        if: entity_common.flag2_8
+        doc: ARC/210
       - id: crc16
         size: 2
   entity_attdef:
