@@ -1014,36 +1014,36 @@ types:
         type: b1
       - id: flag3_8
         type: b1
-  vport_in_entity:
+  eed:
     seq:
-      - id: len_vport_data
+      - id: len_eed_data
         type: u2
-      - id: vport_data
-        type: vport_data
-        size: len_vport_data
-  vport_data:
+      - id: eed_data
+        type: eed_data
+        size: len_eed_data
+  eed_data:
     seq:
-      - id: vports
-        type: vport_detect
+      - id: eeds
+        type: eed_detect
         repeat: eos
-  vport_detect:
+  eed_detect:
     seq:
       - id: separator
         type: u1
-        enum: vports
+        enum: eeds
       - id: data
         type:
           switch-on: separator
           cases:
-            'vports::vport_1000': vport_1000
-            'vports::vport_1001': vport_1001
-            'vports::vport_1002': vport_1002
-            'vports::vport_1003': vport_1003
-            'vports::vport_1005': vport_1005
-            'vports::vport_1010': vport_1010
-            'vports::vport_1040': vport_1040
-            'vports::vport_1070': vport_1070
-  vport_1000:
+            'eeds::eed_1000': eed_1000
+            'eeds::eed_1001': eed_1001
+            'eeds::eed_1002': eed_1002
+            'eeds::eed_1003': eed_1003
+            'eeds::eed_1005': eed_1005
+            'eeds::eed_1010': eed_1010
+            'eeds::eed_1040': eed_1040
+            'eeds::eed_1070': eed_1070
+  eed_1000:
     seq:
       - id: name_size
         type: u1
@@ -1051,31 +1051,31 @@ types:
         size: name_size
         type: str
         encoding: ASCII
-  vport_1001:
+  eed_1001:
     seq:
       - id: value
         type: u2
-  vport_1002:
+  eed_1002:
     seq:
       - id: value
         type: u1
-  vport_1003:
+  eed_1003:
     seq:
       - id: value
         type: u2
-  vport_1005:
+  eed_1005:
     seq:
       - id: value
         size: 8
-  vport_1010:
+  eed_1010:
     seq:
       - id: value
         type: point_3d
-  vport_1040:
+  eed_1040:
     seq:
       - id: value
         type: f8
-  vport_1070:
+  eed_1070:
     seq:
       - id: value
         type: u2
@@ -1104,8 +1104,8 @@ types:
       - id: extra_flag
         type: extra_flag
         if: entity_mode.has_pspace
-      - id: vport_in_entity
-        type: vport_in_entity
+      - id: eed
+        type: eed
         if: entity_mode.has_pspace and extra_flag.has_eed
       - id: len_handling_id
         type: u1
@@ -1156,8 +1156,8 @@ types:
       - id: extra_flag
         type: extra_flag
         if: entity_mode.has_pspace
-      - id: vport_in_entity
-        type: vport_in_entity
+      - id: eed
+        type: eed
         if: entity_mode.has_pspace and extra_flag.has_eed
       - id: len_handling_id
         type: u1
@@ -1257,8 +1257,8 @@ types:
       - id: extra_flag
         type: extra_flag
         if: entity_mode.has_pspace
-      - id: vport_in_entity
-        type: vport_in_entity
+      - id: eed
+        type: eed
         if: entity_mode.has_pspace and extra_flag.has_eed
       - id: len_handling_id
         type: u1
@@ -1366,8 +1366,8 @@ types:
       - id: extra_flag
         type: extra_flag
         if: entity_mode.has_pspace
-      - id: vport_in_entity
-        type: vport_in_entity
+      - id: eed
+        type: eed
         if: entity_mode.has_pspace and extra_flag.has_eed
       - id: len_handling_id
         type: u1
@@ -1428,8 +1428,8 @@ types:
       - id: extra_flag
         type: extra_flag
         if: entity_mode.has_pspace
-      - id: vport_in_entity
-        type: vport_in_entity
+      - id: eed
+        type: eed
         if: entity_mode.has_pspace and extra_flag.has_eed
       - id: len_handling_id
         type: u1
@@ -1467,8 +1467,8 @@ types:
       - id: extra_flag
         type: extra_flag
         if: entity_mode.has_pspace
-      - id: vport_in_entity
-        type: vport_in_entity
+      - id: eed
+        type: eed
         if: entity_mode.has_pspace and extra_flag.has_eed
       - id: len_handling_id
         type: u1
@@ -1547,8 +1547,8 @@ types:
       - id: extra_flag
         type: extra_flag
         if: entity_mode.has_pspace
-      - id: vport_in_entity
-        type: vport_in_entity
+      - id: eed
+        type: eed
         if: entity_mode.has_pspace and extra_flag.has_eed
       - id: len_handling_id
         type: u1
@@ -1596,8 +1596,8 @@ types:
       - id: extra_flag
         type: extra_flag
         if: entity_mode.has_pspace
-      - id: vport_in_entity
-        type: vport_in_entity
+      - id: eed
+        type: eed
         if: entity_mode.has_pspace and extra_flag.has_eed
       - id: len_handling_id
         type: u1
@@ -1720,8 +1720,8 @@ types:
       - id: extra_flag
         type: extra_flag
         if: entity_mode.has_pspace
-      - id: vport_in_entity
-        type: vport_in_entity
+      - id: eed
+        type: eed
         if: entity_mode.has_pspace and extra_flag.has_eed
       - id: len_handling_id
         type: u1
@@ -1784,8 +1784,8 @@ types:
       - id: extra_flag
         type: extra_flag
         if: entity_mode.has_pspace
-      - id: vport_in_entity
-        type: vport_in_entity
+      - id: eed
+        type: eed
         if: entity_mode.has_pspace and extra_flag.has_eed
       - id: len_handling_id
         type: u1
@@ -1891,8 +1891,8 @@ types:
       - id: extra_flag
         type: extra_flag
         if: entity_mode.has_pspace
-      - id: vport_in_entity
-        type: vport_in_entity
+      - id: eed
+        type: eed
         if: entity_mode.has_pspace and extra_flag.has_eed
       - id: len_handling_id
         type: u1
@@ -1940,8 +1940,8 @@ types:
       - id: extra_flag
         type: extra_flag
         if: entity_mode.has_pspace
-      - id: vport_in_entity
-        type: vport_in_entity
+      - id: eed
+        type: eed
         if: entity_mode.has_pspace and extra_flag.has_eed
       - id: len_handling_id
         type: u1
@@ -2016,8 +2016,8 @@ types:
       - id: extra_flag
         type: extra_flag
         if: entity_mode.has_pspace
-      - id: vport_in_entity
-        type: vport_in_entity
+      - id: eed
+        type: eed
         if: entity_mode.has_pspace and extra_flag.has_eed
       - id: len_handling_id
         type: u1
@@ -2057,8 +2057,8 @@ types:
       - id: extra_flag
         type: extra_flag
         if: entity_mode.has_pspace
-      - id: vport_in_entity
-        type: vport_in_entity
+      - id: eed
+        type: eed
         if: entity_mode.has_pspace and extra_flag.has_eed
       - id: len_handling_id
         type: u1
@@ -2123,8 +2123,8 @@ types:
       - id: extra_flag
         type: extra_flag
         if: entity_mode.has_pspace
-      - id: vport_in_entity
-        type: vport_in_entity
+      - id: eed
+        type: eed
         if: entity_mode.has_pspace and extra_flag.has_eed
       - id: len_handling_id
         type: u1
@@ -2170,8 +2170,8 @@ types:
       - id: extra_flag
         type: extra_flag
         if: entity_mode.has_pspace
-      - id: vport_in_entity
-        type: vport_in_entity
+      - id: eed
+        type: eed
         if: entity_mode.has_pspace and extra_flag.has_eed
       - id: len_handling_id
         type: u1
@@ -2257,8 +2257,8 @@ types:
       - id: extra_flag
         type: extra_flag
         if: entity_mode.has_pspace
-      - id: vport_in_entity
-        type: vport_in_entity
+      - id: eed
+        type: eed
         if: entity_mode.has_pspace and extra_flag.has_eed
       - id: len_handling_id
         type: u1
@@ -2304,8 +2304,8 @@ types:
       - id: extra_flag
         type: extra_flag
         if: entity_mode.has_pspace
-      - id: vport_in_entity
-        type: vport_in_entity
+      - id: eed
+        type: eed
         if: entity_mode.has_pspace and extra_flag.has_eed
       - id: len_handling_id
         type: u1
@@ -2385,8 +2385,8 @@ types:
       - id: extra_flag
         type: extra_flag
         if: entity_mode.has_pspace
-      - id: vport_in_entity
-        type: vport_in_entity
+      - id: eed
+        type: eed
         if: entity_mode.has_pspace and extra_flag.has_eed
       - id: len_handling_id
         type: u1
@@ -3040,12 +3040,12 @@ enums:
   spline_type:
     5: quadratic_b_spline
     6: cubic_b_spline
-  vports:
-    0: vport_1000
-    1: vport_1001
-    2: vport_1002
-    3: vport_1003
-    5: vport_1005
-    10: vport_1010
-    40: vport_1040
-    70: vport_1070
+  eeds:
+    0: eed_1000
+    1: eed_1001
+    2: eed_1002
+    3: eed_1003
+    5: eed_1005
+    10: eed_1010
+    40: eed_1040
+    70: eed_1070
