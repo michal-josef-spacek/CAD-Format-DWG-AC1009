@@ -1565,6 +1565,10 @@ types:
       - id: radius
         type: f8
         doc: CIRCLE/40
+      - id: extrusion
+        type: point_3d
+        if: entity_common.flag2_8
+        doc: CIRCLE/210
       - id: crc16
         size: 2
   entity_dim:

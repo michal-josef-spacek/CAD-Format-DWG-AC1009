@@ -7775,6 +7775,9 @@ sub _read {
     }
     $self->{center_point} = CAD::Format::DWG::AC1009::Point2d->new($self->{_io}, $self, $self->{_root});
     $self->{radius} = $self->{_io}->read_f8le();
+    if ($self->entity_common()->flag2_8()) {
+        $self->{extrusion} = CAD::Format::DWG::AC1009::Point3d->new($self->{_io}, $self, $self->{_root});
+    }
     $self->{crc16} = $self->{_io}->read_bytes(2);
 }
 
@@ -7851,6 +7854,11 @@ sub center_point {
 sub radius {
     my ($self) = @_;
     return $self->{radius};
+}
+
+sub extrusion {
+    my ($self) = @_;
+    return $self->{extrusion};
 }
 
 sub crc16 {
