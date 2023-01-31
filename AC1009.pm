@@ -7379,6 +7379,7 @@ sub _read {
 
     $self->{flag} = CAD::Format::DWG::AC1009::VportFlag->new($self->{_io}, $self, $self->{_root});
     $self->{vport_name} = Encode::decode("ASCII", IO::KaitaiStruct::Stream::bytes_terminate($self->{_io}->read_bytes(32), 0, 0));
+    $self->{used} = $self->{_io}->read_s2le();
     $self->{view_size_vport_10_20} = CAD::Format::DWG::AC1009::Point2d->new($self->{_io}, $self, $self->{_root});
     $self->{view_ctrl_vport_11_21} = CAD::Format::DWG::AC1009::Point2d->new($self->{_io}, $self, $self->{_root});
     $self->{view_taget_vport_17_27_37} = CAD::Format::DWG::AC1009::Point3d->new($self->{_io}, $self, $self->{_root});
@@ -7398,12 +7399,11 @@ sub _read {
     $self->{vport_76} = $self->{_io}->read_u2le();
     $self->{vport_77} = $self->{_io}->read_u2le();
     $self->{vport_78} = $self->{_io}->read_u2le();
-    $self->{u14} = $self->{_io}->read_f8le();
-    $self->{u15} = $self->{_io}->read_f8le();
-    $self->{u16} = $self->{_io}->read_f8le();
+    $self->{vport_50} = $self->{_io}->read_f8le();
+    $self->{vport_13_23} = CAD::Format::DWG::AC1009::Point2d->new($self->{_io}, $self, $self->{_root});
     $self->{vport_14_24} = CAD::Format::DWG::AC1009::Point2d->new($self->{_io}, $self, $self->{_root});
     $self->{vport_15_25} = CAD::Format::DWG::AC1009::Point2d->new($self->{_io}, $self, $self->{_root});
-    $self->{u17} = $self->{_io}->read_bytes(4);
+    $self->{crc16} = $self->{_io}->read_bytes(2);
 }
 
 sub flag {
@@ -7414,6 +7414,11 @@ sub flag {
 sub vport_name {
     my ($self) = @_;
     return $self->{vport_name};
+}
+
+sub used {
+    my ($self) = @_;
+    return $self->{used};
 }
 
 sub view_size_vport_10_20 {
@@ -7511,19 +7516,14 @@ sub vport_78 {
     return $self->{vport_78};
 }
 
-sub u14 {
+sub vport_50 {
     my ($self) = @_;
-    return $self->{u14};
+    return $self->{vport_50};
 }
 
-sub u15 {
+sub vport_13_23 {
     my ($self) = @_;
-    return $self->{u15};
-}
-
-sub u16 {
-    my ($self) = @_;
-    return $self->{u16};
+    return $self->{vport_13_23};
 }
 
 sub vport_14_24 {
@@ -7536,9 +7536,9 @@ sub vport_15_25 {
     return $self->{vport_15_25};
 }
 
-sub u17 {
+sub crc16 {
     my ($self) = @_;
-    return $self->{u17};
+    return $self->{crc16};
 }
 
 ########################################################################

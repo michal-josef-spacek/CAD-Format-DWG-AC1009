@@ -2672,9 +2672,11 @@ types:
         encoding: ASCII
         terminator: 0x00
         doc: VPORT/2
+      - id: used
+        type: s2
       - id: view_size_vport_10_20
         type: point_2d
-        doc: VPORT/10|20, TODO
+        doc: VPORT/10|20
       - id: view_ctrl_vport_11_21
         type: point_2d
         doc: VPORT/11|21
@@ -2729,20 +2731,20 @@ types:
       - id: vport_78
         type: u2
         doc: VPORT/78
-      - id: u14
+      - id: vport_50
         type: f8
-      - id: u15
-        type: f8
-      - id: u16
-        type: f8
+        doc: VPORT/50
+      - id: vport_13_23
+        type: point_2d
+        doc: VPORT/13|23
       - id: vport_14_24
         type: point_2d
         doc: VPORT/14|24
       - id: vport_15_25
         type: point_2d
         doc: VPORT/15|25
-      - id: u17
-        size: 4
+      - id: crc16
+        size: 2
   vport_flag:
     seq:
       - id: deleted
