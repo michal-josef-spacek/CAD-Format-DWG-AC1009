@@ -8307,9 +8307,6 @@ sub _read {
     if ($self->entity_mode()->has_thickness()) {
         $self->{entity_thickness} = $self->{_io}->read_f8le();
     }
-    if (!($self->entity_mode()->has_elevation())) {
-        $self->{entity_elevation} = $self->{_io}->read_f8le();
-    }
     if ($self->entity_mode()->has_pspace()) {
         $self->{extra_flag} = CAD::Format::DWG::AC1009::ExtraFlag->new($self->{_io}, $self, $self->{_root});
     }
@@ -8334,6 +8331,9 @@ sub _read {
     $self->{y2} = $self->{_io}->read_f8le();
     if ($self->entity_mode()->has_elevation() == 0) {
         $self->{z2} = $self->{_io}->read_f8le();
+    }
+    if ($self->entity_common()->flag2_8()) {
+        $self->{extrusion} = CAD::Format::DWG::AC1009::Point3d->new($self->{_io}, $self, $self->{_root});
     }
     $self->{crc16} = $self->{_io}->read_bytes(2);
 }
@@ -8371,11 +8371,6 @@ sub entity_linetype_index {
 sub entity_thickness {
     my ($self) = @_;
     return $self->{entity_thickness};
-}
-
-sub entity_elevation {
-    my ($self) = @_;
-    return $self->{entity_elevation};
 }
 
 sub extra_flag {
@@ -8431,6 +8426,11 @@ sub y2 {
 sub z2 {
     my ($self) = @_;
     return $self->{z2};
+}
+
+sub extrusion {
+    my ($self) = @_;
+    return $self->{extrusion};
 }
 
 sub crc16 {

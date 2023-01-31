@@ -1772,9 +1772,6 @@ types:
       - id: entity_thickness
         type: f8
         if: entity_mode.has_thickness
-      - id: entity_elevation
-        type: f8
-        if: not entity_mode.has_elevation
       - id: extra_flag
         type: extra_flag
         if: entity_mode.has_pspace
@@ -1810,6 +1807,10 @@ types:
         type: f8
         if: entity_mode.has_elevation == false
         doc: LINE/31
+      - id: extrusion
+        type: point_3d
+        if: entity_common.flag2_8
+        doc: LINE/210
       - id: crc16
         size: 2
   entity_tmp:
