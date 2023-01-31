@@ -107,7 +107,7 @@ types:
         doc: BLOCK/2
       - id: used
         type: s2
-      - id: begin_address_in_block_table
+      - id: begin_address_in_block_table_raw
         type: u4
       - id: block_entity
         type: s2
@@ -115,6 +115,11 @@ types:
         type: block_flag2
       - id: u1
         type: s1
+    instances:
+      begin_address_in_block_table_unknown:
+         value: (begin_address_in_block_table_raw & 0xff000000) >> 24
+      begin_address_in_block_table:
+         value: (begin_address_in_block_table_raw & 0x00ffffff)
   block_flag:
     seq:
       - id: references_external_reference

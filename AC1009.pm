@@ -3917,10 +3917,24 @@ sub _read {
     $self->{flag} = CAD::Format::DWG::AC1009::BlockFlag->new($self->{_io}, $self, $self->{_root});
     $self->{block_name} = Encode::decode("ASCII", IO::KaitaiStruct::Stream::bytes_terminate($self->{_io}->read_bytes(32), 0, 0));
     $self->{used} = $self->{_io}->read_s2le();
-    $self->{begin_address_in_block_table} = $self->{_io}->read_u4le();
+    $self->{begin_address_in_block_table_raw} = $self->{_io}->read_u4le();
     $self->{block_entity} = $self->{_io}->read_s2le();
     $self->{flag2} = CAD::Format::DWG::AC1009::BlockFlag2->new($self->{_io}, $self, $self->{_root});
     $self->{u1} = $self->{_io}->read_s1();
+}
+
+sub begin_address_in_block_table_unknown {
+    my ($self) = @_;
+    return $self->{begin_address_in_block_table_unknown} if ($self->{begin_address_in_block_table_unknown});
+    $self->{begin_address_in_block_table_unknown} = (($self->begin_address_in_block_table_raw() & 4278190080) >> 24);
+    return $self->{begin_address_in_block_table_unknown};
+}
+
+sub begin_address_in_block_table {
+    my ($self) = @_;
+    return $self->{begin_address_in_block_table} if ($self->{begin_address_in_block_table});
+    $self->{begin_address_in_block_table} = ($self->begin_address_in_block_table_raw() & 16777215);
+    return $self->{begin_address_in_block_table};
 }
 
 sub flag {
@@ -3938,9 +3952,9 @@ sub used {
     return $self->{used};
 }
 
-sub begin_address_in_block_table {
+sub begin_address_in_block_table_raw {
     my ($self) = @_;
-    return $self->{begin_address_in_block_table};
+    return $self->{begin_address_in_block_table_raw};
 }
 
 sub block_entity {
