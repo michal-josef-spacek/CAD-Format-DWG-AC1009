@@ -7,7 +7,8 @@ attrib is
 Probably none only
 6. Implement eed
 7. Rename has_elevation to not_elevation?
-8.
+8. Identify curve_type enum
+9.
 
 Applied
 =======

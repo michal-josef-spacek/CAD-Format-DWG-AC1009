@@ -26,6 +26,8 @@ our $COORDINATES_RELATIVE_POLAR_COORDINATES = 2;
 our $SPLINE_TYPE_QUADRATIC_B_SPLINE = 5;
 our $SPLINE_TYPE_CUBIC_B_SPLINE = 6;
 
+our $CURVE_TYPE_UNKNOWN_1 = 1;
+
 our $ENTITIES_LINE = 1;
 our $ENTITIES_POINT = 2;
 our $ENTITIES_CIRCLE = 3;
@@ -8869,9 +8871,6 @@ sub _read {
     if ( (($self->entity_mode()->has_pspace()) && ($self->extra_flag()->has_viewport())) ) {
         $self->{viewport} = $self->{_io}->read_u2le();
     }
-    if ($self->entity_common()->flag3_1()) {
-        $self->{z} = $self->{_io}->read_f8le();
-    }
     if ($self->entity_common()->flag2_8()) {
         $self->{flag} = CAD::Format::DWG::AC1009::PolylineFlags->new($self->{_io}, $self, $self->{_root});
     }
@@ -8882,7 +8881,13 @@ sub _read {
         $self->{end_width} = $self->{_io}->read_f8le();
     }
     if ($self->entity_common()->flag2_5()) {
-        $self->{u1} = CAD::Format::DWG::AC1009::Point3d->new($self->{_io}, $self, $self->{_root});
+        $self->{extrusion} = CAD::Format::DWG::AC1009::Point3d->new($self->{_io}, $self, $self->{_root});
+    }
+    if ($self->entity_common()->flag3_8()) {
+        $self->{curve_type} = $self->{_io}->read_u2le();
+    }
+    if ($self->entity_common()->flag3_1()) {
+        $self->{z} = $self->{_io}->read_f8le();
     }
     $self->{crc16} = $self->{_io}->read_bytes(2);
 }
@@ -8952,11 +8957,6 @@ sub viewport {
     return $self->{viewport};
 }
 
-sub z {
-    my ($self) = @_;
-    return $self->{z};
-}
-
 sub flag {
     my ($self) = @_;
     return $self->{flag};
@@ -8972,9 +8972,19 @@ sub end_width {
     return $self->{end_width};
 }
 
-sub u1 {
+sub extrusion {
     my ($self) = @_;
-    return $self->{u1};
+    return $self->{extrusion};
+}
+
+sub curve_type {
+    my ($self) = @_;
+    return $self->{curve_type};
+}
+
+sub z {
+    my ($self) = @_;
+    return $self->{z};
 }
 
 sub crc16 {

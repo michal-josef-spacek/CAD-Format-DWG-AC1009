@@ -1957,10 +1957,6 @@ types:
       - id: viewport
         type: u2
         if: entity_mode.has_pspace and extra_flag.has_viewport
-      - id: z
-        type: f8
-        if: entity_common.flag3_1
-        doc: POLYLINE/30
       - id: flag
         type: polyline_flags
         if: entity_common.flag2_8
@@ -1973,9 +1969,18 @@ types:
         type: f8
         if: entity_common.flag2_6
         doc: POLYLINE/41
-      - id: u1
+      - id: extrusion
         type: point_3d
         if: entity_common.flag2_5
+      - id: curve_type
+        type: u2
+        enum: curve_type
+        if: entity_common.flag3_8
+# TODO Really?
+      - id: z
+        type: f8
+        if: entity_common.flag3_1
+        doc: POLYLINE/30
       - id: crc16
         size: 2
   polyline_flags:
@@ -3045,6 +3050,8 @@ enums:
   spline_type:
     5: quadratic_b_spline
     6: cubic_b_spline
+  curve_type:
+    1: unknown_1
   eeds:
     0: eed_1000
     1: eed_1001
