@@ -409,9 +409,9 @@ sub _read {
         $self->{entity_elevation} = $self->{_io}->read_f8le();
     }
     if ($self->entity_mode()->has_pspace()) {
-        $self->{unknown1} = $self->{_io}->read_u1();
+        $self->{extra_flag} = CAD::Format::DWG::AC1009::ExtraFlag->new($self->{_io}, $self, $self->{_root});
     }
-    if ( (($self->entity_mode()->has_pspace()) && ($self->unknown1() == 6)) ) {
+    if ($self->extra_flag()->has_eed()) {
         $self->{vport_in_entity} = CAD::Format::DWG::AC1009::VportInEntity->new($self->{_io}, $self, $self->{_root});
     }
     if ($self->entity_mode()->has_handling()) {
@@ -420,8 +420,8 @@ sub _read {
     if ($self->entity_mode()->has_handling()) {
         $self->{handling_id} = $self->{_io}->read_bytes($self->len_handling_id());
     }
-    if ($self->entity_mode()->has_pspace()) {
-        $self->{space} = $self->{_io}->read_u2le();
+    if ($self->extra_flag()->has_viewport()) {
+        $self->{viewport} = $self->{_io}->read_u2le();
     }
     $self->{point_from} = CAD::Format::DWG::AC1009::Point2d->new($self->{_io}, $self, $self->{_root});
     $self->{height} = $self->{_io}->read_f8le();
@@ -493,9 +493,9 @@ sub entity_elevation {
     return $self->{entity_elevation};
 }
 
-sub unknown1 {
+sub extra_flag {
     my ($self) = @_;
-    return $self->{unknown1};
+    return $self->{extra_flag};
 }
 
 sub vport_in_entity {
@@ -513,9 +513,9 @@ sub handling_id {
     return $self->{handling_id};
 }
 
-sub space {
+sub viewport {
     my ($self) = @_;
-    return $self->{space};
+    return $self->{viewport};
 }
 
 sub point_from {
@@ -1233,9 +1233,9 @@ sub _read {
         $self->{entity_elevation} = $self->{_io}->read_f8le();
     }
     if ($self->entity_mode()->has_pspace()) {
-        $self->{unknown1} = $self->{_io}->read_u1();
+        $self->{extra_flag} = CAD::Format::DWG::AC1009::ExtraFlag->new($self->{_io}, $self, $self->{_root});
     }
-    if ( (($self->entity_mode()->has_pspace()) && ($self->unknown1() == 6)) ) {
+    if ($self->extra_flag()->has_eed()) {
         $self->{vport_in_entity} = CAD::Format::DWG::AC1009::VportInEntity->new($self->{_io}, $self, $self->{_root});
     }
     if ($self->entity_mode()->has_handling()) {
@@ -1244,8 +1244,8 @@ sub _read {
     if ($self->entity_mode()->has_handling()) {
         $self->{handling_id} = $self->{_io}->read_bytes($self->len_handling_id());
     }
-    if ($self->entity_mode()->has_pspace()) {
-        $self->{space} = $self->{_io}->read_u2le();
+    if ($self->extra_flag()->has_viewport()) {
+        $self->{viewport} = $self->{_io}->read_u2le();
     }
     $self->{first_point_x} = $self->{_io}->read_f8le();
     $self->{first_point_y} = $self->{_io}->read_f8le();
@@ -1310,9 +1310,9 @@ sub entity_elevation {
     return $self->{entity_elevation};
 }
 
-sub unknown1 {
+sub extra_flag {
     my ($self) = @_;
-    return $self->{unknown1};
+    return $self->{extra_flag};
 }
 
 sub vport_in_entity {
@@ -1330,9 +1330,9 @@ sub handling_id {
     return $self->{handling_id};
 }
 
-sub space {
+sub viewport {
     my ($self) = @_;
-    return $self->{space};
+    return $self->{viewport};
 }
 
 sub first_point_x {
@@ -1447,9 +1447,9 @@ sub _read {
         $self->{entity_elevation} = $self->{_io}->read_f8le();
     }
     if ($self->entity_mode()->has_pspace()) {
-        $self->{unknown1} = $self->{_io}->read_u1();
+        $self->{extra_flag} = CAD::Format::DWG::AC1009::ExtraFlag->new($self->{_io}, $self, $self->{_root});
     }
-    if ( (($self->entity_mode()->has_pspace()) && ($self->unknown1() == 6)) ) {
+    if ($self->extra_flag()->has_eed()) {
         $self->{vport_in_entity} = CAD::Format::DWG::AC1009::VportInEntity->new($self->{_io}, $self, $self->{_root});
     }
     if ($self->entity_mode()->has_handling()) {
@@ -1458,8 +1458,8 @@ sub _read {
     if ($self->entity_mode()->has_handling()) {
         $self->{handling_id} = $self->{_io}->read_bytes($self->len_handling_id());
     }
-    if ($self->entity_mode()->has_pspace()) {
-        $self->{space} = $self->{_io}->read_u2le();
+    if ($self->extra_flag()->has_viewport()) {
+        $self->{viewport} = $self->{_io}->read_u2le();
     }
     $self->{from} = CAD::Format::DWG::AC1009::Point2d->new($self->{_io}, $self, $self->{_root});
     $self->{from_and} = CAD::Format::DWG::AC1009::Point2d->new($self->{_io}, $self, $self->{_root});
@@ -1508,9 +1508,9 @@ sub entity_elevation {
     return $self->{entity_elevation};
 }
 
-sub unknown1 {
+sub extra_flag {
     my ($self) = @_;
-    return $self->{unknown1};
+    return $self->{extra_flag};
 }
 
 sub vport_in_entity {
@@ -1528,9 +1528,9 @@ sub handling_id {
     return $self->{handling_id};
 }
 
-sub space {
+sub viewport {
     my ($self) = @_;
-    return $self->{space};
+    return $self->{viewport};
 }
 
 sub from {
@@ -1679,9 +1679,9 @@ sub _read {
         $self->{entity_elevation} = $self->{_io}->read_f8le();
     }
     if ($self->entity_mode()->has_pspace()) {
-        $self->{unknown1} = $self->{_io}->read_u1();
+        $self->{extra_flag} = CAD::Format::DWG::AC1009::ExtraFlag->new($self->{_io}, $self, $self->{_root});
     }
-    if ( (($self->entity_mode()->has_pspace()) && ($self->unknown1() == 6)) ) {
+    if ($self->extra_flag()->has_eed()) {
         $self->{vport_in_entity} = CAD::Format::DWG::AC1009::VportInEntity->new($self->{_io}, $self, $self->{_root});
     }
     if ($self->entity_mode()->has_handling()) {
@@ -1690,8 +1690,8 @@ sub _read {
     if ($self->entity_mode()->has_handling()) {
         $self->{handling_id} = $self->{_io}->read_bytes($self->len_handling_id());
     }
-    if ($self->entity_mode()->has_pspace()) {
-        $self->{space} = $self->{_io}->read_u2le();
+    if ($self->extra_flag()->has_viewport()) {
+        $self->{viewport} = $self->{_io}->read_u2le();
     }
     $self->{block_index} = $self->{_io}->read_s2le();
     $self->{x} = $self->{_io}->read_f8le();
@@ -1763,9 +1763,9 @@ sub entity_elevation {
     return $self->{entity_elevation};
 }
 
-sub unknown1 {
+sub extra_flag {
     my ($self) = @_;
-    return $self->{unknown1};
+    return $self->{extra_flag};
 }
 
 sub vport_in_entity {
@@ -1783,9 +1783,9 @@ sub handling_id {
     return $self->{handling_id};
 }
 
-sub space {
+sub viewport {
     my ($self) = @_;
-    return $self->{space};
+    return $self->{viewport};
 }
 
 sub block_index {
@@ -2751,9 +2751,9 @@ sub _read {
         $self->{entity_elevation} = $self->{_io}->read_f8le();
     }
     if ($self->entity_mode()->has_pspace()) {
-        $self->{unknown1} = $self->{_io}->read_u1();
+        $self->{extra_flag} = CAD::Format::DWG::AC1009::ExtraFlag->new($self->{_io}, $self, $self->{_root});
     }
-    if ( (($self->entity_mode()->has_pspace()) && ($self->unknown1() == 6)) ) {
+    if ($self->extra_flag()->has_eed()) {
         $self->{vport_in_entity} = CAD::Format::DWG::AC1009::VportInEntity->new($self->{_io}, $self, $self->{_root});
     }
     if ($self->entity_mode()->has_handling()) {
@@ -2762,8 +2762,8 @@ sub _read {
     if ($self->entity_mode()->has_handling()) {
         $self->{handling_id} = $self->{_io}->read_bytes($self->len_handling_id());
     }
-    if ($self->entity_mode()->has_pspace()) {
-        $self->{space} = $self->{_io}->read_u2le();
+    if ($self->extra_flag()->has_viewport()) {
+        $self->{viewport} = $self->{_io}->read_u2le();
     }
     $self->{crc16} = $self->{_io}->read_bytes(2);
 }
@@ -2808,9 +2808,9 @@ sub entity_elevation {
     return $self->{entity_elevation};
 }
 
-sub unknown1 {
+sub extra_flag {
     my ($self) = @_;
-    return $self->{unknown1};
+    return $self->{extra_flag};
 }
 
 sub vport_in_entity {
@@ -2828,9 +2828,9 @@ sub handling_id {
     return $self->{handling_id};
 }
 
-sub space {
+sub viewport {
     my ($self) = @_;
-    return $self->{space};
+    return $self->{viewport};
 }
 
 sub crc16 {
@@ -3107,9 +3107,9 @@ sub _read {
         $self->{entity_elevation} = $self->{_io}->read_f8le();
     }
     if ($self->entity_mode()->has_pspace()) {
-        $self->{unknown1} = $self->{_io}->read_u1();
+        $self->{extra_flag} = CAD::Format::DWG::AC1009::ExtraFlag->new($self->{_io}, $self, $self->{_root});
     }
-    if ( (($self->entity_mode()->has_pspace()) && ($self->unknown1() == 6)) ) {
+    if ($self->extra_flag()->has_eed()) {
         $self->{vport_in_entity} = CAD::Format::DWG::AC1009::VportInEntity->new($self->{_io}, $self, $self->{_root});
     }
     if ($self->entity_mode()->has_handling()) {
@@ -3118,8 +3118,8 @@ sub _read {
     if ($self->entity_mode()->has_handling()) {
         $self->{handling_id} = $self->{_io}->read_bytes($self->len_handling_id());
     }
-    if ($self->entity_mode()->has_pspace()) {
-        $self->{space} = $self->{_io}->read_u2le();
+    if ($self->extra_flag()->has_viewport()) {
+        $self->{viewport} = $self->{_io}->read_u2le();
     }
     $self->{x} = $self->{_io}->read_f8le();
     $self->{y} = $self->{_io}->read_f8le();
@@ -3169,9 +3169,9 @@ sub entity_elevation {
     return $self->{entity_elevation};
 }
 
-sub unknown1 {
+sub extra_flag {
     my ($self) = @_;
-    return $self->{unknown1};
+    return $self->{extra_flag};
 }
 
 sub vport_in_entity {
@@ -3189,9 +3189,9 @@ sub handling_id {
     return $self->{handling_id};
 }
 
-sub space {
+sub viewport {
     my ($self) = @_;
-    return $self->{space};
+    return $self->{viewport};
 }
 
 sub x {
@@ -3421,9 +3421,9 @@ sub _read {
         $self->{entity_elevation} = $self->{_io}->read_f8le();
     }
     if ($self->entity_mode()->has_pspace()) {
-        $self->{unknown1} = $self->{_io}->read_u1();
+        $self->{extra_flag} = CAD::Format::DWG::AC1009::ExtraFlag->new($self->{_io}, $self, $self->{_root});
     }
-    if ( (($self->entity_mode()->has_pspace()) && ($self->unknown1() == 6)) ) {
+    if ($self->extra_flag()->has_eed()) {
         $self->{vport_in_entity} = CAD::Format::DWG::AC1009::VportInEntity->new($self->{_io}, $self, $self->{_root});
     }
     if ($self->entity_mode()->has_handling()) {
@@ -3432,8 +3432,8 @@ sub _read {
     if ($self->entity_mode()->has_handling()) {
         $self->{handling_id} = $self->{_io}->read_bytes($self->len_handling_id());
     }
-    if ($self->entity_mode()->has_pspace()) {
-        $self->{space} = $self->{_io}->read_u2le();
+    if ($self->extra_flag()->has_viewport()) {
+        $self->{viewport} = $self->{_io}->read_u2le();
     }
     $self->{from} = CAD::Format::DWG::AC1009::Point2d->new($self->{_io}, $self, $self->{_root});
     $self->{from_and} = CAD::Format::DWG::AC1009::Point2d->new($self->{_io}, $self, $self->{_root});
@@ -3482,9 +3482,9 @@ sub entity_elevation {
     return $self->{entity_elevation};
 }
 
-sub unknown1 {
+sub extra_flag {
     my ($self) = @_;
-    return $self->{unknown1};
+    return $self->{extra_flag};
 }
 
 sub vport_in_entity {
@@ -3502,9 +3502,9 @@ sub handling_id {
     return $self->{handling_id};
 }
 
-sub space {
+sub viewport {
     my ($self) = @_;
-    return $self->{space};
+    return $self->{viewport};
 }
 
 sub from {
@@ -3881,9 +3881,9 @@ sub _read {
         $self->{entity_elevation} = $self->{_io}->read_f8le();
     }
     if ($self->entity_mode()->has_pspace()) {
-        $self->{unknown1} = $self->{_io}->read_u1();
+        $self->{extra_flag} = CAD::Format::DWG::AC1009::ExtraFlag->new($self->{_io}, $self, $self->{_root});
     }
-    if ( (($self->entity_mode()->has_pspace()) && ($self->unknown1() == 6)) ) {
+    if ($self->extra_flag()->has_eed()) {
         $self->{vport_in_entity} = CAD::Format::DWG::AC1009::VportInEntity->new($self->{_io}, $self, $self->{_root});
     }
     if ($self->entity_mode()->has_handling()) {
@@ -3892,8 +3892,8 @@ sub _read {
     if ($self->entity_mode()->has_handling()) {
         $self->{handling_id} = $self->{_io}->read_bytes($self->len_handling_id());
     }
-    if ($self->entity_mode()->has_pspace()) {
-        $self->{space} = $self->{_io}->read_u2le();
+    if ($self->extra_flag()->has_viewport()) {
+        $self->{viewport} = $self->{_io}->read_u2le();
     }
     $self->{insert_point} = CAD::Format::DWG::AC1009::Point2d->new($self->{_io}, $self, $self->{_root});
     $self->{height} = $self->{_io}->read_f8le();
@@ -3966,9 +3966,9 @@ sub entity_elevation {
     return $self->{entity_elevation};
 }
 
-sub unknown1 {
+sub extra_flag {
     my ($self) = @_;
-    return $self->{unknown1};
+    return $self->{extra_flag};
 }
 
 sub vport_in_entity {
@@ -3986,9 +3986,9 @@ sub handling_id {
     return $self->{handling_id};
 }
 
-sub space {
+sub viewport {
     my ($self) = @_;
-    return $self->{space};
+    return $self->{viewport};
 }
 
 sub insert_point {
@@ -4342,9 +4342,9 @@ sub _read {
         $self->{entity_elevation} = $self->{_io}->read_f8le();
     }
     if ($self->entity_mode()->has_pspace()) {
-        $self->{unknown1} = $self->{_io}->read_u1();
+        $self->{extra_flag} = CAD::Format::DWG::AC1009::ExtraFlag->new($self->{_io}, $self, $self->{_root});
     }
-    if ( (($self->entity_mode()->has_pspace()) && ($self->unknown1() == 6)) ) {
+    if ($self->extra_flag()->has_eed()) {
         $self->{vport_in_entity} = CAD::Format::DWG::AC1009::VportInEntity->new($self->{_io}, $self, $self->{_root});
     }
     if ($self->entity_mode()->has_handling()) {
@@ -4353,8 +4353,8 @@ sub _read {
     if ($self->entity_mode()->has_handling()) {
         $self->{handling_id} = $self->{_io}->read_bytes($self->len_handling_id());
     }
-    if ($self->entity_mode()->has_pspace()) {
-        $self->{space} = $self->{_io}->read_u2le();
+    if ($self->extra_flag()->has_viewport()) {
+        $self->{viewport} = $self->{_io}->read_u2le();
     }
     $self->{start_point} = CAD::Format::DWG::AC1009::Point2d->new($self->{_io}, $self, $self->{_root});
     $self->{height} = $self->{_io}->read_f8le();
@@ -4429,9 +4429,9 @@ sub entity_elevation {
     return $self->{entity_elevation};
 }
 
-sub unknown1 {
+sub extra_flag {
     my ($self) = @_;
-    return $self->{unknown1};
+    return $self->{extra_flag};
 }
 
 sub vport_in_entity {
@@ -4449,9 +4449,9 @@ sub handling_id {
     return $self->{handling_id};
 }
 
-sub space {
+sub viewport {
     my ($self) = @_;
-    return $self->{space};
+    return $self->{viewport};
 }
 
 sub start_point {
@@ -4586,9 +4586,9 @@ sub _read {
         $self->{entity_elevation} = $self->{_io}->read_f8le();
     }
     if ($self->entity_mode()->has_pspace()) {
-        $self->{unknown1} = $self->{_io}->read_u1();
+        $self->{extra_flag} = CAD::Format::DWG::AC1009::ExtraFlag->new($self->{_io}, $self, $self->{_root});
     }
-    if ( (($self->entity_mode()->has_pspace()) && ($self->unknown1() == 6)) ) {
+    if ($self->extra_flag()->has_eed()) {
         $self->{vport_in_entity} = CAD::Format::DWG::AC1009::VportInEntity->new($self->{_io}, $self, $self->{_root});
     }
     if ($self->entity_mode()->has_handling()) {
@@ -4597,8 +4597,8 @@ sub _read {
     if ($self->entity_mode()->has_handling()) {
         $self->{handling_id} = $self->{_io}->read_bytes($self->len_handling_id());
     }
-    if ($self->entity_mode()->has_pspace()) {
-        $self->{space} = $self->{_io}->read_u2le();
+    if ($self->extra_flag()->has_viewport()) {
+        $self->{viewport} = $self->{_io}->read_u2le();
     }
     $self->{insert_point} = CAD::Format::DWG::AC1009::Point2d->new($self->{_io}, $self, $self->{_root});
     if ($self->entity_common()->flag2_6()) {
@@ -4656,9 +4656,9 @@ sub entity_elevation {
     return $self->{entity_elevation};
 }
 
-sub unknown1 {
+sub extra_flag {
     my ($self) = @_;
-    return $self->{unknown1};
+    return $self->{extra_flag};
 }
 
 sub vport_in_entity {
@@ -4676,9 +4676,9 @@ sub handling_id {
     return $self->{handling_id};
 }
 
-sub space {
+sub viewport {
     my ($self) = @_;
-    return $self->{space};
+    return $self->{viewport};
 }
 
 sub insert_point {
@@ -4758,9 +4758,9 @@ sub _read {
         $self->{entity_elevation} = $self->{_io}->read_f8le();
     }
     if ($self->entity_mode()->has_pspace()) {
-        $self->{unknown1} = $self->{_io}->read_u1();
+        $self->{extra_flag} = CAD::Format::DWG::AC1009::ExtraFlag->new($self->{_io}, $self, $self->{_root});
     }
-    if ( (($self->entity_mode()->has_pspace()) && ($self->unknown1() == 6)) ) {
+    if ($self->extra_flag()->has_eed()) {
         $self->{vport_in_entity} = CAD::Format::DWG::AC1009::VportInEntity->new($self->{_io}, $self, $self->{_root});
     }
     if ($self->entity_mode()->has_handling()) {
@@ -4769,15 +4769,15 @@ sub _read {
     if ($self->entity_mode()->has_handling()) {
         $self->{handling_id} = $self->{_io}->read_bytes($self->len_handling_id());
     }
-    if ($self->entity_mode()->has_pspace()) {
-        $self->{space} = $self->{_io}->read_u2le();
+    if ($self->extra_flag()->has_viewport()) {
+        $self->{viewport} = $self->{_io}->read_u2le();
     }
     $self->{x} = $self->{_io}->read_f8le();
     $self->{y} = $self->{_io}->read_f8le();
     $self->{z} = $self->{_io}->read_f8le();
     $self->{width} = $self->{_io}->read_f8le();
     $self->{height} = $self->{_io}->read_f8le();
-    $self->{u1} = $self->{_io}->read_s2le();
+    $self->{id} = $self->{_io}->read_s2le();
     $self->{crc16} = $self->{_io}->read_bytes(2);
 }
 
@@ -4821,9 +4821,9 @@ sub entity_elevation {
     return $self->{entity_elevation};
 }
 
-sub unknown1 {
+sub extra_flag {
     my ($self) = @_;
-    return $self->{unknown1};
+    return $self->{extra_flag};
 }
 
 sub vport_in_entity {
@@ -4841,9 +4841,9 @@ sub handling_id {
     return $self->{handling_id};
 }
 
-sub space {
+sub viewport {
     my ($self) = @_;
-    return $self->{space};
+    return $self->{viewport};
 }
 
 sub x {
@@ -4871,9 +4871,9 @@ sub height {
     return $self->{height};
 }
 
-sub u1 {
+sub id {
     my ($self) = @_;
-    return $self->{u1};
+    return $self->{id};
 }
 
 sub crc16 {
@@ -4928,9 +4928,9 @@ sub _read {
         $self->{entity_elevation} = $self->{_io}->read_f8le();
     }
     if ($self->entity_mode()->has_pspace()) {
-        $self->{unknown1} = $self->{_io}->read_u1();
+        $self->{extra_flag} = CAD::Format::DWG::AC1009::ExtraFlag->new($self->{_io}, $self, $self->{_root});
     }
-    if ( (($self->entity_mode()->has_pspace()) && ($self->unknown1() == 6)) ) {
+    if ($self->extra_flag()->has_eed()) {
         $self->{vport_in_entity} = CAD::Format::DWG::AC1009::VportInEntity->new($self->{_io}, $self, $self->{_root});
     }
     if ($self->entity_mode()->has_handling()) {
@@ -4939,8 +4939,8 @@ sub _read {
     if ($self->entity_mode()->has_handling()) {
         $self->{handling_id} = $self->{_io}->read_bytes($self->len_handling_id());
     }
-    if ($self->entity_mode()->has_pspace()) {
-        $self->{space} = $self->{_io}->read_u2le();
+    if ($self->extra_flag()->has_viewport()) {
+        $self->{viewport} = $self->{_io}->read_u2le();
     }
     $self->{block_index} = $self->{_io}->read_s2le();
     $self->{dimension_line_defining_point} = CAD::Format::DWG::AC1009::Point2d->new($self->{_io}, $self, $self->{_root});
@@ -5039,9 +5039,9 @@ sub entity_elevation {
     return $self->{entity_elevation};
 }
 
-sub unknown1 {
+sub extra_flag {
     my ($self) = @_;
-    return $self->{unknown1};
+    return $self->{extra_flag};
 }
 
 sub vport_in_entity {
@@ -5059,9 +5059,9 @@ sub handling_id {
     return $self->{handling_id};
 }
 
-sub space {
+sub viewport {
     my ($self) = @_;
-    return $self->{space};
+    return $self->{viewport};
 }
 
 sub block_index {
@@ -6592,9 +6592,9 @@ sub _read {
         $self->{entity_elevation} = $self->{_io}->read_f8le();
     }
     if ($self->entity_mode()->has_pspace()) {
-        $self->{unknown1} = $self->{_io}->read_u1();
+        $self->{extra_flag} = CAD::Format::DWG::AC1009::ExtraFlag->new($self->{_io}, $self, $self->{_root});
     }
-    if ( (($self->entity_mode()->has_pspace()) && ($self->unknown1() == 6)) ) {
+    if ($self->extra_flag()->has_eed()) {
         $self->{vport_in_entity} = CAD::Format::DWG::AC1009::VportInEntity->new($self->{_io}, $self, $self->{_root});
     }
     if ($self->entity_mode()->has_handling()) {
@@ -6603,8 +6603,8 @@ sub _read {
     if ($self->entity_mode()->has_handling()) {
         $self->{handling_id} = $self->{_io}->read_bytes($self->len_handling_id());
     }
-    if ($self->entity_mode()->has_pspace()) {
-        $self->{space} = $self->{_io}->read_u2le();
+    if ($self->extra_flag()->has_viewport()) {
+        $self->{viewport} = $self->{_io}->read_u2le();
     }
     $self->{center_point} = CAD::Format::DWG::AC1009::Point3d->new($self->{_io}, $self, $self->{_root});
     $self->{angle_from} = $self->{_io}->read_f8le();
@@ -6652,9 +6652,9 @@ sub entity_elevation {
     return $self->{entity_elevation};
 }
 
-sub unknown1 {
+sub extra_flag {
     my ($self) = @_;
-    return $self->{unknown1};
+    return $self->{extra_flag};
 }
 
 sub vport_in_entity {
@@ -6672,9 +6672,9 @@ sub handling_id {
     return $self->{handling_id};
 }
 
-sub space {
+sub viewport {
     my ($self) = @_;
-    return $self->{space};
+    return $self->{viewport};
 }
 
 sub center_point {
@@ -6851,9 +6851,9 @@ sub _read {
         $self->{entity_elevation} = $self->{_io}->read_f8le();
     }
     if ($self->entity_mode()->has_pspace()) {
-        $self->{unknown1} = $self->{_io}->read_u1();
+        $self->{extra_flag} = CAD::Format::DWG::AC1009::ExtraFlag->new($self->{_io}, $self, $self->{_root});
     }
-    if ( (($self->entity_mode()->has_pspace()) && ($self->unknown1() == 6)) ) {
+    if ($self->extra_flag()->has_eed()) {
         $self->{vport_in_entity} = CAD::Format::DWG::AC1009::VportInEntity->new($self->{_io}, $self, $self->{_root});
     }
     if ($self->entity_mode()->has_handling()) {
@@ -6862,8 +6862,8 @@ sub _read {
     if ($self->entity_mode()->has_handling()) {
         $self->{handling_id} = $self->{_io}->read_bytes($self->len_handling_id());
     }
-    if ($self->entity_mode()->has_pspace()) {
-        $self->{space} = $self->{_io}->read_u2le();
+    if ($self->extra_flag()->has_viewport()) {
+        $self->{viewport} = $self->{_io}->read_u2le();
     }
     $self->{unknown} = $self->{_io}->read_bytes(4);
     $self->{crc16} = $self->{_io}->read_bytes(2);
@@ -6909,9 +6909,9 @@ sub entity_elevation {
     return $self->{entity_elevation};
 }
 
-sub unknown1 {
+sub extra_flag {
     my ($self) = @_;
-    return $self->{unknown1};
+    return $self->{extra_flag};
 }
 
 sub vport_in_entity {
@@ -6929,9 +6929,9 @@ sub handling_id {
     return $self->{handling_id};
 }
 
-sub space {
+sub viewport {
     my ($self) = @_;
-    return $self->{space};
+    return $self->{viewport};
 }
 
 sub unknown {
@@ -7152,6 +7152,86 @@ sub variables {
 sub crc16 {
     my ($self) = @_;
     return $self->{crc16};
+}
+
+########################################################################
+package CAD::Format::DWG::AC1009::ExtraFlag;
+
+our @ISA = 'IO::KaitaiStruct::Struct';
+
+sub from_file {
+    my ($class, $filename) = @_;
+    my $fd;
+
+    open($fd, '<', $filename) or return undef;
+    binmode($fd);
+    return new($class, IO::KaitaiStruct::Stream->new($fd));
+}
+
+sub new {
+    my ($class, $_io, $_parent, $_root) = @_;
+    my $self = IO::KaitaiStruct::Struct->new($_io);
+
+    bless $self, $class;
+    $self->{_parent} = $_parent;
+    $self->{_root} = $_root || $self;;
+
+    $self->_read();
+
+    return $self;
+}
+
+sub _read {
+    my ($self) = @_;
+
+    $self->{flag1} = $self->{_io}->read_bits_int_be(1);
+    $self->{flag2} = $self->{_io}->read_bits_int_be(1);
+    $self->{flag3} = $self->{_io}->read_bits_int_be(1);
+    $self->{flag4} = $self->{_io}->read_bits_int_be(1);
+    $self->{flag5} = $self->{_io}->read_bits_int_be(1);
+    $self->{has_viewport} = $self->{_io}->read_bits_int_be(1);
+    $self->{has_eed} = $self->{_io}->read_bits_int_be(1);
+    $self->{flag8} = $self->{_io}->read_bits_int_be(1);
+}
+
+sub flag1 {
+    my ($self) = @_;
+    return $self->{flag1};
+}
+
+sub flag2 {
+    my ($self) = @_;
+    return $self->{flag2};
+}
+
+sub flag3 {
+    my ($self) = @_;
+    return $self->{flag3};
+}
+
+sub flag4 {
+    my ($self) = @_;
+    return $self->{flag4};
+}
+
+sub flag5 {
+    my ($self) = @_;
+    return $self->{flag5};
+}
+
+sub has_viewport {
+    my ($self) = @_;
+    return $self->{has_viewport};
+}
+
+sub has_eed {
+    my ($self) = @_;
+    return $self->{has_eed};
+}
+
+sub flag8 {
+    my ($self) = @_;
+    return $self->{flag8};
 }
 
 ########################################################################
@@ -7557,9 +7637,9 @@ sub _read {
         $self->{entity_elevation} = $self->{_io}->read_f8le();
     }
     if ($self->entity_mode()->has_pspace()) {
-        $self->{unknown1} = $self->{_io}->read_u1();
+        $self->{extra_flag} = CAD::Format::DWG::AC1009::ExtraFlag->new($self->{_io}, $self, $self->{_root});
     }
-    if ( (($self->entity_mode()->has_pspace()) && ($self->unknown1() == 6)) ) {
+    if ($self->extra_flag()->has_eed()) {
         $self->{vport_in_entity} = CAD::Format::DWG::AC1009::VportInEntity->new($self->{_io}, $self, $self->{_root});
     }
     if ($self->entity_mode()->has_handling()) {
@@ -7568,8 +7648,8 @@ sub _read {
     if ($self->entity_mode()->has_handling()) {
         $self->{handling_id} = $self->{_io}->read_bytes($self->len_handling_id());
     }
-    if ($self->entity_mode()->has_pspace()) {
-        $self->{space} = $self->{_io}->read_u2le();
+    if ($self->extra_flag()->has_viewport()) {
+        $self->{viewport} = $self->{_io}->read_u2le();
     }
     $self->{center_point} = CAD::Format::DWG::AC1009::Point2d->new($self->{_io}, $self, $self->{_root});
     $self->{radius} = $self->{_io}->read_f8le();
@@ -7616,9 +7696,9 @@ sub entity_elevation {
     return $self->{entity_elevation};
 }
 
-sub unknown1 {
+sub extra_flag {
     my ($self) = @_;
-    return $self->{unknown1};
+    return $self->{extra_flag};
 }
 
 sub vport_in_entity {
@@ -7636,9 +7716,9 @@ sub handling_id {
     return $self->{handling_id};
 }
 
-sub space {
+sub viewport {
     my ($self) = @_;
-    return $self->{space};
+    return $self->{viewport};
 }
 
 sub center_point {
@@ -7703,9 +7783,9 @@ sub _read {
         $self->{entity_elevation} = $self->{_io}->read_f8le();
     }
     if ($self->entity_mode()->has_pspace()) {
-        $self->{unknown1} = $self->{_io}->read_u1();
+        $self->{extra_flag} = CAD::Format::DWG::AC1009::ExtraFlag->new($self->{_io}, $self, $self->{_root});
     }
-    if ( (($self->entity_mode()->has_pspace()) && ($self->unknown1() == 6)) ) {
+    if ($self->extra_flag()->has_eed()) {
         $self->{vport_in_entity} = CAD::Format::DWG::AC1009::VportInEntity->new($self->{_io}, $self, $self->{_root});
     }
     if ($self->entity_mode()->has_handling()) {
@@ -7714,8 +7794,8 @@ sub _read {
     if ($self->entity_mode()->has_handling()) {
         $self->{handling_id} = $self->{_io}->read_bytes($self->len_handling_id());
     }
-    if ($self->entity_mode()->has_pspace()) {
-        $self->{space} = $self->{_io}->read_u2le();
+    if ($self->extra_flag()->has_viewport()) {
+        $self->{viewport} = $self->{_io}->read_u2le();
     }
     $self->{x} = $self->{_io}->read_f8le();
     $self->{y} = $self->{_io}->read_f8le();
@@ -7776,9 +7856,9 @@ sub entity_elevation {
     return $self->{entity_elevation};
 }
 
-sub unknown1 {
+sub extra_flag {
     my ($self) = @_;
-    return $self->{unknown1};
+    return $self->{extra_flag};
 }
 
 sub vport_in_entity {
@@ -7796,9 +7876,9 @@ sub handling_id {
     return $self->{handling_id};
 }
 
-sub space {
+sub viewport {
     my ($self) = @_;
-    return $self->{space};
+    return $self->{viewport};
 }
 
 sub x {
@@ -7893,9 +7973,9 @@ sub _read {
         $self->{entity_elevation} = $self->{_io}->read_f8le();
     }
     if ($self->entity_mode()->has_pspace()) {
-        $self->{unknown1} = $self->{_io}->read_u1();
+        $self->{extra_flag} = CAD::Format::DWG::AC1009::ExtraFlag->new($self->{_io}, $self, $self->{_root});
     }
-    if ( (($self->entity_mode()->has_pspace()) && ($self->unknown1() == 6)) ) {
+    if ($self->extra_flag()->has_eed()) {
         $self->{vport_in_entity} = CAD::Format::DWG::AC1009::VportInEntity->new($self->{_io}, $self, $self->{_root});
     }
     if ($self->entity_mode()->has_handling()) {
@@ -7904,8 +7984,8 @@ sub _read {
     if ($self->entity_mode()->has_handling()) {
         $self->{handling_id} = $self->{_io}->read_bytes($self->len_handling_id());
     }
-    if ($self->entity_mode()->has_pspace()) {
-        $self->{space} = $self->{_io}->read_u2le();
+    if ($self->extra_flag()->has_viewport()) {
+        $self->{viewport} = $self->{_io}->read_u2le();
     }
     $self->{x} = $self->{_io}->read_f8le();
     $self->{y} = $self->{_io}->read_f8le();
@@ -7964,9 +8044,9 @@ sub entity_elevation {
     return $self->{entity_elevation};
 }
 
-sub unknown1 {
+sub extra_flag {
     my ($self) = @_;
-    return $self->{unknown1};
+    return $self->{extra_flag};
 }
 
 sub vport_in_entity {
@@ -7984,9 +8064,9 @@ sub handling_id {
     return $self->{handling_id};
 }
 
-sub space {
+sub viewport {
     my ($self) = @_;
-    return $self->{space};
+    return $self->{viewport};
 }
 
 sub x {
@@ -8227,13 +8307,13 @@ sub _read {
     if ($self->entity_mode()->has_thickness()) {
         $self->{entity_thickness} = $self->{_io}->read_f8le();
     }
-    if ($self->entity_mode()->has_elevation()) {
+    if (!($self->entity_mode()->has_elevation())) {
         $self->{entity_elevation} = $self->{_io}->read_f8le();
     }
     if ($self->entity_mode()->has_pspace()) {
-        $self->{unknown1} = $self->{_io}->read_u1();
+        $self->{extra_flag} = CAD::Format::DWG::AC1009::ExtraFlag->new($self->{_io}, $self, $self->{_root});
     }
-    if ( (($self->entity_mode()->has_pspace()) && ($self->unknown1() == 6)) ) {
+    if ($self->extra_flag()->has_eed()) {
         $self->{vport_in_entity} = CAD::Format::DWG::AC1009::VportInEntity->new($self->{_io}, $self, $self->{_root});
     }
     if ($self->entity_mode()->has_handling()) {
@@ -8242,8 +8322,8 @@ sub _read {
     if ($self->entity_mode()->has_handling()) {
         $self->{handling_id} = $self->{_io}->read_bytes($self->len_handling_id());
     }
-    if ($self->entity_mode()->has_pspace()) {
-        $self->{space} = $self->{_io}->read_u2le();
+    if ($self->extra_flag()->has_viewport()) {
+        $self->{viewport} = $self->{_io}->read_u2le();
     }
     $self->{x1} = $self->{_io}->read_f8le();
     $self->{y1} = $self->{_io}->read_f8le();
@@ -8298,9 +8378,9 @@ sub entity_elevation {
     return $self->{entity_elevation};
 }
 
-sub unknown1 {
+sub extra_flag {
     my ($self) = @_;
-    return $self->{unknown1};
+    return $self->{extra_flag};
 }
 
 sub vport_in_entity {
@@ -8318,9 +8398,9 @@ sub handling_id {
     return $self->{handling_id};
 }
 
-sub space {
+sub viewport {
     my ($self) = @_;
-    return $self->{space};
+    return $self->{viewport};
 }
 
 sub x1 {
@@ -8585,9 +8665,9 @@ sub _read {
         $self->{entity_elevation} = $self->{_io}->read_f8le();
     }
     if ($self->entity_mode()->has_pspace()) {
-        $self->{unknown1} = $self->{_io}->read_u1();
+        $self->{extra_flag} = CAD::Format::DWG::AC1009::ExtraFlag->new($self->{_io}, $self, $self->{_root});
     }
-    if ( (($self->entity_mode()->has_pspace()) && ($self->unknown1() == 6)) ) {
+    if ($self->extra_flag()->has_eed()) {
         $self->{vport_in_entity} = CAD::Format::DWG::AC1009::VportInEntity->new($self->{_io}, $self, $self->{_root});
     }
     if ($self->entity_mode()->has_handling()) {
@@ -8596,8 +8676,8 @@ sub _read {
     if ($self->entity_mode()->has_handling()) {
         $self->{handling_id} = $self->{_io}->read_bytes($self->len_handling_id());
     }
-    if ($self->entity_mode()->has_pspace()) {
-        $self->{space} = $self->{_io}->read_u2le();
+    if ($self->extra_flag()->has_viewport()) {
+        $self->{viewport} = $self->{_io}->read_u2le();
     }
     if ($self->entity_common()->flag3_1()) {
         $self->{z} = $self->{_io}->read_f8le();
@@ -8657,9 +8737,9 @@ sub entity_elevation {
     return $self->{entity_elevation};
 }
 
-sub unknown1 {
+sub extra_flag {
     my ($self) = @_;
-    return $self->{unknown1};
+    return $self->{extra_flag};
 }
 
 sub vport_in_entity {
@@ -8677,9 +8757,9 @@ sub handling_id {
     return $self->{handling_id};
 }
 
-sub space {
+sub viewport {
     my ($self) = @_;
-    return $self->{space};
+    return $self->{viewport};
 }
 
 sub z {

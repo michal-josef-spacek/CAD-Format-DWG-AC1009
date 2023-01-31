@@ -151,6 +151,24 @@ types:
         type: b1
       - id: flag8
         type: b1
+  extra_flag:
+    seq:
+      - id: flag1
+        type: b1
+      - id: flag2
+        type: b1
+      - id: flag3
+        type: b1
+      - id: flag4
+        type: b1
+      - id: flag5
+        type: b1
+      - id: has_viewport
+        type: b1
+      - id: has_eed
+        type: b1
+      - id: flag8
+        type: b1
   header:
     seq:
       - id: magic
@@ -1078,21 +1096,21 @@ types:
       - id: entity_elevation
         type: f8
         if: entity_mode.has_elevation
-      - id: unknown1
-        type: u1
+      - id: extra_flag
+        type: extra_flag
         if: entity_mode.has_pspace
       - id: vport_in_entity
         type: vport_in_entity
-        if: entity_mode.has_pspace and unknown1 == 6
+        if: extra_flag.has_eed
       - id: len_handling_id
         type: u1
         if: entity_mode.has_handling
       - id: handling_id
         size: len_handling_id
         if: entity_mode.has_handling
-      - id: space
+      - id: viewport
         type: u2
-        if: entity_mode.has_pspace
+        if: extra_flag.has_viewport
       - id: center_point
         type: point_3d
         doc: ARC/10|20|30
@@ -1126,21 +1144,21 @@ types:
       - id: entity_elevation
         type: f8
         if: entity_mode.has_elevation
-      - id: unknown1
-        type: u1
+      - id: extra_flag
+        type: extra_flag
         if: entity_mode.has_pspace
       - id: vport_in_entity
         type: vport_in_entity
-        if: entity_mode.has_pspace and unknown1 == 6
+        if: extra_flag.has_eed
       - id: len_handling_id
         type: u1
         if: entity_mode.has_handling
       - id: handling_id
         size: len_handling_id
         if: entity_mode.has_handling
-      - id: space
+      - id: viewport
         type: u2
-        if: entity_mode.has_pspace
+        if: extra_flag.has_viewport
       - id: start_point
         type: point_2d
         doc: ATTDEF/10|20
@@ -1227,21 +1245,21 @@ types:
       - id: entity_elevation
         type: f8
         if: entity_mode.has_elevation
-      - id: unknown1
-        type: u1
+      - id: extra_flag
+        type: extra_flag
         if: entity_mode.has_pspace
       - id: vport_in_entity
         type: vport_in_entity
-        if: entity_mode.has_pspace and unknown1 == 6
+        if: extra_flag.has_eed
       - id: len_handling_id
         type: u1
         if: entity_mode.has_handling
       - id: handling_id
         size: len_handling_id
         if: entity_mode.has_handling
-      - id: space
+      - id: viewport
         type: u2
-        if: entity_mode.has_pspace
+        if: extra_flag.has_viewport
       - id: point_from
         type: point_2d
         doc: ATTRIB/10|20
@@ -1336,21 +1354,21 @@ types:
       - id: entity_elevation
         type: f8
         if: entity_mode.has_elevation
-      - id: unknown1
-        type: u1
+      - id: extra_flag
+        type: extra_flag
         if: entity_mode.has_pspace
       - id: vport_in_entity
         type: vport_in_entity
-        if: entity_mode.has_pspace and unknown1 == 6
+        if: extra_flag.has_eed
       - id: len_handling_id
         type: u1
         if: entity_mode.has_handling
       - id: handling_id
         size: len_handling_id
         if: entity_mode.has_handling
-      - id: space
+      - id: viewport
         type: u2
-        if: entity_mode.has_pspace
+        if: extra_flag.has_viewport
       - id: insert_point
         type: point_2d
         doc: BLOCK/10|20
@@ -1398,21 +1416,21 @@ types:
       - id: entity_elevation
         type: f8
         if: entity_mode.has_elevation
-      - id: unknown1
-        type: u1
+      - id: extra_flag
+        type: extra_flag
         if: entity_mode.has_pspace
       - id: vport_in_entity
         type: vport_in_entity
-        if: entity_mode.has_pspace and unknown1 == 6
+        if: extra_flag.has_eed
       - id: len_handling_id
         type: u1
         if: entity_mode.has_handling
       - id: handling_id
         size: len_handling_id
         if: entity_mode.has_handling
-      - id: space
+      - id: viewport
         type: u2
-        if: entity_mode.has_pspace
+        if: extra_flag.has_viewport
       - id: crc16
         size: 2
   entity_insert:
@@ -1437,21 +1455,21 @@ types:
       - id: entity_elevation
         type: f8
         if: entity_mode.has_elevation
-      - id: unknown1
-        type: u1
+      - id: extra_flag
+        type: extra_flag
         if: entity_mode.has_pspace
       - id: vport_in_entity
         type: vport_in_entity
-        if: entity_mode.has_pspace and unknown1 == 6
+        if: extra_flag.has_eed
       - id: len_handling_id
         type: u1
         if: entity_mode.has_handling
       - id: handling_id
         size: len_handling_id
         if: entity_mode.has_handling
-      - id: space
+      - id: viewport
         type: u2
-        if: entity_mode.has_pspace
+        if: extra_flag.has_viewport
       - id: block_index
         type: s2
         doc: INSERT/2
@@ -1517,21 +1535,21 @@ types:
       - id: entity_elevation
         type: f8
         if: entity_mode.has_elevation
-      - id: unknown1
-        type: u1
+      - id: extra_flag
+        type: extra_flag
         if: entity_mode.has_pspace
       - id: vport_in_entity
         type: vport_in_entity
-        if: entity_mode.has_pspace and unknown1 == 6
+        if: extra_flag.has_eed
       - id: len_handling_id
         type: u1
         if: entity_mode.has_handling
       - id: handling_id
         size: len_handling_id
         if: entity_mode.has_handling
-      - id: space
+      - id: viewport
         type: u2
-        if: entity_mode.has_pspace
+        if: extra_flag.has_viewport
       - id: center_point
         type: point_2d
         doc: CIRCLE/10|20
@@ -1562,21 +1580,21 @@ types:
       - id: entity_elevation
         type: f8
         if: entity_mode.has_elevation
-      - id: unknown1
-        type: u1
+      - id: extra_flag
+        type: extra_flag
         if: entity_mode.has_pspace
       - id: vport_in_entity
         type: vport_in_entity
-        if: entity_mode.has_pspace and unknown1 == 6
+        if: extra_flag.has_eed
       - id: len_handling_id
         type: u1
         if: entity_mode.has_handling
       - id: handling_id
         size: len_handling_id
         if: entity_mode.has_handling
-      - id: space
+      - id: viewport
         type: u2
-        if: entity_mode.has_pspace
+        if: extra_flag.has_viewport
       - id: block_index
         type: s2
       - id: dimension_line_defining_point
@@ -1689,21 +1707,21 @@ types:
       - id: entity_elevation
         type: f8
         if: entity_mode.has_elevation
-      - id: unknown1
-        type: u1
+      - id: extra_flag
+        type: extra_flag
         if: entity_mode.has_pspace
       - id: vport_in_entity
         type: vport_in_entity
-        if: entity_mode.has_pspace and unknown1 == 6
+        if: extra_flag.has_eed
       - id: len_handling_id
         type: u1
         if: entity_mode.has_handling
       - id: handling_id
         size: len_handling_id
         if: entity_mode.has_handling
-      - id: space
+      - id: viewport
         type: u2
-        if: entity_mode.has_pspace
+        if: extra_flag.has_viewport
       - id: first_point_x
         type: f8
       - id: first_point_y
@@ -1755,22 +1773,22 @@ types:
         if: entity_mode.has_thickness
       - id: entity_elevation
         type: f8
-        if: entity_mode.has_elevation
-      - id: unknown1
-        type: u1
+        if: not entity_mode.has_elevation
+      - id: extra_flag
+        type: extra_flag
         if: entity_mode.has_pspace
       - id: vport_in_entity
         type: vport_in_entity
-        if: entity_mode.has_pspace and unknown1 == 6
+        if: extra_flag.has_eed
       - id: len_handling_id
         type: u1
         if: entity_mode.has_handling
       - id: handling_id
         size: len_handling_id
         if: entity_mode.has_handling
-      - id: space
+      - id: viewport
         type: u2
-        if: entity_mode.has_pspace
+        if: extra_flag.has_viewport
       - id: x1
         type: f8
         doc: LINE/10
@@ -1859,21 +1877,21 @@ types:
       - id: entity_elevation
         type: f8
         if: entity_mode.has_elevation
-      - id: unknown1
-        type: u1
+      - id: extra_flag
+        type: extra_flag
         if: entity_mode.has_pspace
       - id: vport_in_entity
         type: vport_in_entity
-        if: entity_mode.has_pspace and unknown1 == 6
+        if: extra_flag.has_eed
       - id: len_handling_id
         type: u1
         if: entity_mode.has_handling
       - id: handling_id
         size: len_handling_id
         if: entity_mode.has_handling
-      - id: space
+      - id: viewport
         type: u2
-        if: entity_mode.has_pspace
+        if: extra_flag.has_viewport
       - id: x
         type: f8
         doc: POINT/10
@@ -1908,21 +1926,21 @@ types:
       - id: entity_elevation
         type: f8
         if: entity_mode.has_elevation
-      - id: unknown1
-        type: u1
+      - id: extra_flag
+        type: extra_flag
         if: entity_mode.has_pspace
       - id: vport_in_entity
         type: vport_in_entity
-        if: entity_mode.has_pspace and unknown1 == 6
+        if: extra_flag.has_eed
       - id: len_handling_id
         type: u1
         if: entity_mode.has_handling
       - id: handling_id
         size: len_handling_id
         if: entity_mode.has_handling
-      - id: space
+      - id: viewport
         type: u2
-        if: entity_mode.has_pspace
+        if: extra_flag.has_viewport
       - id: z
         type: f8
         if: entity_common.flag3_1
@@ -1984,21 +2002,21 @@ types:
       - id: entity_elevation
         type: f8
         if: entity_mode.has_elevation
-      - id: unknown1
-        type: u1
+      - id: extra_flag
+        type: extra_flag
         if: entity_mode.has_pspace
       - id: vport_in_entity
         type: vport_in_entity
-        if: entity_mode.has_pspace and unknown1 == 6
+        if: extra_flag.has_eed
       - id: len_handling_id
         type: u1
         if: entity_mode.has_handling
       - id: handling_id
         size: len_handling_id
         if: entity_mode.has_handling
-      - id: space
+      - id: viewport
         type: u2
-        if: entity_mode.has_pspace
+        if: extra_flag.has_viewport
       - id: unknown
         size: 4
       - id: crc16
@@ -2025,21 +2043,21 @@ types:
       - id: entity_elevation
         type: f8
         if: entity_mode.has_elevation
-      - id: unknown1
-        type: u1
+      - id: extra_flag
+        type: extra_flag
         if: entity_mode.has_pspace
       - id: vport_in_entity
         type: vport_in_entity
-        if: entity_mode.has_pspace and unknown1 == 6
+        if: extra_flag.has_eed
       - id: len_handling_id
         type: u1
         if: entity_mode.has_handling
       - id: handling_id
         size: len_handling_id
         if: entity_mode.has_handling
-      - id: space
+      - id: viewport
         type: u2
-        if: entity_mode.has_pspace
+        if: extra_flag.has_viewport
       - id: x
         type: f8
         doc: SHAPE/10
@@ -2091,21 +2109,21 @@ types:
       - id: entity_elevation
         type: f8
         if: entity_mode.has_elevation
-      - id: unknown1
-        type: u1
+      - id: extra_flag
+        type: extra_flag
         if: entity_mode.has_pspace
       - id: vport_in_entity
         type: vport_in_entity
-        if: entity_mode.has_pspace and unknown1 == 6
+        if: extra_flag.has_eed
       - id: len_handling_id
         type: u1
         if: entity_mode.has_handling
       - id: handling_id
         size: len_handling_id
         if: entity_mode.has_handling
-      - id: space
+      - id: viewport
         type: u2
-        if: entity_mode.has_pspace
+        if: extra_flag.has_viewport
       - id: from
         type: point_2d
       - id: from_and
@@ -2138,21 +2156,21 @@ types:
       - id: entity_elevation
         type: f8
         if: entity_mode.has_elevation
-      - id: unknown1
-        type: u1
+      - id: extra_flag
+        type: extra_flag
         if: entity_mode.has_pspace
       - id: vport_in_entity
         type: vport_in_entity
-        if: entity_mode.has_pspace and unknown1 == 6
+        if: extra_flag.has_eed
       - id: len_handling_id
         type: u1
         if: entity_mode.has_handling
       - id: handling_id
         size: len_handling_id
         if: entity_mode.has_handling
-      - id: space
+      - id: viewport
         type: u2
-        if: entity_mode.has_pspace
+        if: extra_flag.has_viewport
       - id: insert_point
         type: point_2d
         doc: TEXT/10|20
@@ -2225,21 +2243,21 @@ types:
       - id: entity_elevation
         type: f8
         if: entity_mode.has_elevation
-      - id: unknown1
-        type: u1
+      - id: extra_flag
+        type: extra_flag
         if: entity_mode.has_pspace
       - id: vport_in_entity
         type: vport_in_entity
-        if: entity_mode.has_pspace and unknown1 == 6
+        if: extra_flag.has_eed
       - id: len_handling_id
         type: u1
         if: entity_mode.has_handling
       - id: handling_id
         size: len_handling_id
         if: entity_mode.has_handling
-      - id: space
+      - id: viewport
         type: u2
-        if: entity_mode.has_pspace
+        if: extra_flag.has_viewport
       - id: from
         type: point_2d
       - id: from_and
@@ -2272,21 +2290,21 @@ types:
       - id: entity_elevation
         type: f8
         if: entity_mode.has_elevation
-      - id: unknown1
-        type: u1
+      - id: extra_flag
+        type: extra_flag
         if: entity_mode.has_pspace
       - id: vport_in_entity
         type: vport_in_entity
-        if: entity_mode.has_pspace and unknown1 == 6
+        if: extra_flag.has_eed
       - id: len_handling_id
         type: u1
         if: entity_mode.has_handling
       - id: handling_id
         size: len_handling_id
         if: entity_mode.has_handling
-      - id: space
+      - id: viewport
         type: u2
-        if: entity_mode.has_pspace
+        if: extra_flag.has_viewport
       - id: x
         type: f8
         doc: VERTEX/10
@@ -2332,21 +2350,21 @@ types:
       - id: entity_elevation
         type: f8
         if: entity_mode.has_elevation
-      - id: unknown1
-        type: u1
+      - id: extra_flag
+        type: extra_flag
         if: entity_mode.has_pspace
       - id: vport_in_entity
         type: vport_in_entity
-        if: entity_mode.has_pspace and unknown1 == 6
+        if: extra_flag.has_eed
       - id: len_handling_id
         type: u1
         if: entity_mode.has_handling
       - id: handling_id
         size: len_handling_id
         if: entity_mode.has_handling
-      - id: space
+      - id: viewport
         type: u2
-        if: entity_mode.has_pspace
+        if: extra_flag.has_viewport
       - id: x
         type: f8
         doc: VIEWPORT/10
@@ -2362,9 +2380,9 @@ types:
       - id: height
         type: f8
         doc: VIEWPORT/41
-      - id: u1
+      - id: id
         type: s2
-        doc: VIEWPORT/68/69 ?
+        doc: VIEWPORT/69
       - id: crc16
         size: 2
   attdef_flags:
