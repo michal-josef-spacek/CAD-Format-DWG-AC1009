@@ -6,7 +6,8 @@ attrib is
 5. Fix block flags - partially bad
 Probably none only
 6. Implement eed
-7.
+7. Rename has_elevation to not_elevation?
+8.
 
 Applied
 =======
