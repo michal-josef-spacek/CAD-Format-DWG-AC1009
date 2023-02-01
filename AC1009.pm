@@ -1796,6 +1796,9 @@ sub _read {
     if ($self->entity_insert_flags()->has_row_spacing()) {
         $self->{row_spacing} = $self->{_io}->read_f8le();
     }
+    if ($self->entity_insert_flags()->has_extrusion()) {
+        $self->{extrusion} = CAD::Format::DWG::AC1009::Point3d->new($self->{_io}, $self, $self->{_root});
+    }
     $self->{crc16} = $self->{_io}->read_bytes(2);
 }
 
@@ -1917,6 +1920,11 @@ sub column_spacing {
 sub row_spacing {
     my ($self) = @_;
     return $self->{row_spacing};
+}
+
+sub extrusion {
+    my ($self) = @_;
+    return $self->{extrusion};
 }
 
 sub crc16 {

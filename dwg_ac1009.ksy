@@ -1525,6 +1525,10 @@ types:
         type: f8
         if: entity_insert_flags.has_row_spacing
         doc: INSERT/45
+      - id: extrusion
+        type: point_3d
+        if: entity_insert_flags.has_extrusion
+        doc: INSERT/210
       - id: crc16
         size: 2
   entity_insert_flags:
