@@ -1195,10 +1195,10 @@ types:
         encoding: ASCII
         terminator: 0x00
         doc: ATTDEF/3
-      - id: tag_size
+      - id: len_tag
         type: s2
       - id: tag
-        size: tag_size
+        size: len_tag
         type: str
         encoding: ASCII
         terminator: 0x00

@@ -4673,8 +4673,8 @@ sub _read {
     $self->{default} = Encode::decode("ASCII", IO::KaitaiStruct::Stream::bytes_terminate($self->{_io}->read_bytes($self->default_size()), 0, 0));
     $self->{prompt_size} = $self->{_io}->read_s2le();
     $self->{prompt} = Encode::decode("ASCII", IO::KaitaiStruct::Stream::bytes_terminate($self->{_io}->read_bytes($self->prompt_size()), 0, 0));
-    $self->{tag_size} = $self->{_io}->read_s2le();
-    $self->{tag} = Encode::decode("ASCII", IO::KaitaiStruct::Stream::bytes_terminate($self->{_io}->read_bytes($self->tag_size()), 0, 0));
+    $self->{len_tag} = $self->{_io}->read_s2le();
+    $self->{tag} = Encode::decode("ASCII", IO::KaitaiStruct::Stream::bytes_terminate($self->{_io}->read_bytes($self->len_tag()), 0, 0));
     $self->{flags} = CAD::Format::DWG::AC1009::AttdefFlags->new($self->{_io}, $self, $self->{_root});
     if ($self->entity_common()->flag2_7()) {
         $self->{rotation_angle_in_radians} = $self->{_io}->read_f8le();
@@ -4795,9 +4795,9 @@ sub prompt {
     return $self->{prompt};
 }
 
-sub tag_size {
+sub len_tag {
     my ($self) = @_;
-    return $self->{tag_size};
+    return $self->{len_tag};
 }
 
 sub tag {
