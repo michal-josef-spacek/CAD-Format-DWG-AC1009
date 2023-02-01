@@ -1044,6 +1044,7 @@ types:
             'eeds::eed_1001': eed_1001
             'eeds::eed_1002': eed_1002
             'eeds::eed_1003': eed_1003
+            'eeds::eed_1004': eed_1004
             'eeds::eed_1005': eed_1005
             'eeds::eed_1010': eed_1010
             'eeds::eed_1040': eed_1040
@@ -1068,6 +1069,12 @@ types:
     seq:
       - id: value
         type: u2
+  eed_1004:
+    seq:
+      - id: len_value
+        type: u1
+      - id: value
+        size: len_value
   eed_1005:
     seq:
       - id: value
@@ -3149,6 +3156,7 @@ enums:
     1: eed_1001
     2: eed_1002
     3: eed_1003
+    4: eed_1004
     5: eed_1005
     10: eed_1010
     40: eed_1040

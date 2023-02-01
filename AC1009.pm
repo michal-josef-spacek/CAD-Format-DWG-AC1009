@@ -55,6 +55,7 @@ our $EEDS_EED_1000 = 0;
 our $EEDS_EED_1001 = 1;
 our $EEDS_EED_1002 = 2;
 our $EEDS_EED_1003 = 3;
+our $EEDS_EED_1004 = 4;
 our $EEDS_EED_1005 = 5;
 our $EEDS_EED_1010 = 10;
 our $EEDS_EED_1040 = 40;
@@ -3129,6 +3130,9 @@ sub _read {
     if ($_on == $CAD::Format::DWG::AC1009::EEDS_EED_1010) {
         $self->{data} = CAD::Format::DWG::AC1009::Eed1010->new($self->{_io}, $self, $self->{_root});
     }
+    elsif ($_on == $CAD::Format::DWG::AC1009::EEDS_EED_1004) {
+        $self->{data} = CAD::Format::DWG::AC1009::Eed1004->new($self->{_io}, $self, $self->{_root});
+    }
     elsif ($_on == $CAD::Format::DWG::AC1009::EEDS_EED_1002) {
         $self->{data} = CAD::Format::DWG::AC1009::Eed1002->new($self->{_io}, $self, $self->{_root});
     }
@@ -5558,6 +5562,50 @@ sub flag_7 {
 sub extra_vertex {
     my ($self) = @_;
     return $self->{extra_vertex};
+}
+
+########################################################################
+package CAD::Format::DWG::AC1009::Eed1004;
+
+our @ISA = 'IO::KaitaiStruct::Struct';
+
+sub from_file {
+    my ($class, $filename) = @_;
+    my $fd;
+
+    open($fd, '<', $filename) or return undef;
+    binmode($fd);
+    return new($class, IO::KaitaiStruct::Stream->new($fd));
+}
+
+sub new {
+    my ($class, $_io, $_parent, $_root) = @_;
+    my $self = IO::KaitaiStruct::Struct->new($_io);
+
+    bless $self, $class;
+    $self->{_parent} = $_parent;
+    $self->{_root} = $_root || $self;;
+
+    $self->_read();
+
+    return $self;
+}
+
+sub _read {
+    my ($self) = @_;
+
+    $self->{len_value} = $self->{_io}->read_u1();
+    $self->{value} = $self->{_io}->read_bytes($self->len_value());
+}
+
+sub len_value {
+    my ($self) = @_;
+    return $self->{len_value};
+}
+
+sub value {
+    my ($self) = @_;
+    return $self->{value};
 }
 
 ########################################################################
