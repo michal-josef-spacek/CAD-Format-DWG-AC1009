@@ -1455,8 +1455,8 @@ types:
         type: s2
       - id: entity_layer_index
         type: s2
-      - id: entity_common
-        type: entity_common
+      - id: entity_insert_flags
+        type: entity_insert_flags
       - id: entity_color
         type: s1
         if: entity_mode.has_color
@@ -1495,38 +1495,72 @@ types:
         doc: INSERT/20
       - id: x_scale
         type: f8
-        if: entity_common.flag2_8
+        if: entity_insert_flags.has_x_scale
         doc: INSERT/41
       - id: y_scale
         type: f8
-        if: entity_common.flag2_7
+        if: entity_insert_flags.has_y_scale
         doc: INSERT/42
       - id: rotation_angle_in_radians
         type: f8
-        if: entity_common.flag2_6
+        if: entity_insert_flags.has_rotation
         doc: INSERT/50
       - id: z_scale
         type: f8
-        if: entity_common.flag2_5
+        if: entity_insert_flags.has_z_scale
         doc: INSERT/43
       - id: columns
         type: u2
-        if: entity_common.flag2_4
+        if: entity_insert_flags.has_columns
         doc: INSERT/70
       - id: rows
         type: u2
-        if: entity_common.flag2_3
+        if: entity_insert_flags.has_rows
         doc: INSERT/71
       - id: column_spacing
         type: f8
-        if: entity_common.flag2_2
+        if: entity_insert_flags.has_column_spacing
         doc: INSERT/44
       - id: row_spacing
         type: f8
-        if: entity_common.flag2_1
+        if: entity_insert_flags.has_row_spacing
         doc: INSERT/45
       - id: crc16
         size: 2
+  entity_insert_flags:
+    seq:
+      - id: has_row_spacing
+        type: b1
+      - id: has_column_spacing
+        type: b1
+      - id: has_rows
+        type: b1
+      - id: has_columns
+        type: b1
+      - id: has_z_scale
+        type: b1
+      - id: has_rotation
+        type: b1
+      - id: has_y_scale
+        type: b1
+      - id: has_x_scale
+        type: b1
+      - id: flag3_1
+        type: b1
+      - id: flag3_2
+        type: b1
+      - id: flag3_3
+        type: b1
+      - id: flag3_4
+        type: b1
+      - id: flag3_5
+        type: b1
+      - id: flag3_6
+        type: b1
+      - id: flag3_7
+        type: b1
+      - id: has_extrusion
+        type: b1
   entity_circle:
     seq:
       - id: entity_mode

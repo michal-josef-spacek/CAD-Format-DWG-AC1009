@@ -1741,7 +1741,7 @@ sub _read {
     $self->{entity_mode} = CAD::Format::DWG::AC1009::EntityMode->new($self->{_io}, $self, $self->{_root});
     $self->{entity_size} = $self->{_io}->read_s2le();
     $self->{entity_layer_index} = $self->{_io}->read_s2le();
-    $self->{entity_common} = CAD::Format::DWG::AC1009::EntityCommon->new($self->{_io}, $self, $self->{_root});
+    $self->{entity_insert_flags} = CAD::Format::DWG::AC1009::EntityInsertFlags->new($self->{_io}, $self, $self->{_root});
     if ($self->entity_mode()->has_color()) {
         $self->{entity_color} = $self->{_io}->read_s1();
     }
@@ -1772,28 +1772,28 @@ sub _read {
     $self->{block_index} = $self->{_io}->read_s2le();
     $self->{x} = $self->{_io}->read_f8le();
     $self->{y} = $self->{_io}->read_f8le();
-    if ($self->entity_common()->flag2_8()) {
+    if ($self->entity_insert_flags()->has_x_scale()) {
         $self->{x_scale} = $self->{_io}->read_f8le();
     }
-    if ($self->entity_common()->flag2_7()) {
+    if ($self->entity_insert_flags()->has_y_scale()) {
         $self->{y_scale} = $self->{_io}->read_f8le();
     }
-    if ($self->entity_common()->flag2_6()) {
+    if ($self->entity_insert_flags()->has_rotation()) {
         $self->{rotation_angle_in_radians} = $self->{_io}->read_f8le();
     }
-    if ($self->entity_common()->flag2_5()) {
+    if ($self->entity_insert_flags()->has_z_scale()) {
         $self->{z_scale} = $self->{_io}->read_f8le();
     }
-    if ($self->entity_common()->flag2_4()) {
+    if ($self->entity_insert_flags()->has_columns()) {
         $self->{columns} = $self->{_io}->read_u2le();
     }
-    if ($self->entity_common()->flag2_3()) {
+    if ($self->entity_insert_flags()->has_rows()) {
         $self->{rows} = $self->{_io}->read_u2le();
     }
-    if ($self->entity_common()->flag2_2()) {
+    if ($self->entity_insert_flags()->has_column_spacing()) {
         $self->{column_spacing} = $self->{_io}->read_f8le();
     }
-    if ($self->entity_common()->flag2_1()) {
+    if ($self->entity_insert_flags()->has_row_spacing()) {
         $self->{row_spacing} = $self->{_io}->read_f8le();
     }
     $self->{crc16} = $self->{_io}->read_bytes(2);
@@ -1814,9 +1814,9 @@ sub entity_layer_index {
     return $self->{entity_layer_index};
 }
 
-sub entity_common {
+sub entity_insert_flags {
     my ($self) = @_;
-    return $self->{entity_common};
+    return $self->{entity_insert_flags};
 }
 
 sub entity_color {
@@ -2778,6 +2778,134 @@ sub y {
 sub z {
     my ($self) = @_;
     return $self->{z};
+}
+
+########################################################################
+package CAD::Format::DWG::AC1009::EntityInsertFlags;
+
+our @ISA = 'IO::KaitaiStruct::Struct';
+
+sub from_file {
+    my ($class, $filename) = @_;
+    my $fd;
+
+    open($fd, '<', $filename) or return undef;
+    binmode($fd);
+    return new($class, IO::KaitaiStruct::Stream->new($fd));
+}
+
+sub new {
+    my ($class, $_io, $_parent, $_root) = @_;
+    my $self = IO::KaitaiStruct::Struct->new($_io);
+
+    bless $self, $class;
+    $self->{_parent} = $_parent;
+    $self->{_root} = $_root || $self;;
+
+    $self->_read();
+
+    return $self;
+}
+
+sub _read {
+    my ($self) = @_;
+
+    $self->{has_row_spacing} = $self->{_io}->read_bits_int_be(1);
+    $self->{has_column_spacing} = $self->{_io}->read_bits_int_be(1);
+    $self->{has_rows} = $self->{_io}->read_bits_int_be(1);
+    $self->{has_columns} = $self->{_io}->read_bits_int_be(1);
+    $self->{has_z_scale} = $self->{_io}->read_bits_int_be(1);
+    $self->{has_rotation} = $self->{_io}->read_bits_int_be(1);
+    $self->{has_y_scale} = $self->{_io}->read_bits_int_be(1);
+    $self->{has_x_scale} = $self->{_io}->read_bits_int_be(1);
+    $self->{flag3_1} = $self->{_io}->read_bits_int_be(1);
+    $self->{flag3_2} = $self->{_io}->read_bits_int_be(1);
+    $self->{flag3_3} = $self->{_io}->read_bits_int_be(1);
+    $self->{flag3_4} = $self->{_io}->read_bits_int_be(1);
+    $self->{flag3_5} = $self->{_io}->read_bits_int_be(1);
+    $self->{flag3_6} = $self->{_io}->read_bits_int_be(1);
+    $self->{flag3_7} = $self->{_io}->read_bits_int_be(1);
+    $self->{has_extrusion} = $self->{_io}->read_bits_int_be(1);
+}
+
+sub has_row_spacing {
+    my ($self) = @_;
+    return $self->{has_row_spacing};
+}
+
+sub has_column_spacing {
+    my ($self) = @_;
+    return $self->{has_column_spacing};
+}
+
+sub has_rows {
+    my ($self) = @_;
+    return $self->{has_rows};
+}
+
+sub has_columns {
+    my ($self) = @_;
+    return $self->{has_columns};
+}
+
+sub has_z_scale {
+    my ($self) = @_;
+    return $self->{has_z_scale};
+}
+
+sub has_rotation {
+    my ($self) = @_;
+    return $self->{has_rotation};
+}
+
+sub has_y_scale {
+    my ($self) = @_;
+    return $self->{has_y_scale};
+}
+
+sub has_x_scale {
+    my ($self) = @_;
+    return $self->{has_x_scale};
+}
+
+sub flag3_1 {
+    my ($self) = @_;
+    return $self->{flag3_1};
+}
+
+sub flag3_2 {
+    my ($self) = @_;
+    return $self->{flag3_2};
+}
+
+sub flag3_3 {
+    my ($self) = @_;
+    return $self->{flag3_3};
+}
+
+sub flag3_4 {
+    my ($self) = @_;
+    return $self->{flag3_4};
+}
+
+sub flag3_5 {
+    my ($self) = @_;
+    return $self->{flag3_5};
+}
+
+sub flag3_6 {
+    my ($self) = @_;
+    return $self->{flag3_6};
+}
+
+sub flag3_7 {
+    my ($self) = @_;
+    return $self->{flag3_7};
+}
+
+sub has_extrusion {
+    my ($self) = @_;
+    return $self->{has_extrusion};
 }
 
 ########################################################################
