@@ -3089,7 +3089,9 @@ enums:
     5: quadratic_b_spline
     6: cubic_b_spline
   curve_type:
-    1: unknown_1
+    5: quadratic_b_spline
+    6: cubic_b_spline
+    8: bezier
   eeds:
     0: eed_1000
     1: eed_1001
