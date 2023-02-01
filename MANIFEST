@@ -176,12 +176,14 @@ t/CAD-Format-DWG-AC1009/154-header-zero_one_or_three.t
 t/CAD-Format-DWG-AC1009/155-entities-3dface.t
 t/CAD-Format-DWG-AC1009/156-entities-circle.t
 t/CAD-Format-DWG-AC1009/157-entities-insert.t
+t/CAD-Format-DWG-AC1009/158-entities-line.t
 t/data/blank/BLANK.DWG
 t/data/entity/3dface/3DFACE1.DWG
 t/data/entity/3dface/3DFACE2.DWG
 t/data/entity/circle/CIRCLE1.DWG
 t/data/entity/circle/CIRCLE2.DWG
 t/data/entity/insert/INSERT1.DWG
+t/data/entity/line/LINE1.DWG
 t/data/header/sketch_type/SP1.DWG
 t/data/header/tree_depth/TD1.DWG
 t/data/header/unit_mode/UM0.DWG
