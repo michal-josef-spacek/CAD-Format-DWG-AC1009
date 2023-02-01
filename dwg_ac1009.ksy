@@ -2029,13 +2029,13 @@ types:
         type: b1
       - id: flag3
         type: b1
-      - id: flag4
+      - id: polygon_mesh_3d
         type: b1
-      - id: flag5
+      - id: polyline_3d
         type: b1
-      - id: flag6
+      - id: spline_fit
         type: b1
-      - id: flag7
+      - id: curve_fit
         type: b1
       - id: closed
         type: b1

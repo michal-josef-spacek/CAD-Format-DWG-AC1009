@@ -2129,10 +2129,10 @@ sub _read {
     $self->{flag1} = $self->{_io}->read_bits_int_be(1);
     $self->{flag2} = $self->{_io}->read_bits_int_be(1);
     $self->{flag3} = $self->{_io}->read_bits_int_be(1);
-    $self->{flag4} = $self->{_io}->read_bits_int_be(1);
-    $self->{flag5} = $self->{_io}->read_bits_int_be(1);
-    $self->{flag6} = $self->{_io}->read_bits_int_be(1);
-    $self->{flag7} = $self->{_io}->read_bits_int_be(1);
+    $self->{polygon_mesh_3d} = $self->{_io}->read_bits_int_be(1);
+    $self->{polyline_3d} = $self->{_io}->read_bits_int_be(1);
+    $self->{spline_fit} = $self->{_io}->read_bits_int_be(1);
+    $self->{curve_fit} = $self->{_io}->read_bits_int_be(1);
     $self->{closed} = $self->{_io}->read_bits_int_be(1);
 }
 
@@ -2151,24 +2151,24 @@ sub flag3 {
     return $self->{flag3};
 }
 
-sub flag4 {
+sub polygon_mesh_3d {
     my ($self) = @_;
-    return $self->{flag4};
+    return $self->{polygon_mesh_3d};
 }
 
-sub flag5 {
+sub polyline_3d {
     my ($self) = @_;
-    return $self->{flag5};
+    return $self->{polyline_3d};
 }
 
-sub flag6 {
+sub spline_fit {
     my ($self) = @_;
-    return $self->{flag6};
+    return $self->{spline_fit};
 }
 
-sub flag7 {
+sub curve_fit {
     my ($self) = @_;
-    return $self->{flag7};
+    return $self->{curve_fit};
 }
 
 sub closed {
