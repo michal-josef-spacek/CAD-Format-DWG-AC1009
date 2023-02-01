@@ -9,7 +9,8 @@ Probably none only
 7. Rename has_elevation to not_elevation?
 8. Identify curve_type enum
 9. entity_color after extra_flag or rewrite order
-10.
+10. More tests for insert - with eed. With thickness, extra flags
+11.
 
 Applied
 =======
