@@ -4912,17 +4912,17 @@ sub _read {
         $self->{viewport} = $self->{_io}->read_u2le();
     }
     $self->{insert_point} = CAD::Format::DWG::AC1009::Point2d->new($self->{_io}, $self, $self->{_root});
-    if ($self->entity_common()->flag2_6()) {
-        $self->{ref_size} = $self->{_io}->read_u2le();
+    if ($self->entity_common()->flag2_7()) {
+        $self->{len_xref_pname} = $self->{_io}->read_u2le();
+    }
+    if ($self->entity_common()->flag2_7()) {
+        $self->{xref_pname} = Encode::decode("ASCII", $self->{_io}->read_bytes($self->len_xref_pname()));
     }
     if ($self->entity_common()->flag2_6()) {
-        $self->{ref} = Encode::decode("ASCII", $self->{_io}->read_bytes($self->ref_size()));
+        $self->{len_name} = $self->{_io}->read_u2le();
     }
     if ($self->entity_common()->flag2_6()) {
-        $self->{ref2_size} = $self->{_io}->read_u2le();
-    }
-    if ($self->entity_common()->flag2_6()) {
-        $self->{ref2} = Encode::decode("ASCII", $self->{_io}->read_bytes($self->ref2_size()));
+        $self->{name} = Encode::decode("ASCII", $self->{_io}->read_bytes($self->len_name()));
     }
     $self->{crc16} = $self->{_io}->read_bytes(2);
 }
@@ -4997,24 +4997,24 @@ sub insert_point {
     return $self->{insert_point};
 }
 
-sub ref_size {
+sub len_xref_pname {
     my ($self) = @_;
-    return $self->{ref_size};
+    return $self->{len_xref_pname};
 }
 
-sub ref {
+sub xref_pname {
     my ($self) = @_;
-    return $self->{ref};
+    return $self->{xref_pname};
 }
 
-sub ref2_size {
+sub len_name {
     my ($self) = @_;
-    return $self->{ref2_size};
+    return $self->{len_name};
 }
 
-sub ref2 {
+sub name {
     my ($self) = @_;
-    return $self->{ref2};
+    return $self->{name};
 }
 
 sub crc16 {

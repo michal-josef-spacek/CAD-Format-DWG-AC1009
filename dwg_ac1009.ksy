@@ -1386,26 +1386,24 @@ types:
       - id: insert_point
         type: point_2d
         doc: BLOCK/10|20
-# TODO Maybe flag2_7
-      - id: ref_size
+      - id: len_xref_pname
+        type: u2
+        if: entity_common.flag2_7
+      - id: xref_pname
+        size: len_xref_pname
+        type: str
+        encoding: ASCII
+        if: entity_common.flag2_7
+        doc: BLOCK/1
+      - id: len_name
         type: u2
         if: entity_common.flag2_6
-# TODO Maybe flag2_7
-      - id: ref
-        size: ref_size
+      - id: name
+        size: len_name
         type: str
         encoding: ASCII
         if: entity_common.flag2_6
-# TODO Maybe flag2_7
-      - id: ref2_size
-        type: u2
-        if: entity_common.flag2_6
-# TODO Maybe flag2_7
-      - id: ref2
-        size: ref2_size
-        type: str
-        encoding: ASCII
-        if: entity_common.flag2_6
+        doc: BLOCK/3
       - id: crc16
         size: 2
   entity_block_end:
