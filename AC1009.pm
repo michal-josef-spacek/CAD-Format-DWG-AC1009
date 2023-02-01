@@ -9027,6 +9027,12 @@ sub _read {
     if ($self->entity_common()->flag2_3()) {
         $self->{num_n_verts} = $self->{_io}->read_u2le();
     }
+    if ($self->entity_common()->flag2_2()) {
+        $self->{m_density} = $self->{_io}->read_u2le();
+    }
+    if ($self->entity_common()->flag2_1()) {
+        $self->{n_density} = $self->{_io}->read_u2le();
+    }
     if ($self->entity_common()->flag3_8()) {
         $self->{curve_type} = $self->{_io}->read_u2le();
     }
@@ -9129,6 +9135,16 @@ sub num_m_verts {
 sub num_n_verts {
     my ($self) = @_;
     return $self->{num_n_verts};
+}
+
+sub m_density {
+    my ($self) = @_;
+    return $self->{m_density};
+}
+
+sub n_density {
+    my ($self) = @_;
+    return $self->{n_density};
 }
 
 sub curve_type {
