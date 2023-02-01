@@ -9021,6 +9021,12 @@ sub _read {
     if ($self->entity_common()->flag2_5()) {
         $self->{extrusion} = CAD::Format::DWG::AC1009::Point3d->new($self->{_io}, $self, $self->{_root});
     }
+    if ($self->entity_common()->flag2_4()) {
+        $self->{num_m_verts} = $self->{_io}->read_u2le();
+    }
+    if ($self->entity_common()->flag2_3()) {
+        $self->{num_n_verts} = $self->{_io}->read_u2le();
+    }
     if ($self->entity_common()->flag3_8()) {
         $self->{curve_type} = $self->{_io}->read_u2le();
     }
@@ -9113,6 +9119,16 @@ sub end_width {
 sub extrusion {
     my ($self) = @_;
     return $self->{extrusion};
+}
+
+sub num_m_verts {
+    my ($self) = @_;
+    return $self->{num_m_verts};
+}
+
+sub num_n_verts {
+    my ($self) = @_;
+    return $self->{num_n_verts};
 }
 
 sub curve_type {

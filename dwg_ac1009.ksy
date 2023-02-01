@@ -2010,6 +2010,12 @@ types:
       - id: extrusion
         type: point_3d
         if: entity_common.flag2_5
+      - id: num_m_verts
+        type: u2
+        if: entity_common.flag2_4
+      - id: num_n_verts
+        type: u2
+        if: entity_common.flag2_3
       - id: curve_type
         type: u2
         enum: curve_type
