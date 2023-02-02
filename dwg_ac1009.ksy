@@ -3007,6 +3007,8 @@ types:
         doc: VX/2
       - id: u1
         size: 4
+      - id: u2
+        size: 4
   vx_flag:
     seq:
       - id: flag1

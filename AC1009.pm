@@ -2711,6 +2711,7 @@ sub _read {
     $self->{flag} = CAD::Format::DWG::AC1009::VxFlag->new($self->{_io}, $self, $self->{_root});
     $self->{vx_name} = Encode::decode("ASCII", IO::KaitaiStruct::Stream::bytes_terminate($self->{_io}->read_bytes(32), 0, 0));
     $self->{u1} = $self->{_io}->read_bytes(4);
+    $self->{u2} = $self->{_io}->read_bytes(4);
 }
 
 sub flag {
@@ -2726,6 +2727,11 @@ sub vx_name {
 sub u1 {
     my ($self) = @_;
     return $self->{u1};
+}
+
+sub u2 {
+    my ($self) = @_;
+    return $self->{u2};
 }
 
 ########################################################################
