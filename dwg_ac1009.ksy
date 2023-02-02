@@ -89,11 +89,38 @@ seq:
     size: header.blocks_size
   - id: crc_block_entities
     size: 32
+  - id: aux_header
+    type: aux_header
+    size: 186
   - id: todo
     size-eos: true
     repeat: eos
     if: not _io.eof
 types:
+  aux_header:
+    seq:
+      - id: u1
+        size: 35
+      - id: dwg_version
+        type: s1
+      - id: entities_start
+        type: s4
+      - id: entities_end
+        type: s4
+      - id: blocks_start
+        type: s4
+      - id: blocks_end
+        type: s4
+      - id: u2
+        size: 10
+      - id: num_aux_tables
+        type: u2
+      - id: aux_tables
+        type: table_aux
+        repeat: expr
+        repeat-expr: num_aux_tables
+      - id: u3
+        size: 22
   block:
     seq:
       - id: flag
@@ -232,6 +259,17 @@ types:
         type: u2
       - id: unknown
         size: 2
+      - id: begin
+        type: u4
+  table_aux:
+    seq:
+      - id: table_num
+        type: u2
+        enum: aux_table
+      - id: item_size
+        type: u2
+      - id: items
+        type: u2
       - id: begin
         type: u4
   header_variables:
@@ -3122,3 +3160,15 @@ enums:
     10: eed_1010
     40: eed_1040
     70: eed_1070
+  aux_table:
+    1: block
+    2: layer
+    3: style
+    4: unknown
+    5: linetype
+    6: view
+    7: ucs
+    8: vport
+    9: appid
+    10: dimstyle
+    11: vx

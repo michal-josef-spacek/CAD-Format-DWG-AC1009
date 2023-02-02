@@ -102,6 +102,18 @@ our $UNITS_FOR_ANGLES_GRADIANS = 2;
 our $UNITS_FOR_ANGLES_RADIANS = 3;
 our $UNITS_FOR_ANGLES_SURVEYOR_S_UNITS = 4;
 
+our $AUX_TABLE_BLOCK = 1;
+our $AUX_TABLE_LAYER = 2;
+our $AUX_TABLE_STYLE = 3;
+our $AUX_TABLE_UNKNOWN = 4;
+our $AUX_TABLE_LINETYPE = 5;
+our $AUX_TABLE_VIEW = 6;
+our $AUX_TABLE_UCS = 7;
+our $AUX_TABLE_VPORT = 8;
+our $AUX_TABLE_APPID = 9;
+our $AUX_TABLE_DIMSTYLE = 10;
+our $AUX_TABLE_VX = 11;
+
 our $ATT_VISIBILITY_FALSE = 0;
 our $ATT_VISIBILITY_NORMAL = 1;
 our $ATT_VISIBILITY_ALL = 2;
@@ -215,6 +227,9 @@ sub _read {
     my $io__raw_block_entities = IO::KaitaiStruct::Stream->new($self->{_raw_block_entities});
     $self->{block_entities} = CAD::Format::DWG::AC1009::RealEntities->new($io__raw_block_entities, $self, $self->{_root});
     $self->{crc_block_entities} = $self->{_io}->read_bytes(32);
+    $self->{_raw_aux_header} = $self->{_io}->read_bytes(186);
+    my $io__raw_aux_header = IO::KaitaiStruct::Stream->new($self->{_raw_aux_header});
+    $self->{aux_header} = CAD::Format::DWG::AC1009::AuxHeader->new($io__raw_aux_header, $self, $self->{_root});
     if (!($self->_io()->is_eof())) {
         $self->{todo} = ();
         while (!$self->{_io}->is_eof()) {
@@ -353,6 +368,11 @@ sub crc_block_entities {
     return $self->{crc_block_entities};
 }
 
+sub aux_header {
+    my ($self) = @_;
+    return $self->{aux_header};
+}
+
 sub todo {
     my ($self) = @_;
     return $self->{todo};
@@ -366,6 +386,11 @@ sub _raw_entities {
 sub _raw_block_entities {
     my ($self) = @_;
     return $self->{_raw_block_entities};
+}
+
+sub _raw_aux_header {
+    my ($self) = @_;
+    return $self->{_raw_aux_header};
 }
 
 ########################################################################
@@ -1157,6 +1182,62 @@ sub flag15 {
 sub flag16 {
     my ($self) = @_;
     return $self->{flag16};
+}
+
+########################################################################
+package CAD::Format::DWG::AC1009::TableAux;
+
+our @ISA = 'IO::KaitaiStruct::Struct';
+
+sub from_file {
+    my ($class, $filename) = @_;
+    my $fd;
+
+    open($fd, '<', $filename) or return undef;
+    binmode($fd);
+    return new($class, IO::KaitaiStruct::Stream->new($fd));
+}
+
+sub new {
+    my ($class, $_io, $_parent, $_root) = @_;
+    my $self = IO::KaitaiStruct::Struct->new($_io);
+
+    bless $self, $class;
+    $self->{_parent} = $_parent;
+    $self->{_root} = $_root || $self;;
+
+    $self->_read();
+
+    return $self;
+}
+
+sub _read {
+    my ($self) = @_;
+
+    $self->{table_num} = $self->{_io}->read_u2le();
+    $self->{item_size} = $self->{_io}->read_u2le();
+    $self->{items} = $self->{_io}->read_u2le();
+    $self->{begin} = $self->{_io}->read_u4le();
+}
+
+sub table_num {
+    my ($self) = @_;
+    return $self->{table_num};
+}
+
+sub item_size {
+    my ($self) = @_;
+    return $self->{item_size};
+}
+
+sub items {
+    my ($self) = @_;
+    return $self->{items};
+}
+
+sub begin {
+    my ($self) = @_;
+    return $self->{begin};
 }
 
 ########################################################################
@@ -5482,6 +5563,102 @@ sub dimstyle {
 sub crc16 {
     my ($self) = @_;
     return $self->{crc16};
+}
+
+########################################################################
+package CAD::Format::DWG::AC1009::AuxHeader;
+
+our @ISA = 'IO::KaitaiStruct::Struct';
+
+sub from_file {
+    my ($class, $filename) = @_;
+    my $fd;
+
+    open($fd, '<', $filename) or return undef;
+    binmode($fd);
+    return new($class, IO::KaitaiStruct::Stream->new($fd));
+}
+
+sub new {
+    my ($class, $_io, $_parent, $_root) = @_;
+    my $self = IO::KaitaiStruct::Struct->new($_io);
+
+    bless $self, $class;
+    $self->{_parent} = $_parent;
+    $self->{_root} = $_root || $self;;
+
+    $self->_read();
+
+    return $self;
+}
+
+sub _read {
+    my ($self) = @_;
+
+    $self->{u1} = $self->{_io}->read_bytes(35);
+    $self->{dwg_version} = $self->{_io}->read_s1();
+    $self->{entities_start} = $self->{_io}->read_s4le();
+    $self->{entities_end} = $self->{_io}->read_s4le();
+    $self->{blocks_start} = $self->{_io}->read_s4le();
+    $self->{blocks_end} = $self->{_io}->read_s4le();
+    $self->{u2} = $self->{_io}->read_bytes(10);
+    $self->{num_aux_tables} = $self->{_io}->read_u2le();
+    $self->{aux_tables} = ();
+    my $n_aux_tables = $self->num_aux_tables();
+    for (my $i = 0; $i < $n_aux_tables; $i++) {
+        push @{$self->{aux_tables}}, CAD::Format::DWG::AC1009::TableAux->new($self->{_io}, $self, $self->{_root});
+    }
+    $self->{u3} = $self->{_io}->read_bytes(22);
+}
+
+sub u1 {
+    my ($self) = @_;
+    return $self->{u1};
+}
+
+sub dwg_version {
+    my ($self) = @_;
+    return $self->{dwg_version};
+}
+
+sub entities_start {
+    my ($self) = @_;
+    return $self->{entities_start};
+}
+
+sub entities_end {
+    my ($self) = @_;
+    return $self->{entities_end};
+}
+
+sub blocks_start {
+    my ($self) = @_;
+    return $self->{blocks_start};
+}
+
+sub blocks_end {
+    my ($self) = @_;
+    return $self->{blocks_end};
+}
+
+sub u2 {
+    my ($self) = @_;
+    return $self->{u2};
+}
+
+sub num_aux_tables {
+    my ($self) = @_;
+    return $self->{num_aux_tables};
+}
+
+sub aux_tables {
+    my ($self) = @_;
+    return $self->{aux_tables};
+}
+
+sub u3 {
+    my ($self) = @_;
+    return $self->{u3};
 }
 
 ########################################################################
