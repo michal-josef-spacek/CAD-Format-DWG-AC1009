@@ -100,7 +100,13 @@ types:
   aux_header:
     seq:
       - id: u1
-        size: 35
+        size: 16
+      - id: u2
+        size: 16
+      - id: u3
+        type: s2
+      - id: u4
+        type: u1
       - id: dwg_version
         type: s1
       - id: entities_start
@@ -111,16 +117,22 @@ types:
         type: s4
       - id: blocks_end
         type: s4
-      - id: u2
-        size: 10
+      - id: handling
+        type: u2
+      - id: handseed
+        size: 8
       - id: num_aux_tables
         type: u2
       - id: aux_tables
         type: table_aux
         repeat: expr
         repeat-expr: num_aux_tables
-      - id: u3
-        size: 22
+      - id: u2_address
+        type: s4
+      - id: u5
+        size: 2
+      - id: u6
+        size: 16
   block:
     seq:
       - id: flag

@@ -5595,25 +5595,46 @@ sub new {
 sub _read {
     my ($self) = @_;
 
-    $self->{u1} = $self->{_io}->read_bytes(35);
+    $self->{u1} = $self->{_io}->read_bytes(16);
+    $self->{u2} = $self->{_io}->read_bytes(16);
+    $self->{u3} = $self->{_io}->read_s2le();
+    $self->{u4} = $self->{_io}->read_u1();
     $self->{dwg_version} = $self->{_io}->read_s1();
     $self->{entities_start} = $self->{_io}->read_s4le();
     $self->{entities_end} = $self->{_io}->read_s4le();
     $self->{blocks_start} = $self->{_io}->read_s4le();
     $self->{blocks_end} = $self->{_io}->read_s4le();
-    $self->{u2} = $self->{_io}->read_bytes(10);
+    $self->{handling} = $self->{_io}->read_u2le();
+    $self->{handseed} = $self->{_io}->read_bytes(8);
     $self->{num_aux_tables} = $self->{_io}->read_u2le();
     $self->{aux_tables} = ();
     my $n_aux_tables = $self->num_aux_tables();
     for (my $i = 0; $i < $n_aux_tables; $i++) {
         push @{$self->{aux_tables}}, CAD::Format::DWG::AC1009::TableAux->new($self->{_io}, $self, $self->{_root});
     }
-    $self->{u3} = $self->{_io}->read_bytes(22);
+    $self->{u2_address} = $self->{_io}->read_s4le();
+    $self->{u5} = $self->{_io}->read_bytes(2);
+    $self->{u6} = $self->{_io}->read_bytes(16);
 }
 
 sub u1 {
     my ($self) = @_;
     return $self->{u1};
+}
+
+sub u2 {
+    my ($self) = @_;
+    return $self->{u2};
+}
+
+sub u3 {
+    my ($self) = @_;
+    return $self->{u3};
+}
+
+sub u4 {
+    my ($self) = @_;
+    return $self->{u4};
 }
 
 sub dwg_version {
@@ -5641,9 +5662,14 @@ sub blocks_end {
     return $self->{blocks_end};
 }
 
-sub u2 {
+sub handling {
     my ($self) = @_;
-    return $self->{u2};
+    return $self->{handling};
+}
+
+sub handseed {
+    my ($self) = @_;
+    return $self->{handseed};
 }
 
 sub num_aux_tables {
@@ -5656,9 +5682,19 @@ sub aux_tables {
     return $self->{aux_tables};
 }
 
-sub u3 {
+sub u2_address {
     my ($self) = @_;
-    return $self->{u3};
+    return $self->{u2_address};
+}
+
+sub u5 {
+    my ($self) = @_;
+    return $self->{u5};
+}
+
+sub u6 {
+    my ($self) = @_;
+    return $self->{u6};
 }
 
 ########################################################################
