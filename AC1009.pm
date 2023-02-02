@@ -2712,6 +2712,7 @@ sub _read {
     $self->{vx_name} = Encode::decode("ASCII", IO::KaitaiStruct::Stream::bytes_terminate($self->{_io}->read_bytes(32), 0, 0));
     $self->{u1} = $self->{_io}->read_bytes(4);
     $self->{u2} = $self->{_io}->read_bytes(4);
+    $self->{crc16} = $self->{_io}->read_bytes(2);
 }
 
 sub flag {
@@ -2732,6 +2733,11 @@ sub u1 {
 sub u2 {
     my ($self) = @_;
     return $self->{u2};
+}
+
+sub crc16 {
+    my ($self) = @_;
+    return $self->{crc16};
 }
 
 ########################################################################
@@ -4288,6 +4294,7 @@ sub _read {
     $self->{block_entity} = $self->{_io}->read_s2le();
     $self->{flag2} = CAD::Format::DWG::AC1009::BlockFlag2->new($self->{_io}, $self, $self->{_root});
     $self->{u1} = $self->{_io}->read_s1();
+    $self->{crc16} = $self->{_io}->read_bytes(2);
 }
 
 sub begin_address_in_block_table_unknown {
@@ -4337,6 +4344,11 @@ sub flag2 {
 sub u1 {
     my ($self) = @_;
     return $self->{u1};
+}
+
+sub crc16 {
+    my ($self) = @_;
+    return $self->{crc16};
 }
 
 ########################################################################

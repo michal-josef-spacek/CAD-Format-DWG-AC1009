@@ -154,6 +154,8 @@ types:
         type: block_flag2
       - id: u1
         type: s1
+      - id: crc16
+        size: 2
     instances:
       begin_address_in_block_table_unknown:
          value: (begin_address_in_block_table_raw & 0xff000000) >> 24
@@ -3009,6 +3011,8 @@ types:
         size: 4
       - id: u2
         size: 4
+      - id: crc16
+        size: 2
   vx_flag:
     seq:
       - id: flag1
