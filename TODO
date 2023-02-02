@@ -11,7 +11,8 @@ Probably none only
 9. entity_color after extra_flag or rewrite order
 10. More tests for insert - with eed. With thickness, extra flags
 ~/lang/dwg/AC1009/from_autocad_r11/SAMPLE/SKATETRK.DWG
-11.
+11. Parse auxheader or what it is.
+12.
 
 Applied
 =======
