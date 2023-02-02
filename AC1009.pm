@@ -5613,11 +5613,10 @@ sub new {
 sub _read {
     my ($self) = @_;
 
+    $self->{sentinel1} = $self->{_io}->read_bytes(16);
     $self->{u1} = $self->{_io}->read_bytes(16);
-    $self->{u2} = $self->{_io}->read_bytes(16);
+    $self->{u2} = $self->{_io}->read_s2le();
     $self->{u3} = $self->{_io}->read_s2le();
-    $self->{u4} = $self->{_io}->read_u1();
-    $self->{dwg_version} = $self->{_io}->read_s1();
     $self->{entities_start} = $self->{_io}->read_s4le();
     $self->{entities_end} = $self->{_io}->read_s4le();
     $self->{blocks_start} = $self->{_io}->read_s4le();
@@ -5630,9 +5629,14 @@ sub _read {
     for (my $i = 0; $i < $n_aux_tables; $i++) {
         push @{$self->{aux_tables}}, CAD::Format::DWG::AC1009::TableAux->new($self->{_io}, $self, $self->{_root});
     }
-    $self->{u2_address} = $self->{_io}->read_s4le();
-    $self->{u5} = $self->{_io}->read_bytes(2);
-    $self->{u6} = $self->{_io}->read_bytes(16);
+    $self->{u1_address} = $self->{_io}->read_s4le();
+    $self->{crc16} = $self->{_io}->read_bytes(2);
+    $self->{sentinel2} = $self->{_io}->read_bytes(16);
+}
+
+sub sentinel1 {
+    my ($self) = @_;
+    return $self->{sentinel1};
 }
 
 sub u1 {
@@ -5648,16 +5652,6 @@ sub u2 {
 sub u3 {
     my ($self) = @_;
     return $self->{u3};
-}
-
-sub u4 {
-    my ($self) = @_;
-    return $self->{u4};
-}
-
-sub dwg_version {
-    my ($self) = @_;
-    return $self->{dwg_version};
 }
 
 sub entities_start {
@@ -5700,19 +5694,19 @@ sub aux_tables {
     return $self->{aux_tables};
 }
 
-sub u2_address {
+sub u1_address {
     my ($self) = @_;
-    return $self->{u2_address};
+    return $self->{u1_address};
 }
 
-sub u5 {
+sub crc16 {
     my ($self) = @_;
-    return $self->{u5};
+    return $self->{crc16};
 }
 
-sub u6 {
+sub sentinel2 {
     my ($self) = @_;
-    return $self->{u6};
+    return $self->{sentinel2};
 }
 
 ########################################################################

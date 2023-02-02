@@ -99,16 +99,14 @@ seq:
 types:
   aux_header:
     seq:
+      - id: sentinel1
+        size: 16
       - id: u1
         size: 16
       - id: u2
-        size: 16
+        type: s2
       - id: u3
         type: s2
-      - id: u4
-        type: u1
-      - id: dwg_version
-        type: s1
       - id: entities_start
         type: s4
       - id: entities_end
@@ -127,11 +125,11 @@ types:
         type: table_aux
         repeat: expr
         repeat-expr: num_aux_tables
-      - id: u2_address
+      - id: u1_address
         type: s4
-      - id: u5
+      - id: crc16
         size: 2
-      - id: u6
+      - id: sentinel2
         size: 16
   block:
     seq:
