@@ -83,10 +83,10 @@ seq:
     repeat: expr
     repeat-expr: header.variables.table_vx.items
   - id: crc_vxs
-    size: header.blocks_start-_io.pos
+    size: header.block_entities_start-_io.pos
   - id: block_entities
     type: real_entities
-    size: header.blocks_size
+    size: header.block_entities_size
   - id: crc_block_entities
     size: 32
   - id: aux_header
@@ -234,16 +234,14 @@ types:
         type: s4
       - id: entities_end
         type: s4
-      - id: blocks_start
+      - id: block_entities_start
         type: s4
-      - id: blocks_size_raw
+      - id: block_entities_size_raw
         type: u4
-      - id: blocks_end
+      - id: extra_entities_start
         type: s4
-      - id: unknown4b
-        size: 2
-      - id: unknown4c
-        size: 2
+      - id: extra_entities_size_raw
+        type: u4
       - id: table_block
         type: table
       - id: table_layer
@@ -259,10 +257,16 @@ types:
       - id: crc16
         size: 2
     instances:
-      blocks_size_unknown:
-         value: (blocks_size_raw & 0xff000000) >> 24
-      blocks_size:
-         value: (blocks_size_raw & 0x00ffffff)
+      entities_size:
+         value: entities_end - entities_start
+      extra_entities_size_unknown:
+         value: (extra_entities_size_raw & 0xff000000) >> 24
+      extra_entities_size:
+         value: (extra_entities_size_raw & 0x00ffffff)
+      block_entities_size_unknown:
+         value: (block_entities_size_raw & 0xff000000) >> 24
+      block_entities_size:
+         value: (block_entities_size_raw & 0x00ffffff)
   table:
     seq:
       - id: item_size
