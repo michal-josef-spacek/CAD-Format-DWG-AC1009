@@ -5648,10 +5648,7 @@ sub _read {
         $self->{extension_defining_point2} = CAD::Format::DWG::AC1009::Point3d->new($self->{_io}, $self, $self->{_root});
     }
     if ($self->entity_common()->flag2_3()) {
-        $self->{defining_point} = CAD::Format::DWG::AC1009::Point2d->new($self->{_io}, $self, $self->{_root});
-    }
-    if ( (($self->entity_mode()->has_elevation() == 1) && ($self->entity_common()->flag2_3())) ) {
-        $self->{defining_point_z} = $self->{_io}->read_f8le();
+        $self->{defining_point} = CAD::Format::DWG::AC1009::Point3d->new($self->{_io}, $self, $self->{_root});
     }
     if ($self->entity_common()->flag2_2()) {
         $self->{dimension_line_arc_definition_point} = CAD::Format::DWG::AC1009::Point2d->new($self->{_io}, $self, $self->{_root});
@@ -5787,11 +5784,6 @@ sub extension_defining_point2 {
 sub defining_point {
     my ($self) = @_;
     return $self->{defining_point};
-}
-
-sub defining_point_z {
-    my ($self) = @_;
-    return $self->{defining_point_z};
 }
 
 sub dimension_line_arc_definition_point {

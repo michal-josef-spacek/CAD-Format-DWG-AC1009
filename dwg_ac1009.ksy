@@ -1691,13 +1691,9 @@ types:
         if: entity_common.flag2_4
         doc: DIMENSION/14|24|34
       - id: defining_point
-        type: point_2d
+        type: point_3d
         if: entity_common.flag2_3
-        doc: DIMENSION/15|25
-      - id: defining_point_z
-        type: f8
-        if: entity_mode.has_elevation == true and entity_common.flag2_3
-        doc: DIMENSION/35
+        doc: DIMENSION/15|25|35
       - id: dimension_line_arc_definition_point
         type: point_2d
         if: entity_common.flag2_2
