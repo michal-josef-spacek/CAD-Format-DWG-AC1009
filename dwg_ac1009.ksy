@@ -33,11 +33,12 @@ seq:
     type: table_ucss
   - id: table_vports
     type: table_vports
-# TODO Icon?
-  - id: unknown
+  - id: unknown1
     size: header.variables.table_appid.begin - _io.pos - 16
   - id: table_appids
     type: table_appids
+  - id: unknown2
+    size: header.variables.table_dimstyle.begin - _io.pos - 16
   - id: table_dimstyles
     type: table_dimstyles
   - id: table_vxs

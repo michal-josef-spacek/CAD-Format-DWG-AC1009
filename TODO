@@ -11,8 +11,9 @@ Probably none only
 9. entity_color after extra_flag or rewrite order
 10. More tests for insert - with eed. With thickness, extra flags
 ~/lang/dwg/AC1009/from_autocad_r11/SAMPLE/SKATETRK.DWG
-12. TODO icon in ksy file?
-13.
+12. Identify unknown1 (could be nothing)
+13. Identify unknown2 (could be nothing)
+14.
 
 Applied
 =======

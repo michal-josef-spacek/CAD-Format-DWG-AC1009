@@ -165,8 +165,9 @@ sub _read {
     $self->{table_views} = CAD::Format::DWG::AC1009::TableViews->new($self->{_io}, $self, $self->{_root});
     $self->{table_ucss} = CAD::Format::DWG::AC1009::TableUcss->new($self->{_io}, $self, $self->{_root});
     $self->{table_vports} = CAD::Format::DWG::AC1009::TableVports->new($self->{_io}, $self, $self->{_root});
-    $self->{unknown} = $self->{_io}->read_bytes((($self->header()->variables()->table_appid()->begin() - $self->_io()->pos()) - 16));
+    $self->{unknown1} = $self->{_io}->read_bytes((($self->header()->variables()->table_appid()->begin() - $self->_io()->pos()) - 16));
     $self->{table_appids} = CAD::Format::DWG::AC1009::TableAppids->new($self->{_io}, $self, $self->{_root});
+    $self->{unknown2} = $self->{_io}->read_bytes((($self->header()->variables()->table_dimstyle()->begin() - $self->_io()->pos()) - 16));
     $self->{table_dimstyles} = CAD::Format::DWG::AC1009::TableDimstyles->new($self->{_io}, $self, $self->{_root});
     $self->{table_vxs} = CAD::Format::DWG::AC1009::TableVxs->new($self->{_io}, $self, $self->{_root});
     $self->{entities_block} = CAD::Format::DWG::AC1009::EntitiesBlock->new($self->{_io}, $self, $self->{_root});
@@ -227,14 +228,19 @@ sub table_vports {
     return $self->{table_vports};
 }
 
-sub unknown {
+sub unknown1 {
     my ($self) = @_;
-    return $self->{unknown};
+    return $self->{unknown1};
 }
 
 sub table_appids {
     my ($self) = @_;
     return $self->{table_appids};
+}
+
+sub unknown2 {
+    my ($self) = @_;
+    return $self->{unknown2};
 }
 
 sub table_dimstyles {
