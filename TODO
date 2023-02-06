@@ -13,7 +13,8 @@ Probably none only
 ~/lang/dwg/AC1009/from_autocad_r11/SAMPLE/SKATETRK.DWG
 12. Identify unknown1 (could be nothing)
 13. Identify unknown2 (could be nothing)
-14.
+14. Rename dimension_line_defining_point to defining_point (probably)
+15.
 
 Applied
 =======
