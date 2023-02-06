@@ -3187,7 +3187,6 @@ enums:
     1: block
     2: layer
     3: style
-    4: unknown
     5: linetype
     6: view
     7: ucs
