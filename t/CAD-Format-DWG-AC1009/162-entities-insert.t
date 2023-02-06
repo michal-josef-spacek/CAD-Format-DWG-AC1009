@@ -13,7 +13,7 @@ my $data_dir = File::Object->new->up->dir('data/entity/insert')->set;
 my $obj = CAD::Format::DWG::AC1009->from_file(
 	$data_dir->file('INSERT1.DWG')->s,
 );
-my $entity1 = $obj->entities->entities->[1];
+my $entity1 = $obj->entities->entities->entities->[1];
 isa_ok($entity1, 'CAD::Format::DWG::AC1009::Entity');
 is($entity1->entity_type, 14, 'Get entity type (14).');
 my $insert1_data = $entity1->data;
@@ -30,5 +30,5 @@ is($insert1_data->rotation_angle_in_radians, 0.523598775598299, 'Entity rotation
 is($insert1_data->z_scale, 0.5, 'Entity z scale (0.5).');
 my $crc16 = unpack 'H*', reverse $insert1_data->crc16;
 is($crc16, 'd361', 'CRC16 of insert (d361)');
-my $entities = @{$obj->entities->entities};
+my $entities = @{$obj->entities->entities->entities};
 is($entities, 2, 'Number of entities (2).');

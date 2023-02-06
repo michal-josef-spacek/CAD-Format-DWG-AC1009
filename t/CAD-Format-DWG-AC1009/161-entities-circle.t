@@ -13,7 +13,7 @@ my $data_dir = File::Object->new->up->dir('data/entity/circle')->set;
 my $obj = CAD::Format::DWG::AC1009->from_file(
 	$data_dir->file('CIRCLE1.DWG')->s,
 );
-my $entity1 = $obj->entities->entities->[0];
+my $entity1 = $obj->entities->entities->entities->[0];
 isa_ok($entity1, 'CAD::Format::DWG::AC1009::Entity');
 is($entity1->entity_type, 3, 'Get entity type (3).');
 my $circle1_data = $entity1->data;
@@ -25,14 +25,14 @@ is($circle1_data->center_point->y, 1, 'Center point of circle y (1).');
 is($circle1_data->radius, 3, 'Radius of circle (3).');
 my $crc16 = unpack 'H*', reverse $circle1_data->crc16;
 is($crc16, '1953', 'CRC16 of circle (1953)');
-my $entities = @{$obj->entities->entities};
+my $entities = @{$obj->entities->entities->entities};
 is($entities, 1, 'Number of entities (1).');
 
 # Test.
 $obj = CAD::Format::DWG::AC1009->from_file(
 	$data_dir->file('CIRCLE2.DWG')->s,
 );
-$entity1 = $obj->entities->entities->[0];
+$entity1 = $obj->entities->entities->entities->[0];
 isa_ok($entity1, 'CAD::Format::DWG::AC1009::Entity');
 is($entity1->entity_type, 3, 'Get entity type (3).');
 $circle1_data = $entity1->data;
@@ -46,5 +46,5 @@ is($circle1_data->center_point->y, 1, 'Center point of circle y (1).');
 is($circle1_data->radius, 3, 'Radius of circle (3).');
 $crc16 = unpack 'H*', reverse $circle1_data->crc16;
 is($crc16, '89e9', 'CRC16 of circle (89e9)');
-$entities = @{$obj->entities->entities};
+$entities = @{$obj->entities->entities->entities};
 is($entities, 1, 'Number of entities (1).');

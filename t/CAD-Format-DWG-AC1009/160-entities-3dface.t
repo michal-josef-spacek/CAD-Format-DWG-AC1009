@@ -13,7 +13,7 @@ my $data_dir = File::Object->new->up->dir('data/entity/3dface')->set;
 my $obj = CAD::Format::DWG::AC1009->from_file(
 	$data_dir->file('3DFACE1.DWG')->s,
 );
-my $entity1 = $obj->entities->entities->[0];
+my $entity1 = $obj->entities->entities->entities->[0];
 isa_ok($entity1, 'CAD::Format::DWG::AC1009::Entity');
 is($entity1->entity_type, 22, 'Get entity type (22).');
 my $face3d1_data = $entity1->data;
@@ -29,14 +29,14 @@ is($face3d1_data->third_point_y, 2, 'Third point of 3d face y (2).');
 is($face3d1_data->fourth_point_x, 3, 'Fourth point of 3d face x (3).');
 is($face3d1_data->fourth_point_y, 3, 'Fourth point of 3d face y (3).');
 # TODO crc (2 bytes)
-my $entities = @{$obj->entities->entities};
+my $entities = @{$obj->entities->entities->entities};
 is($entities, 1, 'Number of entities (1).');
 
 # Test.
 $obj = CAD::Format::DWG::AC1009->from_file(
 	$data_dir->file('3DFACE2.DWG')->s,
 );
-$entity1 = $obj->entities->entities->[0];
+$entity1 = $obj->entities->entities->entities->[0];
 isa_ok($entity1, 'CAD::Format::DWG::AC1009::Entity');
 is($entity1->entity_type, 22, 'Get entity type (22).');
 $face3d1_data = $entity1->data;
@@ -56,5 +56,5 @@ is($face3d1_data->fourth_point_x, 3, 'Fourth point of 3d face x (3).');
 is($face3d1_data->fourth_point_y, 3, 'Fourth point of 3d face y (3).');
 is($face3d1_data->fourth_point_z, 3, 'Fourth point of 3d face z (3).');
 # TODO crc (2 bytes)
-$entities = @{$obj->entities->entities};
+$entities = @{$obj->entities->entities->entities};
 is($entities, 1, 'Number of entities (1).');

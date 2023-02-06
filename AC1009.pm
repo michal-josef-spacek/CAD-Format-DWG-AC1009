@@ -157,91 +157,19 @@ sub _read {
     my ($self) = @_;
 
     $self->{header} = CAD::Format::DWG::AC1009::Header->new($self->{_io}, $self, $self->{_root});
-    $self->{entities_sentinel_begin} = $self->{_io}->read_bytes(16);
-    $self->{_raw_entities} = $self->{_io}->read_bytes(($self->header()->entities_end() - $self->header()->entities_start()));
-    my $io__raw_entities = IO::KaitaiStruct::Stream->new($self->{_raw_entities});
-    $self->{entities} = CAD::Format::DWG::AC1009::RealEntities->new($io__raw_entities, $self, $self->{_root});
-    $self->{entities_sentinel_end} = $self->{_io}->read_bytes(16);
-    $self->{blocks_sentinel_begin} = $self->{_io}->read_bytes(16);
-    $self->{blocks} = ();
-    my $n_blocks = $self->header()->table_block()->items();
-    for (my $i = 0; $i < $n_blocks; $i++) {
-        push @{$self->{blocks}}, CAD::Format::DWG::AC1009::Block->new($self->{_io}, $self, $self->{_root});
-    }
-    $self->{blocks_sentinel_end} = $self->{_io}->read_bytes(16);
-    $self->{layers_sentinel_begin} = $self->{_io}->read_bytes(16);
-    $self->{layers} = ();
-    my $n_layers = $self->header()->table_layer()->items();
-    for (my $i = 0; $i < $n_layers; $i++) {
-        push @{$self->{layers}}, CAD::Format::DWG::AC1009::Layer->new($self->{_io}, $self, $self->{_root});
-    }
-    $self->{layers_sentinel_end} = $self->{_io}->read_bytes(16);
-    $self->{styles_sentinel_begin} = $self->{_io}->read_bytes(16);
-    $self->{styles} = ();
-    my $n_styles = $self->header()->table_style()->items();
-    for (my $i = 0; $i < $n_styles; $i++) {
-        push @{$self->{styles}}, CAD::Format::DWG::AC1009::Style->new($self->{_io}, $self, $self->{_root});
-    }
-    $self->{styles_sentinel_end} = $self->{_io}->read_bytes(16);
-    $self->{linetypes_sentinel_begin} = $self->{_io}->read_bytes(16);
-    $self->{linetypes} = ();
-    my $n_linetypes = $self->header()->table_linetype()->items();
-    for (my $i = 0; $i < $n_linetypes; $i++) {
-        push @{$self->{linetypes}}, CAD::Format::DWG::AC1009::Linetype->new($self->{_io}, $self, $self->{_root});
-    }
-    $self->{linetypes_sentinel_end} = $self->{_io}->read_bytes(16);
-    $self->{views_sentinel_begin} = $self->{_io}->read_bytes(16);
-    $self->{views} = ();
-    my $n_views = $self->header()->table_view()->items();
-    for (my $i = 0; $i < $n_views; $i++) {
-        push @{$self->{views}}, CAD::Format::DWG::AC1009::View->new($self->{_io}, $self, $self->{_root});
-    }
-    $self->{views_sentinel_end} = $self->{_io}->read_bytes(16);
-    $self->{ucss_sentinel_begin} = $self->{_io}->read_bytes(16);
-    $self->{ucss} = ();
-    my $n_ucss = $self->header()->variables()->table_ucs()->items();
-    for (my $i = 0; $i < $n_ucss; $i++) {
-        push @{$self->{ucss}}, CAD::Format::DWG::AC1009::Ucs->new($self->{_io}, $self, $self->{_root});
-    }
-    $self->{ucss_sentinel_end} = $self->{_io}->read_bytes(16);
-    $self->{vports_sentinel_begin} = $self->{_io}->read_bytes(16);
-    $self->{vports} = ();
-    my $n_vports = $self->header()->variables()->table_vport()->items();
-    for (my $i = 0; $i < $n_vports; $i++) {
-        push @{$self->{vports}}, CAD::Format::DWG::AC1009::Vport->new($self->{_io}, $self, $self->{_root});
-    }
-    $self->{vports_sentinel_end} = $self->{_io}->read_bytes(16);
-    $self->{appids_sentinel_begin} = $self->{_io}->read_bytes(16);
-    $self->{appids} = ();
-    my $n_appids = $self->header()->variables()->table_appid()->items();
-    for (my $i = 0; $i < $n_appids; $i++) {
-        push @{$self->{appids}}, CAD::Format::DWG::AC1009::Appid->new($self->{_io}, $self, $self->{_root});
-    }
-    $self->{appids_sentinel_end} = $self->{_io}->read_bytes(16);
-    $self->{dimestyles_sentinel_begin} = $self->{_io}->read_bytes(16);
-    $self->{dimstyles} = ();
-    my $n_dimstyles = $self->header()->variables()->table_dimstyle()->items();
-    for (my $i = 0; $i < $n_dimstyles; $i++) {
-        push @{$self->{dimstyles}}, CAD::Format::DWG::AC1009::Dimstyle->new($self->{_io}, $self, $self->{_root});
-    }
-    $self->{dimestyles_sentinel_end} = $self->{_io}->read_bytes(16);
-    $self->{vxs_sentinel_begin} = $self->{_io}->read_bytes(16);
-    $self->{vxs} = ();
-    my $n_vxs = $self->header()->variables()->table_vx()->items();
-    for (my $i = 0; $i < $n_vxs; $i++) {
-        push @{$self->{vxs}}, CAD::Format::DWG::AC1009::Vx->new($self->{_io}, $self, $self->{_root});
-    }
-    $self->{vxs_sentinel_end} = $self->{_io}->read_bytes(16);
-    $self->{entities_block_sentinel_begin} = $self->{_io}->read_bytes(16);
-    $self->{_raw_entities_block} = $self->{_io}->read_bytes($self->header()->block_entities_size());
-    my $io__raw_entities_block = IO::KaitaiStruct::Stream->new($self->{_raw_entities_block});
-    $self->{entities_block} = CAD::Format::DWG::AC1009::RealEntities->new($io__raw_entities_block, $self, $self->{_root});
-    $self->{entities_block_sentinel_end} = $self->{_io}->read_bytes(16);
-    $self->{entities_extra_sentinel_begin} = $self->{_io}->read_bytes(16);
-    $self->{_raw_entities_extra} = $self->{_io}->read_bytes($self->header()->extra_entities_size());
-    my $io__raw_entities_extra = IO::KaitaiStruct::Stream->new($self->{_raw_entities_extra});
-    $self->{entities_extra} = CAD::Format::DWG::AC1009::RealEntities->new($io__raw_entities_extra, $self, $self->{_root});
-    $self->{entities_extra_sentinel_end} = $self->{_io}->read_bytes(16);
+    $self->{entities} = CAD::Format::DWG::AC1009::Entities->new($self->{_io}, $self, $self->{_root});
+    $self->{table_blocks} = CAD::Format::DWG::AC1009::TableBlocks->new($self->{_io}, $self, $self->{_root});
+    $self->{table_layers} = CAD::Format::DWG::AC1009::TableLayers->new($self->{_io}, $self, $self->{_root});
+    $self->{table_styles} = CAD::Format::DWG::AC1009::TableStyles->new($self->{_io}, $self, $self->{_root});
+    $self->{table_linetypes} = CAD::Format::DWG::AC1009::TableLinetypes->new($self->{_io}, $self, $self->{_root});
+    $self->{table_views} = CAD::Format::DWG::AC1009::TableViews->new($self->{_io}, $self, $self->{_root});
+    $self->{table_ucss} = CAD::Format::DWG::AC1009::TableUcss->new($self->{_io}, $self, $self->{_root});
+    $self->{table_vports} = CAD::Format::DWG::AC1009::TableVports->new($self->{_io}, $self, $self->{_root});
+    $self->{table_appids} = CAD::Format::DWG::AC1009::TableAppids->new($self->{_io}, $self, $self->{_root});
+    $self->{table_dimstyles} = CAD::Format::DWG::AC1009::TableDimstyles->new($self->{_io}, $self, $self->{_root});
+    $self->{table_vxs} = CAD::Format::DWG::AC1009::TableVxs->new($self->{_io}, $self, $self->{_root});
+    $self->{entities_block} = CAD::Format::DWG::AC1009::EntitiesBlock->new($self->{_io}, $self, $self->{_root});
+    $self->{entities_extra} = CAD::Format::DWG::AC1009::EntitiesExtra->new($self->{_io}, $self, $self->{_root});
     $self->{_raw_aux_header} = $self->{_io}->read_bytes(170);
     my $io__raw_aux_header = IO::KaitaiStruct::Stream->new($self->{_raw_aux_header});
     $self->{aux_header} = CAD::Format::DWG::AC1009::AuxHeader->new($io__raw_aux_header, $self, $self->{_root});
@@ -258,174 +186,59 @@ sub header {
     return $self->{header};
 }
 
-sub entities_sentinel_begin {
-    my ($self) = @_;
-    return $self->{entities_sentinel_begin};
-}
-
 sub entities {
     my ($self) = @_;
     return $self->{entities};
 }
 
-sub entities_sentinel_end {
+sub table_blocks {
     my ($self) = @_;
-    return $self->{entities_sentinel_end};
+    return $self->{table_blocks};
 }
 
-sub blocks_sentinel_begin {
+sub table_layers {
     my ($self) = @_;
-    return $self->{blocks_sentinel_begin};
+    return $self->{table_layers};
 }
 
-sub blocks {
+sub table_styles {
     my ($self) = @_;
-    return $self->{blocks};
+    return $self->{table_styles};
 }
 
-sub blocks_sentinel_end {
+sub table_linetypes {
     my ($self) = @_;
-    return $self->{blocks_sentinel_end};
+    return $self->{table_linetypes};
 }
 
-sub layers_sentinel_begin {
+sub table_views {
     my ($self) = @_;
-    return $self->{layers_sentinel_begin};
+    return $self->{table_views};
 }
 
-sub layers {
+sub table_ucss {
     my ($self) = @_;
-    return $self->{layers};
+    return $self->{table_ucss};
 }
 
-sub layers_sentinel_end {
+sub table_vports {
     my ($self) = @_;
-    return $self->{layers_sentinel_end};
+    return $self->{table_vports};
 }
 
-sub styles_sentinel_begin {
+sub table_appids {
     my ($self) = @_;
-    return $self->{styles_sentinel_begin};
+    return $self->{table_appids};
 }
 
-sub styles {
+sub table_dimstyles {
     my ($self) = @_;
-    return $self->{styles};
+    return $self->{table_dimstyles};
 }
 
-sub styles_sentinel_end {
+sub table_vxs {
     my ($self) = @_;
-    return $self->{styles_sentinel_end};
-}
-
-sub linetypes_sentinel_begin {
-    my ($self) = @_;
-    return $self->{linetypes_sentinel_begin};
-}
-
-sub linetypes {
-    my ($self) = @_;
-    return $self->{linetypes};
-}
-
-sub linetypes_sentinel_end {
-    my ($self) = @_;
-    return $self->{linetypes_sentinel_end};
-}
-
-sub views_sentinel_begin {
-    my ($self) = @_;
-    return $self->{views_sentinel_begin};
-}
-
-sub views {
-    my ($self) = @_;
-    return $self->{views};
-}
-
-sub views_sentinel_end {
-    my ($self) = @_;
-    return $self->{views_sentinel_end};
-}
-
-sub ucss_sentinel_begin {
-    my ($self) = @_;
-    return $self->{ucss_sentinel_begin};
-}
-
-sub ucss {
-    my ($self) = @_;
-    return $self->{ucss};
-}
-
-sub ucss_sentinel_end {
-    my ($self) = @_;
-    return $self->{ucss_sentinel_end};
-}
-
-sub vports_sentinel_begin {
-    my ($self) = @_;
-    return $self->{vports_sentinel_begin};
-}
-
-sub vports {
-    my ($self) = @_;
-    return $self->{vports};
-}
-
-sub vports_sentinel_end {
-    my ($self) = @_;
-    return $self->{vports_sentinel_end};
-}
-
-sub appids_sentinel_begin {
-    my ($self) = @_;
-    return $self->{appids_sentinel_begin};
-}
-
-sub appids {
-    my ($self) = @_;
-    return $self->{appids};
-}
-
-sub appids_sentinel_end {
-    my ($self) = @_;
-    return $self->{appids_sentinel_end};
-}
-
-sub dimestyles_sentinel_begin {
-    my ($self) = @_;
-    return $self->{dimestyles_sentinel_begin};
-}
-
-sub dimstyles {
-    my ($self) = @_;
-    return $self->{dimstyles};
-}
-
-sub dimestyles_sentinel_end {
-    my ($self) = @_;
-    return $self->{dimestyles_sentinel_end};
-}
-
-sub vxs_sentinel_begin {
-    my ($self) = @_;
-    return $self->{vxs_sentinel_begin};
-}
-
-sub vxs {
-    my ($self) = @_;
-    return $self->{vxs};
-}
-
-sub vxs_sentinel_end {
-    my ($self) = @_;
-    return $self->{vxs_sentinel_end};
-}
-
-sub entities_block_sentinel_begin {
-    my ($self) = @_;
-    return $self->{entities_block_sentinel_begin};
+    return $self->{table_vxs};
 }
 
 sub entities_block {
@@ -433,24 +246,9 @@ sub entities_block {
     return $self->{entities_block};
 }
 
-sub entities_block_sentinel_end {
-    my ($self) = @_;
-    return $self->{entities_block_sentinel_end};
-}
-
-sub entities_extra_sentinel_begin {
-    my ($self) = @_;
-    return $self->{entities_extra_sentinel_begin};
-}
-
 sub entities_extra {
     my ($self) = @_;
     return $self->{entities_extra};
-}
-
-sub entities_extra_sentinel_end {
-    my ($self) = @_;
-    return $self->{entities_extra_sentinel_end};
 }
 
 sub aux_header {
@@ -461,21 +259,6 @@ sub aux_header {
 sub todo {
     my ($self) = @_;
     return $self->{todo};
-}
-
-sub _raw_entities {
-    my ($self) = @_;
-    return $self->{_raw_entities};
-}
-
-sub _raw_entities_block {
-    my ($self) = @_;
-    return $self->{_raw_entities_block};
-}
-
-sub _raw_entities_extra {
-    my ($self) = @_;
-    return $self->{_raw_entities_extra};
 }
 
 sub _raw_aux_header {
@@ -1144,6 +927,120 @@ sub flag7 {
 sub flag8 {
     my ($self) = @_;
     return $self->{flag8};
+}
+
+########################################################################
+package CAD::Format::DWG::AC1009::EntitiesBlock;
+
+our @ISA = 'IO::KaitaiStruct::Struct';
+
+sub from_file {
+    my ($class, $filename) = @_;
+    my $fd;
+
+    open($fd, '<', $filename) or return undef;
+    binmode($fd);
+    return new($class, IO::KaitaiStruct::Stream->new($fd));
+}
+
+sub new {
+    my ($class, $_io, $_parent, $_root) = @_;
+    my $self = IO::KaitaiStruct::Struct->new($_io);
+
+    bless $self, $class;
+    $self->{_parent} = $_parent;
+    $self->{_root} = $_root || $self;;
+
+    $self->_read();
+
+    return $self;
+}
+
+sub _read {
+    my ($self) = @_;
+
+    $self->{entities_block_sentinel_begin} = $self->{_io}->read_bytes(16);
+    $self->{_raw_entities_block} = $self->{_io}->read_bytes($self->_parent()->header()->block_entities_size());
+    my $io__raw_entities_block = IO::KaitaiStruct::Stream->new($self->{_raw_entities_block});
+    $self->{entities_block} = CAD::Format::DWG::AC1009::RealEntities->new($io__raw_entities_block, $self, $self->{_root});
+    $self->{entities_block_sentinel_end} = $self->{_io}->read_bytes(16);
+}
+
+sub entities_block_sentinel_begin {
+    my ($self) = @_;
+    return $self->{entities_block_sentinel_begin};
+}
+
+sub entities_block {
+    my ($self) = @_;
+    return $self->{entities_block};
+}
+
+sub entities_block_sentinel_end {
+    my ($self) = @_;
+    return $self->{entities_block_sentinel_end};
+}
+
+sub _raw_entities_block {
+    my ($self) = @_;
+    return $self->{_raw_entities_block};
+}
+
+########################################################################
+package CAD::Format::DWG::AC1009::Entities;
+
+our @ISA = 'IO::KaitaiStruct::Struct';
+
+sub from_file {
+    my ($class, $filename) = @_;
+    my $fd;
+
+    open($fd, '<', $filename) or return undef;
+    binmode($fd);
+    return new($class, IO::KaitaiStruct::Stream->new($fd));
+}
+
+sub new {
+    my ($class, $_io, $_parent, $_root) = @_;
+    my $self = IO::KaitaiStruct::Struct->new($_io);
+
+    bless $self, $class;
+    $self->{_parent} = $_parent;
+    $self->{_root} = $_root || $self;;
+
+    $self->_read();
+
+    return $self;
+}
+
+sub _read {
+    my ($self) = @_;
+
+    $self->{entities_sentinel_begin} = $self->{_io}->read_bytes(16);
+    $self->{_raw_entities} = $self->{_io}->read_bytes($self->_parent()->header()->entities_size());
+    my $io__raw_entities = IO::KaitaiStruct::Stream->new($self->{_raw_entities});
+    $self->{entities} = CAD::Format::DWG::AC1009::RealEntities->new($io__raw_entities, $self, $self->{_root});
+    $self->{entities_sentinel_end} = $self->{_io}->read_bytes(16);
+}
+
+sub entities_sentinel_begin {
+    my ($self) = @_;
+    return $self->{entities_sentinel_begin};
+}
+
+sub entities {
+    my ($self) = @_;
+    return $self->{entities};
+}
+
+sub entities_sentinel_end {
+    my ($self) = @_;
+    return $self->{entities_sentinel_end};
+}
+
+sub _raw_entities {
+    my ($self) = @_;
+    return $self->{_raw_entities};
 }
 
 ########################################################################
@@ -2277,6 +2174,60 @@ sub unknown {
 }
 
 ########################################################################
+package CAD::Format::DWG::AC1009::TableBlocks;
+
+our @ISA = 'IO::KaitaiStruct::Struct';
+
+sub from_file {
+    my ($class, $filename) = @_;
+    my $fd;
+
+    open($fd, '<', $filename) or return undef;
+    binmode($fd);
+    return new($class, IO::KaitaiStruct::Stream->new($fd));
+}
+
+sub new {
+    my ($class, $_io, $_parent, $_root) = @_;
+    my $self = IO::KaitaiStruct::Struct->new($_io);
+
+    bless $self, $class;
+    $self->{_parent} = $_parent;
+    $self->{_root} = $_root || $self;;
+
+    $self->_read();
+
+    return $self;
+}
+
+sub _read {
+    my ($self) = @_;
+
+    $self->{blocks_sentinel_begin} = $self->{_io}->read_bytes(16);
+    $self->{blocks} = ();
+    my $n_blocks = $self->_parent()->header()->table_block()->items();
+    for (my $i = 0; $i < $n_blocks; $i++) {
+        push @{$self->{blocks}}, CAD::Format::DWG::AC1009::Block->new($self->{_io}, $self, $self->{_root});
+    }
+    $self->{blocks_sentinel_end} = $self->{_io}->read_bytes(16);
+}
+
+sub blocks_sentinel_begin {
+    my ($self) = @_;
+    return $self->{blocks_sentinel_begin};
+}
+
+sub blocks {
+    my ($self) = @_;
+    return $self->{blocks};
+}
+
+sub blocks_sentinel_end {
+    my ($self) = @_;
+    return $self->{blocks_sentinel_end};
+}
+
+########################################################################
 package CAD::Format::DWG::AC1009::PolylineFlags;
 
 our @ISA = 'IO::KaitaiStruct::Struct';
@@ -2472,6 +2423,60 @@ sub _read {
 sub value {
     my ($self) = @_;
     return $self->{value};
+}
+
+########################################################################
+package CAD::Format::DWG::AC1009::TableVports;
+
+our @ISA = 'IO::KaitaiStruct::Struct';
+
+sub from_file {
+    my ($class, $filename) = @_;
+    my $fd;
+
+    open($fd, '<', $filename) or return undef;
+    binmode($fd);
+    return new($class, IO::KaitaiStruct::Stream->new($fd));
+}
+
+sub new {
+    my ($class, $_io, $_parent, $_root) = @_;
+    my $self = IO::KaitaiStruct::Struct->new($_io);
+
+    bless $self, $class;
+    $self->{_parent} = $_parent;
+    $self->{_root} = $_root || $self;;
+
+    $self->_read();
+
+    return $self;
+}
+
+sub _read {
+    my ($self) = @_;
+
+    $self->{vports_sentinel_begin} = $self->{_io}->read_bytes(16);
+    $self->{vports} = ();
+    my $n_vports = $self->_parent()->header()->variables()->table_vport()->items();
+    for (my $i = 0; $i < $n_vports; $i++) {
+        push @{$self->{vports}}, CAD::Format::DWG::AC1009::Vport->new($self->{_io}, $self, $self->{_root});
+    }
+    $self->{vports_sentinel_end} = $self->{_io}->read_bytes(16);
+}
+
+sub vports_sentinel_begin {
+    my ($self) = @_;
+    return $self->{vports_sentinel_begin};
+}
+
+sub vports {
+    my ($self) = @_;
+    return $self->{vports};
+}
+
+sub vports_sentinel_end {
+    my ($self) = @_;
+    return $self->{vports_sentinel_end};
 }
 
 ########################################################################
@@ -3806,6 +3811,63 @@ sub flag8 {
 }
 
 ########################################################################
+package CAD::Format::DWG::AC1009::EntitiesExtra;
+
+our @ISA = 'IO::KaitaiStruct::Struct';
+
+sub from_file {
+    my ($class, $filename) = @_;
+    my $fd;
+
+    open($fd, '<', $filename) or return undef;
+    binmode($fd);
+    return new($class, IO::KaitaiStruct::Stream->new($fd));
+}
+
+sub new {
+    my ($class, $_io, $_parent, $_root) = @_;
+    my $self = IO::KaitaiStruct::Struct->new($_io);
+
+    bless $self, $class;
+    $self->{_parent} = $_parent;
+    $self->{_root} = $_root || $self;;
+
+    $self->_read();
+
+    return $self;
+}
+
+sub _read {
+    my ($self) = @_;
+
+    $self->{entities_extra_sentinel_begin} = $self->{_io}->read_bytes(16);
+    $self->{_raw_entities_extra} = $self->{_io}->read_bytes($self->_parent()->header()->extra_entities_size());
+    my $io__raw_entities_extra = IO::KaitaiStruct::Stream->new($self->{_raw_entities_extra});
+    $self->{entities_extra} = CAD::Format::DWG::AC1009::RealEntities->new($io__raw_entities_extra, $self, $self->{_root});
+    $self->{entities_extra_sentinel_end} = $self->{_io}->read_bytes(16);
+}
+
+sub entities_extra_sentinel_begin {
+    my ($self) = @_;
+    return $self->{entities_extra_sentinel_begin};
+}
+
+sub entities_extra {
+    my ($self) = @_;
+    return $self->{entities_extra};
+}
+
+sub entities_extra_sentinel_end {
+    my ($self) = @_;
+    return $self->{entities_extra_sentinel_end};
+}
+
+sub _raw_entities_extra {
+    my ($self) = @_;
+    return $self->{_raw_entities_extra};
+}
+
+########################################################################
 package CAD::Format::DWG::AC1009::AttdefFlags;
 
 our @ISA = 'IO::KaitaiStruct::Struct';
@@ -4044,6 +4106,60 @@ sub crc16 {
 }
 
 ########################################################################
+package CAD::Format::DWG::AC1009::TableLinetypes;
+
+our @ISA = 'IO::KaitaiStruct::Struct';
+
+sub from_file {
+    my ($class, $filename) = @_;
+    my $fd;
+
+    open($fd, '<', $filename) or return undef;
+    binmode($fd);
+    return new($class, IO::KaitaiStruct::Stream->new($fd));
+}
+
+sub new {
+    my ($class, $_io, $_parent, $_root) = @_;
+    my $self = IO::KaitaiStruct::Struct->new($_io);
+
+    bless $self, $class;
+    $self->{_parent} = $_parent;
+    $self->{_root} = $_root || $self;;
+
+    $self->_read();
+
+    return $self;
+}
+
+sub _read {
+    my ($self) = @_;
+
+    $self->{linetypes_sentinel_begin} = $self->{_io}->read_bytes(16);
+    $self->{linetypes} = ();
+    my $n_linetypes = $self->_parent()->header()->table_linetype()->items();
+    for (my $i = 0; $i < $n_linetypes; $i++) {
+        push @{$self->{linetypes}}, CAD::Format::DWG::AC1009::Linetype->new($self->{_io}, $self, $self->{_root});
+    }
+    $self->{linetypes_sentinel_end} = $self->{_io}->read_bytes(16);
+}
+
+sub linetypes_sentinel_begin {
+    my ($self) = @_;
+    return $self->{linetypes_sentinel_begin};
+}
+
+sub linetypes {
+    my ($self) = @_;
+    return $self->{linetypes};
+}
+
+sub linetypes_sentinel_end {
+    my ($self) = @_;
+    return $self->{linetypes_sentinel_end};
+}
+
+########################################################################
 package CAD::Format::DWG::AC1009::Eed1003;
 
 our @ISA = 'IO::KaitaiStruct::Struct';
@@ -4147,6 +4263,60 @@ sub linetype_index {
 sub crc16 {
     my ($self) = @_;
     return $self->{crc16};
+}
+
+########################################################################
+package CAD::Format::DWG::AC1009::TableViews;
+
+our @ISA = 'IO::KaitaiStruct::Struct';
+
+sub from_file {
+    my ($class, $filename) = @_;
+    my $fd;
+
+    open($fd, '<', $filename) or return undef;
+    binmode($fd);
+    return new($class, IO::KaitaiStruct::Stream->new($fd));
+}
+
+sub new {
+    my ($class, $_io, $_parent, $_root) = @_;
+    my $self = IO::KaitaiStruct::Struct->new($_io);
+
+    bless $self, $class;
+    $self->{_parent} = $_parent;
+    $self->{_root} = $_root || $self;;
+
+    $self->_read();
+
+    return $self;
+}
+
+sub _read {
+    my ($self) = @_;
+
+    $self->{views_sentinel_begin} = $self->{_io}->read_bytes(16);
+    $self->{views} = ();
+    my $n_views = $self->_parent()->header()->table_view()->items();
+    for (my $i = 0; $i < $n_views; $i++) {
+        push @{$self->{views}}, CAD::Format::DWG::AC1009::View->new($self->{_io}, $self, $self->{_root});
+    }
+    $self->{views_sentinel_end} = $self->{_io}->read_bytes(16);
+}
+
+sub views_sentinel_begin {
+    my ($self) = @_;
+    return $self->{views_sentinel_begin};
+}
+
+sub views {
+    my ($self) = @_;
+    return $self->{views};
+}
+
+sub views_sentinel_end {
+    my ($self) = @_;
+    return $self->{views_sentinel_end};
 }
 
 ########################################################################
@@ -5674,6 +5844,60 @@ sub crc16 {
 }
 
 ########################################################################
+package CAD::Format::DWG::AC1009::TableLayers;
+
+our @ISA = 'IO::KaitaiStruct::Struct';
+
+sub from_file {
+    my ($class, $filename) = @_;
+    my $fd;
+
+    open($fd, '<', $filename) or return undef;
+    binmode($fd);
+    return new($class, IO::KaitaiStruct::Stream->new($fd));
+}
+
+sub new {
+    my ($class, $_io, $_parent, $_root) = @_;
+    my $self = IO::KaitaiStruct::Struct->new($_io);
+
+    bless $self, $class;
+    $self->{_parent} = $_parent;
+    $self->{_root} = $_root || $self;;
+
+    $self->_read();
+
+    return $self;
+}
+
+sub _read {
+    my ($self) = @_;
+
+    $self->{layers_sentinel_begin} = $self->{_io}->read_bytes(16);
+    $self->{layers} = ();
+    my $n_layers = $self->_parent()->header()->table_layer()->items();
+    for (my $i = 0; $i < $n_layers; $i++) {
+        push @{$self->{layers}}, CAD::Format::DWG::AC1009::Layer->new($self->{_io}, $self, $self->{_root});
+    }
+    $self->{layers_sentinel_end} = $self->{_io}->read_bytes(16);
+}
+
+sub layers_sentinel_begin {
+    my ($self) = @_;
+    return $self->{layers_sentinel_begin};
+}
+
+sub layers {
+    my ($self) = @_;
+    return $self->{layers};
+}
+
+sub layers_sentinel_end {
+    my ($self) = @_;
+    return $self->{layers_sentinel_end};
+}
+
+########################################################################
 package CAD::Format::DWG::AC1009::AuxHeader;
 
 our @ISA = 'IO::KaitaiStruct::Struct';
@@ -7130,6 +7354,60 @@ sub vis_retain {
 }
 
 ########################################################################
+package CAD::Format::DWG::AC1009::TableStyles;
+
+our @ISA = 'IO::KaitaiStruct::Struct';
+
+sub from_file {
+    my ($class, $filename) = @_;
+    my $fd;
+
+    open($fd, '<', $filename) or return undef;
+    binmode($fd);
+    return new($class, IO::KaitaiStruct::Stream->new($fd));
+}
+
+sub new {
+    my ($class, $_io, $_parent, $_root) = @_;
+    my $self = IO::KaitaiStruct::Struct->new($_io);
+
+    bless $self, $class;
+    $self->{_parent} = $_parent;
+    $self->{_root} = $_root || $self;;
+
+    $self->_read();
+
+    return $self;
+}
+
+sub _read {
+    my ($self) = @_;
+
+    $self->{styles_sentinel_begin} = $self->{_io}->read_bytes(16);
+    $self->{styles} = ();
+    my $n_styles = $self->_parent()->header()->table_style()->items();
+    for (my $i = 0; $i < $n_styles; $i++) {
+        push @{$self->{styles}}, CAD::Format::DWG::AC1009::Style->new($self->{_io}, $self, $self->{_root});
+    }
+    $self->{styles_sentinel_end} = $self->{_io}->read_bytes(16);
+}
+
+sub styles_sentinel_begin {
+    my ($self) = @_;
+    return $self->{styles_sentinel_begin};
+}
+
+sub styles {
+    my ($self) = @_;
+    return $self->{styles};
+}
+
+sub styles_sentinel_end {
+    my ($self) = @_;
+    return $self->{styles_sentinel_end};
+}
+
+########################################################################
 package CAD::Format::DWG::AC1009::EntityArc;
 
 our @ISA = 'IO::KaitaiStruct::Struct';
@@ -7585,6 +7863,60 @@ sub eed_data {
 sub _raw_eed_data {
     my ($self) = @_;
     return $self->{_raw_eed_data};
+}
+
+########################################################################
+package CAD::Format::DWG::AC1009::TableDimstyles;
+
+our @ISA = 'IO::KaitaiStruct::Struct';
+
+sub from_file {
+    my ($class, $filename) = @_;
+    my $fd;
+
+    open($fd, '<', $filename) or return undef;
+    binmode($fd);
+    return new($class, IO::KaitaiStruct::Stream->new($fd));
+}
+
+sub new {
+    my ($class, $_io, $_parent, $_root) = @_;
+    my $self = IO::KaitaiStruct::Struct->new($_io);
+
+    bless $self, $class;
+    $self->{_parent} = $_parent;
+    $self->{_root} = $_root || $self;;
+
+    $self->_read();
+
+    return $self;
+}
+
+sub _read {
+    my ($self) = @_;
+
+    $self->{dimestyles_sentinel_begin} = $self->{_io}->read_bytes(16);
+    $self->{dimstyles} = ();
+    my $n_dimstyles = $self->_parent()->header()->variables()->table_dimstyle()->items();
+    for (my $i = 0; $i < $n_dimstyles; $i++) {
+        push @{$self->{dimstyles}}, CAD::Format::DWG::AC1009::Dimstyle->new($self->{_io}, $self, $self->{_root});
+    }
+    $self->{dimestyles_sentinel_end} = $self->{_io}->read_bytes(16);
+}
+
+sub dimestyles_sentinel_begin {
+    my ($self) = @_;
+    return $self->{dimestyles_sentinel_begin};
+}
+
+sub dimstyles {
+    my ($self) = @_;
+    return $self->{dimstyles};
+}
+
+sub dimestyles_sentinel_end {
+    my ($self) = @_;
+    return $self->{dimestyles_sentinel_end};
 }
 
 ########################################################################
@@ -8170,6 +8502,114 @@ sub crc16 {
 }
 
 ########################################################################
+package CAD::Format::DWG::AC1009::TableUcss;
+
+our @ISA = 'IO::KaitaiStruct::Struct';
+
+sub from_file {
+    my ($class, $filename) = @_;
+    my $fd;
+
+    open($fd, '<', $filename) or return undef;
+    binmode($fd);
+    return new($class, IO::KaitaiStruct::Stream->new($fd));
+}
+
+sub new {
+    my ($class, $_io, $_parent, $_root) = @_;
+    my $self = IO::KaitaiStruct::Struct->new($_io);
+
+    bless $self, $class;
+    $self->{_parent} = $_parent;
+    $self->{_root} = $_root || $self;;
+
+    $self->_read();
+
+    return $self;
+}
+
+sub _read {
+    my ($self) = @_;
+
+    $self->{ucss_sentinel_begin} = $self->{_io}->read_bytes(16);
+    $self->{ucss} = ();
+    my $n_ucss = $self->_parent()->header()->variables()->table_ucs()->items();
+    for (my $i = 0; $i < $n_ucss; $i++) {
+        push @{$self->{ucss}}, CAD::Format::DWG::AC1009::Ucs->new($self->{_io}, $self, $self->{_root});
+    }
+    $self->{ucss_sentinel_end} = $self->{_io}->read_bytes(16);
+}
+
+sub ucss_sentinel_begin {
+    my ($self) = @_;
+    return $self->{ucss_sentinel_begin};
+}
+
+sub ucss {
+    my ($self) = @_;
+    return $self->{ucss};
+}
+
+sub ucss_sentinel_end {
+    my ($self) = @_;
+    return $self->{ucss_sentinel_end};
+}
+
+########################################################################
+package CAD::Format::DWG::AC1009::TableVxs;
+
+our @ISA = 'IO::KaitaiStruct::Struct';
+
+sub from_file {
+    my ($class, $filename) = @_;
+    my $fd;
+
+    open($fd, '<', $filename) or return undef;
+    binmode($fd);
+    return new($class, IO::KaitaiStruct::Stream->new($fd));
+}
+
+sub new {
+    my ($class, $_io, $_parent, $_root) = @_;
+    my $self = IO::KaitaiStruct::Struct->new($_io);
+
+    bless $self, $class;
+    $self->{_parent} = $_parent;
+    $self->{_root} = $_root || $self;;
+
+    $self->_read();
+
+    return $self;
+}
+
+sub _read {
+    my ($self) = @_;
+
+    $self->{vxs_sentinel_begin} = $self->{_io}->read_bytes(16);
+    $self->{vxs} = ();
+    my $n_vxs = $self->_parent()->header()->variables()->table_vx()->items();
+    for (my $i = 0; $i < $n_vxs; $i++) {
+        push @{$self->{vxs}}, CAD::Format::DWG::AC1009::Vx->new($self->{_io}, $self, $self->{_root});
+    }
+    $self->{vxs_sentinel_end} = $self->{_io}->read_bytes(16);
+}
+
+sub vxs_sentinel_begin {
+    my ($self) = @_;
+    return $self->{vxs_sentinel_begin};
+}
+
+sub vxs {
+    my ($self) = @_;
+    return $self->{vxs};
+}
+
+sub vxs_sentinel_end {
+    my ($self) = @_;
+    return $self->{vxs_sentinel_end};
+}
+
+########################################################################
 package CAD::Format::DWG::AC1009::EntityCircle;
 
 our @ISA = 'IO::KaitaiStruct::Struct';
@@ -8321,6 +8761,60 @@ sub extrusion {
 sub crc16 {
     my ($self) = @_;
     return $self->{crc16};
+}
+
+########################################################################
+package CAD::Format::DWG::AC1009::TableAppids;
+
+our @ISA = 'IO::KaitaiStruct::Struct';
+
+sub from_file {
+    my ($class, $filename) = @_;
+    my $fd;
+
+    open($fd, '<', $filename) or return undef;
+    binmode($fd);
+    return new($class, IO::KaitaiStruct::Stream->new($fd));
+}
+
+sub new {
+    my ($class, $_io, $_parent, $_root) = @_;
+    my $self = IO::KaitaiStruct::Struct->new($_io);
+
+    bless $self, $class;
+    $self->{_parent} = $_parent;
+    $self->{_root} = $_root || $self;;
+
+    $self->_read();
+
+    return $self;
+}
+
+sub _read {
+    my ($self) = @_;
+
+    $self->{appids_sentinel_begin} = $self->{_io}->read_bytes(16);
+    $self->{appids} = ();
+    my $n_appids = $self->_parent()->header()->variables()->table_appid()->items();
+    for (my $i = 0; $i < $n_appids; $i++) {
+        push @{$self->{appids}}, CAD::Format::DWG::AC1009::Appid->new($self->{_io}, $self, $self->{_root});
+    }
+    $self->{appids_sentinel_end} = $self->{_io}->read_bytes(16);
+}
+
+sub appids_sentinel_begin {
+    my ($self) = @_;
+    return $self->{appids_sentinel_begin};
+}
+
+sub appids {
+    my ($self) = @_;
+    return $self->{appids};
+}
+
+sub appids_sentinel_end {
+    my ($self) = @_;
+    return $self->{appids_sentinel_end};
 }
 
 ########################################################################

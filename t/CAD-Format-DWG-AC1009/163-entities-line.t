@@ -13,7 +13,7 @@ my $data_dir = File::Object->new->up->dir('data/entity/line')->set;
 my $obj = CAD::Format::DWG::AC1009->from_file(
 	$data_dir->file('LINE1.DWG')->s,
 );
-my $entity1 = $obj->entities->entities->[0];
+my $entity1 = $obj->entities->entities->entities->[0];
 isa_ok($entity1, 'CAD::Format::DWG::AC1009::Entity');
 is($entity1->entity_type, 1, 'Get entity type (1).');
 my $line1_data = $entity1->data;
@@ -27,14 +27,14 @@ is($line1_data->x2, 2, 'Entity x2 (2).');
 is($line1_data->y2, 2, 'Entity y2 (2).');
 my $crc16 = unpack 'H*', reverse $line1_data->crc16;
 is($crc16, 'bced', 'CRC16 of line (bced)');
-my $entities = @{$obj->entities->entities};
+my $entities = @{$obj->entities->entities->entities};
 is($entities, 1, 'Number of entities (1).');
 
 # Test.
 $obj = CAD::Format::DWG::AC1009->from_file(
 	$data_dir->file('LINE2.DWG')->s,
 );
-$entity1 = $obj->entities->entities->[0];
+$entity1 = $obj->entities->entities->entities->[0];
 isa_ok($entity1, 'CAD::Format::DWG::AC1009::Entity');
 is($entity1->entity_type, 1, 'Get entity type (1).');
 $line1_data = $entity1->data;
@@ -50,5 +50,5 @@ is($line1_data->y2, 2, 'Entity y2 (2).');
 is($line1_data->z2, 2, 'Entity z2 (2).');
 $crc16 = unpack 'H*', reverse $line1_data->crc16;
 is($crc16, 'a0ac', 'CRC16 of line (a0ac)');
-$entities = @{$obj->entities->entities};
+$entities = @{$obj->entities->entities->entities};
 is($entities, 1, 'Number of entities (1).');
