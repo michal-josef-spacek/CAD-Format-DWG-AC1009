@@ -405,6 +405,7 @@ sub _read {
     if ($self->entity_common()->flag2_1()) {
         $self->{aligned_to} = CAD::Format::DWG::AC1009::Point2d->new($self->{_io}, $self, $self->{_root});
     }
+    $self->{crc16} = $self->{_io}->read_bytes(2);
 }
 
 sub entity_mode {
@@ -540,6 +541,11 @@ sub horiz_alignment {
 sub aligned_to {
     my ($self) = @_;
     return $self->{aligned_to};
+}
+
+sub crc16 {
+    my ($self) = @_;
+    return $self->{crc16};
 }
 
 ########################################################################

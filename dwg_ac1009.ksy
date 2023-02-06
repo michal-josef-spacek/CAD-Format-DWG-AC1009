@@ -1333,6 +1333,8 @@ types:
         type: point_2d
         if: entity_common.flag2_1
         doc: ATTRIB/11|21
+      - id: crc16
+        size: 2
   attr_flags:
     seq:
       - id: flag1
