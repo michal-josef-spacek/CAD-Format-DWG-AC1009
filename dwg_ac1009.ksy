@@ -25,6 +25,8 @@ seq:
     type: table_layers
   - id: table_styles
     type: table_styles
+  - id: unknown1
+    size: header.table_linetype.begin - _io.pos - 16
   - id: table_linetypes
     type: table_linetypes
   - id: table_views
@@ -33,14 +35,16 @@ seq:
     type: table_ucss
   - id: table_vports
     type: table_vports
-  - id: unknown1
+  - id: unknown2
     size: header.variables.table_appid.begin - _io.pos - 16
   - id: table_appids
     type: table_appids
-  - id: unknown2
+  - id: unknown3
     size: header.variables.table_dimstyle.begin - _io.pos - 16
   - id: table_dimstyles
     type: table_dimstyles
+  - id: unknown4
+    size: header.variables.table_vx.begin - _io.pos - 16
   - id: table_vxs
     type: table_vxs
   - id: entities_block
