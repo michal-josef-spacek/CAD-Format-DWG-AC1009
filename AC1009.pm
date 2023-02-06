@@ -165,6 +165,7 @@ sub _read {
     $self->{table_views} = CAD::Format::DWG::AC1009::TableViews->new($self->{_io}, $self, $self->{_root});
     $self->{table_ucss} = CAD::Format::DWG::AC1009::TableUcss->new($self->{_io}, $self, $self->{_root});
     $self->{table_vports} = CAD::Format::DWG::AC1009::TableVports->new($self->{_io}, $self, $self->{_root});
+    $self->{unknown} = $self->{_io}->read_bytes((($self->header()->variables()->table_appid()->begin() - $self->_io()->pos()) - 16));
     $self->{table_appids} = CAD::Format::DWG::AC1009::TableAppids->new($self->{_io}, $self, $self->{_root});
     $self->{table_dimstyles} = CAD::Format::DWG::AC1009::TableDimstyles->new($self->{_io}, $self, $self->{_root});
     $self->{table_vxs} = CAD::Format::DWG::AC1009::TableVxs->new($self->{_io}, $self, $self->{_root});
@@ -224,6 +225,11 @@ sub table_ucss {
 sub table_vports {
     my ($self) = @_;
     return $self->{table_vports};
+}
+
+sub unknown {
+    my ($self) = @_;
+    return $self->{unknown};
 }
 
 sub table_appids {

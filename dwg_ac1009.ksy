@@ -33,6 +33,9 @@ seq:
     type: table_ucss
   - id: table_vports
     type: table_vports
+# TODO Icon?
+  - id: unknown
+    size: header.variables.table_appid.begin - _io.pos - 16
   - id: table_appids
     type: table_appids
   - id: table_dimstyles
