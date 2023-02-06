@@ -1677,6 +1677,9 @@ types:
         if: entity_common.flag2_6
       - id: text
         size: len_text
+        type: str
+        encoding: ASCII
+        terminator: 0x00
         if: entity_common.flag2_6
         doc: DIMENSION/1
       - id: extension_defining_point1

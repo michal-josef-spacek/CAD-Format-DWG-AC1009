@@ -5639,7 +5639,7 @@ sub _read {
         $self->{len_text} = $self->{_io}->read_s2le();
     }
     if ($self->entity_common()->flag2_6()) {
-        $self->{text} = $self->{_io}->read_bytes($self->len_text());
+        $self->{text} = Encode::decode("ASCII", IO::KaitaiStruct::Stream::bytes_terminate($self->{_io}->read_bytes($self->len_text()), 0, 0));
     }
     if ($self->entity_common()->flag2_5()) {
         $self->{extension_defining_point1} = CAD::Format::DWG::AC1009::Point3d->new($self->{_io}, $self, $self->{_root});
