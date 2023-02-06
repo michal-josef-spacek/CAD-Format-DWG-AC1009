@@ -225,15 +225,15 @@ types:
       - id: extra_entities_size_raw
         type: u4
       - id: table_block
-        type: table
+        type: header_table
       - id: table_layer
-        type: table
+        type: header_table
       - id: table_style
-        type: table
+        type: header_table
       - id: table_linetype
-        type: table
+        type: header_table
       - id: table_view
-        type: table
+        type: header_table
       - id: variables
         type: header_variables
       - id: crc16
@@ -249,7 +249,7 @@ types:
          value: (block_entities_size_raw & 0xff000000) >> 24
       block_entities_size:
          value: (block_entities_size_raw & 0x00ffffff)
-  table:
+  header_table:
     seq:
       - id: item_size
         type: u2
@@ -659,7 +659,7 @@ types:
         type: s2
         doc: 0x03ed-0x03ee, $MIRRTEXT/70
       - id: table_ucs
-        type: table
+        type: header_table
       - id: unknown37
         size: 2
       - id: ucs_origin_point
@@ -743,7 +743,7 @@ types:
         type: u2
         doc: $SURFTAB2/70
       - id: table_vport
-        type: table
+        type: header_table
       - id: flatland
         type: u2
         doc: 0x050a-0x050b, $FLATLAND
@@ -758,7 +758,7 @@ types:
         type: u2
         doc: $UCSNAME/2
       - id: table_appid
-        type: table
+        type: header_table
         doc: 0x0512-0x051c
       - id: world_view
         type: u2
@@ -768,7 +768,7 @@ types:
       - id: unknown49b
         type: u2
       - id: table_dimstyle
-        type: table
+        type: header_table
       - id: unknown49c
         size: 5
       - id: dim_line_color
@@ -860,7 +860,7 @@ types:
         type: point_3d
         doc: $PINSBASE/10|20|30
       - id: table_vx
-        type: table
+        type: header_table
         doc: 0x069f-0x06a8
       - id: max_actvp
         type: u2
