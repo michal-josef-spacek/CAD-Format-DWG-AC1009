@@ -157,79 +157,92 @@ sub _read {
     my ($self) = @_;
 
     $self->{header} = CAD::Format::DWG::AC1009::Header->new($self->{_io}, $self, $self->{_root});
-    $self->{header_sentinel} = $self->{_io}->read_bytes(16);
+    $self->{entities_sentinel_begin} = $self->{_io}->read_bytes(16);
     $self->{_raw_entities} = $self->{_io}->read_bytes(($self->header()->entities_end() - $self->header()->entities_start()));
     my $io__raw_entities = IO::KaitaiStruct::Stream->new($self->{_raw_entities});
     $self->{entities} = CAD::Format::DWG::AC1009::RealEntities->new($io__raw_entities, $self, $self->{_root});
-    $self->{crc_entities} = $self->{_io}->read_bytes(($self->header()->table_block()->begin() - $self->_io()->pos()));
+    $self->{entities_sentinel_end} = $self->{_io}->read_bytes(16);
+    $self->{blocks_sentinel_begin} = $self->{_io}->read_bytes(16);
     $self->{blocks} = ();
     my $n_blocks = $self->header()->table_block()->items();
     for (my $i = 0; $i < $n_blocks; $i++) {
         push @{$self->{blocks}}, CAD::Format::DWG::AC1009::Block->new($self->{_io}, $self, $self->{_root});
     }
-    $self->{crc_blocks} = $self->{_io}->read_bytes(($self->header()->table_layer()->begin() - $self->_io()->pos()));
+    $self->{blocks_sentinel_end} = $self->{_io}->read_bytes(16);
+    $self->{layers_sentinel_begin} = $self->{_io}->read_bytes(16);
     $self->{layers} = ();
     my $n_layers = $self->header()->table_layer()->items();
     for (my $i = 0; $i < $n_layers; $i++) {
         push @{$self->{layers}}, CAD::Format::DWG::AC1009::Layer->new($self->{_io}, $self, $self->{_root});
     }
-    $self->{crc_layers} = $self->{_io}->read_bytes(($self->header()->table_style()->begin() - $self->_io()->pos()));
+    $self->{layers_sentinel_end} = $self->{_io}->read_bytes(16);
+    $self->{styles_sentinel_begin} = $self->{_io}->read_bytes(16);
     $self->{styles} = ();
     my $n_styles = $self->header()->table_style()->items();
     for (my $i = 0; $i < $n_styles; $i++) {
         push @{$self->{styles}}, CAD::Format::DWG::AC1009::Style->new($self->{_io}, $self, $self->{_root});
     }
-    $self->{crc_styles} = $self->{_io}->read_bytes(($self->header()->table_linetype()->begin() - $self->_io()->pos()));
+    $self->{styles_sentinel_end} = $self->{_io}->read_bytes(16);
+    $self->{linetypes_sentinel_begin} = $self->{_io}->read_bytes(16);
     $self->{linetypes} = ();
     my $n_linetypes = $self->header()->table_linetype()->items();
     for (my $i = 0; $i < $n_linetypes; $i++) {
         push @{$self->{linetypes}}, CAD::Format::DWG::AC1009::Linetype->new($self->{_io}, $self, $self->{_root});
     }
-    $self->{crc_linetypes} = $self->{_io}->read_bytes(($self->header()->table_view()->begin() - $self->_io()->pos()));
+    $self->{linetypes_sentinel_end} = $self->{_io}->read_bytes(16);
+    $self->{views_sentinel_begin} = $self->{_io}->read_bytes(16);
     $self->{views} = ();
     my $n_views = $self->header()->table_view()->items();
     for (my $i = 0; $i < $n_views; $i++) {
         push @{$self->{views}}, CAD::Format::DWG::AC1009::View->new($self->{_io}, $self, $self->{_root});
     }
-    $self->{crc_views} = $self->{_io}->read_bytes(($self->header()->variables()->table_ucs()->begin() - $self->_io()->pos()));
+    $self->{views_sentinel_end} = $self->{_io}->read_bytes(16);
+    $self->{ucss_sentinel_begin} = $self->{_io}->read_bytes(16);
     $self->{ucss} = ();
     my $n_ucss = $self->header()->variables()->table_ucs()->items();
     for (my $i = 0; $i < $n_ucss; $i++) {
         push @{$self->{ucss}}, CAD::Format::DWG::AC1009::Ucs->new($self->{_io}, $self, $self->{_root});
     }
-    $self->{crc_ucss} = $self->{_io}->read_bytes(($self->header()->variables()->table_vport()->begin() - $self->_io()->pos()));
+    $self->{ucss_sentinel_end} = $self->{_io}->read_bytes(16);
+    $self->{vports_sentinel_begin} = $self->{_io}->read_bytes(16);
     $self->{vports} = ();
     my $n_vports = $self->header()->variables()->table_vport()->items();
     for (my $i = 0; $i < $n_vports; $i++) {
         push @{$self->{vports}}, CAD::Format::DWG::AC1009::Vport->new($self->{_io}, $self, $self->{_root});
     }
-    $self->{crc_vports} = $self->{_io}->read_bytes(($self->header()->variables()->table_appid()->begin() - $self->_io()->pos()));
+    $self->{vports_sentinel_end} = $self->{_io}->read_bytes(16);
+    $self->{appids_sentinel_begin} = $self->{_io}->read_bytes(16);
     $self->{appids} = ();
     my $n_appids = $self->header()->variables()->table_appid()->items();
     for (my $i = 0; $i < $n_appids; $i++) {
         push @{$self->{appids}}, CAD::Format::DWG::AC1009::Appid->new($self->{_io}, $self, $self->{_root});
     }
-    $self->{crc_appids} = $self->{_io}->read_bytes(($self->header()->variables()->table_dimstyle()->begin() - $self->_io()->pos()));
+    $self->{appids_sentinel_end} = $self->{_io}->read_bytes(16);
+    $self->{dimestyles_sentinel_begin} = $self->{_io}->read_bytes(16);
     $self->{dimstyles} = ();
     my $n_dimstyles = $self->header()->variables()->table_dimstyle()->items();
     for (my $i = 0; $i < $n_dimstyles; $i++) {
         push @{$self->{dimstyles}}, CAD::Format::DWG::AC1009::Dimstyle->new($self->{_io}, $self, $self->{_root});
     }
-    $self->{crc_dimstyles} = $self->{_io}->read_bytes(($self->header()->variables()->table_vx()->begin() - $self->_io()->pos()));
+    $self->{dimestyles_sentinel_end} = $self->{_io}->read_bytes(16);
+    $self->{vxs_sentinel_begin} = $self->{_io}->read_bytes(16);
     $self->{vxs} = ();
     my $n_vxs = $self->header()->variables()->table_vx()->items();
     for (my $i = 0; $i < $n_vxs; $i++) {
         push @{$self->{vxs}}, CAD::Format::DWG::AC1009::Vx->new($self->{_io}, $self, $self->{_root});
     }
-    $self->{crc_vxs} = $self->{_io}->read_bytes(($self->header()->block_entities_start() - $self->_io()->pos()));
+    $self->{vxs_sentinel_end} = $self->{_io}->read_bytes(16);
+    $self->{block_entities_sentinel_begin} = $self->{_io}->read_bytes(16);
     $self->{_raw_block_entities} = $self->{_io}->read_bytes($self->header()->block_entities_size());
     my $io__raw_block_entities = IO::KaitaiStruct::Stream->new($self->{_raw_block_entities});
     $self->{block_entities} = CAD::Format::DWG::AC1009::RealEntities->new($io__raw_block_entities, $self, $self->{_root});
-    $self->{crc_block_entities} = $self->{_io}->read_bytes(32);
+    $self->{block_entities_sentinel_end} = $self->{_io}->read_bytes(16);
+    $self->{entities_extra_sentinel_begin} = $self->{_io}->read_bytes(16);
     $self->{_raw_entities_extra} = $self->{_io}->read_bytes($self->header()->extra_entities_size());
     my $io__raw_entities_extra = IO::KaitaiStruct::Stream->new($self->{_raw_entities_extra});
     $self->{entities_extra} = CAD::Format::DWG::AC1009::RealEntities->new($io__raw_entities_extra, $self, $self->{_root});
-    $self->{_raw_aux_header} = $self->{_io}->read_bytes(186);
+    $self->{entities_extra_sentinel_end} = $self->{_io}->read_bytes(16);
+    $self->{_raw_aux_header} = $self->{_io}->read_bytes(170);
     my $io__raw_aux_header = IO::KaitaiStruct::Stream->new($self->{_raw_aux_header});
     $self->{aux_header} = CAD::Format::DWG::AC1009::AuxHeader->new($io__raw_aux_header, $self, $self->{_root});
     if (!($self->_io()->is_eof())) {
@@ -245,9 +258,9 @@ sub header {
     return $self->{header};
 }
 
-sub header_sentinel {
+sub entities_sentinel_begin {
     my ($self) = @_;
-    return $self->{header_sentinel};
+    return $self->{entities_sentinel_begin};
 }
 
 sub entities {
@@ -255,9 +268,14 @@ sub entities {
     return $self->{entities};
 }
 
-sub crc_entities {
+sub entities_sentinel_end {
     my ($self) = @_;
-    return $self->{crc_entities};
+    return $self->{entities_sentinel_end};
+}
+
+sub blocks_sentinel_begin {
+    my ($self) = @_;
+    return $self->{blocks_sentinel_begin};
 }
 
 sub blocks {
@@ -265,9 +283,14 @@ sub blocks {
     return $self->{blocks};
 }
 
-sub crc_blocks {
+sub blocks_sentinel_end {
     my ($self) = @_;
-    return $self->{crc_blocks};
+    return $self->{blocks_sentinel_end};
+}
+
+sub layers_sentinel_begin {
+    my ($self) = @_;
+    return $self->{layers_sentinel_begin};
 }
 
 sub layers {
@@ -275,9 +298,14 @@ sub layers {
     return $self->{layers};
 }
 
-sub crc_layers {
+sub layers_sentinel_end {
     my ($self) = @_;
-    return $self->{crc_layers};
+    return $self->{layers_sentinel_end};
+}
+
+sub styles_sentinel_begin {
+    my ($self) = @_;
+    return $self->{styles_sentinel_begin};
 }
 
 sub styles {
@@ -285,9 +313,14 @@ sub styles {
     return $self->{styles};
 }
 
-sub crc_styles {
+sub styles_sentinel_end {
     my ($self) = @_;
-    return $self->{crc_styles};
+    return $self->{styles_sentinel_end};
+}
+
+sub linetypes_sentinel_begin {
+    my ($self) = @_;
+    return $self->{linetypes_sentinel_begin};
 }
 
 sub linetypes {
@@ -295,9 +328,14 @@ sub linetypes {
     return $self->{linetypes};
 }
 
-sub crc_linetypes {
+sub linetypes_sentinel_end {
     my ($self) = @_;
-    return $self->{crc_linetypes};
+    return $self->{linetypes_sentinel_end};
+}
+
+sub views_sentinel_begin {
+    my ($self) = @_;
+    return $self->{views_sentinel_begin};
 }
 
 sub views {
@@ -305,9 +343,14 @@ sub views {
     return $self->{views};
 }
 
-sub crc_views {
+sub views_sentinel_end {
     my ($self) = @_;
-    return $self->{crc_views};
+    return $self->{views_sentinel_end};
+}
+
+sub ucss_sentinel_begin {
+    my ($self) = @_;
+    return $self->{ucss_sentinel_begin};
 }
 
 sub ucss {
@@ -315,9 +358,14 @@ sub ucss {
     return $self->{ucss};
 }
 
-sub crc_ucss {
+sub ucss_sentinel_end {
     my ($self) = @_;
-    return $self->{crc_ucss};
+    return $self->{ucss_sentinel_end};
+}
+
+sub vports_sentinel_begin {
+    my ($self) = @_;
+    return $self->{vports_sentinel_begin};
 }
 
 sub vports {
@@ -325,9 +373,14 @@ sub vports {
     return $self->{vports};
 }
 
-sub crc_vports {
+sub vports_sentinel_end {
     my ($self) = @_;
-    return $self->{crc_vports};
+    return $self->{vports_sentinel_end};
+}
+
+sub appids_sentinel_begin {
+    my ($self) = @_;
+    return $self->{appids_sentinel_begin};
 }
 
 sub appids {
@@ -335,9 +388,14 @@ sub appids {
     return $self->{appids};
 }
 
-sub crc_appids {
+sub appids_sentinel_end {
     my ($self) = @_;
-    return $self->{crc_appids};
+    return $self->{appids_sentinel_end};
+}
+
+sub dimestyles_sentinel_begin {
+    my ($self) = @_;
+    return $self->{dimestyles_sentinel_begin};
 }
 
 sub dimstyles {
@@ -345,9 +403,14 @@ sub dimstyles {
     return $self->{dimstyles};
 }
 
-sub crc_dimstyles {
+sub dimestyles_sentinel_end {
     my ($self) = @_;
-    return $self->{crc_dimstyles};
+    return $self->{dimestyles_sentinel_end};
+}
+
+sub vxs_sentinel_begin {
+    my ($self) = @_;
+    return $self->{vxs_sentinel_begin};
 }
 
 sub vxs {
@@ -355,9 +418,14 @@ sub vxs {
     return $self->{vxs};
 }
 
-sub crc_vxs {
+sub vxs_sentinel_end {
     my ($self) = @_;
-    return $self->{crc_vxs};
+    return $self->{vxs_sentinel_end};
+}
+
+sub block_entities_sentinel_begin {
+    my ($self) = @_;
+    return $self->{block_entities_sentinel_begin};
 }
 
 sub block_entities {
@@ -365,14 +433,24 @@ sub block_entities {
     return $self->{block_entities};
 }
 
-sub crc_block_entities {
+sub block_entities_sentinel_end {
     my ($self) = @_;
-    return $self->{crc_block_entities};
+    return $self->{block_entities_sentinel_end};
+}
+
+sub entities_extra_sentinel_begin {
+    my ($self) = @_;
+    return $self->{entities_extra_sentinel_begin};
 }
 
 sub entities_extra {
     my ($self) = @_;
     return $self->{entities_extra};
+}
+
+sub entities_extra_sentinel_end {
+    my ($self) = @_;
+    return $self->{entities_extra_sentinel_end};
 }
 
 sub aux_header {
@@ -5625,8 +5703,7 @@ sub new {
 sub _read {
     my ($self) = @_;
 
-    $self->{sentinel1} = $self->{_io}->read_bytes(16);
-    $self->{u1} = $self->{_io}->read_bytes(16);
+    $self->{aux_header_sentinel_begin} = $self->{_io}->read_bytes(16);
     $self->{u2} = $self->{_io}->read_s2le();
     $self->{u3} = $self->{_io}->read_s2le();
     $self->{entities_start} = $self->{_io}->read_s4le();
@@ -5643,17 +5720,12 @@ sub _read {
     }
     $self->{u1_address} = $self->{_io}->read_s4le();
     $self->{crc16} = $self->{_io}->read_bytes(2);
-    $self->{sentinel2} = $self->{_io}->read_bytes(16);
+    $self->{aux_header_sentinel_end} = $self->{_io}->read_bytes(16);
 }
 
-sub sentinel1 {
+sub aux_header_sentinel_begin {
     my ($self) = @_;
-    return $self->{sentinel1};
-}
-
-sub u1 {
-    my ($self) = @_;
-    return $self->{u1};
+    return $self->{aux_header_sentinel_begin};
 }
 
 sub u2 {
@@ -5716,9 +5788,9 @@ sub crc16 {
     return $self->{crc16};
 }
 
-sub sentinel2 {
+sub aux_header_sentinel_end {
     my ($self) = @_;
-    return $self->{sentinel2};
+    return $self->{aux_header_sentinel_end};
 }
 
 ########################################################################
