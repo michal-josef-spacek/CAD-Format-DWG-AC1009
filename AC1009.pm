@@ -232,11 +232,11 @@ sub _read {
         push @{$self->{vxs}}, CAD::Format::DWG::AC1009::Vx->new($self->{_io}, $self, $self->{_root});
     }
     $self->{vxs_sentinel_end} = $self->{_io}->read_bytes(16);
-    $self->{block_entities_sentinel_begin} = $self->{_io}->read_bytes(16);
-    $self->{_raw_block_entities} = $self->{_io}->read_bytes($self->header()->block_entities_size());
-    my $io__raw_block_entities = IO::KaitaiStruct::Stream->new($self->{_raw_block_entities});
-    $self->{block_entities} = CAD::Format::DWG::AC1009::RealEntities->new($io__raw_block_entities, $self, $self->{_root});
-    $self->{block_entities_sentinel_end} = $self->{_io}->read_bytes(16);
+    $self->{entities_block_sentinel_begin} = $self->{_io}->read_bytes(16);
+    $self->{_raw_entities_block} = $self->{_io}->read_bytes($self->header()->block_entities_size());
+    my $io__raw_entities_block = IO::KaitaiStruct::Stream->new($self->{_raw_entities_block});
+    $self->{entities_block} = CAD::Format::DWG::AC1009::RealEntities->new($io__raw_entities_block, $self, $self->{_root});
+    $self->{entities_block_sentinel_end} = $self->{_io}->read_bytes(16);
     $self->{entities_extra_sentinel_begin} = $self->{_io}->read_bytes(16);
     $self->{_raw_entities_extra} = $self->{_io}->read_bytes($self->header()->extra_entities_size());
     my $io__raw_entities_extra = IO::KaitaiStruct::Stream->new($self->{_raw_entities_extra});
@@ -423,19 +423,19 @@ sub vxs_sentinel_end {
     return $self->{vxs_sentinel_end};
 }
 
-sub block_entities_sentinel_begin {
+sub entities_block_sentinel_begin {
     my ($self) = @_;
-    return $self->{block_entities_sentinel_begin};
+    return $self->{entities_block_sentinel_begin};
 }
 
-sub block_entities {
+sub entities_block {
     my ($self) = @_;
-    return $self->{block_entities};
+    return $self->{entities_block};
 }
 
-sub block_entities_sentinel_end {
+sub entities_block_sentinel_end {
     my ($self) = @_;
-    return $self->{block_entities_sentinel_end};
+    return $self->{entities_block_sentinel_end};
 }
 
 sub entities_extra_sentinel_begin {
@@ -468,9 +468,9 @@ sub _raw_entities {
     return $self->{_raw_entities};
 }
 
-sub _raw_block_entities {
+sub _raw_entities_block {
     my ($self) = @_;
-    return $self->{_raw_block_entities};
+    return $self->{_raw_entities_block};
 }
 
 sub _raw_entities_extra {
