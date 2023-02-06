@@ -5627,10 +5627,7 @@ sub _read {
         $self->{viewport} = $self->{_io}->read_u2le();
     }
     $self->{block_index} = $self->{_io}->read_s2le();
-    $self->{dimension_line_defining_point} = CAD::Format::DWG::AC1009::Point2d->new($self->{_io}, $self, $self->{_root});
-    if ($self->entity_mode()->has_elevation() == 0) {
-        $self->{dimension_line_defining_point_z} = $self->{_io}->read_f8le();
-    }
+    $self->{dimension_line_defining_point} = CAD::Format::DWG::AC1009::Point3d->new($self->{_io}, $self, $self->{_root});
     $self->{default_text_position} = CAD::Format::DWG::AC1009::Point2d->new($self->{_io}, $self, $self->{_root});
     if ($self->entity_common()->flag2_8()) {
         $self->{clone_ins_pt} = CAD::Format::DWG::AC1009::Point2d->new($self->{_io}, $self, $self->{_root});
@@ -5645,21 +5642,15 @@ sub _read {
         $self->{text} = $self->{_io}->read_bytes($self->len_text());
     }
     if ($self->entity_common()->flag2_5()) {
-        $self->{extension_defining_point1} = CAD::Format::DWG::AC1009::Point2d->new($self->{_io}, $self, $self->{_root});
-    }
-    if ( (($self->entity_mode()->has_elevation() == 0) && ($self->entity_common()->flag2_5())) ) {
-        $self->{extension_defining_point1_z} = $self->{_io}->read_f8le();
+        $self->{extension_defining_point1} = CAD::Format::DWG::AC1009::Point3d->new($self->{_io}, $self, $self->{_root});
     }
     if ($self->entity_common()->flag2_4()) {
-        $self->{extension_defining_point2} = CAD::Format::DWG::AC1009::Point2d->new($self->{_io}, $self, $self->{_root});
-    }
-    if ( (($self->entity_mode()->has_elevation() == 0) && ($self->entity_common()->flag2_4())) ) {
-        $self->{extension_defining_point2_z} = $self->{_io}->read_f8le();
+        $self->{extension_defining_point2} = CAD::Format::DWG::AC1009::Point3d->new($self->{_io}, $self, $self->{_root});
     }
     if ($self->entity_common()->flag2_3()) {
         $self->{defining_point} = CAD::Format::DWG::AC1009::Point2d->new($self->{_io}, $self, $self->{_root});
     }
-    if ( (($self->entity_mode()->has_elevation() == 0) && ($self->entity_common()->flag2_3())) ) {
+    if ( (($self->entity_mode()->has_elevation() == 1) && ($self->entity_common()->flag2_3())) ) {
         $self->{defining_point_z} = $self->{_io}->read_f8le();
     }
     if ($self->entity_common()->flag2_2()) {
@@ -5668,7 +5659,7 @@ sub _read {
     if ($self->entity_common()->flag2_1()) {
         $self->{leader_length} = CAD::Format::DWG::AC1009::Point2d->new($self->{_io}, $self, $self->{_root});
     }
-    if ( (($self->entity_mode()->has_elevation() == 0) && ($self->entity_common()->flag2_1())) ) {
+    if ( (($self->entity_mode()->has_elevation() == 1) && ($self->entity_common()->flag2_1())) ) {
         $self->{leader_length_z} = $self->{_io}->read_f8le();
     }
     if ($self->entity_common()->flag3_8()) {
@@ -5758,11 +5749,6 @@ sub dimension_line_defining_point {
     return $self->{dimension_line_defining_point};
 }
 
-sub dimension_line_defining_point_z {
-    my ($self) = @_;
-    return $self->{dimension_line_defining_point_z};
-}
-
 sub default_text_position {
     my ($self) = @_;
     return $self->{default_text_position};
@@ -5793,19 +5779,9 @@ sub extension_defining_point1 {
     return $self->{extension_defining_point1};
 }
 
-sub extension_defining_point1_z {
-    my ($self) = @_;
-    return $self->{extension_defining_point1_z};
-}
-
 sub extension_defining_point2 {
     my ($self) = @_;
     return $self->{extension_defining_point2};
-}
-
-sub extension_defining_point2_z {
-    my ($self) = @_;
-    return $self->{extension_defining_point2_z};
 }
 
 sub defining_point {

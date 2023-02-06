@@ -1659,19 +1659,11 @@ types:
       - id: block_index
         type: s2
       - id: dimension_line_defining_point
-        type: point_2d
-        doc: DIMENSION/10|20
-      - id: dimension_line_defining_point_z
-        type: f8
-        if: entity_mode.has_elevation == false
-        doc: DIMENSION/30
+        type: point_3d
+        doc: DIMENSION/10|20|30
       - id: default_text_position
         type: point_2d
         doc: DIMENSION/11|21
-#      - id: default_text_position_z
-#        type: f8
-#        if: entity_mode.has_elevation == false
-#        doc: DIMENSION/31
       - id: clone_ins_pt
         type: point_2d
         if: entity_common.flag2_8
@@ -1688,28 +1680,20 @@ types:
         if: entity_common.flag2_6
         doc: DIMENSION/1
       - id: extension_defining_point1
-        type: point_2d
+        type: point_3d
         if: entity_common.flag2_5
-        doc: DIMENSION/13|23
-      - id: extension_defining_point1_z
-        type: f8
-        if: entity_mode.has_elevation == false and entity_common.flag2_5
-        doc: DIMENSION/33
+        doc: DIMENSION/13|23|33
       - id: extension_defining_point2
-        type: point_2d
+        type: point_3d
         if: entity_common.flag2_4
-        doc: DIMENSION/14|24
-      - id: extension_defining_point2_z
-        type: f8
-        if: entity_mode.has_elevation == false and entity_common.flag2_4
-        doc: DIMENSION/34
+        doc: DIMENSION/14|24|34
       - id: defining_point
         type: point_2d
         if: entity_common.flag2_3
         doc: DIMENSION/15|25
       - id: defining_point_z
         type: f8
-        if: entity_mode.has_elevation == false and entity_common.flag2_3
+        if: entity_mode.has_elevation == true and entity_common.flag2_3
         doc: DIMENSION/35
       - id: dimension_line_arc_definition_point
         type: point_2d
@@ -1720,7 +1704,7 @@ types:
         doc: DIMENSION/40|50
       - id: leader_length_z
         type: f8
-        if: entity_mode.has_elevation == false and entity_common.flag2_1
+        if: entity_mode.has_elevation == true and entity_common.flag2_1
         doc: DIMENSION/60
       - id: rotation_in_radians
         type: f8
