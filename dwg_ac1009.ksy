@@ -1974,9 +1974,6 @@ types:
       - id: entity_thickness
         type: f8
         if: entity_mode.has_thickness
-      - id: entity_elevation
-        type: f8
-        if: entity_mode.has_elevation
       - id: eed
         type: eed
         if: entity_mode.has_pspace and extra_flag.has_eed
