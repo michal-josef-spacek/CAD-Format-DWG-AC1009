@@ -227,6 +227,9 @@ sub _read {
     my $io__raw_block_entities = IO::KaitaiStruct::Stream->new($self->{_raw_block_entities});
     $self->{block_entities} = CAD::Format::DWG::AC1009::RealEntities->new($io__raw_block_entities, $self, $self->{_root});
     $self->{crc_block_entities} = $self->{_io}->read_bytes(32);
+    $self->{_raw_entities_extra} = $self->{_io}->read_bytes($self->header()->extra_entities_size());
+    my $io__raw_entities_extra = IO::KaitaiStruct::Stream->new($self->{_raw_entities_extra});
+    $self->{entities_extra} = CAD::Format::DWG::AC1009::RealEntities->new($io__raw_entities_extra, $self, $self->{_root});
     $self->{_raw_aux_header} = $self->{_io}->read_bytes(186);
     my $io__raw_aux_header = IO::KaitaiStruct::Stream->new($self->{_raw_aux_header});
     $self->{aux_header} = CAD::Format::DWG::AC1009::AuxHeader->new($io__raw_aux_header, $self, $self->{_root});
@@ -368,6 +371,11 @@ sub crc_block_entities {
     return $self->{crc_block_entities};
 }
 
+sub entities_extra {
+    my ($self) = @_;
+    return $self->{entities_extra};
+}
+
 sub aux_header {
     my ($self) = @_;
     return $self->{aux_header};
@@ -386,6 +394,11 @@ sub _raw_entities {
 sub _raw_block_entities {
     my ($self) = @_;
     return $self->{_raw_block_entities};
+}
+
+sub _raw_entities_extra {
+    my ($self) = @_;
+    return $self->{_raw_entities_extra};
 }
 
 sub _raw_aux_header {

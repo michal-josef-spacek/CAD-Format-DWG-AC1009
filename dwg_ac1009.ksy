@@ -89,6 +89,9 @@ seq:
     size: header.block_entities_size
   - id: crc_block_entities
     size: 32
+  - id: entities_extra
+    type: real_entities
+    size: header.extra_entities_size
   - id: aux_header
     type: aux_header
     size: 186
