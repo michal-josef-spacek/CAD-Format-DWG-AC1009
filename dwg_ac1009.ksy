@@ -1131,8 +1131,11 @@ types:
         type: u2
         if: entity_mode.has_pspace and extra_flag.has_viewport
       - id: center_point
-        type: point_3d
-        doc: ARC/10|20|30
+        type: point_2d
+        doc: ARC/10|20
+      - id: radius
+        type: f8
+        doc: ARC/40
       - id: angle_from
         type: f8
         doc: ARC/50

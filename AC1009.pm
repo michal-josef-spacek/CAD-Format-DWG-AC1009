@@ -7458,7 +7458,8 @@ sub _read {
     if ( (($self->entity_mode()->has_pspace()) && ($self->extra_flag()->has_viewport())) ) {
         $self->{viewport} = $self->{_io}->read_u2le();
     }
-    $self->{center_point} = CAD::Format::DWG::AC1009::Point3d->new($self->{_io}, $self, $self->{_root});
+    $self->{center_point} = CAD::Format::DWG::AC1009::Point2d->new($self->{_io}, $self, $self->{_root});
+    $self->{radius} = $self->{_io}->read_f8le();
     $self->{angle_from} = $self->{_io}->read_f8le();
     $self->{angle_to} = $self->{_io}->read_f8le();
     if ($self->entity_common()->flag2_8()) {
@@ -7535,6 +7536,11 @@ sub viewport {
 sub center_point {
     my ($self) = @_;
     return $self->{center_point};
+}
+
+sub radius {
+    my ($self) = @_;
+    return $self->{radius};
 }
 
 sub angle_from {
