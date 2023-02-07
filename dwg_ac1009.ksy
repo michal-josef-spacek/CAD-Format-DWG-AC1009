@@ -71,9 +71,9 @@ types:
         type: s4
       - id: entities_end
         type: s4
-      - id: blocks_start
+      - id: block_entities_start
         type: s4
-      - id: blocks_end
+      - id: extra_entities_start
         type: s4
       - id: handling
         type: u2

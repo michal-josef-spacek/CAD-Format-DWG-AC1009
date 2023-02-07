@@ -5922,8 +5922,8 @@ sub _read {
     $self->{aux_header_size} = $self->{_io}->read_s2le();
     $self->{entities_start} = $self->{_io}->read_s4le();
     $self->{entities_end} = $self->{_io}->read_s4le();
-    $self->{blocks_start} = $self->{_io}->read_s4le();
-    $self->{blocks_end} = $self->{_io}->read_s4le();
+    $self->{block_entities_start} = $self->{_io}->read_s4le();
+    $self->{extra_entities_start} = $self->{_io}->read_s4le();
     $self->{handling} = $self->{_io}->read_u2le();
     $self->{handseed} = $self->{_io}->read_bytes(8);
     $self->{num_aux_tables} = $self->{_io}->read_u2le();
@@ -5962,14 +5962,14 @@ sub entities_end {
     return $self->{entities_end};
 }
 
-sub blocks_start {
+sub block_entities_start {
     my ($self) = @_;
-    return $self->{blocks_start};
+    return $self->{block_entities_start};
 }
 
-sub blocks_end {
+sub extra_entities_start {
     my ($self) = @_;
-    return $self->{blocks_end};
+    return $self->{extra_entities_start};
 }
 
 sub handling {
