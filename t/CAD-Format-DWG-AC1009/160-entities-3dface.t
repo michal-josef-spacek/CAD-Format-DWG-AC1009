@@ -3,7 +3,7 @@ use warnings;
 
 use CAD::Format::DWG::AC1009;
 use File::Object;
-use Test::More 'tests' => 31;
+use Test::More 'tests' => 33;
 use Test::NoWarnings;
 
 # Data directory.
@@ -28,7 +28,8 @@ is($face3d1_data->third_point_x, 2, 'Third point of 3d face x (2).');
 is($face3d1_data->third_point_y, 2, 'Third point of 3d face y (2).');
 is($face3d1_data->fourth_point_x, 3, 'Fourth point of 3d face x (3).');
 is($face3d1_data->fourth_point_y, 3, 'Fourth point of 3d face y (3).');
-# TODO crc (2 bytes)
+my $crc16 = unpack 'H*', reverse $face3d1_data->crc16;
+is($crc16, '3e97', 'CRC16 of insert (3e97)');
 my $entities = @{$obj->entities->entities->entities};
 is($entities, 1, 'Number of entities (1).');
 
@@ -55,6 +56,7 @@ is($face3d1_data->third_point_z, 2, 'Third point of 3d face z (2).');
 is($face3d1_data->fourth_point_x, 3, 'Fourth point of 3d face x (3).');
 is($face3d1_data->fourth_point_y, 3, 'Fourth point of 3d face y (3).');
 is($face3d1_data->fourth_point_z, 3, 'Fourth point of 3d face z (3).');
-# TODO crc (2 bytes)
+$crc16 = unpack 'H*', reverse $face3d1_data->crc16;
+is($crc16, '943f', 'CRC16 of insert (943f)');
 $entities = @{$obj->entities->entities->entities};
 is($entities, 1, 'Number of entities (1).');
