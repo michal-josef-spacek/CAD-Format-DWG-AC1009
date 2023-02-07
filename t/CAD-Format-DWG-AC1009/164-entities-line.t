@@ -10,6 +10,7 @@ use Test::NoWarnings;
 my $data_dir = File::Object->new->up->dir('data/entity/line')->set;
 
 # Test.
+diag "2d line with handle.";
 my $obj = CAD::Format::DWG::AC1009->from_file(
 	$data_dir->file('LINE1.DWG')->s,
 );
@@ -31,6 +32,7 @@ my $entities = @{$obj->entities->entities->entities};
 is($entities, 1, 'Number of entities (1).');
 
 # Test.
+diag "3d line with handle.";
 $obj = CAD::Format::DWG::AC1009->from_file(
 	$data_dir->file('LINE2.DWG')->s,
 );

@@ -10,6 +10,7 @@ use Test::NoWarnings;
 my $data_dir = File::Object->new->up->dir('data/entity/3dface')->set;
 
 # Test.
+diag "3d face in 2d without handle.";
 my $obj = CAD::Format::DWG::AC1009->from_file(
 	$data_dir->file('3DFACE1.DWG')->s,
 );
@@ -34,6 +35,7 @@ my $entities = @{$obj->entities->entities->entities};
 is($entities, 1, 'Number of entities (1).');
 
 # Test.
+diag "3d face in 3d without handle.";
 $obj = CAD::Format::DWG::AC1009->from_file(
 	$data_dir->file('3DFACE2.DWG')->s,
 );

@@ -10,6 +10,7 @@ use Test::NoWarnings;
 my $data_dir = File::Object->new->up->dir('data/entity/circle')->set;
 
 # Test.
+diag "2d circle without handle.";
 my $obj = CAD::Format::DWG::AC1009->from_file(
 	$data_dir->file('CIRCLE1.DWG')->s,
 );
@@ -29,6 +30,7 @@ my $entities = @{$obj->entities->entities->entities};
 is($entities, 1, 'Number of entities (1).');
 
 # Test.
+diag "2d circle in with elevation and thickness without handle.";
 $obj = CAD::Format::DWG::AC1009->from_file(
 	$data_dir->file('CIRCLE2.DWG')->s,
 );

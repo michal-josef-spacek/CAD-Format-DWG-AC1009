@@ -10,6 +10,7 @@ use Test::NoWarnings;
 my $data_dir = File::Object->new->up->dir('data/entity/insert')->set;
 
 # Test.
+diag "insert without handle.";
 my $obj = CAD::Format::DWG::AC1009->from_file(
 	$data_dir->file('INSERT1.DWG')->s,
 );

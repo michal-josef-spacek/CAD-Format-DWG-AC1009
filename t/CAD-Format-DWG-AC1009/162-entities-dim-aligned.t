@@ -10,6 +10,7 @@ use Test::NoWarnings;
 my $data_dir = File::Object->new->up->dir('data/entity/dim/aligned')->set;
 
 # Test.
+diag "Aligned dimension without handle.";
 my $obj = CAD::Format::DWG::AC1009->from_file(
 	$data_dir->file('DIM1.DWG')->s,
 );
@@ -38,6 +39,7 @@ my $entities = @{$obj->entities->entities->entities};
 is($entities, 1, 'Number of entities (1).');
 
 # Test.
+diag "Aligned dimension with elevation without handle.";
 $obj = CAD::Format::DWG::AC1009->from_file(
 	$data_dir->file('DIM2.DWG')->s,
 );

@@ -10,6 +10,7 @@ use Test::NoWarnings;
 my $data_dir = File::Object->new->up->dir('data/entity/point')->set;
 
 # Test.
+diag "2d point with handle.";
 my $obj = CAD::Format::DWG::AC1009->from_file(
 	$data_dir->file('POINT1.DWG')->s,
 );
@@ -27,6 +28,7 @@ my $entities = @{$obj->entities->entities->entities};
 is($entities, 1, 'Number of entities (1).');
 
 # Test.
+diag "3d point with handle.";
 $obj = CAD::Format::DWG::AC1009->from_file(
 	$data_dir->file('POINT2.DWG')->s,
 );
