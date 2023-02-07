@@ -65,7 +65,7 @@ types:
         contents: [0x29, 0x8D, 0xD1, 0x49, 0xA9, 0x73, 0x1F, 0xEA, 0x99, 0xDE, 0x32, 0xF9, 0x4D, 0x0A, 0xE0, 0x19]
       - id: u2
         type: s2
-      - id: u3
+      - id: aux_header_size
         type: s2
       - id: entities_start
         type: s4
@@ -85,7 +85,7 @@ types:
         type: table_aux
         repeat: expr
         repeat-expr: num_aux_tables
-      - id: u1_address
+      - id: aux_header_address
         type: s4
       - id: crc16
         size: 2
