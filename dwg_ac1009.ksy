@@ -82,7 +82,7 @@ types:
       - id: num_aux_tables
         type: u2
       - id: aux_tables
-        type: table_aux
+        type: aux_header_table
         repeat: expr
         repeat-expr: num_aux_tables
       - id: aux_header_address
@@ -91,6 +91,17 @@ types:
         size: 2
       - id: aux_header_sentinel_end
         contents: [0xD6, 0x72, 0x2E, 0xB6, 0x56, 0x8C, 0xE0, 0x15, 0x66, 0x21, 0xCD, 0x06, 0xB2, 0xF5, 0x1F, 0xE6]
+  aux_header_table:
+    seq:
+      - id: table_num
+        type: u2
+        enum: aux_table
+      - id: item_size
+        type: u2
+      - id: items
+        type: u2
+      - id: begin
+        type: u4
   block:
     seq:
       - id: flag
@@ -262,17 +273,6 @@ types:
         type: u2
       - id: unknown
         size: 2
-      - id: begin
-        type: u4
-  table_aux:
-    seq:
-      - id: table_num
-        type: u2
-        enum: aux_table
-      - id: item_size
-        type: u2
-      - id: items
-        type: u2
       - id: begin
         type: u4
   header_variables:

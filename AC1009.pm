@@ -880,6 +880,62 @@ sub anonymous {
 }
 
 ########################################################################
+package CAD::Format::DWG::AC1009::AuxHeaderTable;
+
+our @ISA = 'IO::KaitaiStruct::Struct';
+
+sub from_file {
+    my ($class, $filename) = @_;
+    my $fd;
+
+    open($fd, '<', $filename) or return undef;
+    binmode($fd);
+    return new($class, IO::KaitaiStruct::Stream->new($fd));
+}
+
+sub new {
+    my ($class, $_io, $_parent, $_root) = @_;
+    my $self = IO::KaitaiStruct::Struct->new($_io);
+
+    bless $self, $class;
+    $self->{_parent} = $_parent;
+    $self->{_root} = $_root || $self;;
+
+    $self->_read();
+
+    return $self;
+}
+
+sub _read {
+    my ($self) = @_;
+
+    $self->{table_num} = $self->{_io}->read_u2le();
+    $self->{item_size} = $self->{_io}->read_u2le();
+    $self->{items} = $self->{_io}->read_u2le();
+    $self->{begin} = $self->{_io}->read_u4le();
+}
+
+sub table_num {
+    my ($self) = @_;
+    return $self->{table_num};
+}
+
+sub item_size {
+    my ($self) = @_;
+    return $self->{item_size};
+}
+
+sub items {
+    my ($self) = @_;
+    return $self->{items};
+}
+
+sub begin {
+    my ($self) = @_;
+    return $self->{begin};
+}
+
+########################################################################
 package CAD::Format::DWG::AC1009::BlockFlag2;
 
 our @ISA = 'IO::KaitaiStruct::Struct';
@@ -1199,62 +1255,6 @@ sub flag15 {
 sub flag16 {
     my ($self) = @_;
     return $self->{flag16};
-}
-
-########################################################################
-package CAD::Format::DWG::AC1009::TableAux;
-
-our @ISA = 'IO::KaitaiStruct::Struct';
-
-sub from_file {
-    my ($class, $filename) = @_;
-    my $fd;
-
-    open($fd, '<', $filename) or return undef;
-    binmode($fd);
-    return new($class, IO::KaitaiStruct::Stream->new($fd));
-}
-
-sub new {
-    my ($class, $_io, $_parent, $_root) = @_;
-    my $self = IO::KaitaiStruct::Struct->new($_io);
-
-    bless $self, $class;
-    $self->{_parent} = $_parent;
-    $self->{_root} = $_root || $self;;
-
-    $self->_read();
-
-    return $self;
-}
-
-sub _read {
-    my ($self) = @_;
-
-    $self->{table_num} = $self->{_io}->read_u2le();
-    $self->{item_size} = $self->{_io}->read_u2le();
-    $self->{items} = $self->{_io}->read_u2le();
-    $self->{begin} = $self->{_io}->read_u4le();
-}
-
-sub table_num {
-    my ($self) = @_;
-    return $self->{table_num};
-}
-
-sub item_size {
-    my ($self) = @_;
-    return $self->{item_size};
-}
-
-sub items {
-    my ($self) = @_;
-    return $self->{items};
-}
-
-sub begin {
-    my ($self) = @_;
-    return $self->{begin};
 }
 
 ########################################################################
@@ -5930,7 +5930,7 @@ sub _read {
     $self->{aux_tables} = ();
     my $n_aux_tables = $self->num_aux_tables();
     for (my $i = 0; $i < $n_aux_tables; $i++) {
-        push @{$self->{aux_tables}}, CAD::Format::DWG::AC1009::TableAux->new($self->{_io}, $self, $self->{_root});
+        push @{$self->{aux_tables}}, CAD::Format::DWG::AC1009::AuxHeaderTable->new($self->{_io}, $self, $self->{_root});
     }
     $self->{aux_header_address} = $self->{_io}->read_s4le();
     $self->{crc16} = $self->{_io}->read_bytes(2);
