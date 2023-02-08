@@ -17,7 +17,6 @@ Probably none only
 I have another defining point. But this one is main.
 15. Variables for (block|extra)_entities_start, end, size_raw need to know if is
 u4 or s4
-16. Identify aux_header unknown variable: Number of variables in aux header?
 17.
 
 Applied
@@ -30,3 +29,6 @@ OK [20220514] skim
 
 11. Parse auxheader or what it is.
 OK [20230206] skim
+
+16. Identify aux_header unknown variable: Number of variables in aux header?
+OK [20230208] skim

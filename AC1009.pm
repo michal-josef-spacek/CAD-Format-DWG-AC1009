@@ -5948,7 +5948,7 @@ sub _read {
     my ($self) = @_;
 
     $self->{aux_header_sentinel_begin} = $self->{_io}->read_bytes(16);
-    $self->{unknown} = $self->{_io}->read_s2le();
+    $self->{num_aux_header_variables} = $self->{_io}->read_s2le();
     $self->{aux_header_size} = $self->{_io}->read_s2le();
     $self->{entities_start} = $self->{_io}->read_s4le();
     $self->{entities_end} = $self->{_io}->read_s4le();
@@ -5972,9 +5972,9 @@ sub aux_header_sentinel_begin {
     return $self->{aux_header_sentinel_begin};
 }
 
-sub unknown {
+sub num_aux_header_variables {
     my ($self) = @_;
-    return $self->{unknown};
+    return $self->{num_aux_header_variables};
 }
 
 sub aux_header_size {
