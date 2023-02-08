@@ -2836,8 +2836,8 @@ sub _read {
     $self->{flag} = CAD::Format::DWG::AC1009::VxFlag->new($self->{_io}, $self, $self->{_root});
     $self->{vx_name} = Encode::decode("ASCII", IO::KaitaiStruct::Stream::bytes_terminate($self->{_io}->read_bytes(32), 0, 0));
     $self->{usage} = $self->{_io}->read_s2le();
-    $self->{u1} = $self->{_io}->read_bytes(2);
-    $self->{u2} = $self->{_io}->read_bytes(4);
+    $self->{vport_entity_address} = $self->{_io}->read_u4le();
+    $self->{unknown} = $self->{_io}->read_u2le();
     $self->{crc16} = $self->{_io}->read_bytes(2);
 }
 
@@ -2856,14 +2856,14 @@ sub usage {
     return $self->{usage};
 }
 
-sub u1 {
+sub vport_entity_address {
     my ($self) = @_;
-    return $self->{u1};
+    return $self->{vport_entity_address};
 }
 
-sub u2 {
+sub unknown {
     my ($self) = @_;
-    return $self->{u2};
+    return $self->{unknown};
 }
 
 sub crc16 {

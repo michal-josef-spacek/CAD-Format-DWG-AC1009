@@ -3083,10 +3083,10 @@ types:
         doc: VX/2
       - id: usage
         type: s2
-      - id: u1
-        size: 2
-      - id: u2
-        size: 4
+      - id: vport_entity_address
+        type: u4
+      - id: unknown
+        type: u2
       - id: crc16
         size: 2
   vx_flag:
