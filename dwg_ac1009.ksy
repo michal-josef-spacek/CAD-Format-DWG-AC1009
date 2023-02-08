@@ -651,7 +651,7 @@ types:
       - id: attreq
         type: u2
         doc: 0x03d9-0x03da, $ATTREQ/70
-      - id: att_entry_dialogs
+      - id: attdia
         type: u2
         doc: 0x03db-0x03dc, $ATTDIA/70
       - id: chamfera
