@@ -185,7 +185,8 @@ t/CAD-Format-DWG-AC1009/163-entities-dim-aligned.t
 t/CAD-Format-DWG-AC1009/164-entities-insert.t
 t/CAD-Format-DWG-AC1009/165-entities-line.t
 t/CAD-Format-DWG-AC1009/166-entities-point.t
-t/CAD-Format-DWG-AC1009/167-entities-text.t
+t/CAD-Format-DWG-AC1009/167-entities-shape.t
+t/CAD-Format-DWG-AC1009/168-entities-text.t
 t/data/blank/BLANK.DWG
 t/data/entity/3dface/3DFACE1.DWG
 t/data/entity/3dface/3DFACE2.DWG
@@ -199,6 +200,7 @@ t/data/entity/line/LINE1.DWG
 t/data/entity/line/LINE2.DWG
 t/data/entity/point/POINT1.DWG
 t/data/entity/point/POINT2.DWG
+t/data/entity/shape/SHAPE1.DWG
 t/data/entity/text/TEXT1.DWG
 t/data/header/menu/MENU1.DWG
 t/data/header/sketch_type/SP1.DWG
