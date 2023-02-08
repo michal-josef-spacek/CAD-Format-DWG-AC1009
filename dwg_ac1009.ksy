@@ -21,29 +21,37 @@ seq:
     type: entities
   - id: table_blocks
     type: table_blocks
+  - id: unknown1
+    size: header.table_layer.begin - _io.pos - 16
   - id: table_layers
     type: table_layers
   - id: table_styles
     type: table_styles
-  - id: unknown1
+  - id: unknown2
     size: header.table_linetype.begin - _io.pos - 16
   - id: table_linetypes
     type: table_linetypes
+  - id: unknown3
+    size: header.table_view.begin - _io.pos - 16
   - id: table_views
     type: table_views
+  - id: unknown4
+    size: header.variables.table_ucs.begin - _io.pos - 16
   - id: table_ucss
     type: table_ucss
+  - id: unknown5
+    size: header.variables.table_vport.begin - _io.pos - 16
   - id: table_vports
     type: table_vports
-  - id: unknown2
+  - id: unknown6
     size: header.variables.table_appid.begin - _io.pos - 16
   - id: table_appids
     type: table_appids
-  - id: unknown3
+  - id: unknown7
     size: header.variables.table_dimstyle.begin - _io.pos - 16
   - id: table_dimstyles
     type: table_dimstyles
-  - id: unknown4
+  - id: unknown8
     size: header.variables.table_vx.begin - _io.pos - 16
   - id: table_vxs
     type: table_vxs

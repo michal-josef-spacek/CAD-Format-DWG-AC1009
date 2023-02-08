@@ -159,18 +159,22 @@ sub _read {
     $self->{header} = CAD::Format::DWG::AC1009::Header->new($self->{_io}, $self, $self->{_root});
     $self->{entities} = CAD::Format::DWG::AC1009::Entities->new($self->{_io}, $self, $self->{_root});
     $self->{table_blocks} = CAD::Format::DWG::AC1009::TableBlocks->new($self->{_io}, $self, $self->{_root});
+    $self->{unknown1} = $self->{_io}->read_bytes((($self->header()->table_layer()->begin() - $self->_io()->pos()) - 16));
     $self->{table_layers} = CAD::Format::DWG::AC1009::TableLayers->new($self->{_io}, $self, $self->{_root});
     $self->{table_styles} = CAD::Format::DWG::AC1009::TableStyles->new($self->{_io}, $self, $self->{_root});
-    $self->{unknown1} = $self->{_io}->read_bytes((($self->header()->table_linetype()->begin() - $self->_io()->pos()) - 16));
+    $self->{unknown2} = $self->{_io}->read_bytes((($self->header()->table_linetype()->begin() - $self->_io()->pos()) - 16));
     $self->{table_linetypes} = CAD::Format::DWG::AC1009::TableLinetypes->new($self->{_io}, $self, $self->{_root});
+    $self->{unknown3} = $self->{_io}->read_bytes((($self->header()->table_view()->begin() - $self->_io()->pos()) - 16));
     $self->{table_views} = CAD::Format::DWG::AC1009::TableViews->new($self->{_io}, $self, $self->{_root});
+    $self->{unknown4} = $self->{_io}->read_bytes((($self->header()->variables()->table_ucs()->begin() - $self->_io()->pos()) - 16));
     $self->{table_ucss} = CAD::Format::DWG::AC1009::TableUcss->new($self->{_io}, $self, $self->{_root});
+    $self->{unknown5} = $self->{_io}->read_bytes((($self->header()->variables()->table_vport()->begin() - $self->_io()->pos()) - 16));
     $self->{table_vports} = CAD::Format::DWG::AC1009::TableVports->new($self->{_io}, $self, $self->{_root});
-    $self->{unknown2} = $self->{_io}->read_bytes((($self->header()->variables()->table_appid()->begin() - $self->_io()->pos()) - 16));
+    $self->{unknown6} = $self->{_io}->read_bytes((($self->header()->variables()->table_appid()->begin() - $self->_io()->pos()) - 16));
     $self->{table_appids} = CAD::Format::DWG::AC1009::TableAppids->new($self->{_io}, $self, $self->{_root});
-    $self->{unknown3} = $self->{_io}->read_bytes((($self->header()->variables()->table_dimstyle()->begin() - $self->_io()->pos()) - 16));
+    $self->{unknown7} = $self->{_io}->read_bytes((($self->header()->variables()->table_dimstyle()->begin() - $self->_io()->pos()) - 16));
     $self->{table_dimstyles} = CAD::Format::DWG::AC1009::TableDimstyles->new($self->{_io}, $self, $self->{_root});
-    $self->{unknown4} = $self->{_io}->read_bytes((($self->header()->variables()->table_vx()->begin() - $self->_io()->pos()) - 16));
+    $self->{unknown8} = $self->{_io}->read_bytes((($self->header()->variables()->table_vx()->begin() - $self->_io()->pos()) - 16));
     $self->{table_vxs} = CAD::Format::DWG::AC1009::TableVxs->new($self->{_io}, $self, $self->{_root});
     $self->{entities_block} = CAD::Format::DWG::AC1009::EntitiesBlock->new($self->{_io}, $self, $self->{_root});
     $self->{entities_extra} = CAD::Format::DWG::AC1009::EntitiesExtra->new($self->{_io}, $self, $self->{_root});
@@ -200,6 +204,11 @@ sub table_blocks {
     return $self->{table_blocks};
 }
 
+sub unknown1 {
+    my ($self) = @_;
+    return $self->{unknown1};
+}
+
 sub table_layers {
     my ($self) = @_;
     return $self->{table_layers};
@@ -210,9 +219,9 @@ sub table_styles {
     return $self->{table_styles};
 }
 
-sub unknown1 {
+sub unknown2 {
     my ($self) = @_;
-    return $self->{unknown1};
+    return $self->{unknown2};
 }
 
 sub table_linetypes {
@@ -220,9 +229,19 @@ sub table_linetypes {
     return $self->{table_linetypes};
 }
 
+sub unknown3 {
+    my ($self) = @_;
+    return $self->{unknown3};
+}
+
 sub table_views {
     my ($self) = @_;
     return $self->{table_views};
+}
+
+sub unknown4 {
+    my ($self) = @_;
+    return $self->{unknown4};
 }
 
 sub table_ucss {
@@ -230,14 +249,19 @@ sub table_ucss {
     return $self->{table_ucss};
 }
 
+sub unknown5 {
+    my ($self) = @_;
+    return $self->{unknown5};
+}
+
 sub table_vports {
     my ($self) = @_;
     return $self->{table_vports};
 }
 
-sub unknown2 {
+sub unknown6 {
     my ($self) = @_;
-    return $self->{unknown2};
+    return $self->{unknown6};
 }
 
 sub table_appids {
@@ -245,9 +269,9 @@ sub table_appids {
     return $self->{table_appids};
 }
 
-sub unknown3 {
+sub unknown7 {
     my ($self) = @_;
-    return $self->{unknown3};
+    return $self->{unknown7};
 }
 
 sub table_dimstyles {
@@ -255,9 +279,9 @@ sub table_dimstyles {
     return $self->{table_dimstyles};
 }
 
-sub unknown4 {
+sub unknown8 {
     my ($self) = @_;
-    return $self->{unknown4};
+    return $self->{unknown8};
 }
 
 sub table_vxs {
