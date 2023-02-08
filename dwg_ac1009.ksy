@@ -3081,8 +3081,10 @@ types:
         encoding: ASCII
         terminator: 0x00
         doc: VX/2
+      - id: usage
+        type: s2
       - id: u1
-        size: 4
+        size: 2
       - id: u2
         size: 4
       - id: crc16
