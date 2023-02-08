@@ -6279,7 +6279,7 @@ sub _read {
     $self->{dim_linear_measurements_scale_factor} = $self->{_io}->read_f8le();
     $self->{spline_segs} = $self->{_io}->read_s2le();
     $self->{spline_frame} = $self->{_io}->read_s2le();
-    $self->{att_prompting_during_insert} = $self->{_io}->read_u2le();
+    $self->{attreq} = $self->{_io}->read_u2le();
     $self->{att_entry_dialogs} = $self->{_io}->read_u2le();
     $self->{chamfera} = $self->{_io}->read_f8le();
     $self->{chamferb} = $self->{_io}->read_f8le();
@@ -6963,9 +6963,9 @@ sub spline_frame {
     return $self->{spline_frame};
 }
 
-sub att_prompting_during_insert {
+sub attreq {
     my ($self) = @_;
-    return $self->{att_prompting_during_insert};
+    return $self->{attreq};
 }
 
 sub att_entry_dialogs {

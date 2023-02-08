@@ -648,7 +648,7 @@ types:
       - id: spline_frame
         type: s2
         doc: 0x03d7-0x03d8, $SPLFRAME/70
-      - id: att_prompting_during_insert
+      - id: attreq
         type: u2
         doc: 0x03d9-0x03da, $ATTREQ/70
       - id: att_entry_dialogs
