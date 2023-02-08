@@ -3113,7 +3113,7 @@ types:
         type: b1
       - id: flag7
         type: b1
-      - id: flag8
+      - id: is_on
         type: b1
   generation_flags:
     seq:
