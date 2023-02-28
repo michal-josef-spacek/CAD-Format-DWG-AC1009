@@ -183,10 +183,11 @@ t/CAD-Format-DWG-AC1009/161-entities-arc.t
 t/CAD-Format-DWG-AC1009/162-entities-circle.t
 t/CAD-Format-DWG-AC1009/163-entities-dim-aligned.t
 t/CAD-Format-DWG-AC1009/164-entities-insert.t
-t/CAD-Format-DWG-AC1009/165-entities-line.t
-t/CAD-Format-DWG-AC1009/166-entities-point.t
-t/CAD-Format-DWG-AC1009/167-entities-shape.t
-t/CAD-Format-DWG-AC1009/168-entities-text.t
+t/CAD-Format-DWG-AC1009/165-entities-jump.t
+t/CAD-Format-DWG-AC1009/166-entities-line.t
+t/CAD-Format-DWG-AC1009/167-entities-point.t
+t/CAD-Format-DWG-AC1009/168-entities-shape.t
+t/CAD-Format-DWG-AC1009/169-entities-text.t
 t/data/blank/BLANK.DWG
 t/data/entity/3dface/3DFACE1.DWG
 t/data/entity/3dface/3DFACE2.DWG
@@ -196,6 +197,7 @@ t/data/entity/circle/CIRCLE2.DWG
 t/data/entity/dim/aligned/DIM1.DWG
 t/data/entity/dim/aligned/DIM2.DWG
 t/data/entity/insert/INSERT1.DWG
+t/data/entity/jump/JUMP1.DWG
 t/data/entity/line/LINE1.DWG
 t/data/entity/line/LINE2.DWG
 t/data/entity/point/POINT1.DWG
