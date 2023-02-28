@@ -1854,11 +1854,11 @@ types:
         type: s2
       - id: address_raw
         type: u4
-      - id: crc16
-        size: 2
       - id: unknown_data
         size: entity_size - 10
         if: entity_size > 10
+      - id: crc16
+        size: 2
     instances:
       address_flag:
          value: (address_raw & 0xff000000) >> 24
