@@ -135,9 +135,9 @@ types:
         size: 2
     instances:
       begin_address_in_block_table_unknown:
-         value: (begin_address_in_block_table_raw & 0xff000000) >> 24
+        value: (begin_address_in_block_table_raw & 0xff000000) >> 24
       begin_address_in_block_table:
-         value: (begin_address_in_block_table_raw & 0x00ffffff)
+        value: (begin_address_in_block_table_raw & 0x00ffffff)
   block_flag:
     seq:
       - id: references_external_reference
@@ -264,15 +264,15 @@ types:
         size: 2
     instances:
       entities_size:
-         value: entities_end - entities_start
+        value: entities_end - entities_start
       extra_entities_size_unknown:
-         value: (extra_entities_size_raw & 0xff000000) >> 24
+        value: (extra_entities_size_raw & 0xff000000) >> 24
       extra_entities_size:
-         value: (extra_entities_size_raw & 0x00ffffff)
+        value: (extra_entities_size_raw & 0x00ffffff)
       block_entities_size_unknown:
-         value: (block_entities_size_raw & 0xff000000) >> 24
+        value: (block_entities_size_raw & 0xff000000) >> 24
       block_entities_size:
-         value: (block_entities_size_raw & 0x00ffffff)
+        value: (block_entities_size_raw & 0x00ffffff)
   header_table:
     seq:
       - id: item_size
@@ -1861,9 +1861,9 @@ types:
         size: 2
     instances:
       address_flag:
-         value: (address_raw & 0xff000000) >> 24
+        value: (address_raw & 0xff000000) >> 24
       address:
-         value: (address_raw & 0x00ffffff)
+        value: (address_raw & 0x00ffffff)
   entity_line:
     seq:
       - id: entity_mode
