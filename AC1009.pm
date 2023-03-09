@@ -4918,10 +4918,10 @@ sub _read {
     $self->{entity_mode} = CAD::Format::DWG::AC1009::EntityMode->new($self->{_io}, $self, $self->{_root});
     $self->{entity_size} = $self->{_io}->read_s2le();
     $self->{address_raw} = $self->{_io}->read_u4le();
+    $self->{crc16} = $self->{_io}->read_bytes(2);
     if ($self->entity_size() > 10) {
         $self->{unknown_data} = $self->{_io}->read_bytes(($self->entity_size() - 10));
     }
-    $self->{crc16} = $self->{_io}->read_bytes(2);
 }
 
 sub address_flag {
@@ -4953,14 +4953,14 @@ sub address_raw {
     return $self->{address_raw};
 }
 
-sub unknown_data {
-    my ($self) = @_;
-    return $self->{unknown_data};
-}
-
 sub crc16 {
     my ($self) = @_;
     return $self->{crc16};
+}
+
+sub unknown_data {
+    my ($self) = @_;
+    return $self->{unknown_data};
 }
 
 ########################################################################
