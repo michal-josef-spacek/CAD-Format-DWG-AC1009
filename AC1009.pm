@@ -6449,10 +6449,9 @@ sub _read {
     $self->{p_ucs_xdir} = CAD::Format::DWG::AC1009::Point3d->new($self->{_io}, $self, $self->{_root});
     $self->{p_ucs_ydir} = CAD::Format::DWG::AC1009::Point3d->new($self->{_io}, $self, $self->{_root});
     $self->{p_ucs_name_index} = $self->{_io}->read_u2le();
-    $self->{tile_mode} = $self->{_io}->read_u1();
+    $self->{tile_mode} = $self->{_io}->read_u2le();
     $self->{plim_check} = $self->{_io}->read_u2le();
-    $self->{unknown56} = $self->{_io}->read_u2le();
-    $self->{unknown57} = $self->{_io}->read_u1();
+    $self->{unknown57} = $self->{_io}->read_u2le();
     $self->{p_ext_min} = CAD::Format::DWG::AC1009::Point3d->new($self->{_io}, $self, $self->{_root});
     $self->{p_ext_max} = CAD::Format::DWG::AC1009::Point3d->new($self->{_io}, $self, $self->{_root});
     $self->{p_lim_min} = CAD::Format::DWG::AC1009::Point2d->new($self->{_io}, $self, $self->{_root});
@@ -7389,11 +7388,6 @@ sub tile_mode {
 sub plim_check {
     my ($self) = @_;
     return $self->{plim_check};
-}
-
-sub unknown56 {
-    my ($self) = @_;
-    return $self->{unknown56};
 }
 
 sub unknown57 {

@@ -848,15 +848,13 @@ types:
         type: u2
         doc: $PUCSNAME/2
       - id: tile_mode
-        type: u1
+        type: u2
         doc: $TILEMODE/70
       - id: plim_check
         type: u2
         doc: $PLIMCHECK/70
-      - id: unknown56
-        type: u2
       - id: unknown57
-        type: u1
+        type: u2
       - id: p_ext_min
         type: point_3d
         doc: $PEXTMIN/10
