@@ -2147,8 +2147,8 @@ types:
       - id: viewport
         type: u2
         if: entity_mode.has_pspace and extra_flag.has_viewport
-      - id: unknown
-        size: 4
+      - id: begin_addr
+        type: s4
       - id: crc16
         size: 2
   entity_shape:

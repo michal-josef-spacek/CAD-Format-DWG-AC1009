@@ -7879,7 +7879,7 @@ sub _read {
     if ( (($self->entity_mode()->has_pspace()) && ($self->extra_flag()->has_viewport())) ) {
         $self->{viewport} = $self->{_io}->read_u2le();
     }
-    $self->{unknown} = $self->{_io}->read_bytes(4);
+    $self->{begin_addr} = $self->{_io}->read_s4le();
     $self->{crc16} = $self->{_io}->read_bytes(2);
 }
 
@@ -7948,9 +7948,9 @@ sub viewport {
     return $self->{viewport};
 }
 
-sub unknown {
+sub begin_addr {
     my ($self) = @_;
-    return $self->{unknown};
+    return $self->{begin_addr};
 }
 
 sub crc16 {
