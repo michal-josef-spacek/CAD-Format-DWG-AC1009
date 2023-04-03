@@ -19,7 +19,6 @@ I have another defining point. But this one is main.
 u4 or s4
 18. Check insert entity - test_eed/TROL1.DWG is bad still
 19. Add test for endseq
-20. Add test for polyline
 21.
 
 Applied
@@ -38,3 +37,6 @@ OK [20230208] skim
 
 17. Test for jump entity in extra entity section.
 OK [20230228] skim
+
+20. Add test for polyline
+OK [20230403] skim
