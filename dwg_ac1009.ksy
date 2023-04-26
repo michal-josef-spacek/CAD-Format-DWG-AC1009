@@ -2262,6 +2262,9 @@ types:
         type: point_2d
       - id: to_and
         type: point_2d
+      - id: extrusion
+        type: point_3d
+        if: entity_common.flag2_8
       - id: crc16
         size: 2
   entity_text:

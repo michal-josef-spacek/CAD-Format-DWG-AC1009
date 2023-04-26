@@ -1710,6 +1710,9 @@ sub _read {
     $self->{from_and} = CAD::Format::DWG::AC1009::Point2d->new($self->{_io}, $self, $self->{_root});
     $self->{to} = CAD::Format::DWG::AC1009::Point2d->new($self->{_io}, $self, $self->{_root});
     $self->{to_and} = CAD::Format::DWG::AC1009::Point2d->new($self->{_io}, $self, $self->{_root});
+    if ($self->entity_common()->flag2_8()) {
+        $self->{extrusion} = CAD::Format::DWG::AC1009::Point3d->new($self->{_io}, $self, $self->{_root});
+    }
     $self->{crc16} = $self->{_io}->read_bytes(2);
 }
 
@@ -1796,6 +1799,11 @@ sub to {
 sub to_and {
     my ($self) = @_;
     return $self->{to_and};
+}
+
+sub extrusion {
+    my ($self) = @_;
+    return $self->{extrusion};
 }
 
 sub crc16 {
