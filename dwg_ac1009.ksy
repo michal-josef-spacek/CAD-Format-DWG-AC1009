@@ -2094,13 +2094,13 @@ types:
         size: 2
   polyline_flags:
     seq:
-      - id: flag1
+      - id: lt_pattern_continues
         type: b1
-      - id: flag2
+      - id: pface_mesh
         type: b1
-      - id: flag3
+      - id: mesh_closed
         type: b1
-      - id: polygon_mesh_3d
+      - id: mesh
         type: b1
       - id: polyline_3d
         type: b1
@@ -2437,9 +2437,11 @@ types:
         if: entity_mode.has_pspace and extra_flag.has_viewport
       - id: x
         type: f8
+        if: not entity_common.flag3_2
         doc: VERTEX/10
       - id: y
         type: f8
+        if: not entity_common.flag3_2
         doc: VERTEX/20
       - id: start_width
         type: f8
@@ -2459,23 +2461,39 @@ types:
         type: f8
         if: entity_common.flag2_4
         doc: VERTEX/50
+      - id: pface_mesh_index1
+        type: s2
+        if: entity_common.flag2_3
+        doc: VERTEX/71
+      - id: pface_mesh_index2
+        type: s2
+        if: entity_common.flag2_2
+        doc: VERTEX/72
+      - id: pface_mesh_index3
+        type: s2
+        if: entity_common.flag2_1
+        doc: VERTEX/73
+      - id: pface_mesh_index4
+        type: s2
+        if: entity_common.flag3_8
+        doc: VERTEX/74
       - id: crc16
         size: 2
   vertex_extra_flag:
     seq:
-      - id: flag_1
+      - id: pface_mesh
         type: b1
-      - id: flag_2
+      - id: mesh
         type: b1
-      - id: flag_3
+      - id: polyline_3d
         type: b1
-      - id: flag_4
+      - id: spline_frame_control_point
         type: b1
-      - id: flag_5
+      - id: spline_fit
         type: b1
-      - id: flag_6
+      - id: not_used
         type: b1
-      - id: flag_7
+      - id: curve_fit
         type: b1
       - id: extra_vertex
         type: b1

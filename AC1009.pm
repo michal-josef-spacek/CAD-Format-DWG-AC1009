@@ -2357,34 +2357,34 @@ sub new {
 sub _read {
     my ($self) = @_;
 
-    $self->{flag1} = $self->{_io}->read_bits_int_be(1);
-    $self->{flag2} = $self->{_io}->read_bits_int_be(1);
-    $self->{flag3} = $self->{_io}->read_bits_int_be(1);
-    $self->{polygon_mesh_3d} = $self->{_io}->read_bits_int_be(1);
+    $self->{lt_pattern_continues} = $self->{_io}->read_bits_int_be(1);
+    $self->{pface_mesh} = $self->{_io}->read_bits_int_be(1);
+    $self->{mesh_closed} = $self->{_io}->read_bits_int_be(1);
+    $self->{mesh} = $self->{_io}->read_bits_int_be(1);
     $self->{polyline_3d} = $self->{_io}->read_bits_int_be(1);
     $self->{spline_fit} = $self->{_io}->read_bits_int_be(1);
     $self->{curve_fit} = $self->{_io}->read_bits_int_be(1);
     $self->{closed} = $self->{_io}->read_bits_int_be(1);
 }
 
-sub flag1 {
+sub lt_pattern_continues {
     my ($self) = @_;
-    return $self->{flag1};
+    return $self->{lt_pattern_continues};
 }
 
-sub flag2 {
+sub pface_mesh {
     my ($self) = @_;
-    return $self->{flag2};
+    return $self->{pface_mesh};
 }
 
-sub flag3 {
+sub mesh_closed {
     my ($self) = @_;
-    return $self->{flag3};
+    return $self->{mesh_closed};
 }
 
-sub polygon_mesh_3d {
+sub mesh {
     my ($self) = @_;
-    return $self->{polygon_mesh_3d};
+    return $self->{mesh};
 }
 
 sub polyline_3d {
@@ -6191,49 +6191,49 @@ sub new {
 sub _read {
     my ($self) = @_;
 
-    $self->{flag_1} = $self->{_io}->read_bits_int_be(1);
-    $self->{flag_2} = $self->{_io}->read_bits_int_be(1);
-    $self->{flag_3} = $self->{_io}->read_bits_int_be(1);
-    $self->{flag_4} = $self->{_io}->read_bits_int_be(1);
-    $self->{flag_5} = $self->{_io}->read_bits_int_be(1);
-    $self->{flag_6} = $self->{_io}->read_bits_int_be(1);
-    $self->{flag_7} = $self->{_io}->read_bits_int_be(1);
+    $self->{pface_mesh} = $self->{_io}->read_bits_int_be(1);
+    $self->{mesh} = $self->{_io}->read_bits_int_be(1);
+    $self->{polyline_3d} = $self->{_io}->read_bits_int_be(1);
+    $self->{spline_frame_control_point} = $self->{_io}->read_bits_int_be(1);
+    $self->{spline_fit} = $self->{_io}->read_bits_int_be(1);
+    $self->{not_used} = $self->{_io}->read_bits_int_be(1);
+    $self->{curve_fit} = $self->{_io}->read_bits_int_be(1);
     $self->{extra_vertex} = $self->{_io}->read_bits_int_be(1);
 }
 
-sub flag_1 {
+sub pface_mesh {
     my ($self) = @_;
-    return $self->{flag_1};
+    return $self->{pface_mesh};
 }
 
-sub flag_2 {
+sub mesh {
     my ($self) = @_;
-    return $self->{flag_2};
+    return $self->{mesh};
 }
 
-sub flag_3 {
+sub polyline_3d {
     my ($self) = @_;
-    return $self->{flag_3};
+    return $self->{polyline_3d};
 }
 
-sub flag_4 {
+sub spline_frame_control_point {
     my ($self) = @_;
-    return $self->{flag_4};
+    return $self->{spline_frame_control_point};
 }
 
-sub flag_5 {
+sub spline_fit {
     my ($self) = @_;
-    return $self->{flag_5};
+    return $self->{spline_fit};
 }
 
-sub flag_6 {
+sub not_used {
     my ($self) = @_;
-    return $self->{flag_6};
+    return $self->{not_used};
 }
 
-sub flag_7 {
+sub curve_fit {
     my ($self) = @_;
-    return $self->{flag_7};
+    return $self->{curve_fit};
 }
 
 sub extra_vertex {
@@ -9212,8 +9212,12 @@ sub _read {
     if ( (($self->entity_mode()->has_pspace()) && ($self->extra_flag()->has_viewport())) ) {
         $self->{viewport} = $self->{_io}->read_u2le();
     }
-    $self->{x} = $self->{_io}->read_f8le();
-    $self->{y} = $self->{_io}->read_f8le();
+    if (!($self->entity_common()->flag3_2())) {
+        $self->{x} = $self->{_io}->read_f8le();
+    }
+    if (!($self->entity_common()->flag3_2())) {
+        $self->{y} = $self->{_io}->read_f8le();
+    }
     if ($self->entity_common()->flag2_8()) {
         $self->{start_width} = $self->{_io}->read_f8le();
     }
@@ -9228,6 +9232,18 @@ sub _read {
     }
     if ($self->entity_common()->flag2_4()) {
         $self->{tangent_dir_in_radians} = $self->{_io}->read_f8le();
+    }
+    if ($self->entity_common()->flag2_3()) {
+        $self->{pface_mesh_index1} = $self->{_io}->read_s2le();
+    }
+    if ($self->entity_common()->flag2_2()) {
+        $self->{pface_mesh_index2} = $self->{_io}->read_s2le();
+    }
+    if ($self->entity_common()->flag2_1()) {
+        $self->{pface_mesh_index3} = $self->{_io}->read_s2le();
+    }
+    if ($self->entity_common()->flag3_8()) {
+        $self->{pface_mesh_index4} = $self->{_io}->read_s2le();
     }
     $self->{crc16} = $self->{_io}->read_bytes(2);
 }
@@ -9330,6 +9346,26 @@ sub vertex_extra_flag {
 sub tangent_dir_in_radians {
     my ($self) = @_;
     return $self->{tangent_dir_in_radians};
+}
+
+sub pface_mesh_index1 {
+    my ($self) = @_;
+    return $self->{pface_mesh_index1};
+}
+
+sub pface_mesh_index2 {
+    my ($self) = @_;
+    return $self->{pface_mesh_index2};
+}
+
+sub pface_mesh_index3 {
+    my ($self) = @_;
+    return $self->{pface_mesh_index3};
+}
+
+sub pface_mesh_index4 {
+    my ($self) = @_;
+    return $self->{pface_mesh_index4};
 }
 
 sub crc16 {

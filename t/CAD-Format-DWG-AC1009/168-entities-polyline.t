@@ -25,7 +25,7 @@ is($flag->spline_fit, 1, 'Polyline flag spline_fit variable (1).');
 is($flag->closed, 0, 'Polyline flag closed variable (0).');
 is($flag->curve_fit, 0, 'Polyline flag curve_fit variable (0).');
 is($flag->polyline_3d, 0, 'Polyline flag polyline_3d variable (0).');
-is($flag->polygon_mesh_3d, 0, 'Polyline flag polygon_mesh_3d variable (0).');
+is($flag->mesh, 0, 'Polyline flag mesh variable (0).');
 is($pline1_data->curve_type, $CAD::Format::DWG::AC1009::CURVE_TYPE_CUBIC_B_SPLINE,
 	'Polyline curve type (6 - cubic b spline).');
 my $entities = @{$obj->entities->entities->entities};
