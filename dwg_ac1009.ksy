@@ -1254,6 +1254,10 @@ types:
         type: point_2d
         if: entity_common.flag2_1
         doc: ATTDEF/11|21
+      - id: vertical_alignment
+        type: u1
+        if: entity_common.flag3_7
+        doc: ATTDEF/74
       - id: crc16
         size: 2
   entity_attrib:
@@ -1347,6 +1351,10 @@ types:
         type: point_2d
         if: entity_common.flag2_1
         doc: ATTRIB/11|21
+      - id: vertical_alignment
+        type: u1
+        if: entity_common.flag3_7
+        doc: ATTRIB/74
       - id: crc16
         size: 2
   attr_flags:

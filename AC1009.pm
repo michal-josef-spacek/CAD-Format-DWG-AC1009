@@ -487,6 +487,9 @@ sub _read {
     if ($self->entity_common()->flag2_1()) {
         $self->{aligned_to} = CAD::Format::DWG::AC1009::Point2d->new($self->{_io}, $self, $self->{_root});
     }
+    if ($self->entity_common()->flag3_7()) {
+        $self->{vertical_alignment} = $self->{_io}->read_u1();
+    }
     $self->{crc16} = $self->{_io}->read_bytes(2);
 }
 
@@ -623,6 +626,11 @@ sub horiz_alignment {
 sub aligned_to {
     my ($self) = @_;
     return $self->{aligned_to};
+}
+
+sub vertical_alignment {
+    my ($self) = @_;
+    return $self->{vertical_alignment};
 }
 
 sub crc16 {
@@ -5244,6 +5252,9 @@ sub _read {
     if ($self->entity_common()->flag2_1()) {
         $self->{end_point} = CAD::Format::DWG::AC1009::Point2d->new($self->{_io}, $self, $self->{_root});
     }
+    if ($self->entity_common()->flag3_7()) {
+        $self->{vertical_alignment} = $self->{_io}->read_u1();
+    }
     $self->{crc16} = $self->{_io}->read_bytes(2);
 }
 
@@ -5390,6 +5401,11 @@ sub horiz_alignment {
 sub end_point {
     my ($self) = @_;
     return $self->{end_point};
+}
+
+sub vertical_alignment {
+    my ($self) = @_;
+    return $self->{vertical_alignment};
 }
 
 sub crc16 {
