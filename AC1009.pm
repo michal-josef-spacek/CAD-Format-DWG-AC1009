@@ -3772,6 +3772,9 @@ sub _read {
     if ($self->entity_mode()->has_elevation() == 0) {
         $self->{z} = $self->{_io}->read_f8le();
     }
+    if ($self->entity_common()->flag2_8()) {
+        $self->{extrusion} = CAD::Format::DWG::AC1009::Point3d->new($self->{_io}, $self, $self->{_root});
+    }
     $self->{crc16} = $self->{_io}->read_bytes(2);
 }
 
@@ -3848,6 +3851,11 @@ sub y {
 sub z {
     my ($self) = @_;
     return $self->{z};
+}
+
+sub extrusion {
+    my ($self) = @_;
+    return $self->{extrusion};
 }
 
 sub crc16 {
