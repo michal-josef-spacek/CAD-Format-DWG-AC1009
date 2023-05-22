@@ -1255,6 +1255,10 @@ types:
         type: point_2d
         if: entity_common.flag2_1
         doc: ATTDEF/11|21
+      - id: extrusion
+        type: point_3d
+        if: entity_common.flag3_8
+        doc: ATTDEF/210|220|230
       - id: vertical_alignment
         type: u1
         if: entity_common.flag3_7
@@ -1352,6 +1356,10 @@ types:
         type: point_2d
         if: entity_common.flag2_1
         doc: ATTRIB/11|21
+      - id: extrusion
+        type: point_3d
+        if: entity_common.flag3_8
+        doc: ATTRIB/210|220|230
       - id: vertical_alignment
         type: u1
         if: entity_common.flag3_7

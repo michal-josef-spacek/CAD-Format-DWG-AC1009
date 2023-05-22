@@ -490,6 +490,9 @@ sub _read {
     if ($self->entity_common()->flag2_1()) {
         $self->{aligned_to} = CAD::Format::DWG::AC1009::Point2d->new($self->{_io}, $self, $self->{_root});
     }
+    if ($self->entity_common()->flag3_8()) {
+        $self->{extrusion} = CAD::Format::DWG::AC1009::Point3d->new($self->{_io}, $self, $self->{_root});
+    }
     if ($self->entity_common()->flag3_7()) {
         $self->{vertical_alignment} = $self->{_io}->read_u1();
     }
@@ -629,6 +632,11 @@ sub horiz_alignment {
 sub aligned_to {
     my ($self) = @_;
     return $self->{aligned_to};
+}
+
+sub extrusion {
+    my ($self) = @_;
+    return $self->{extrusion};
 }
 
 sub vertical_alignment {
@@ -5255,6 +5263,9 @@ sub _read {
     if ($self->entity_common()->flag2_1()) {
         $self->{end_point} = CAD::Format::DWG::AC1009::Point2d->new($self->{_io}, $self, $self->{_root});
     }
+    if ($self->entity_common()->flag3_8()) {
+        $self->{extrusion} = CAD::Format::DWG::AC1009::Point3d->new($self->{_io}, $self, $self->{_root});
+    }
     if ($self->entity_common()->flag3_7()) {
         $self->{vertical_alignment} = $self->{_io}->read_u1();
     }
@@ -5404,6 +5415,11 @@ sub horiz_alignment {
 sub end_point {
     my ($self) = @_;
     return $self->{end_point};
+}
+
+sub extrusion {
+    my ($self) = @_;
+    return $self->{extrusion};
 }
 
 sub vertical_alignment {
