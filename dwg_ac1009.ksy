@@ -1742,6 +1742,10 @@ types:
       - id: text_rotation_in_radians
         type: f8
         if: entity_common.flag3_6
+      - id: extrusion
+        type: point_3d
+        if: entity_common.flag3_2
+        doc: DIMENSION/210|220|230
       - id: dimstyle
         type: u2
         if: entity_common.flag3_1

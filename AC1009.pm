@@ -5874,6 +5874,9 @@ sub _read {
     if ($self->entity_common()->flag3_6()) {
         $self->{text_rotation_in_radians} = $self->{_io}->read_f8le();
     }
+    if ($self->entity_common()->flag3_2()) {
+        $self->{extrusion} = CAD::Format::DWG::AC1009::Point3d->new($self->{_io}, $self, $self->{_root});
+    }
     if ($self->entity_common()->flag3_1()) {
         $self->{dimstyle} = $self->{_io}->read_u2le();
     }
@@ -6018,6 +6021,11 @@ sub rotation_in_radians {
 sub text_rotation_in_radians {
     my ($self) = @_;
     return $self->{text_rotation_in_radians};
+}
+
+sub extrusion {
+    my ($self) = @_;
+    return $self->{extrusion};
 }
 
 sub dimstyle {
