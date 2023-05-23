@@ -2036,7 +2036,7 @@ types:
       - id: extrusion
         type: point_3d
         if: entity_common.flag2_8
-        doc: LINE/210
+        doc: POINT/210
       - id: crc16
         size: 2
   entity_polyline:
