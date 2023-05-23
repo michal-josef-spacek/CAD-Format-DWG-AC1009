@@ -2037,6 +2037,10 @@ types:
         type: point_3d
         if: entity_common.flag2_8
         doc: POINT/210
+      - id: x_ang
+        type: f8
+        if: entity_common.flag2_7
+        doc: POINT/50
       - id: crc16
         size: 2
   entity_polyline:
