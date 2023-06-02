@@ -195,6 +195,7 @@ t/data/entity/3dface/3DFACE2.DWG
 t/data/entity/arc/ARC1.DWG
 t/data/entity/circle/CIRCLE1.DWG
 t/data/entity/circle/CIRCLE2.DWG
+t/data/entity/circle/CIRCLE3.DWG
 t/data/entity/dim/aligned/DIM1.DWG
 t/data/entity/dim/aligned/DIM2.DWG
 t/data/entity/insert/INSERT1.DWG
