@@ -10066,6 +10066,9 @@ sub _read {
     if ($self->entity_mode()->has_pspace()) {
         $self->{extra_flag} = CAD::Format::DWG::AC1009::ExtraFlag->new($self->{_io}, $self, $self->{_root});
     }
+    if ( (($self->entity_mode()->has_pspace()) && ($self->extra_flag()->has_eed())) ) {
+        $self->{eed} = CAD::Format::DWG::AC1009::Eed->new($self->{_io}, $self, $self->{_root});
+    }
     if ($self->entity_mode()->has_color()) {
         $self->{entity_color} = $self->{_io}->read_s1();
     }
@@ -10074,9 +10077,6 @@ sub _read {
     }
     if ($self->entity_mode()->has_thickness()) {
         $self->{entity_thickness} = $self->{_io}->read_f8le();
-    }
-    if ( (($self->entity_mode()->has_pspace()) && ($self->extra_flag()->has_eed())) ) {
-        $self->{eed} = CAD::Format::DWG::AC1009::Eed->new($self->{_io}, $self, $self->{_root});
     }
     if ($self->entity_mode()->has_handling()) {
         $self->{len_handling_id} = $self->{_io}->read_u1();
@@ -10128,6 +10128,11 @@ sub extra_flag {
     return $self->{extra_flag};
 }
 
+sub eed {
+    my ($self) = @_;
+    return $self->{eed};
+}
+
 sub entity_color {
     my ($self) = @_;
     return $self->{entity_color};
@@ -10141,11 +10146,6 @@ sub entity_linetype_index {
 sub entity_thickness {
     my ($self) = @_;
     return $self->{entity_thickness};
-}
-
-sub eed {
-    my ($self) = @_;
-    return $self->{eed};
 }
 
 sub len_handling_id {

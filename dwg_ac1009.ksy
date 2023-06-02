@@ -1908,6 +1908,9 @@ types:
       - id: extra_flag
         type: extra_flag
         if: entity_mode.has_pspace
+      - id: eed
+        type: eed
+        if: entity_mode.has_pspace and extra_flag.has_eed
       - id: entity_color
         type: s1
         if: entity_mode.has_color
@@ -1917,9 +1920,6 @@ types:
       - id: entity_thickness
         type: f8
         if: entity_mode.has_thickness
-      - id: eed
-        type: eed
-        if: entity_mode.has_pspace and extra_flag.has_eed
       - id: len_handling_id
         type: u1
         if: entity_mode.has_handling
