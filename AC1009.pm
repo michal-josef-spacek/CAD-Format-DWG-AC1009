@@ -2246,6 +2246,7 @@ sub _read {
 
     $self->{flag} = CAD::Format::DWG::AC1009::StyleFlag->new($self->{_io}, $self, $self->{_root});
     $self->{style_name} = Encode::decode("ASCII", IO::KaitaiStruct::Stream::bytes_terminate($self->{_io}->read_bytes(32), 0, 0));
+    $self->{used} = $self->{_io}->read_s2le();
     $self->{height} = $self->{_io}->read_f8le();
     $self->{width_factor} = $self->{_io}->read_f8le();
     $self->{obliquing_angle_in_radians} = $self->{_io}->read_f8le();
@@ -2253,7 +2254,7 @@ sub _read {
     $self->{last_height} = $self->{_io}->read_f8le();
     $self->{font_file} = Encode::decode("ASCII", IO::KaitaiStruct::Stream::bytes_terminate($self->{_io}->read_bytes(64), 0, 0));
     $self->{bigfont_file} = Encode::decode("ASCII", IO::KaitaiStruct::Stream::bytes_terminate($self->{_io}->read_bytes(64), 0, 0));
-    $self->{unknown} = $self->{_io}->read_bytes(4);
+    $self->{crc16} = $self->{_io}->read_bytes(2);
 }
 
 sub flag {
@@ -2264,6 +2265,11 @@ sub flag {
 sub style_name {
     my ($self) = @_;
     return $self->{style_name};
+}
+
+sub used {
+    my ($self) = @_;
+    return $self->{used};
 }
 
 sub height {
@@ -2301,9 +2307,9 @@ sub bigfont_file {
     return $self->{bigfont_file};
 }
 
-sub unknown {
+sub crc16 {
     my ($self) = @_;
-    return $self->{unknown};
+    return $self->{crc16};
 }
 
 ########################################################################

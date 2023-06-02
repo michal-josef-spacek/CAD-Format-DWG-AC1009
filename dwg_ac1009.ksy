@@ -2861,6 +2861,8 @@ types:
         encoding: ASCII
         terminator: 0x00
         doc: STYLE/2
+      - id: used
+        type: s2
       - id: height
         type: f8
         doc: STYLE/40
@@ -2888,8 +2890,8 @@ types:
         encoding: ASCII
         terminator: 0x00
         doc: STYLE/4
-      - id: unknown
-        size: 4
+      - id: crc16
+        size: 2
   style_flag:
     seq:
       - id: flag1
