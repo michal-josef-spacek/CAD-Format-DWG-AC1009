@@ -3163,8 +3163,10 @@ types:
       - id: usage
         type: s2
       - id: vport_entity_address
-        type: u4
-      - id: unknown
+        type: u2
+      - id: viewport_index
+        type: u2
+      - id: prev_entry_index
         type: u2
       - id: crc16
         size: 2
