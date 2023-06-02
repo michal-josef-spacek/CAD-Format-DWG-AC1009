@@ -3019,12 +3019,46 @@ sub _read {
     $self->{flag} = CAD::Format::DWG::AC1009::DimstyleFlag->new($self->{_io}, $self, $self->{_root});
     $self->{dimstyle_name} = Encode::decode("ASCII", IO::KaitaiStruct::Stream::bytes_terminate($self->{_io}->read_bytes(32), 0, 0));
     $self->{usage} = $self->{_io}->read_s2le();
-    $self->{u1} = $self->{_io}->read_f8le();
-    $self->{u2} = $self->{_io}->read_f8le();
-    $self->{u3} = $self->{_io}->read_f8le();
-    $self->{u4} = $self->{_io}->read_f8le();
-    $self->{u5} = $self->{_io}->read_f8le();
-    $self->{u6} = $self->{_io}->read_bytes(247);
+    $self->{dim_scale} = $self->{_io}->read_f8le();
+    $self->{dim_arrowhead_size} = $self->{_io}->read_f8le();
+    $self->{dim_extension_line_offset} = $self->{_io}->read_f8le();
+    $self->{dim_baseline_spacing} = $self->{_io}->read_f8le();
+    $self->{dim_extension_line_extend} = $self->{_io}->read_f8le();
+    $self->{dim_rounding} = $self->{_io}->read_f8le();
+    $self->{dim_extension_line_extend2} = $self->{_io}->read_f8le();
+    $self->{dim_maximum_tolerance_limit} = $self->{_io}->read_f8le();
+    $self->{dim_minimum_tolerance_limit} = $self->{_io}->read_f8le();
+    $self->{dim_text_height} = $self->{_io}->read_f8le();
+    $self->{dim_center_mark_control} = $self->{_io}->read_f8le();
+    $self->{dim_oblique_stroke_size} = $self->{_io}->read_f8le();
+    $self->{dim_alternate_units_multiplier} = $self->{_io}->read_f8le();
+    $self->{dim_linear_measurements_scale_factor} = $self->{_io}->read_f8le();
+    $self->{dim_text_vertical_position_size} = $self->{_io}->read_f8le();
+    $self->{dim_tolerances} = $self->{_io}->read_u1();
+    $self->{dim_limits_default_text} = $self->{_io}->read_u1();
+    $self->{dim_text_ext_inside_line_position} = $self->{_io}->read_u1();
+    $self->{dim_text_ext_outside_line_position} = $self->{_io}->read_u1();
+    $self->{dim_extension_line_first_suppress} = $self->{_io}->read_u1();
+    $self->{dim_extension_line_second_suppress} = $self->{_io}->read_u1();
+    $self->{dim_text_vertical_position} = $self->{_io}->read_u1();
+    $self->{dim_suppression_of_zeros} = $self->{_io}->read_u1();
+    $self->{dim_alternate_units} = $self->{_io}->read_u1();
+    $self->{dim_alternate_units_decimal_places} = $self->{_io}->read_u1();
+    $self->{dim_tofl} = $self->{_io}->read_u1();
+    $self->{dim_arrowhead_blocks_control} = $self->{_io}->read_u1();
+    $self->{dim_text_between_ext_lines} = $self->{_io}->read_u1();
+    $self->{dim_arrowhead_suppress} = $self->{_io}->read_u1();
+    $self->{dim_measurement_postfix} = Encode::decode("ASCII", IO::KaitaiStruct::Stream::bytes_terminate($self->{_io}->read_bytes(16), 0, 0));
+    $self->{dim_alternate_measurement_postfix} = Encode::decode("ASCII", IO::KaitaiStruct::Stream::bytes_terminate($self->{_io}->read_bytes(16), 0, 0));
+    $self->{dimblk_t} = Encode::decode("ASCII", IO::KaitaiStruct::Stream::bytes_terminate($self->{_io}->read_bytes(16), 0, 0));
+    $self->{dimblk1_t} = Encode::decode("ASCII", IO::KaitaiStruct::Stream::bytes_terminate($self->{_io}->read_bytes(16), 0, 0));
+    $self->{dimblk2_t} = Encode::decode("ASCII", IO::KaitaiStruct::Stream::bytes_terminate($self->{_io}->read_bytes(66), 0, 0));
+    $self->{dimclrd_n} = $self->{_io}->read_u2le();
+    $self->{dimclre_n} = $self->{_io}->read_u2le();
+    $self->{dimclrt_n} = $self->{_io}->read_u2le();
+    $self->{dimupt} = $self->{_io}->read_u1();
+    $self->{dim_tfac} = $self->{_io}->read_f8le();
+    $self->{dim_gap} = $self->{_io}->read_f8le();
     $self->{crc16} = $self->{_io}->read_bytes(2);
 }
 
@@ -3043,34 +3077,204 @@ sub usage {
     return $self->{usage};
 }
 
-sub u1 {
+sub dim_scale {
     my ($self) = @_;
-    return $self->{u1};
+    return $self->{dim_scale};
 }
 
-sub u2 {
+sub dim_arrowhead_size {
     my ($self) = @_;
-    return $self->{u2};
+    return $self->{dim_arrowhead_size};
 }
 
-sub u3 {
+sub dim_extension_line_offset {
     my ($self) = @_;
-    return $self->{u3};
+    return $self->{dim_extension_line_offset};
 }
 
-sub u4 {
+sub dim_baseline_spacing {
     my ($self) = @_;
-    return $self->{u4};
+    return $self->{dim_baseline_spacing};
 }
 
-sub u5 {
+sub dim_extension_line_extend {
     my ($self) = @_;
-    return $self->{u5};
+    return $self->{dim_extension_line_extend};
 }
 
-sub u6 {
+sub dim_rounding {
     my ($self) = @_;
-    return $self->{u6};
+    return $self->{dim_rounding};
+}
+
+sub dim_extension_line_extend2 {
+    my ($self) = @_;
+    return $self->{dim_extension_line_extend2};
+}
+
+sub dim_maximum_tolerance_limit {
+    my ($self) = @_;
+    return $self->{dim_maximum_tolerance_limit};
+}
+
+sub dim_minimum_tolerance_limit {
+    my ($self) = @_;
+    return $self->{dim_minimum_tolerance_limit};
+}
+
+sub dim_text_height {
+    my ($self) = @_;
+    return $self->{dim_text_height};
+}
+
+sub dim_center_mark_control {
+    my ($self) = @_;
+    return $self->{dim_center_mark_control};
+}
+
+sub dim_oblique_stroke_size {
+    my ($self) = @_;
+    return $self->{dim_oblique_stroke_size};
+}
+
+sub dim_alternate_units_multiplier {
+    my ($self) = @_;
+    return $self->{dim_alternate_units_multiplier};
+}
+
+sub dim_linear_measurements_scale_factor {
+    my ($self) = @_;
+    return $self->{dim_linear_measurements_scale_factor};
+}
+
+sub dim_text_vertical_position_size {
+    my ($self) = @_;
+    return $self->{dim_text_vertical_position_size};
+}
+
+sub dim_tolerances {
+    my ($self) = @_;
+    return $self->{dim_tolerances};
+}
+
+sub dim_limits_default_text {
+    my ($self) = @_;
+    return $self->{dim_limits_default_text};
+}
+
+sub dim_text_ext_inside_line_position {
+    my ($self) = @_;
+    return $self->{dim_text_ext_inside_line_position};
+}
+
+sub dim_text_ext_outside_line_position {
+    my ($self) = @_;
+    return $self->{dim_text_ext_outside_line_position};
+}
+
+sub dim_extension_line_first_suppress {
+    my ($self) = @_;
+    return $self->{dim_extension_line_first_suppress};
+}
+
+sub dim_extension_line_second_suppress {
+    my ($self) = @_;
+    return $self->{dim_extension_line_second_suppress};
+}
+
+sub dim_text_vertical_position {
+    my ($self) = @_;
+    return $self->{dim_text_vertical_position};
+}
+
+sub dim_suppression_of_zeros {
+    my ($self) = @_;
+    return $self->{dim_suppression_of_zeros};
+}
+
+sub dim_alternate_units {
+    my ($self) = @_;
+    return $self->{dim_alternate_units};
+}
+
+sub dim_alternate_units_decimal_places {
+    my ($self) = @_;
+    return $self->{dim_alternate_units_decimal_places};
+}
+
+sub dim_tofl {
+    my ($self) = @_;
+    return $self->{dim_tofl};
+}
+
+sub dim_arrowhead_blocks_control {
+    my ($self) = @_;
+    return $self->{dim_arrowhead_blocks_control};
+}
+
+sub dim_text_between_ext_lines {
+    my ($self) = @_;
+    return $self->{dim_text_between_ext_lines};
+}
+
+sub dim_arrowhead_suppress {
+    my ($self) = @_;
+    return $self->{dim_arrowhead_suppress};
+}
+
+sub dim_measurement_postfix {
+    my ($self) = @_;
+    return $self->{dim_measurement_postfix};
+}
+
+sub dim_alternate_measurement_postfix {
+    my ($self) = @_;
+    return $self->{dim_alternate_measurement_postfix};
+}
+
+sub dimblk_t {
+    my ($self) = @_;
+    return $self->{dimblk_t};
+}
+
+sub dimblk1_t {
+    my ($self) = @_;
+    return $self->{dimblk1_t};
+}
+
+sub dimblk2_t {
+    my ($self) = @_;
+    return $self->{dimblk2_t};
+}
+
+sub dimclrd_n {
+    my ($self) = @_;
+    return $self->{dimclrd_n};
+}
+
+sub dimclre_n {
+    my ($self) = @_;
+    return $self->{dimclre_n};
+}
+
+sub dimclrt_n {
+    my ($self) = @_;
+    return $self->{dimclrt_n};
+}
+
+sub dimupt {
+    my ($self) = @_;
+    return $self->{dimupt};
+}
+
+sub dim_tfac {
+    my ($self) = @_;
+    return $self->{dim_tfac};
+}
+
+sub dim_gap {
+    my ($self) = @_;
+    return $self->{dim_gap};
 }
 
 sub crc16 {

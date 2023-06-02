@@ -3163,18 +3163,141 @@ types:
         doc: DIMSTYLE/2
       - id: usage
         type: s2
-      - id: u1
+      - id: dim_scale
         type: f8
-      - id: u2
+        doc: DIMSTYLE/$DIMSCALE/40
+      - id: dim_arrowhead_size
         type: f8
-      - id: u3
+        doc: DIMSTYLE/$DIMASZ/41
+      - id: dim_extension_line_offset
         type: f8
-      - id: u4
+        doc: DIMSTYLE/$DIMEXO/42
+      - id: dim_baseline_spacing
         type: f8
-      - id: u5
+        doc: DIMSTYLE/$DIMDLI/43
+      - id: dim_extension_line_extend
         type: f8
-      - id: u6
-        size: 247
+        doc: DIMSTYLE/$DIMEXE/44
+      - id: dim_rounding
+        type: f8
+        doc: DIMSTYLE/$DIMRND/45
+      - id: dim_extension_line_extend2
+        type: f8
+        doc: DIMSTYLE/$DIMDLE/46
+      - id: dim_maximum_tolerance_limit
+        type: f8
+        doc: DIMSTYLE/$DIMTP/47
+      - id: dim_minimum_tolerance_limit
+        type: f8
+        doc: DIMSTYLE/$DIMTM/48
+      - id: dim_text_height
+        type: f8
+        doc: DIMSTYLE/$DIMTXT/140
+      - id: dim_center_mark_control
+        type: f8
+        doc: DIMSTYLE/$DIMCEN/141
+      - id: dim_oblique_stroke_size
+        type: f8
+        doc: DIMSTYLE/$DIMTSZ/142
+      - id: dim_alternate_units_multiplier
+        type: f8
+        doc: DIMSTYLE/$DIMALTF/143
+      - id: dim_linear_measurements_scale_factor
+        type: f8
+        doc: DIMSTYLE/$DIMLFAC/144
+      - id: dim_text_vertical_position_size
+        type: f8
+        doc: DIMSTYLE/$DIMTVP/145
+      - id: dim_tolerances
+        type: u1
+        doc: DIMSTYLE/$DIMTOL/71
+      - id: dim_limits_default_text
+        type: u1
+        doc: DIMSTYLE/$DIMLIM/72
+      - id: dim_text_ext_inside_line_position
+        type: u1
+        doc: DIMSTYLE/$DIMTIH/73
+      - id: dim_text_ext_outside_line_position
+        type: u1
+        doc: DIMSTYLE/$DIMTOH/74
+      - id: dim_extension_line_first_suppress
+        type: u1
+        doc: DIMSTYLE/$DIMSE1/75
+      - id: dim_extension_line_second_suppress
+        type: u1
+        doc: DIMSTYLE/$DIMSE2/76
+      - id: dim_text_vertical_position
+        type: u1
+        doc: DIMSTYLE/$DIMTAD/77
+      - id: dim_suppression_of_zeros
+        type: u1
+        doc: DIMSTYLE/$DIMZIN/78
+      - id: dim_alternate_units
+        type: u1
+        doc: DIMSTYLE/$DIMALT/170
+      - id: dim_alternate_units_decimal_places
+        type: u1
+        doc: DIMSTYLE/$DIMALTD/171
+      - id: dim_tofl
+        type: u1
+        doc: DIMSTYLE/$DIMTOFL/172
+      - id: dim_arrowhead_blocks_control
+        type: u1
+        doc: DIMSTYLE/$DIMSAH/173
+      - id: dim_text_between_ext_lines
+        type: u1
+        doc: DIMSTYLE/$DIMTIX/174
+      - id: dim_arrowhead_suppress
+        type: u1
+        doc: DIMSTYLE/$DIMSOXD/175
+      - id: dim_measurement_postfix
+        size: 16
+        type: str
+        encoding: ASCII
+        terminator: 0x00
+        doc: DIMSTYLE/$DIMPOST/3
+      - id: dim_alternate_measurement_postfix
+        size: 16
+        type: str
+        encoding: ASCII
+        terminator: 0x00
+        doc: DIMSTYLE/$DIMAPOST/4
+      - id: dimblk_t
+        size: 16
+        type: str
+        encoding: ASCII
+        terminator: 0x00
+        doc: DIMSTYLE/$DIMBLK_T/5
+      - id: dimblk1_t
+        size: 16
+        type: str
+        encoding: ASCII
+        terminator: 0x00
+        doc: DIMSTYLE/$DIMBLK1_T/6
+      - id: dimblk2_t
+        size: 66
+        type: str
+        encoding: ASCII
+        terminator: 0x00
+        doc: DIMSTYLE/$DIMBLK2_T/7
+      - id: dimclrd_n
+        type: u2
+        doc: DIMSTYLE/$DIMCLRD_N/176
+      - id: dimclre_n
+        type: u2
+        doc: DIMSTYLE/$DIMCLRE_N/177
+      - id: dimclrt_n
+        type: u2
+        doc: DIMSTYLE/$DIMCLRT_N/178
+      - id: dimupt
+        type: u1
+        doc: DIMSTYLE/$DIMUPT
+      - id: dim_tfac
+        type: f8
+        doc: DIMSTYLE/$DIMTFAC/146
+      - id: dim_gap
+        type: f8
+        doc: DIMSTYLE/$DIMGAP/147
       - id: crc16
         size: 2
   dimstyle_flag:
