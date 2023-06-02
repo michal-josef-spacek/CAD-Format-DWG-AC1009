@@ -4107,6 +4107,86 @@ sub verify {
 }
 
 ########################################################################
+package CAD::Format::DWG::AC1009::ViewFlag;
+
+our @ISA = 'IO::KaitaiStruct::Struct';
+
+sub from_file {
+    my ($class, $filename) = @_;
+    my $fd;
+
+    open($fd, '<', $filename) or return undef;
+    binmode($fd);
+    return new($class, IO::KaitaiStruct::Stream->new($fd));
+}
+
+sub new {
+    my ($class, $_io, $_parent, $_root) = @_;
+    my $self = IO::KaitaiStruct::Struct->new($_io);
+
+    bless $self, $class;
+    $self->{_parent} = $_parent;
+    $self->{_root} = $_root || $self;;
+
+    $self->_read();
+
+    return $self;
+}
+
+sub _read {
+    my ($self) = @_;
+
+    $self->{flag1} = $self->{_io}->read_bits_int_be(1);
+    $self->{flag2} = $self->{_io}->read_bits_int_be(1);
+    $self->{flag3} = $self->{_io}->read_bits_int_be(1);
+    $self->{flag4} = $self->{_io}->read_bits_int_be(1);
+    $self->{flag5} = $self->{_io}->read_bits_int_be(1);
+    $self->{flag6} = $self->{_io}->read_bits_int_be(1);
+    $self->{flag7} = $self->{_io}->read_bits_int_be(1);
+    $self->{flag8} = $self->{_io}->read_bits_int_be(1);
+}
+
+sub flag1 {
+    my ($self) = @_;
+    return $self->{flag1};
+}
+
+sub flag2 {
+    my ($self) = @_;
+    return $self->{flag2};
+}
+
+sub flag3 {
+    my ($self) = @_;
+    return $self->{flag3};
+}
+
+sub flag4 {
+    my ($self) = @_;
+    return $self->{flag4};
+}
+
+sub flag5 {
+    my ($self) = @_;
+    return $self->{flag5};
+}
+
+sub flag6 {
+    my ($self) = @_;
+    return $self->{flag6};
+}
+
+sub flag7 {
+    my ($self) = @_;
+    return $self->{flag7};
+}
+
+sub flag8 {
+    my ($self) = @_;
+    return $self->{flag8};
+}
+
+########################################################################
 package CAD::Format::DWG::AC1009::EntityTrace;
 
 our @ISA = 'IO::KaitaiStruct::Struct';
@@ -10363,24 +10443,36 @@ sub new {
 sub _read {
     my ($self) = @_;
 
-    $self->{u1} = $self->{_io}->read_bytes(4);
+    $self->{flag} = CAD::Format::DWG::AC1009::ViewFlag->new($self->{_io}, $self, $self->{_root});
     $self->{view_name} = Encode::decode("ASCII", IO::KaitaiStruct::Stream::bytes_terminate($self->{_io}->read_bytes(32), 46, 0));
+    $self->{used} = $self->{_io}->read_s2le();
     $self->{view_size} = $self->{_io}->read_f8le();
     $self->{center_point} = CAD::Format::DWG::AC1009::Point2d->new($self->{_io}, $self, $self->{_root});
     $self->{view_width} = $self->{_io}->read_f8le();
     $self->{view_dir} = CAD::Format::DWG::AC1009::Point3d->new($self->{_io}, $self, $self->{_root});
     $self->{flag_3d} = $self->{_io}->read_u2le();
-    $self->{u4} = $self->{_io}->read_bytes(58);
+    $self->{view_target} = CAD::Format::DWG::AC1009::Point3d->new($self->{_io}, $self, $self->{_root});
+    $self->{view_mode} = $self->{_io}->read_u2le();
+    $self->{lens_length} = $self->{_io}->read_f8le();
+    $self->{front_clip_z} = $self->{_io}->read_f8le();
+    $self->{back_clip_z} = $self->{_io}->read_f8le();
+    $self->{twist_angle_in_radians} = $self->{_io}->read_f8le();
+    $self->{crc16} = $self->{_io}->read_bytes(2);
 }
 
-sub u1 {
+sub flag {
     my ($self) = @_;
-    return $self->{u1};
+    return $self->{flag};
 }
 
 sub view_name {
     my ($self) = @_;
     return $self->{view_name};
+}
+
+sub used {
+    my ($self) = @_;
+    return $self->{used};
 }
 
 sub view_size {
@@ -10408,9 +10500,39 @@ sub flag_3d {
     return $self->{flag_3d};
 }
 
-sub u4 {
+sub view_target {
     my ($self) = @_;
-    return $self->{u4};
+    return $self->{view_target};
+}
+
+sub view_mode {
+    my ($self) = @_;
+    return $self->{view_mode};
+}
+
+sub lens_length {
+    my ($self) = @_;
+    return $self->{lens_length};
+}
+
+sub front_clip_z {
+    my ($self) = @_;
+    return $self->{front_clip_z};
+}
+
+sub back_clip_z {
+    my ($self) = @_;
+    return $self->{back_clip_z};
+}
+
+sub twist_angle_in_radians {
+    my ($self) = @_;
+    return $self->{twist_angle_in_radians};
+}
+
+sub crc16 {
+    my ($self) = @_;
+    return $self->{crc16};
 }
 
 ########################################################################

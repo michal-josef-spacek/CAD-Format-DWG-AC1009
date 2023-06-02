@@ -2912,13 +2912,16 @@ types:
         type: b1
   view:
     seq:
-      - id: u1
-        size: 4
+      - id: flag
+        type: view_flag
+        doc: VIEW/70
       - id: view_name
         size: 32
         type: str
         encoding: ASCII
         terminator: 0x2e
+      - id: used
+        type: s2
       - id: view_size
         type: f8
         doc: VIEW/40
@@ -2933,8 +2936,43 @@ types:
         doc: VIEW/11|21|31
       - id: flag_3d
         type: u2
-      - id: u4
-        size: 58
+      - id: view_target
+        type: point_3d
+        doc: VIEW/12/22/32
+      - id: view_mode
+        type: u2
+      - id: lens_length
+        type: f8
+        doc: VIEW/42
+      - id: front_clip_z
+        type: f8
+        doc: VIEW/43
+      - id: back_clip_z
+        type: f8
+        doc: VIEW/44
+      - id: twist_angle_in_radians
+        type: f8
+        doc: VIEW/50
+      - id: crc16
+        size: 2
+  view_flag:
+    seq:
+      - id: flag1
+        type: b1
+      - id: flag2
+        type: b1
+      - id: flag3
+        type: b1
+      - id: flag4
+        type: b1
+      - id: flag5
+        type: b1
+      - id: flag6
+        type: b1
+      - id: flag7
+        type: b1
+      - id: flag8
+        type: b1
   ucs:
     seq:
       - id: flag
