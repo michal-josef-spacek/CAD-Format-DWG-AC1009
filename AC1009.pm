@@ -2772,7 +2772,7 @@ sub _read {
 
     $self->{flag} = CAD::Format::DWG::AC1009::LinetypeFlag->new($self->{_io}, $self, $self->{_root});
     $self->{linetype_name} = Encode::decode("ASCII", IO::KaitaiStruct::Stream::bytes_terminate($self->{_io}->read_bytes(32), 0, 0));
-    $self->{used} = $self->{_io}->read_u2le();
+    $self->{used} = $self->{_io}->read_s2le();
     $self->{description} = Encode::decode("ASCII", IO::KaitaiStruct::Stream::bytes_terminate($self->{_io}->read_bytes(48), 0, 0));
     $self->{alignment} = $self->{_io}->read_u1();
     $self->{num_dashes} = $self->{_io}->read_u1();
@@ -4382,7 +4382,7 @@ sub _read {
 
     $self->{flag} = CAD::Format::DWG::AC1009::LayerFlag->new($self->{_io}, $self, $self->{_root});
     $self->{layer_name} = Encode::decode("ASCII", IO::KaitaiStruct::Stream::bytes_terminate($self->{_io}->read_bytes(32), 0, 0));
-    $self->{used} = $self->{_io}->read_u2le();
+    $self->{used} = $self->{_io}->read_s2le();
     $self->{color} = $self->{_io}->read_s2le();
     $self->{linetype_index} = $self->{_io}->read_s2le();
     $self->{crc16} = $self->{_io}->read_bytes(2);

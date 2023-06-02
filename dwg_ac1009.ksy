@@ -2741,7 +2741,7 @@ types:
         terminator: 0x00
         doc: LAYER/2
       - id: used
-        type: u2
+        type: s2
       - id: color
         type: s2
         doc: LAYER/62
@@ -2780,7 +2780,7 @@ types:
         terminator: 0x00
         doc: LTYPE/2
       - id: used
-        type: u2
+        type: s2
       - id: description
         size: 48
         type: str
