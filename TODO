@@ -5,7 +5,6 @@ TODO
 attrib is
 5. Fix block flags - partially bad
 Probably none only
-6. Implement eed
 7. Rename has_elevation to not_elevation?
 8. Identify curve_type enum
 9. entity_color after extra_flag or rewrite order
@@ -19,7 +18,8 @@ I have another defining point. But this one is main.
 u4 or s4
 18. Check insert entity - test_eed/TROL1.DWG is bad still
 19. Add test for endseq
-21.
+21. Tests for eed.
+22.
 
 Applied
 =======
@@ -40,3 +40,6 @@ OK [20230228] skim
 
 20. Add test for polyline
 OK [20230403] skim
+
+6. Implement eed
+OK [20230602] skim
