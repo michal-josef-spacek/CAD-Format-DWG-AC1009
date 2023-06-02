@@ -2984,6 +2984,8 @@ types:
         encoding: ASCII
         terminator: 0x00
         doc: UCS/2
+      - id: used
+        type: s2
       - id: ucs_org
         type: point_3d
         doc: UCS/10|20|30
@@ -2993,6 +2995,8 @@ types:
       - id: ucs_y_dir
         type: point_3d
         doc: UCS/12|22|32
+      - id: crc16
+        size: 2
   ucs_flag:
     seq:
       - id: flag1

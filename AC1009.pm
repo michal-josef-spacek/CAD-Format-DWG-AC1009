@@ -10051,9 +10051,11 @@ sub _read {
 
     $self->{flag} = CAD::Format::DWG::AC1009::UcsFlag->new($self->{_io}, $self, $self->{_root});
     $self->{ucs_name} = Encode::decode("ASCII", IO::KaitaiStruct::Stream::bytes_terminate($self->{_io}->read_bytes(32), 0, 0));
+    $self->{used} = $self->{_io}->read_s2le();
     $self->{ucs_org} = CAD::Format::DWG::AC1009::Point3d->new($self->{_io}, $self, $self->{_root});
     $self->{ucs_x_dir} = CAD::Format::DWG::AC1009::Point3d->new($self->{_io}, $self, $self->{_root});
     $self->{ucs_y_dir} = CAD::Format::DWG::AC1009::Point3d->new($self->{_io}, $self, $self->{_root});
+    $self->{crc16} = $self->{_io}->read_bytes(2);
 }
 
 sub flag {
@@ -10064,6 +10066,11 @@ sub flag {
 sub ucs_name {
     my ($self) = @_;
     return $self->{ucs_name};
+}
+
+sub used {
+    my ($self) = @_;
+    return $self->{used};
 }
 
 sub ucs_org {
@@ -10079,6 +10086,11 @@ sub ucs_x_dir {
 sub ucs_y_dir {
     my ($self) = @_;
     return $self->{ucs_y_dir};
+}
+
+sub crc16 {
+    my ($self) = @_;
+    return $self->{crc16};
 }
 
 ########################################################################
