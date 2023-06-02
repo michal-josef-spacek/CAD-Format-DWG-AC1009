@@ -1064,6 +1064,7 @@ types:
             'eeds::eed_1010': eed_1010
             'eeds::eed_1040': eed_1040
             'eeds::eed_1070': eed_1070
+            'eeds::eed_1071': eed_1071
   eed_1000:
     seq:
       - id: name_size
@@ -1106,6 +1107,10 @@ types:
     seq:
       - id: value
         type: u2
+  eed_1071:
+    seq:
+      - id: value
+        type: u4
   entity_arc:
     seq:
       - id: entity_mode
@@ -3507,6 +3512,7 @@ enums:
     10: eed_1010
     40: eed_1040
     70: eed_1070
+    71: eed_1071
   aux_table:
     1: block
     2: layer

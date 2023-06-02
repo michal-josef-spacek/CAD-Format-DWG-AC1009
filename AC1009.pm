@@ -63,6 +63,7 @@ our $EEDS_EED_1005 = 5;
 our $EEDS_EED_1010 = 10;
 our $EEDS_EED_1040 = 40;
 our $EEDS_EED_1070 = 70;
+our $EEDS_EED_1071 = 71;
 
 our $DWGCODEPAGE_ANSI_1252 = 0;
 our $DWGCODEPAGE_US_ASCII = 1;
@@ -3682,6 +3683,9 @@ sub _read {
     elsif ($_on == $CAD::Format::DWG::AC1009::EEDS_EED_1040) {
         $self->{data} = CAD::Format::DWG::AC1009::Eed1040->new($self->{_io}, $self, $self->{_root});
     }
+    elsif ($_on == $CAD::Format::DWG::AC1009::EEDS_EED_1071) {
+        $self->{data} = CAD::Format::DWG::AC1009::Eed1071->new($self->{_io}, $self, $self->{_root});
+    }
     elsif ($_on == $CAD::Format::DWG::AC1009::EEDS_EED_1000) {
         $self->{data} = CAD::Format::DWG::AC1009::Eed1000->new($self->{_io}, $self, $self->{_root});
     }
@@ -6608,6 +6612,44 @@ sub curve_fit {
 sub extra_vertex {
     my ($self) = @_;
     return $self->{extra_vertex};
+}
+
+########################################################################
+package CAD::Format::DWG::AC1009::Eed1071;
+
+our @ISA = 'IO::KaitaiStruct::Struct';
+
+sub from_file {
+    my ($class, $filename) = @_;
+    my $fd;
+
+    open($fd, '<', $filename) or return undef;
+    binmode($fd);
+    return new($class, IO::KaitaiStruct::Stream->new($fd));
+}
+
+sub new {
+    my ($class, $_io, $_parent, $_root) = @_;
+    my $self = IO::KaitaiStruct::Struct->new($_io);
+
+    bless $self, $class;
+    $self->{_parent} = $_parent;
+    $self->{_root} = $_root || $self;;
+
+    $self->_read();
+
+    return $self;
+}
+
+sub _read {
+    my ($self) = @_;
+
+    $self->{value} = $self->{_io}->read_u4le();
+}
+
+sub value {
+    my ($self) = @_;
+    return $self->{value};
 }
 
 ########################################################################
