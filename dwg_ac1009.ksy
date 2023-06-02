@@ -2550,6 +2550,12 @@ types:
         type: s2
       - id: entity_common
         type: entity_common
+      - id: extra_flag
+        type: extra_flag
+        if: entity_mode.has_pspace
+      - id: eed
+        type: eed
+        if: entity_mode.has_pspace and extra_flag.has_eed
       - id: entity_color
         type: s1
         if: entity_mode.has_color
@@ -2562,12 +2568,6 @@ types:
       - id: entity_elevation
         type: f8
         if: entity_mode.has_elevation
-      - id: extra_flag
-        type: extra_flag
-        if: entity_mode.has_pspace
-      - id: eed
-        type: eed
-        if: entity_mode.has_pspace and extra_flag.has_eed
       - id: len_handling_id
         type: u1
         if: entity_mode.has_handling

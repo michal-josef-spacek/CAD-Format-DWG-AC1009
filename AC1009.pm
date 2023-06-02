@@ -5960,6 +5960,12 @@ sub _read {
     $self->{entity_size} = $self->{_io}->read_s2le();
     $self->{entity_layer_index} = $self->{_io}->read_s2le();
     $self->{entity_common} = CAD::Format::DWG::AC1009::EntityCommon->new($self->{_io}, $self, $self->{_root});
+    if ($self->entity_mode()->has_pspace()) {
+        $self->{extra_flag} = CAD::Format::DWG::AC1009::ExtraFlag->new($self->{_io}, $self, $self->{_root});
+    }
+    if ( (($self->entity_mode()->has_pspace()) && ($self->extra_flag()->has_eed())) ) {
+        $self->{eed} = CAD::Format::DWG::AC1009::Eed->new($self->{_io}, $self, $self->{_root});
+    }
     if ($self->entity_mode()->has_color()) {
         $self->{entity_color} = $self->{_io}->read_s1();
     }
@@ -5971,12 +5977,6 @@ sub _read {
     }
     if ($self->entity_mode()->has_elevation()) {
         $self->{entity_elevation} = $self->{_io}->read_f8le();
-    }
-    if ($self->entity_mode()->has_pspace()) {
-        $self->{extra_flag} = CAD::Format::DWG::AC1009::ExtraFlag->new($self->{_io}, $self, $self->{_root});
-    }
-    if ( (($self->entity_mode()->has_pspace()) && ($self->extra_flag()->has_eed())) ) {
-        $self->{eed} = CAD::Format::DWG::AC1009::Eed->new($self->{_io}, $self, $self->{_root});
     }
     if ($self->entity_mode()->has_handling()) {
         $self->{len_handling_id} = $self->{_io}->read_u1();
@@ -6016,6 +6016,16 @@ sub entity_common {
     return $self->{entity_common};
 }
 
+sub extra_flag {
+    my ($self) = @_;
+    return $self->{extra_flag};
+}
+
+sub eed {
+    my ($self) = @_;
+    return $self->{eed};
+}
+
 sub entity_color {
     my ($self) = @_;
     return $self->{entity_color};
@@ -6034,16 +6044,6 @@ sub entity_thickness {
 sub entity_elevation {
     my ($self) = @_;
     return $self->{entity_elevation};
-}
-
-sub extra_flag {
-    my ($self) = @_;
-    return $self->{extra_flag};
-}
-
-sub eed {
-    my ($self) = @_;
-    return $self->{eed};
 }
 
 sub len_handling_id {
