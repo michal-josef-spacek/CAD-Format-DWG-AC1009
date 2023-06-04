@@ -202,6 +202,7 @@ t/data/entity/insert/INSERT1.DWG
 t/data/entity/jump/JUMP1.DWG
 t/data/entity/line/LINE1.DWG
 t/data/entity/line/LINE2.DWG
+t/data/entity/line/LINE3.DWG
 t/data/entity/point/POINT1.DWG
 t/data/entity/point/POINT2.DWG
 t/data/entity/polyline/PL1.DWG
