@@ -193,6 +193,7 @@ t/data/blank/BLANK.DWG
 t/data/entity/3dface/3DFACE1.DWG
 t/data/entity/3dface/3DFACE2.DWG
 t/data/entity/arc/ARC1.DWG
+t/data/entity/arc/ARC2.DWG
 t/data/entity/circle/CIRCLE1.DWG
 t/data/entity/circle/CIRCLE2.DWG
 t/data/entity/circle/CIRCLE3.DWG
