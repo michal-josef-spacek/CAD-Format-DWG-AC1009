@@ -3,7 +3,7 @@ use warnings;
 
 use CAD::Format::DWG::AC1009;
 use File::Object;
-use Test::More 'tests' => 15;
+use Test::More 'tests' => 30;
 use Test::NoWarnings;
 
 # Data directory.
@@ -33,3 +33,30 @@ my $crc16 = unpack 'H*', reverse $insert1_data->crc16;
 is($crc16, 'd361', 'CRC16 of insert (d361)');
 my $entities = @{$obj->entities->entities->entities};
 is($entities, 2, 'Number of entities (2).');
+
+# Test.
+diag "insert with EED data.";
+$obj = CAD::Format::DWG::AC1009->from_file(
+	$data_dir->file('INSERT2.DWG')->s,
+);
+$entity1 = $obj->entities->entities->entities->[0];
+isa_ok($entity1, 'CAD::Format::DWG::AC1009::Entity');
+is($entity1->entity_type, 14, 'Get entity type (14).');
+$insert1_data = $entity1->data;
+$entity_insert_flags = $insert1_data->entity_insert_flags;
+is($insert1_data->entity_size, 39, 'Entity size (39).');
+is($insert1_data->entity_layer_index, 0, 'Entity layer index (0).');
+is($insert1_data->block_index, 0, 'Entity block index (3).');
+is($insert1_data->x, 0, 'Entity x (0).');
+is($insert1_data->y, 0, 'Entity y (0).');
+my $eed = $insert1_data->eed;
+is($eed->len_eed_data, 6, 'Length of EED data (6).');
+is(scalar @{$eed->eed_data->eeds}, 2, 'Theree EED items.');
+is($eed->eed_data->eeds->[0]->separator, 1, 'EED #0 separator (1).');
+is($eed->eed_data->eeds->[0]->data->value, 1, 'EED #0 value (1).');
+is($eed->eed_data->eeds->[1]->separator, 70, 'EED #1 separator (70).');
+is($eed->eed_data->eeds->[1]->data->value, 1, 'EED #1 value (1).');
+$crc16 = unpack 'H*', reverse $insert1_data->crc16;
+is($crc16, 'cd86', 'CRC16 of insert (cd86)');
+$entities = @{$obj->entities->entities->entities};
+is($entities, 1, 'Number of entities (1).');

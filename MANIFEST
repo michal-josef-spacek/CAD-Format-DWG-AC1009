@@ -200,6 +200,7 @@ t/data/entity/circle/CIRCLE3.DWG
 t/data/entity/dim/aligned/DIM1.DWG
 t/data/entity/dim/aligned/DIM2.DWG
 t/data/entity/insert/INSERT1.DWG
+t/data/entity/insert/INSERT2.DWG
 t/data/entity/jump/JUMP1.DWG
 t/data/entity/line/LINE1.DWG
 t/data/entity/line/LINE2.DWG
