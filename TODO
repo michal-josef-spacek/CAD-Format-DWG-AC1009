@@ -17,9 +17,12 @@ I have another defining point. But this one is main.
 15. Variables for (block|extra)_entities_start, end, size_raw need to know if is
 u4 or s4
 18. Check insert entity - test_eed/TROL1.DWG is bad still
+probably wrong file and issue was fixed
 19. Add test for endseq
 21. Tests for eed.
 circle done (1, 70, 71)
+insert done
+line done
 22.
 
 Applied
